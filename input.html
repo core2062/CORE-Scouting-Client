@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Scouting Input</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<!--[if lt IE 9]>
+<link rel="stylesheet" type="text/css" href="css/style-ie.css" />
+<![endif]-->
+<link rel="stylesheet" href="css/style.css" />
+
+<script src="script/jquery-1.6.2.min.js"></script>
+<script src="script/jquery-ui.min.js"></script>
+<script src="script/script.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+var errornum = 0;
+
+function increase(elementid){
+var startvalue = document.getElementById(elementid).value;
+	if (isNaN(startvalue) == true || startvalue == '') {
+		startvalue = 1;
+	}
+	else {
+		startvalue = parseFloat(document.getElementById(elementid).value) + 1;
+	}
+document.getElementById(elementid).value = startvalue;
+}
+
+function errorcheck(){
+// error checking code
+}
+
+function clearinputs(){
+	document.getElementById('TeamNum').value = "";
+	document.getElementById('AllianceScore').value = '';
+	document.getElementById('RCard').value = '';
+	document.getElementById('YCard').value = '';
+	document.getElementById('Comments').innerHTML = '';
+	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
+}
+
+var currentpage = 'Regular';
+
+function Hide(obj){	
+	document.getElementById('Regular-c').style.display = 'none';
+	document.getElementById('Human-Player-c').style.display = 'none';
+	document.getElementById('Pit-c').style.display = 'none';
+	document.getElementById(obj + '-c').style.display = 'inline';
+	if (obj == 'Regular' || obj == 'Human-Player') {
+		document.getElementById('Mutual-c').style.display = 'inline';
+	}
+	else {
+		document.getElementById('Mutual-c').style.display = 'none';
+	}
+	window.location.href='#' + obj;
+	currentpage = obj;
+}
+
+$(document).ready( $(function() {
+
+	
+	
+}));
+
+</script>
+</head>
+<body onload="urlProcess('Regular'); EatCookie('ScoutID'); EatCookie('pword'); LoginCheck();">
+
+	
+<div id="logobox" style="min-width:1300px;"><a href="index.html" id="logo"><br />CORE<br />2062</a></div>
+
+<form>
+
+	
+<ul style="min-width:1300px;">
+	
+
+<li>
+	<div id="nav-buttonset">
+		<input type="radio" id="Regular-radio" onclick="Hide('Regular');" name="Nav-SegButton" />
+		<label for="Regular-radio">Regular</label>
+		
+		<input type="radio" id="Human-Player-radio" onclick="Hide('Human-Player');" name="Nav-SegButton"/>
+		<label for="Human-Player-radio">Human Player</label>
+		
+		<input type="radio" id="Pit-radio" onclick="Hide('Pit');" name="Nav-SegButton" />
+		<label for="Pit-radio">Pit</label>
+		
+		<input type="radio" id="Nav-options-radio" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
+		<label for="Nav-options-radio"><span class="ui-icon ui-icon-gear"></span></label>
+	</div>
+</li>
+
+<li><button type="button" id="login-button" onclick="$('.login-modal').dialog('open');">Login</button></li>
+<li><button type="button" onclick="ajax('I');">Training</button></li>
+<li><button type="button" onclick="ajax('I');" style="margin-right: 40px;">Contact</button></li>
+
+<li><label for="TeamNum">Team Number:<span id="help" onclick=""></span></label></li>
+<li><input type="text" id="TeamNum"/></li>
+
+<li><button type="button" onclick="ajax('I');">Submit</button></li>
+<li><button type="button" onclick="clearinputs();">Clear Inputs</button></li>
+</ul>
+</form>
+
+<div class="nav-modal" title="Navagation">
+	<ul>
+		<li><a href="index.html">Home</a></li>
+		<li><a href="query.html">Database Access</a></li>
+	</ul>
+</div>
+
+<div class="login-modal" title="Login">
+	<ul>
+		<li><label for="ScoutID">ScoutID:</label></li>
+		<li><input type="text" id="ScoutID" value="" onchange="BakeCookie('ScoutID');"/></li>
+		
+		<li><label for="pword">Password:</label></li>
+		<li><input type="password" id="pword" value="" onchange="BakeCookie('pword');"/></li>
+	</ul>
+</div>
+
+
+<hr style="margin:20px;" />
+
+<!--START form-->
+<form>
+<ul>
+
+<span id="Regular-c" style="display: none;">
+
+<li>
+	<fieldset>
+	<legend>Penalties</legend>
+	<ul style="min-width:740px;">
+	
+	<li><label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label></li>
+	<li><input type="text" id="RCard" value="" onchange="" /></li>
+	
+	<li><label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label></li>
+	<li><input type="text" id="YCard" value="" /></li>
+	
+	</ul>
+	</fieldset>
+</li>
+
+</span>
+
+
+
+<span id="Human-Player-c" style="display: none;">
+<p> human player stuff</p>
+</span>
+
+
+
+<span id="Mutual-c" style="display: none;">
+<li>
+	<fieldset>
+	<legend>Alliance</legend>
+	<ul>
+	
+	<li><label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label></li>
+	<li>
+	<select size="1" id="AllianceColor">
+		<option value="r">Red</option>
+		<option value="b">Blue</option>
+	</select>
+	</li>
+	
+	<li><label for="AllianceScore">Score:</label></li>
+	<li><input type="text" id="AllianceScore" value="" /></li>
+	
+	</ul>
+	</fieldset>
+</li>
+
+
+
+<li>
+	<fieldset>
+	<legend>Other</legend>
+	<ul>
+		<li><label for="Comments">Relevant Comments:</label></li>
+		<li><textarea style="width: 200px; height: 50px;" id="Comments"></textarea></li>
+	</ul>
+	</fieldset>
+</li>
+
+<li style="float: right;">
+	<fieldset>
+	<legend>Match Signup</legend>
+	<ul>
+	
+		<li><label for="MatchNum">Match Number:</label></li>
+		<li><input type="text" id="MatchNum" value="" /></li>
+		
+	</ul>
+	</fieldset>
+</li>
+
+</span>
+
+<span id="Pit-c" style="display: none;">
+<p>pit stuff</p>
+</span>
+
+</ul>
+</form>
+<!--END form-->
+
+			<ul>
+			<li><label for="to">To:</label></li>
+			<li>
+			<select onchange="if (document.getElementById('to').value == 'One_Scout') {document.getElementById('ToScoutList').style.visibility = 'visible'} else {document.getElementById('ToScoutList').style.visibility = 'hidden'};" size="1" id="to">
+				<option value="Scout_Leader">Scout Leader</option>
+				<option value="Full_Team">Full Team</option>
+				<option value="Admin">Admin</option>
+				<option value="One_Scout">One Scout</option>
+			</select>
+			</li>
+			<span id="ToScoutList" style="visibility:hidden;">
+			<li><label for="ToScout">Scout ID:</label></li>
+			<li><input id="ToScout" type="text" value="" style="width:120px;"/></li>
+			</span>
+			<li><textarea style="width:400px; height:135px;"></textarea></li>
+			<li><button type="button" onclick="ajax('M');">Send</button></li>
+			<li><p style="font-size:11px; display: inline-block; margin:0px; vertical-align:middle;">messages will be sent as both a on-screen notification and<br />a email (if emails are enabled by the user you are messaging)</p></li>
+			</ul>
+
+<div id="jGrowl-container" class="jGrowl bottom-right"></div>
+
+<div id="progressbar">
+	<div id="progressbar-value"></div>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+
+$('#AllianceColor').easySelectBox({speed:100});
+$('#to').easySelectBox({speed:100});
+
+
+// Dialogs
+$('.nav-modal').dialog({
+	width: 600,
+	beforeClose: function() { //change radio button back to correct page
+   	document.getElementById(currentpage + '-radio').checked = true;
+   	},
+	buttons: {
+		"Close": function() { 
+			$(this).dialog("close"); 
+		} 
+	}
+});
+			
+$('.login-modal').dialog({
+	width: 600,
+	buttons: {
+		"Ok": function() { 
+			$(this).dialog("close"); 
+		}, 
+		"Cancel": function() { 
+			$(this).dialog("close"); 
+		} 
+	}
+});
+
+$(".ui-widget-overlay").live('click', function(){
+   $(".ui-dialog-titlebar-close").trigger('click');
+});
+</script>
+</body>
+</html>
