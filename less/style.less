@@ -7,8 +7,8 @@ Language: LESS
 
 //Colors
 @activecolor: #FF5C00; //orange
-@l-orange: lighten(@activecolor, 20%);
-@d-orange: darken(@activecolor, 10%);
+@l-activecolor: lighten(@activecolor, 20%);
+@d-activecolor: darken(@activecolor, 10%);
 
 @page_bgcolor: #cccccc;
 @form_bgcolor: #fff; 
@@ -18,7 +18,11 @@ Language: LESS
 
 @d-black: #000;
 @black: lighten(@d-black, 10%);
-@l-black: lighten(@d-black, 30%);
+@l-black: lighten(@d-black, 20%);
+
+@l-white: #fff;
+@white: darken(@l-white, 10%);
+@d-white: darken(@l-white, 20%);
 
 // Images
 @plushelp: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAgCAYAAADJ2fKUAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJCwQdAJZZZ/wAAAHPSURBVDjL7ZO/ixNBFMc/byaeP3I3iHDIrcihlc39AVYeNjaCoKXNYWObysLOStBKsLC7XhHBwk6sxdarrUwM5yns3sYkZudrkYmsMUfW3i8Ms+9957vvvXlvDCDPux54CFwHTvEnInAAPA8hewxgSbQD7LIcN0LIXrtkbKX9PbC+YJWJvwTQSsYzYA/wIWRfZ7/N8+4q8KCWsvud3iLkefcW8AQ4l1wfgDshZB/tCMFL4GYy+8B9YDeETPX05nEl7a+AnRCyvE4eJdpO3Od5wUJRnnc3gM1UbwD2l4qADnCv1lg/f8AtEPkl/ELn99r3Af/xjxgM9q8dHvbelmW/Iw3bS69ckgNdkLgqaSvG0ckmfUrCKe9ci6YiAMxMjSbCzKKZjZL5E46N/xrYouhtOmcnJKIkqqqKwJkUcbUsv10sil4hyXvviTFOWsCjGLUOVIC89xZjPJ9E28DGNCIuxuiB0oqi9wU4C8zyN0mzeqzmn3HDFnAXWEtvB2DinLssqeOcvZH0oqriyDln05JtvLC5Zdm/XRQ9lWX/qaTjjZor6XQy2zBYa9SnWh1q+nIxs1lUayySFAGZ2WQ8HjabCOf8JzPembG3stL+MX/mF9ggxYnbLvIlAAAAAElFTkSuQmCC);
@@ -29,9 +33,21 @@ Language: LESS
 // Parametric Mixins
 
 .border-radius (@radius) {
-	border-radius: @radius;
-	-moz-border-radius: @radius;
 	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.border-radius-tl (@radius) {
+	-webkit-border-top-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	border-top-left-radius: 4px;
+}
+
+.border-radius-bl (@radius) {
+-webkit-border-bottom-left-radius: 4px;
+-moz-border-radius-bottomleft: 4px;
+border-bottom-left-radius: 4px;
 }
 
 .box-shadow (@shadow) {
@@ -337,11 +353,7 @@ a.select-box-disp {
 // START label buttons
 #plus, #help {
 	background-color:@activecolor;
-	background-image:@plushelp, -webkit-gradient(linear, 0% 0%, 0% 100%, from(@l-orange), to(@d-orange));
-	background-image:@plushelp, -webkit-linear-gradient(top, @l-orange, @d-orange);
-	background-image:@plushelp, -moz-linear-gradient(top, @l-orange, @d-orange);
-	background-image:@plushelp, -ms-linear-gradient(top, @l-orange, @d-orange);
-	background-image:@plushelp, -o-linear-gradient(top, @l-orange, @d-orange);
+	.img-gradent (@plushelp, @activecolor);
 	background-repeat:no-repeat;
 	width:23px;
 	height:23px;
@@ -350,11 +362,7 @@ a.select-box-disp {
 	margin:2px 5px;
 }
 #plus:active, #help:active {
-	background-image:@plushelp, -webkit-gradient(linear, 0% 0%, 0% 100%, from(@d-orange), to(@l-orange));
-	background-image:@plushelp, -webkit-linear-gradient(top, @d-orange, @l-orange);
-	background-image:@plushelp, -moz-linear-gradient(top, @d-orange, @l-orange);
-	background-image:@plushelp, -ms-linear-gradient(top, @d-orange, @l-orange);
-	background-image:@plushelp, -o-linear-gradient(top, @d-orange, @l-orange);
+	.inv-img-gradent (@plushelp, @activecolor);
 }
 #plus {
 	background-position: center -13px, center;
@@ -1867,23 +1875,29 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; }
 	}
 
 
-// jQuery UI Progressbar 1.8.7
-
+// Progressbar
 
 	#progressbar {
 		height: 12px;
-		text-align: left;
 		background: #FFF;
 		width: 50%;
 		margin-left: auto;
 		margin-right: auto;
-		.inv-gradent(#fff)
+		.inv-gradent(@white);
+		border: 1px solid @d-white;
+		bottom:3px;
+		position: absolute;
+		.border-radius(4px);
 	}
 	#progressbar-value {
 		margin: -1px;
 		height: 100%;
 		background-repeat: repeat-x;
-		.img-gradent(url(../img/progress_bar.png), @activecolor)
+		.img-gradent(url(../img/progress_bar.png), @activecolor);
+		border: 1px solid @d-activecolor;
+		.border-radius-tl (4px);
+		.border-radius-bl (4px);
+		width: 50%;
 	}
 
 
