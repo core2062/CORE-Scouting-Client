@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Scouting Input</title>
-<link rel="shortcut icon" href="favicon.ico" />
+<link rel="shortcut icon" href="favicon.ico">
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
 <![endif]-->
@@ -12,10 +12,11 @@
 <script src="script/jquery-1.6.2.min.js"></script>
 <script src="script/jquery-ui.min.js"></script>
 <script src="script/script.js"></script>
-
 <script language="javascript" type="text/javascript">
 
-var errornum = 0;
+//declare global vars - actual values will be assigned by errorcheck()
+var errornum = 0; //# of inputs with errors
+var inputnum = 0; //# of inputs filled
 
 function increase(elementid){
 var startvalue = document.getElementById(elementid).value;
@@ -29,7 +30,25 @@ document.getElementById(elementid).value = startvalue;
 }
 
 function errorcheck(){
-// error checking code
+	if (currentpage == 'Regular') {
+		inputspossible = 6;
+		
+		//error checking code
+		
+	} else if (currentpage == 'Human-Player') {
+		inputspossible = 6;
+		
+		//error checking code
+		
+	} else if (currentpage == 'Pit') {
+		inputspossible = 6;
+		
+		//error checking code
+		
+	}
+
+	$("#progressbar-value").animate( { width: inputnum / inputspossible * 100 + "%" } );
+	$("#errorbar-value").animate( { width: errornum / inputspossible * 100 + "%" } );
 }
 
 function clearinputs(){
@@ -43,30 +62,28 @@ function clearinputs(){
 
 var currentpage = 'Regular';
 
-function Hide(obj){	
-	document.getElementById('Regular-c').style.display = 'none';
-	document.getElementById('Human-Player-c').style.display = 'none';
-	document.getElementById('Pit-c').style.display = 'none';
-	document.getElementById(obj + '-c').style.display = 'inline';
-	if (obj == 'Regular' || obj == 'Human-Player') {
-		document.getElementById('Mutual-c').style.display = 'inline';
-	}
-	else {
-		document.getElementById('Mutual-c').style.display = 'none';
-	}
+function Hide(obj){
+	$('#Regular-c, #Human-Player-c, #Mutual-c, #Pit-c').fadeOut(300);
+	setTimeout(function () {
+		$('#' + obj + '-c').fadeIn(300);
+		if (obj == 'Regular' || obj == 'Human-Player') {
+			$('#Mutual-c').fadeIn(300);
+		}	
+	}, 300);
 	window.location.href='#' + obj;
 	currentpage = obj;
 }
 
 $(document).ready( $(function() {
-
-	
-	
+	urlProcess('Regular');
+	EatCookie('ScoutID');
+	EatCookie('pword');
+	LoginCheck();
 }));
 
 </script>
 </head>
-<body onload="urlProcess('Regular'); EatCookie('ScoutID'); EatCookie('pword'); LoginCheck();">
+<body>
 
 	
 <div id="logobox" style="min-width:1300px;"><a href="index.html" id="logo"><br />CORE<br />2062</a></div>
@@ -122,6 +139,42 @@ $(document).ready( $(function() {
 	</ul>
 </div>
 
+<div class="contact-modal" title="Contact">
+	<ul>
+		<li>
+			<label for="to">To:</label>
+		</li>
+		<li>
+			<select onchange="if (document.getElementById('to').value == 'One_Scout') {document.getElementById('ToScoutList').style.visibility = 'visible'} else {document.getElementById('ToScoutList').style.visibility = 'hidden'};" size="1" id="to">
+				<option value="Scout_Leader">Scout Leader</option>
+				<option value="Full_Team">Full Team</option>
+				<option value="Admin">Admin</option>
+				<option value="One_Scout">One Scout</option>
+			</select>
+		</li>
+			<span id="ToScoutList" style="visibility:hidden;">
+				<li>
+					<label for="ToScout">Scout ID:</label>
+				</li>
+				<li>
+					<input id="ToScout" type="text" value="" style="width:120px;"/>
+				</li>
+			</span>
+		<li>
+			<textarea style="width:400px; height:135px;"></textarea>
+		</li>
+		<li>
+			<button type="button" onclick="ajax('M');">
+				Send
+			</button>
+		</li>
+		<li>
+			<p style="font-size:11px; display: inline-block; margin:0px; vertical-align:middle;">
+				messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
+			</p>
+		</li>
+	</ul>
+</div>
 
 <hr style="margin:20px;" />
 
@@ -156,7 +209,7 @@ $(document).ready( $(function() {
 
 
 
-<span id="Mutual-c" style="display: none;">
+<span id="Mutual-c" style="display: none; float: right;">
 <li>
 	<fieldset>
 	<legend>Alliance</legend>
@@ -189,7 +242,7 @@ $(document).ready( $(function() {
 	</fieldset>
 </li>
 
-<li style="float: right;">
+<li>
 	<fieldset>
 	<legend>Match Signup</legend>
 	<ul>
@@ -211,29 +264,11 @@ $(document).ready( $(function() {
 </form>
 <!--END form-->
 
-			<ul>
-			<li><label for="to">To:</label></li>
-			<li>
-			<select onchange="if (document.getElementById('to').value == 'One_Scout') {document.getElementById('ToScoutList').style.visibility = 'visible'} else {document.getElementById('ToScoutList').style.visibility = 'hidden'};" size="1" id="to">
-				<option value="Scout_Leader">Scout Leader</option>
-				<option value="Full_Team">Full Team</option>
-				<option value="Admin">Admin</option>
-				<option value="One_Scout">One Scout</option>
-			</select>
-			</li>
-			<span id="ToScoutList" style="visibility:hidden;">
-			<li><label for="ToScout">Scout ID:</label></li>
-			<li><input id="ToScout" type="text" value="" style="width:120px;"/></li>
-			</span>
-			<li><textarea style="width:400px; height:135px;"></textarea></li>
-			<li><button type="button" onclick="ajax('M');">Send</button></li>
-			<li><p style="font-size:11px; display: inline-block; margin:0px; vertical-align:middle;">messages will be sent as both a on-screen notification and<br />a email (if emails are enabled by the user you are messaging)</p></li>
-			</ul>
-
 <div id="jGrowl-container" class="jGrowl bottom-right"></div>
 
 <div id="progressbar">
 	<div id="progressbar-value"></div>
+	<div id="errorbar-value"></div>
 </div>
 
 <script language="JavaScript" type="text/javascript">
@@ -244,7 +279,6 @@ $('#to').easySelectBox({speed:100});
 
 // Dialogs
 $('.nav-modal').dialog({
-	width: 600,
 	beforeClose: function() { //change radio button back to correct page
    	document.getElementById(currentpage + '-radio').checked = true;
    	},
@@ -256,7 +290,17 @@ $('.nav-modal').dialog({
 });
 			
 $('.login-modal').dialog({
-	width: 600,
+	buttons: {
+		"Ok": function() { 
+			$(this).dialog("close"); 
+		}, 
+		"Cancel": function() { 
+			$(this).dialog("close"); 
+		} 
+	}
+});
+
+$('.contact-modal').dialog({
 	buttons: {
 		"Ok": function() { 
 			$(this).dialog("close"); 

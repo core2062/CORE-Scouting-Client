@@ -1596,7 +1596,7 @@ case "I": // Input
 	if (currentpage == 'Regular'){
 	var v1 = errornum
 	// var 2 in mutual
-	var v3 = document.getElementById('Alliance').value;
+	var v3 = document.getElementById('AllianceColor').value;
 	var v4 = document.getElementById('AllianceScore').value;
 	var v5 = document.getElementById('TeamNum').value;
 	var v6 = document.getElementById('YCard').value;
