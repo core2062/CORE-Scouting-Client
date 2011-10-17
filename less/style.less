@@ -615,7 +615,7 @@ div.jGrowl {
 
 // Interaction states
 
-	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, button {
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, button, .ui-buttonset label {
 		border: 1px solid #B6B6B6;
 		font-weight: normal;
 		color: #4F4F4F;
@@ -660,9 +660,7 @@ div.jGrowl {
 		border: 1px solid #d2dbf4;
 		background: #f4f8fd;
 		color: #0d2054;
-		-moz-border-radius: 0 !important;
-		-webkit-border-radius: 0 !important;
-		border-radius: 0 !important;
+		.border-radius ('0 !important');
 	}
 	.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
 		color: #363636;
@@ -1263,56 +1261,32 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 // Corner radius
 
 	.ui-corner-tl {
-		-moz-border-radius-topleft: 3px;
-		-webkit-border-top-left-radius: 3px;
-		border-top-left-radius: 3px;
+		.border-radius-tl (3px);
 	}
 	.ui-corner-tr {
-		-moz-border-radius-topright: 3px;
-		-webkit-border-top-right-radius: 3px;
-		border-top-right-radius: 3px;
+		.border-radius-tr (3px);
 	}
 	.ui-corner-bl {
-		-moz-border-radius-bottomleft: 3px;
-		-webkit-border-bottom-left-radius: 3px;
-		border-bottom-left-radius: 3px;
+		.border-radius-bl (3px);
 	}
 	.ui-corner-br {
-		-moz-border-radius-bottomright: 3px;
-		-webkit-border-bottom-right-radius: 3px;
-		border-bottom-right-radius: 3px;
+		.border-radius-br (3px);
 	}
 	.ui-corner-top {
-		-moz-border-radius-topleft: 3px;
-		-webkit-border-top-left-radius: 3px;
-		border-top-left-radius: 3px;
-		-moz-border-radius-topright: 3px;
-		-webkit-border-top-right-radius: 3px;
-		border-top-right-radius: 3px;
+		.border-radius-tl (3px);
+		.border-radius-tr (3px);
 	}
 	.ui-corner-bottom {
-		-moz-border-radius-bottomleft: 3px;
-		-webkit-border-bottom-left-radius: 3px;
-		border-bottom-left-radius: 3px;
-		-moz-border-radius-bottomright: 3px;
-		-webkit-border-bottom-right-radius: 3px;
-		border-bottom-right-radius: 3px;
+		.border-radius-bl (3px);
+		.border-radius-br (3px);
 	}
 	.ui-corner-right {
-		-moz-border-radius-topright: 3px;
-		-webkit-border-top-right-radius: 3px;
-		border-top-right-radius: 3px;
-		-moz-border-radius-bottomright: 3px;
-		-webkit-border-bottom-right-radius: 3px;
-		border-bottom-right-radius: 3px;
+		.border-radius-br (3px);
+		.border-radius-tr (3px);
 	}
 	.ui-corner-left {
-		-moz-border-radius-topleft: 3px;
-		-webkit-border-top-left-radius: 3px;
-		border-top-left-radius: 3px;
-		-moz-border-radius-bottomleft: 3px;
-		-webkit-border-bottom-left-radius: 3px;
-		border-bottom-left-radius: 3px;
+		.border-radius-bl (3px);
+		.border-radius-tl (3px);
 	}
 	.ui-corner-all {
 		.border-radius (3px);
@@ -1515,8 +1489,13 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 
 // jQuery UI Button 1.8.7
 
+.ui-buttonset input[type="radio"] {
+    left: ~'-1e+8px';
+    position: absolute;
+}
 
-	.ui-button, button {
+
+	.ui-button, button, .ui-buttonset label {
 		display: inline-block;
 		position: relative;
 		padding: 0;
@@ -1552,11 +1531,11 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 // button animation properties
 
 //states
-.ui-button.ui-state-hover, button:hover { 
+.ui-button.ui-state-hover, button:hover, .ui-buttonset label:hover { 
 	.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 	color: #313131;
 }
-.ui-button.ui-state-focus, button:active {
+.ui-button.ui-state-focus, button:active, .ui-buttonset input[type="radio"]:checked + label {
 	outline: none;
 	color: #1c4257;
 	border-color: #7096ab;
@@ -1591,8 +1570,9 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		padding-left: 2.1em;
 		padding-right: 2.1em;
 	}
+	
 	//no icon support for input elements, provide padding by default
-	input.ui-button, button {
+	input.ui-button, button, .ui-buttonset label {
 		font-size: 14px;
 		font-weight:700;
 		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -1600,14 +1580,14 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		height: 33px;
 	}
 	//remove submit button internal padding in Firefox
-	input.ui-button::-moz-focus-inner, button::-moz-focus-inner {
+	input.ui-button::-moz-focus-inner, button::-moz-focus-inner, .ui-buttonset label::-moz-focus-inner {
 		border: 0;
 		padding: 0;
 	}
 
 // fix webkits handling of the box model
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	input.ui-button, button {
+	input.ui-button, button, .ui-buttonset label {
 		height: 31px !important;
 	}
 }
@@ -1641,20 +1621,23 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		margin-right: 7px;
 		display: inline;
 	}
-	.ui-buttonset .ui-button {
+	.ui-buttonset label {
 		margin-left: -3px;
 		margin-right: -3px;
 	}
-	.ui-buttonset .ui-button.ui-state-active {
-		color: #1c4257;
-		border-color: #7096ab;
-		background: #ededed url( ../img/bg_fallback.png) 0 -50px repeat-x;
-		.advanced-gradent(#b9e0f5,#92bdd6);
-		.box-shadow(none);
-	}
+//	.ui-buttonset input[type="radio"]:checked + label {
+//		border-color: #7096ab;
+//		background: #ededed url( ../img/bg_fallback.png) 0 -50px repeat-x;
+//		.advanced-gradent(#b9e0f5,#92bdd6);
+//		.box-shadow(none);
+//	}
 
 // reset extra padding in Firefox
-button.ui-button::-moz-focus-inner { border: 0; padding: 0; } 
+
+	button.ui-button::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	} 
 
 // jQuery UI Dialog 1.8.7
 
@@ -1672,9 +1655,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; }
 		position: relative;
 		border: none;
 		border-bottom: 1px solid #979797;
-		-moz-border-radius: 0;
-		-webkit-border-radius: 0;
-		border-radius: 0;
+		.border-radius (0);
 	}
 	.ui-dialog .ui-dialog-title {
 		float: left;
@@ -1831,9 +1812,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; }
 		border-width: 0 0 1px 0;
 	}
 	.ui-tabs .ui-tabs-nav {
-		-moz-border-radius: 0;
-		-webkit-border-radius: 0;
-		border-radius: 0;
+		.border-radius (0);
 	}
 
 	.ui-tabs .ui-tabs-nav li {
@@ -1877,9 +1856,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; }
 	}
 	.ui-tabs .ui-tabs-panel {
 		background: #FFF;
-		-moz-border-radius: 0;
-		-webkit-border-radius: 0;
-		border-radius: 0;
+		.border-radius (0);
 	}
 	.ui-tabs .ui-tabs-hide {
 		display: none !important;
@@ -1925,9 +1902,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; }
 // Extra Input Field Styling
 .ui-form textarea, .ui-form input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]) {
 	padding: 3px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
+	.border-radius (2px);
 	border: 1px solid #cecece;
 	outline: none;
 	.box-shadow(~'0 1px 3px rgba(0,0,0,0.1) inset, 0 1px 0 rgba(255,255,255,0.2)');
