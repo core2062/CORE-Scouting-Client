@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Scouting Input</title>
-<link rel="shortcut icon" href="favicon.ico">
+<link rel="shortcut icon" href="favicon.ico" />
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
 <![endif]-->
@@ -74,16 +74,17 @@ function Hide(obj){
 	currentpage = obj;
 }
 
-$(document).ready( $(function() {
+function startup() {
+	//needs to be in body onload, or favicon will break
 	urlProcess('Regular');
 	EatCookie('ScoutID');
 	EatCookie('pword');
 	LoginCheck();
-}));
+}
 
 </script>
 </head>
-<body>
+<body onload='startup();'>
 
 	
 <div id="logobox" style="min-width:1300px;"><a href="index.html" id="logo"><br />CORE<br />2062</a></div>
