@@ -79,11 +79,13 @@ break;
 case "I": // Input 
 
 	send_error('This part is not finished','');
+	include 'php/input.php';
 
 break;
 case "M": // Mail
 
 	send_error('This part is not finished','');
+	include 'php/mail.php';
 
 break;
 case "Q": // Query

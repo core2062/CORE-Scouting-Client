@@ -1,22 +1,39 @@
-function urlProcess(defaultpage){
-var url = document.location.href;
-var num = url.indexOf('#') + 1;
-if (num == 0) {
-	Hide(defaultpage);
-	document.getElementById(defaultpage + '-radio').checked = true;
+window.onpopstate = function (event) {
+  // if hide is failing, check browser support for this
+  console.log(event);
+  alert(location.hash);
 }
-else{
-	url = url.slice(num);
-	if (url == "") {
+
+function Hide(obj){
+	$(subpages).fadeOut(250);
+	$('.' + obj + '-c').delay(250).fadeIn(250);
+	window.location.href='#' + obj;
+	document.title = pagetitle + ' - ' + obj;
+	currentpage = obj;
+}
+
+function urlProcess(defaultpage){
+	window.currentpage = defaultpage;
+	var url = document.location.href;
+	var num = url.indexOf('#') + 1;
+	alert(num);
+	alert(location.hash);
+	if (num == 0) {
 		Hide(defaultpage);
 		document.getElementById(defaultpage + '-radio').checked = true;
 	}
-	else {
-		Hide(url);
-		document.getElementById(url + '-radio').checked = true;
+	else{
+		url = url.slice(num);
+		if (url == "") {
+			Hide(defaultpage);
+			document.getElementById(defaultpage + '-radio').checked = true;
+		}
+		else {
+			Hide(url);
+			document.getElementById(url + '-radio').checked = true;
+		}
 	}
 }
-};
 
 
 function BakeCookie(name) {
