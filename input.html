@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
+	<!--TODO add  manifest="manifest.mf" + make file-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Scouting Input</title>
+<title>Input</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
@@ -13,6 +14,11 @@
 <script src="script/jquery-ui.min.js"></script>
 <script src="script/script.js"></script>
 <script language="javascript" type="text/javascript">
+//var for title of page
+var pagetitle = 'Input'
+
+// var for list of sub-pages in the document
+var subpages = '.Regular-c, .Human-Player-c, .Pit-c'
 
 //declare global vars - actual values will be assigned by errorcheck()
 var errornum = 0; //# of inputs with errors
@@ -33,7 +39,7 @@ function errorcheck(){
 	if (currentpage == 'Regular') {
 		inputspossible = 6;
 		
-		//error checking code
+		// TODO error checking code
 		
 	} else if (currentpage == 'Human-Player') {
 		inputspossible = 6;
@@ -58,20 +64,6 @@ function clearinputs(){
 	document.getElementById('YCard').value = '';
 	document.getElementById('Comments').innerHTML = '';
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
-}
-
-var currentpage = 'Regular';
-
-function Hide(obj){
-	$('#Regular-c, #Human-Player-c, #Mutual-c, #Pit-c').fadeOut(300);
-	setTimeout(function () {
-		$('#' + obj + '-c').fadeIn(300);
-		if (obj == 'Regular' || obj == 'Human-Player') {
-			$('#Mutual-c').fadeIn(300);
-		}	
-	}, 300);
-	window.location.href='#' + obj;
-	currentpage = obj;
 }
 
 function startup() {
@@ -107,7 +99,7 @@ function startup() {
 		<label for="Pit-radio">Pit</label>
 		
 		<input type="radio" id="Nav-options-radio" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
-		<label for="Nav-options-radio" class="ui-corner-right"><span class="ui-icon ui-icon-gear"></span></label>
+		<label for="Nav-options-radio" class="ui-corner-right"><span class="ui-icon ui-icon-gear"></span></label><!--TODO fix gear icon -->
 	</div>
 </li>
 
@@ -183,7 +175,7 @@ function startup() {
 <form>
 <ul>
 
-<span id="Regular-c" style="display: none;">
+<span class="Regular-c Main-c" style="display: none;">
 
 <li>
 	<fieldset>
@@ -204,13 +196,15 @@ function startup() {
 
 
 
-<span id="Human-Player-c" style="display: none;">
+<span class="Human-Player-c Main-c" style="display: none;">
 <p> human player stuff</p>
 </span>
 
+<span class="Pit-c Main-c" style="display: none;">
+<p>pit stuff</p>
+</span>
 
-
-<span id="Mutual-c" style="display: none; float: right;">
+<span class="Regular-c Human-Player-c Side-c" style="display: none; float: right;">
 <li>
 	<fieldset>
 	<legend>Alliance</legend>
@@ -257,9 +251,7 @@ function startup() {
 
 </span>
 
-<span id="Pit-c" style="display: none;">
-<p>pit stuff</p>
-</span>
+
 
 </ul>
 </form>
@@ -291,6 +283,9 @@ $('.nav-modal').dialog({
 });
 			
 $('.login-modal').dialog({
+	beforeClose: function() { //run login function
+   	//TODO login function + message saying you aren't logged in
+   	},
 	buttons: {
 		"Ok": function() { 
 			$(this).dialog("close"); 
@@ -311,6 +306,8 @@ $('.contact-modal').dialog({
 		} 
 	}
 });
+
+//TODO add credits modal + remove modal jquery plugin in favor of css display + jquery transitions
 
 $(".ui-widget-overlay").live('click', function(){
    $(".ui-dialog-titlebar-close").trigger('click');

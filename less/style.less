@@ -247,8 +247,6 @@ input, textarea, .select-box, #selectarrow, .select-box ul, .select-box ul li, #
 
 label {
 	font-weight:400;
-	vertical-align:middle;
-	line-height:26px;
 }
 input, textarea, .select-box, #selectarrow, .select-box ul {
 	border:none;
@@ -583,7 +581,7 @@ div.jGrowl {
 
 // Component containers
 
-	.ui-widget, button {
+	.ui-widget {
 		font-size: 1.1em;
 	}
 	.ui-widget .ui-widget {
@@ -1577,7 +1575,7 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		font-weight:700;
 		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 		padding: 0 1em !important;
-		height: 33px;
+		height: 31px;
 	}
 	//remove submit button internal padding in Firefox
 	input.ui-button::-moz-focus-inner, button::-moz-focus-inner, .ui-buttonset label::-moz-focus-inner {
@@ -1587,7 +1585,7 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 
 // fix webkits handling of the box model
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	input.ui-button, button, .ui-buttonset label {
+	button, .ui-buttonset label {
 		height: 31px !important;
 	}
 }
@@ -1624,7 +1622,13 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 	.ui-buttonset label {
 		margin-left: -3px;
 		margin-right: -3px;
+		line-height: 31px; //aligns text to center
 	}
+	
+	.ui-buttonset label .ui-icon-gear {
+		margin-top: 3px; //aligns gear icon to center
+	}
+	
 //	.ui-buttonset input[type="radio"]:checked + label {
 //		border-color: #7096ab;
 //		background: #ededed url( ../img/bg_fallback.png) 0 -50px repeat-x;
@@ -1634,10 +1638,14 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 
 // reset extra padding in Firefox
 
-	button.ui-button::-moz-focus-inner {
+	button::-moz-focus-inner {
 		border: 0;
 		padding: 0;
 	} 
+	
+	button {
+		height: 32px; //fixes weird button height differance
+	}
 
 // jQuery UI Dialog 1.8.7
 
