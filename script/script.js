@@ -1,60 +1,56 @@
+// Designer: Sean Lang
+
+// global vars
+var currentpage = '' //actual value gets assigned later
+var pagetitle = document.title; //used as base for page titles
+
+$(document).ready(function() {
+	//if favicon breaks replace with body onload
+	Nav();
+	EatCookie('ScoutID');
+	EatCookie('pword');
+	LoginCheck();
+ });
+
 window.onpopstate = function (event) {
-  // if hide is failing, check browser support for this
-  console.log(event);
-  alert(location.hash);
-}
-
-function Hide(obj){
-	$(subpages).fadeOut(250);
-	$('.' + obj + '-c').delay(250).fadeIn(250);
-	window.location.href='#' + obj;
-	document.title = pagetitle + ' - ' + obj;
-	currentpage = obj;
-}
-
-function urlProcess(defaultpage){
-	window.currentpage = defaultpage;
-	var url = document.location.href;
-	var num = url.indexOf('#') + 1;
-	alert(num);
-	alert(location.hash);
-	if (num == 0) {
-		Hide(defaultpage);
-		document.getElementById(defaultpage + '-radio').checked = true;
-	}
-	else{
-		url = url.slice(num);
-		if (url == "") {
-			Hide(defaultpage);
-			document.getElementById(defaultpage + '-radio').checked = true;
-		}
-		else {
-			Hide(url);
-			document.getElementById(url + '-radio').checked = true;
-		}
+	// if hide is failing, check browser support for this
+	console.log(event);
+	if (currentpage != location.hash.substring(1)){
+		Nav();
 	}
 }
 
+function Nav () {
+	currentpage = location.hash.substring(1);
+	if (subpages.indexOf(currentpage) == -1){
+		currentpage = subpages[0];
+		window.location = '#' + currentpage;
+	}
+	$(listSubpages).fadeOut(250);
+	$('.' + currentpage + '-c').delay(250).fadeIn(250);
+	document.title = pagetitle + ' - ' + currentpage;
+	document.getElementById(currentpage + '-r').checked = true;
+}
 
 function BakeCookie(name) {
-var expires = new Date();
-expires.setTime(expires.getTime()+(15552000000));
-document.cookie = name + "=" + document.getElementById(name).value + "; expires=" + expires.toGMTString() + "; path=/";
+	var expires = new Date();
+	expires.setTime(expires.getTime()+(15552000000));
+	document.cookie = name + "=" + document.getElementById(name).value + "; expires=" + expires.toGMTString() + "; path=/";
 }
 
 function EatCookie(name) {
-var nameEQ = name + "=";
-var ca = document.cookie.split(';');
-for(var i=0;i < ca.length;i++) {
-	var c = ca[i];
-	while (c.charAt(0)==' ') c = c.substring(1);
-	if (c.indexOf(nameEQ) == 0) {
-		var CookieValue = c.substring(nameEQ.length);
-		break;
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1);
+		if (c.indexOf(nameEQ) == 0) {
+			var CookieValue = c.substring(nameEQ.length);
+			break;
+		}
+		else var CookieValue = "";
 	}
-	else var CookieValue = "";
-}
-document.getElementById(name).value = CookieValue;
+	document.getElementById(name).value = CookieValue;
 }
 
 function LoginCheck(){

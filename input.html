@@ -13,14 +13,13 @@
 <script src="script/jquery-1.6.2.min.js"></script>
 <script src="script/jquery-ui.min.js"></script>
 <script src="script/script.js"></script>
+
 <script language="javascript" type="text/javascript">
-//var for title of page
-var pagetitle = 'Input'
+// global vars for page navigation
+var subpages = ['Regular', 'Human-Player', 'Pit']; //the first element will be the defult page
+var listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
 
-// var for list of sub-pages in the document
-var subpages = '.Regular-c, .Human-Player-c, .Pit-c'
-
-//declare global vars - actual values will be assigned by errorcheck()
+// global vars for errorcheck(), actual values assigned later
 var errornum = 0; //# of inputs with errors
 var inputnum = 0; //# of inputs filled
 
@@ -52,7 +51,7 @@ function errorcheck(){
 		//error checking code
 		
 	}
-
+	
 	$("#progressbar-value").animate( { width: inputnum / inputspossible * 100 + "%" } );
 	$("#errorbar-value").animate( { width: errornum / inputspossible * 100 + "%" } );
 }
@@ -65,18 +64,9 @@ function clearinputs(){
 	document.getElementById('Comments').innerHTML = '';
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
 }
-
-function startup() {
-	//needs to be in body onload, or favicon will break
-	urlProcess('Regular');
-	EatCookie('ScoutID');
-	EatCookie('pword');
-	LoginCheck();
-}
-
 </script>
 </head>
-<body onload='startup();'>
+<body>
 
 	
 <div id="logobox" style="min-width:1300px;"><a href="index.html" id="logo"><br />CORE<br />2062</a></div>
@@ -89,17 +79,17 @@ function startup() {
 
 <li>
 	<div id="nav-buttonset" class="ui-buttonset">
-		<input type="radio" id="Regular-radio" onclick="Hide('Regular');" name="Nav-SegButton" />
-		<label for="Regular-radio" class="ui-corner-left">Regular</label>
+		<input type="radio" id="Regular-r"  name="Nav-SegButton" />
+		<label for="Regular-r" onclick="location.hash = '#Regular'" class="ui-corner-left">Regular</label>
 		
-		<input type="radio" id="Human-Player-radio" onclick="Hide('Human-Player');" name="Nav-SegButton"/>
-		<label for="Human-Player-radio">Human Player</label>
+		<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
+		<label for="Human-Player-r" onclick="window.location = '#Human-Player'">Human Player</label>
 		
-		<input type="radio" id="Pit-radio" onclick="Hide('Pit');" name="Nav-SegButton" />
-		<label for="Pit-radio">Pit</label>
+		<input type="radio" id="Pit-r" name="Nav-SegButton" />
+		<label for="Pit-r" onclick="window.location = '#Pit'">Pit</label>
 		
-		<input type="radio" id="Nav-options-radio" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
-		<label for="Nav-options-radio" class="ui-corner-right"><span class="ui-icon ui-icon-gear"></span></label><!--TODO fix gear icon -->
+		<input type="radio" id="Nav-options-r" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
+		<label for="Nav-options-r" class="ui-corner-right"><span class="ui-icon ui-icon-gear"></span></label><!--TODO fix gear icon -->
 	</div>
 </li>
 
@@ -273,7 +263,7 @@ $('#to').easySelectBox({speed:100});
 // Dialogs
 $('.nav-modal').dialog({
 	beforeClose: function() { //change radio button back to correct page
-   	document.getElementById(currentpage + '-radio').checked = true;
+   	document.getElementById(currentpage + '-r').checked = true;
    	},
 	buttons: {
 		"Close": function() { 
