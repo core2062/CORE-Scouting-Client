@@ -89,7 +89,7 @@ function clearinputs(){
 		<label for="Pit-r" onclick="window.location = '#Pit'">Pit</label>
 		
 		<input type="radio" id="Nav-options-r" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
-		<label for="Nav-options-r" class="ui-corner-right"><span class="ui-icon ui-icon-gear"></span></label><!--TODO fix gear icon -->
+		<label for="Nav-options-r" class="ui-corner-right icon"><span class="icon list"></span></label>
 	</div>
 </li>
 
@@ -97,7 +97,7 @@ function clearinputs(){
 <li><button type="button" onclick="ajax('I');">Training</button></li>
 <li><button type="button" onclick="ajax('I');" style="margin-right: 40px;">Contact</button></li>
 
-<li><label for="TeamNum">Team Number:<span id="help" onclick=""></span></label></li>
+<li><label for="TeamNum">Team Number:<span class="icon help" onclick=""></span></label></li>
 <li><input type="text" id="TeamNum"/></li>
 
 <li><button type="button" onclick="ajax('I');">Submit</button></li>
@@ -165,7 +165,7 @@ function clearinputs(){
 <form>
 <ul>
 
-<span class="Regular-c Main-c" style="display: none;">
+<span class="Regular-c Main-c">
 
 <li>
 	<fieldset>
@@ -186,15 +186,15 @@ function clearinputs(){
 
 
 
-<span class="Human-Player-c Main-c" style="display: none;">
+<span class="Human-Player-c Main-c">
 <p> human player stuff</p>
 </span>
 
-<span class="Pit-c Main-c" style="display: none;">
+<span class="Pit-c Main-c">
 <p>pit stuff</p>
 </span>
 
-<span class="Regular-c Human-Player-c Side-c" style="display: none; float: right;">
+<span class="Regular-c Human-Player-c Side-c" style="float: right;">
 <li>
 	<fieldset>
 	<legend>Alliance</legend>

@@ -3,8 +3,6 @@ Designer: Sean Lang
 Language: LESS
 */
 
-
-
 //Colors
 @regcolor: #d1d1d1; //gray
 @l-regcolor: lighten(@regcolor, 15%);
@@ -37,6 +35,10 @@ Language: LESS
 @select: url(../img/ie/select.gif);
 @progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
 @background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
+
+@list-icon: url(../img/icon/list.svg);
+@plus-icon: url(../img/icon/plus.svg);
+@help-icon: url(../img/icon/question.svg);
 
 // Parametric Mixins
 
@@ -151,6 +153,10 @@ body {
 	min-height: 100%;
 }
 
+.Regular-c, .Human-Player-c, .Pit-c, .Mutual-c {
+	display: none;
+}
+
 a {
 	color:#FFF;
 }
@@ -193,14 +199,16 @@ pre {
 	margin-top:3px;
 	margin-right:10px;
 	border:none;
-	background-image:url(../img/logo.png);
-	background-repeat:no-repeat;
 	width:110px;
 	text-align:right;
 	font-size:18px;
 	line-height:13px;
 	text-decoration: none;
 	font-weight:700;
+	letter-spacing: -0.1em;
+	background-image:url(../img/logo.svg);
+	background-repeat:no-repeat;
+	background-size: 50px;
 }
 
 li {
@@ -363,7 +371,7 @@ a.select-box-disp {
 }
 // END Select Box
 
-
+/*
 // START label buttons
 #plus, #help {
 	background-color:@activecolor;
@@ -386,15 +394,9 @@ a.select-box-disp {
 	background-position: center 6px, center;
 }
 // END label buttons
+*/
 
 
-#Regular, #Human-Player, #Pit, #Mutual {
-	top:80px;
-	display: none;
-}
-#Regular, #Human-Player {
-	min-width:720px;
-}
 
 //Pager
 
@@ -546,35 +548,85 @@ div.jGrowl {
 
 // Layout helpers
 
-.ui-helper-hidden { display: none; }
-.ui-helper-hidden-accessible { position: absolute !important; clip: rect(1px 1px 1px 1px); clip: rect(1px,1px,1px,1px); }
-.ui-helper-reset { margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none; }
-.ui-helper-clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-.ui-helper-clearfix { display: inline-block; }
+
+	.ui-helper-hidden {
+		display: none;
+	}
+	.ui-helper-hidden-accessible {
+		position: absolute !important;
+		clip: rect(1px 1px 1px 1px);
+		clip: rect(1px,1px,1px,1px);
+	}
+	.ui-helper-reset {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		outline: 0;
+		line-height: 1.3;
+		text-decoration: none;
+		font-size: 100%;
+		list-style: none;
+	}
+	.ui-helper-clearfix:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
+	.ui-helper-clearfix {
+		display: inline-block;
+	}
+
 // required comment for clearfix to //rk in Opera
 * html .ui-helper-clearfix { height:1%; }
 .ui-helper-clearfix { display:block; }
 // end clearfix
-.ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:Alpha(Opacity=0); }
+
+	.ui-helper-zfix {
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		position: absolute;
+		opacity: 0;
+		filter: Alpha(Opacity=0);
+	}
 
 
 // Interaction Cues
 
-.ui-state-disabled { cursor: default !important; }
+
+	.ui-state-disabled {
+		cursor: default !important;
+	}
 
 
 // Icons
 
 
 // states and images
-.ui-icon { display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat; }
+
+	.ui-icon {
+		display: block;
+		text-indent: -99999px;
+		overflow: hidden;
+		background-repeat: no-repeat;
+	}
 
 
 // Misc visuals
 
 
 // Overlays
-.ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+	.ui-widget-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
 
 
 // jQuery UI CSS Framework 1.8.7
@@ -693,7 +745,7 @@ div.jGrowl {
 
 
 // states and images
-
+/*
 	.ui-icon {
 		margin-top: 1.5px;
 		margin-bottom: 1.5px;
@@ -725,6 +777,7 @@ div.jGrowl {
 	.ui-state-highlight .ui-icon, .ui-state-error .ui-icon {
 		margin-top: -1px;
 	}
+
 
 // positioning
 
@@ -1252,6 +1305,7 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 .ui-icon-grip-diagonal-se {
 	background-position: -80px -224px;
 }
+*/
 
 
 // Misc visuals
@@ -1503,9 +1557,6 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		text-align: center;
 		zoom: 1;
 		overflow: visible;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		user-select: none;
 		-webkit-transition: -webkit-box-shadow 0.25s ease-in-out;
 		-moz-transition: -moz-box-shadow 0.25s ease-in-out;
 		-o-transition: -o-box-shadow 0.25s ease-in-out;
@@ -1574,7 +1625,7 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		font-size: 14px;
 		font-weight:700;
 		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-		padding: 0 1em !important;
+		padding: 0 1em;
 		height: 31px;
 	}
 	//remove submit button internal padding in Firefox
@@ -1590,7 +1641,7 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 	}
 }
 
-
+/*
 //button icon element(s)
 
 	.ui-button-icon-only .ui-icon, .ui-button-text-icon-primary .ui-icon, .ui-button-text-icon-secondary .ui-icon, .ui-button-text-icons .ui-icon, .ui-button-icons-only .ui-icon {
@@ -1612,6 +1663,7 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 		right: .5em;
 	}
 
+*/
 
 //button sets
 
@@ -1925,4 +1977,49 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 .ui-form textarea:focus, .ui-form input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):focus {
 	border: 1px solid #95bdd4;
 	.box-shadow(~'0 2px 3px rgba(161,202,226,0.5) inset, 0 1px 0 rgba(255,255,255,0.2)');
+}
+
+li.icon {
+	background-color:@activecolor;
+	.img-gradent (@plushelp, @activecolor);
+	background-repeat:no-repeat;
+	width:23px;
+	height:23px;
+	display:inline-block;
+	vertical-align:bottom;
+	margin:2px 5px;
+}
+
+//icons
+
+label.icon {
+	width:40px;
+	padding:0px !important;
+}
+
+span.icon {
+	background-repeat:no-repeat;
+	width:100%;
+	height:100%;
+	background-size: 16px;
+	background-position: center;
+	display:inline-block;
+	.opacity(0.65);
+	vertical-align: middle;
+}
+
+.icon:hover {
+	.opacity(0.9);
+}
+
+.list {
+	background-image: @list-icon;
+}
+
+.plus {
+	background-image: @plus-icon;
+}
+
+.help {
+	background-image: @help-icon;
 }
