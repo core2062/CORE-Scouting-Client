@@ -38,7 +38,7 @@ Language: LESS
 
 @list-icon: url(../img/icon/list.svg);
 @plus-icon: url(../img/icon/plus.svg);
-@help-icon: url(../img/icon/question.svg);
+@help-icon: url(../img/icon/help.svg);
 
 // Parametric Mixins
 
@@ -142,6 +142,12 @@ Language: LESS
     src: url('../font/bank-gothic-medium-bt.ttf');
 }
 
+@font-face {
+    font-family: 'iconic';
+    src: url('../font/icons.ttf');
+}
+
+
 //Font List
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
 
@@ -240,8 +246,8 @@ legend {
 	text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
 	background:@activecolor;
 	color:white;
-	margin-left: -11px;
-	margin-top: -16px;
+	margin-left: -10px;
+	margin-top: -15px;
 	padding:0 10px;
 	.border-radius-br(8px);
 
@@ -1680,14 +1686,14 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 	.ui-buttonset label .ui-icon-gear {
 		margin-top: 3px; //aligns gear icon to center
 	}
-	
-//	.ui-buttonset input[type="radio"]:checked + label {
-//		border-color: #7096ab;
-//		background: #ededed url( ../img/bg_fallback.png) 0 -50px repeat-x;
-//		.advanced-gradent(#b9e0f5,#92bdd6);
-//		.box-shadow(none);
-//	}
-
+/*	
+	.ui-buttonset input[type="radio"]:checked + label {
+		border-color: #7096ab;
+		background: #ededed url( ../img/bg_fallback.png) 0 -50px repeat-x;
+		.advanced-gradent(#b9e0f5,#92bdd6);
+		.box-shadow(none);
+	}
+*/
 // reset extra padding in Firefox
 
 	button::-moz-focus-inner {
@@ -1853,74 +1859,6 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 	}
 
 
-// jQuery UI Tabs 1.8.7
-
-
-	.ui-tabs {
-		position: relative;
-		zoom: 1;
-		border: 0;
-		background: transparent;
-	}
-	
-	// position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed")
-	
-	.ui-tabs .ui-tabs-nav {
-		margin: 0;
-		padding: 0;
-		background: transparent;
-		border-width: 0 0 1px 0;
-	}
-	.ui-tabs .ui-tabs-nav {
-		.border-radius (0);
-	}
-
-	.ui-tabs .ui-tabs-nav li {
-		list-style: none;
-		float: left;
-		position: relative;
-		top: 1px;
-		margin: 0 .2em 1px 0;
-		border-bottom: 0 !important;
-		padding: 0;
-		white-space: nowrap;
-	}
-	.ui-tabs .ui-tabs-nav li a {
-		float: left;
-		padding: .5em 1em;
-		text-decoration: none;
-		font-size: 12px;
-		font-weight: 700;
-		text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-	}
-	.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
-		margin-bottom: 0;
-		padding-bottom: 1px;
-		background: #fff;
-		border-color: #B6B6B6;
-	}
-	.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
-		cursor: text;
-		outline: none;
-	}
-	.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
-		cursor: pointer;
-	}
-	
-	//first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere...
-	.ui-tabs .ui-tabs-panel {
-		display: block;
-		border-width: 0 1px 1px 1px;
-		padding: 1em 1.4em;
-		background: none;
-	}
-	.ui-tabs .ui-tabs-panel {
-		background: #FFF;
-		.border-radius (0);
-	}
-	.ui-tabs .ui-tabs-hide {
-		display: none !important;
-	}
 
 
 // Progressbar
@@ -1979,47 +1917,25 @@ ui-icon-seek-first is deprecated, use ui-icon-seek-start instead
 	.box-shadow(~'0 2px 3px rgba(161,202,226,0.5) inset, 0 1px 0 rgba(255,255,255,0.2)');
 }
 
-li.icon {
-	background-color:@activecolor;
-	.img-gradent (@plushelp, @activecolor);
-	background-repeat:no-repeat;
-	width:23px;
-	height:23px;
-	display:inline-block;
-	vertical-align:bottom;
-	margin:2px 5px;
-}
-
 //icons
 
-label.icon {
-	width:40px;
-	padding:0px !important;
+.icon {
+	font-family:iconic;
+	vertical-align: middle;
+	font-size: 22px;
+	font-weight: 200;
+
 }
 
 span.icon {
-	background-repeat:no-repeat;
-	width:100%;
-	height:100%;
-	background-size: 16px;
-	background-position: center;
 	display:inline-block;
-	.opacity(0.65);
-	vertical-align: middle;
+	color: inherit;
+	line-height: 36px;
 }
 
-.icon:hover {
-	.opacity(0.9);
+button.icon {
+	height: 28px;
+	padding: 4px;
 }
 
-.list {
-	background-image: @list-icon;
-}
 
-.plus {
-	background-image: @plus-icon;
-}
-
-.help {
-	background-image: @help-icon;
-}
