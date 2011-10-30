@@ -1,7 +1,7 @@
 <?php
 
 //get more parameters
-$v1=$_POST["v1"];
+$v1=$_POST["v1"]; //[what the thing represents
 $v2=$_POST["v2"];
 $v3=$_POST["v3"];
 $v4=$_POST["v4"];
@@ -15,8 +15,7 @@ $currentpage=$_POST["c"];
 mysql_query ("INSERT INTO log VALUES ('Database I', NOW(), 'table input: $ScoutID | Current Page: $currentpage')"); //write to log
 
 //Determine EntryID
-$EntryID = mysql_query ("SELECT COUNT(EntryID) FROM entries");
-$EntryID = mysql_result ($EntryID,0);
+$EntryID = mysql_result (mysql_query ("SELECT COUNT(EntryID) FROM entries"),0);
 
 switch ($currentpage) //Build query based on current page
 {
@@ -30,10 +29,10 @@ case "Pit":
 
 	break;
 default:
-	die("-error-Invalid current page, bitch");
+	send_error('Invalid Current Page', '');
 }
 
-mysql_query ($Query) or die('-error-didn\'t f***ing work: ' . mysql_error());
+mysql_query ($Query) or send_error('Input Failed', '');
 
 echo "1"; // Entered Sucessfully
 mysql_close($link);
