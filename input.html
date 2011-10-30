@@ -80,7 +80,7 @@ function clearinputs(){
 <li>
 	<div id="nav-buttonset" class="ui-buttonset">
 		<input type="radio" id="Regular-r"  name="Nav-SegButton" />
-		<label for="Regular-r" onclick="location.hash = '#Regular'" class="ui-corner-left">Regular</label>
+		<label for="Regular-r" onclick="window.location = '#Regular'" class="ui-corner-left">Regular</label>
 		
 		<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
 		<label for="Human-Player-r" onclick="window.location = '#Human-Player'">Human Player</label>
@@ -106,10 +106,13 @@ function clearinputs(){
 </form>
 
 <div class="nav-modal" title="Navagation">
-	<ul>
+	<ul class="list">
 		<li><a href="index.html">Home</a></li>
 		<li><a href="query.html">Database Access</a></li>
 	</ul>
+	
+	<div class="v-line"></div>
+	
 </div>
 
 <div class="login-modal" title="Login">
