@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-	<!--TODO add  manifest="manifest.mf" + make file-->
+<html>	<!--TODO add  manifest="manifest.mf" + make file-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Input</title>
@@ -66,52 +65,267 @@ function clearinputs(){
 }
 </script>
 </head>
-<body>
+<body style="min-width:1090px;">
 
+<ul>
+	<li>
+		<div id="nav-buttonset" class="ui-buttonset">
+			<input type="radio" id="Regular-r"  name="Nav-SegButton" />
+			<label for="Regular-r" onclick="window.location = '#Regular'" class="ui-corner-left">Regular</label>
+
+			<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
+			<label for="Human-Player-r" onclick="window.location = '#Human-Player'">Human Player</label>
+
+			<input type="radio" id="Pit-r" name="Nav-SegButton" />
+			<label for="Pit-r" onclick="window.location = '#Pit'">Pit</label>
+
+			<input type="radio" id="Nav-options-r" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
+			<label for="Nav-options-r" class="ui-corner-right icon"><span class="icon">=</span></label>
+		</div>
+	</li>
+
+	<li>
+		<button type="button" id="login-button" onclick="$('.login-modal').dialog('open');">Login</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="ajax('I');">Training</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="ajax('I');" style="margin-right: 40px;">Contact</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="ajax('I');">Submit</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="clearinputs();">Clear Inputs</button> <!-- Remove This ?, it's kinda dangerous and won't be used much (it's done automatically) -->
+	</li>
 	
-<div id="logobox" style="min-width:1300px;"><a href="index.html" id="logo"><br />CORE<br />2062</a></div>
-
-<form>
-
-	
-<ul style="min-width:1300px;">
-	
-
-<li>
-	<div id="nav-buttonset" class="ui-buttonset">
-		<input type="radio" id="Regular-r"  name="Nav-SegButton" />
-		<label for="Regular-r" onclick="window.location = '#Regular'" class="ui-corner-left">Regular</label>
-		
-		<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
-		<label for="Human-Player-r" onclick="window.location = '#Human-Player'">Human Player</label>
-		
-		<input type="radio" id="Pit-r" name="Nav-SegButton" />
-		<label for="Pit-r" onclick="window.location = '#Pit'">Pit</label>
-		
-		<input type="radio" id="Nav-options-r" name="Nav-SegButton" onclick="$('.nav-modal').dialog('open');" />
-		<label for="Nav-options-r" class="ui-corner-right icon"><span class="icon">=</span></label>
-	</div>
-</li>
-
-<li><button type="button" id="login-button" onclick="$('.login-modal').dialog('open');">Login</button></li>
-<li><button type="button" onclick="ajax('I');">Training</button></li>
-<li><button type="button" onclick="ajax('I');" style="margin-right: 40px;">Contact</button></li>
-
-<li><label for="TeamNum">Team Number:<button onclick="" class="icon help">?</button></label></li>
-<li><input type="text" id="TeamNum"/></li>
-
-<li><button type="button" onclick="ajax('I');">Submit</button></li>
-<li><button type="button" onclick="clearinputs();">Clear Inputs</button></li>
+	<li>
+		<a href="index.html" id="logo"><br />CORE<br />2062</a>
+	</li>
 </ul>
+
+<hr style="margin:10px;" />
+
+<!-- END Top-Bar -->
+
+<!--START Form-->
+<form style="height: 100%; position:absolute; top:0;">
+	
+<!-- START Sidebar -->
+<span class="Regular-c Human-Player-c" style="float:right; width:400px; min-height:100%;">
+
+	<li>
+		<fieldset style="margin-top:80px;">
+			<legend>Match Signup</legend>
+			<ul>
+				<li>
+					<label for="MatchNum">Match Number:</label>
+					<input type="text" id="MatchNum" value="" />
+				</li>
+
+				<li>
+					<p><br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...<br/>content...</p>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Sidebar -->
+
+<!--START Sub-Page-->
+<div style="overflow:auto; max-height:100%; margin-top:80px;">
+
+<!-- START Regular -->
+<span class="Regular-c">
+
+	<li>
+		<fieldset style="min-width:610px;">
+			<legend>Penalties</legend>
+			<ul>
+				<li>
+					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="RCard" value="" onchange="" />
+				</li>
+				
+				<li>
+					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="YCard" value="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+	
+	<li> <!-- remove/replace with real field -->
+		<fieldset>
+			<legend>Penalties</legend>
+			<ul>
+				<li>
+					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="RCard" value="" onchange="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Regular -->
+
+
+<!-- START Human-Player -->
+<span class="Human-Player-c">
+
+	<p> human player stuff</p>
+
+	<li> <!-- remove/replace with real field -->
+		<fieldset>
+			<legend>Penalties</legend>
+			<ul>
+				<li>
+					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="RCard" value="" onchange="" />
+				</li>
+
+				<li>
+					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="YCard" value="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Human-Player -->
+
+
+<!-- START Pit -->
+<span class="Pit-c">
+
+	<p>pit stuff</p>
+
+</span>
+<!-- END Pit -->
+
+
+<!-- START Mutual -->
+<span class="Regular-c Human-Player-c">
+
+	<li>
+		<fieldset>
+			<legend>Alliance</legend>
+			<ul>
+				<li>
+					<label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label>
+					<select size="1" id="AllianceColor">
+						<option value="r">Red</option>
+						<option value="b">Blue</option>
+					</select>
+				</li>
+
+				<li>
+					<label for="AllianceScore">Score:</label>
+					<input type="text" id="AllianceScore" value="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+	<li>
+		<fieldset>
+		<legend>Other</legend>
+			<ul>
+				<li>
+					<label for="Comments">Relevant Comments:</label>
+					<textarea style="width: 200px; height: 50px;" id="Comments"></textarea>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+
+<span class="Regular-c Human-Player-c Pit-c">
+
+	<li>
+		<fieldset>
+		<legend>Insert Name Here</legend>
+			<ul>
+				<li>
+					<label for="TeamNum">Team Number:</label>
+					<button onclick="" class="icon help">?</button>
+					<input type="text" id="TeamNum"/>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Mutual -->
+
+
+</div>
+<!--END Sub-Page-->
 </form>
+<!--END Form-->
+
+<div id="jGrowl-container" class="jGrowl bottom-right"></div>
+
+<div id="progressbar">
+	<div id="progressbar-value"></div>
+	<div id="errorbar-value"></div>
+</div>
 
 <div class="nav-modal" title="Navagation">
-	<ul class="list">
-		<li><a href="index.html">Home</a></li>
-		<li><a href="query.html">Database Access</a></li>
-	</ul>
+<table>
+<tbody>
+<tr>
+	<td style="padding-right:80px;">
+		<p>Home</p>
+		<ul>
+			<li><a href="index.html#Front-Page">Front Page</a></li>
+			<li><a href="index.html#Synopsis">Synopsis</a></li>
+			<li><a href="index.html#Tour">Tour</a></li>
+			<li><a href="index.html#Signup">Signup</a></li>
+		</ul>
 	
-	<div class="v-line"></div>
+		<p>Scouting</p>
+		<ul>
+			<li><a href="input.html#Regular">Regular</a></li>
+			<li><a href="input.html#Human-Player">Human Player</a></li>
+			<li><a href="input.html#Pit">Pit</a></li>	
+		</ul>
+	
+		<p>Analysis</p>
+		<ul>
+			<li><a href="query.html">View Stats</a></li>
+			<li><a href="">Data Liberation</a></li>		
+		</ul>
+	
+		<p>Team Leader</p>
+		<ul>
+			<li><a href="">Manage Scouting</a></li>
+			<li><a href="">View Contribution</a></li>
+			<li><a href="">View Team Members</a></li>	
+		</ul>
+		
+		<p>Other</p>
+		<ul>
+			<li><a href="">Edit Account</a></li>
+			<li><a href="">Contact</a></li>		
+		</ul>
+	</td>
+	<td style="width:100%;">
+		<p>the preview for the page goes here... it's activated onhover from the links on the left, and shows a thumbnail + discription for the page</p>
+	</td>
+</tr>
+</tbody>
+</table>
+
 	
 </div>
 
@@ -160,101 +374,6 @@ function clearinputs(){
 			</p>
 		</li>
 	</ul>
-</div>
-
-<hr style="margin:20px;" />
-
-<!--START form-->
-<form>
-<ul>
-
-<span class="Regular-c Main-c">
-
-<li>
-	<fieldset>
-	<legend>Penalties</legend>
-	<ul style="min-width:740px;">
-	
-	<li><label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label></li>
-	<li><input type="text" id="RCard" value="" onchange="" /></li>
-	
-	<li><label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label></li>
-	<li><input type="text" id="YCard" value="" /></li>
-	
-	</ul>
-	</fieldset>
-</li>
-
-</span>
-
-
-
-<span class="Human-Player-c Main-c">
-<p> human player stuff</p>
-</span>
-
-<span class="Pit-c Main-c">
-<p>pit stuff</p>
-</span>
-
-<span class="Regular-c Human-Player-c Side-c" style="float: right;">
-<li>
-	<fieldset>
-	<legend>Alliance</legend>
-	<ul>
-	
-	<li><label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label></li>
-	<li>
-	<select size="1" id="AllianceColor">
-		<option value="r">Red</option>
-		<option value="b">Blue</option>
-	</select>
-	</li>
-	
-	<li><label for="AllianceScore">Score:</label></li>
-	<li><input type="text" id="AllianceScore" value="" /></li>
-	
-	</ul>
-	</fieldset>
-</li>
-
-
-
-<li>
-	<fieldset>
-	<legend>Other</legend>
-	<ul>
-		<li><label for="Comments">Relevant Comments:</label></li>
-		<li><textarea style="width: 200px; height: 50px;" id="Comments"></textarea></li>
-	</ul>
-	</fieldset>
-</li>
-
-<li>
-	<fieldset>
-	<legend>Match Signup</legend>
-	<ul>
-	
-		<li><label for="MatchNum">Match Number:</label></li>
-		<li><input type="text" id="MatchNum" value="" /></li>
-		
-	</ul>
-	</fieldset>
-</li>
-
-</span>
-
-
-
-</ul>
-</form>
-<!--END form-->
-
-<div id="jGrowl-container" class="jGrowl bottom-right"></div>
-
-<div id="progressbar">
-	<div id="progressbar-value"></div>
-	<div id="errorbar-value"></div>
 </div>
 
 <script language="JavaScript" type="text/javascript">
