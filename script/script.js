@@ -6,6 +6,9 @@ var pagetitle = document.title; //used as base for page titles
 
 $(document).ready(function() {
 	//if favicon breaks replace with body onload
+	window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
+	window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
+	window.underpage = ''; //underpage must be set to something
 	Nav();
 	EatCookie('ScoutID');
 	EatCookie('pword');
@@ -13,23 +16,38 @@ $(document).ready(function() {
  });
 
 window.onpopstate = function (event) {
-	// if hide is failing, check browser support for this
+	// if nav() is failing, check browser support for this
 	console.log(event);
-	if (currentpage != location.hash.substring(1)){
-		Nav();
+	Nav();
+
+}
+
+function Nav() {
+	currentpage = location.hash.substring(1);
+	if (subpages.indexOf(currentpage) == -1){
+		if (modals.indexOf(currentpage) != -1){ //if it's a modal
+			$(listModals).css('display', 'none');
+			document.getElementById('modal-title').innerHTML = currentpage;
+			$('.overlay').fadeIn(50);
+			$('.' + currentpage + '-c').delay(50).fadeIn(250);
+		} else { //if not a modal & not a subpage
+			currentpage = subpages[0]; //use default page
+			window.location = '#' + currentpage;
+		}
+	} else { //if not a modal
+		$(listModals).fadeOut(250);
+		if (currentpage != underpage) {
+			$(listSubpages).fadeOut(250);
+			$('.' + currentpage + '-c').delay(250).fadeIn(250);
+			document.title = pagetitle + ' - ' + currentpage;
+		}
+		document.getElementById(currentpage + '-r').checked = true;
+		underpage = currentpage; //store for modal close
 	}
 }
 
-function Nav () {
-	currentpage = location.hash.substring(1);
-	if (subpages.indexOf(currentpage) == -1){
-		currentpage = subpages[0];
-		window.location = '#' + currentpage;
-	}
-	$(listSubpages).fadeOut(250);
-	$('.' + currentpage + '-c').delay(250).fadeIn(250);
-	document.title = pagetitle + ' - ' + currentpage;
-	document.getElementById(currentpage + '-r').checked = true;
+function modalclose() {
+	window.location = '#' + underpage;
 }
 
 function BakeCookie(name) {
