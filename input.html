@@ -56,6 +56,22 @@ function errorcheck(){
 }
 
 function clearinputs(){
+	if (currentpage == 'Regular') {
+		inputspossible = 6;
+		
+		// TODO clear input code
+		
+	} else if (currentpage == 'Human-Player') {
+		inputspossible = 6;
+		
+		//clear input code
+		
+	} else if (currentpage == 'Pit') {
+		inputspossible = 6;
+		
+		//clear input code
+		
+	}
 	document.getElementById('TeamNum').value = "";
 	document.getElementById('AllianceScore').value = '';
 	document.getElementById('RCard').value = '';
@@ -65,9 +81,9 @@ function clearinputs(){
 }
 </script>
 </head>
-<body style="min-width:1090px;">
+<body style="min-width:1100px;">
 
-<ul>
+<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 	<li>
 		<div id="nav-buttonset" class="ui-buttonset">
 			<input type="radio" id="Regular-r"  name="Nav-SegButton" />
@@ -111,16 +127,20 @@ function clearinputs(){
 
 <hr style="margin:10px;" />
 
+<div id="progressbar">
+	<div id="progressbar-value"></div>
+	<div id="errorbar-value"></div>
+</div>
 <!-- END Top-Bar -->
 
 <!--START Form-->
-<form style="height: 100%; position:absolute; top:0;">
+<form style="height: 100%; position:absolute; top:0; visibility: hidden;">
 	
 <!-- START Sidebar -->
 <span class="Regular-c Human-Player-c" style="float:right; width:400px; min-height:100%;">
 
 	<li>
-		<fieldset style="margin-top:80px;">
+		<fieldset style="margin-top:90px;">
 			<legend>Match Signup</legend>
 			<ul>
 				<li>
@@ -139,7 +159,7 @@ function clearinputs(){
 <!-- END Sidebar -->
 
 <!--START Sub-Page-->
-<div style="overflow:auto; max-height:100%; margin-top:80px;">
+<div style="overflow:auto; max-height:100%; margin-top:80px; visibility: visible;">
 
 <!-- START Regular -->
 <span class="Regular-c">
@@ -267,19 +287,15 @@ function clearinputs(){
 </span>
 <!-- END Mutual -->
 
-
 </div>
 <!--END Sub-Page-->
+
 </form>
 <!--END Form-->
 
 <div id="jGrowl-container" class="jGrowl bottom-right"></div>
 
-<div id="progressbar">
-	<div id="progressbar-value"></div>
-	<div id="errorbar-value"></div>
-</div>
-
+<!-- START Modals -->
 <div class="nav-modal" title="Navagation">
 <table>
 <tbody>
@@ -375,6 +391,7 @@ function clearinputs(){
 		</li>
 	</ul>
 </div>
+<!-- END Mutual -->
 
 <script language="JavaScript" type="text/javascript">
 
