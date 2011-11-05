@@ -147,9 +147,9 @@ Language: LESS
     src: url('../font/icons.ttf');
 }
 
-
 //Font List
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
+
 
 html, body {
 	height: 100%;
@@ -166,12 +166,8 @@ body {
 	display: none;
 }
 
-a {
+a, a:link, a:visited, a:active {
 	color:#FFF;
-}
-
-a:link {
-	color:inherit;
 }
 
 p {
@@ -185,11 +181,6 @@ label, button, legend, #logo {
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-}
-
-pre {
-	font-family: @font-list;
-	margin:40px;
 }
 
 #logo {
@@ -1223,9 +1214,7 @@ div.nav-modal ul li a:hover {
 
 // Rounded corners
 .tipsy-inner {
-	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+	.border-radius(3px);
 }
 
 //Shadow
@@ -1327,5 +1316,3 @@ div.nav-modal ul li a:hover {
 	border-top-color: transparent;
 	border-bottom-color: transparent;
 }
-
-
