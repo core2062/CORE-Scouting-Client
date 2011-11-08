@@ -142,11 +142,6 @@ Language: LESS
     src: url('../font/bank-gothic-medium-bt.ttf');
 }
 
-@font-face {
-    font-family: 'iconic';
-    src: url('../font/icons.ttf');
-}
-
 //Font List
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
 
@@ -154,27 +149,29 @@ body, html, table {
 	height: 100%;
 	margin: 0;
 }
+
 body {
 	background-color: @page_bgcolor;
 	background-image: @background-dots;
 	font-family: @font-list;
 	margin:0 8px 0 8px;
+	min-width: 1150px;
 }
+
 #layout {
 	width: 100%;
 	border: 0;
-	min-width: 900px;
 }
+
 td {
+	vertical-align: top;
 	padding: 0;
 }
+
 #head {
 	height: 50px;
 }
 
-#sidebar {
-	width: 250px;
-}
 #foot {
 	height: 15px;
 }
@@ -991,7 +988,6 @@ div.jGrowl {
 	//icons
 	
 	.icon {
-		font-family:iconic;
 		vertical-align: middle;
 		font-size: 22px;
 		font-weight: 200;
