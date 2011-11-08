@@ -80,63 +80,208 @@ function clearinputs(){
 }
 </script>
 </head>
-<body style="min-width:1100px;">
+<body>
 
-<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
-	<li>
-		<div id="nav-buttonset" class="ui-buttonset">
-			<input type="radio" id="Regular-r"  name="Nav-SegButton" />
-			<label for="Regular-r" id="Regular-l" onclick="window.location = '#Regular'" class="ui-corner-left">Regular</label>
 
-			<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
-			<label for="Human-Player-r" id="Human-Player-l" onclick="window.location = '#Human-Player'">Human Player</label>
 
-			<input type="radio" id="Pit-r" name="Nav-SegButton" />
-			<label for="Pit-r" id="Pit-l" onclick="window.location = '#Pit'">Pit</label>
 
-			<input type="radio" id="Nav-options-r" name="Nav-SegButton" onclick="window.location = '#Navagation'" />
-			<label for="Nav-options-r" class="ui-corner-right"><a id="Nav-options-l" title="Navigation">=gfg</a></label>
-		</div>
-	</li>
 
-	<li>
-		<button type="button" id="login-button" onclick="$('.login-modal').dialog('open');">Login</button>
-	</li>
+<!-- START Layout -->
+<table id="layout">
 
-	<li>
-		<button type="button" onclick="ajax('I');">Training</button>
-	</li>
-
-	<li>
-		<button type="button" onclick="ajax('I');" style="margin-right: 40px;">Contact</button>
-	</li>
-
-	<li>
-		<button type="button" onclick="ajax('I');">Submit</button>
-	</li>
-
-	<li>
-		<button type="button" onclick="clearinputs();">Clear Inputs</button> <!-- Remove This ?, it's kinda dangerous and won't be used much (it's done automatically) -->
-	</li>
+<!-- START Top-Bar -->
+<tr id="head">
+<td colspan="2">
+	<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
+		<li>
+			<div id="nav-buttonset" class="ui-buttonset">
+				<input type="radio" id="Regular-r"  name="Nav-SegButton" />
+				<label for="Regular-r" id="Regular-l" onclick="window.location = '#Regular'" class="ui-corner-left">Regular</label>
 	
-	<li>
-		<a href="index.html" id="logo"><br />CORE<br />2062</a>
-	</li>
-</ul>
+				<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
+				<label for="Human-Player-r" id="Human-Player-l" onclick="window.location = '#Human-Player'">Human Player</label>
+	
+				<input type="radio" id="Pit-r" name="Nav-SegButton" />
+				<label for="Pit-r" id="Pit-l" onclick="window.location = '#Pit'">Pit</label>
+	
+				<input type="radio" id="Nav-options-r" name="Nav-SegButton" onclick="window.location = '#Navagation'" />
+				<label for="Nav-options-r" class="ui-corner-right"><a id="Nav-options-l" title="Navigation">=gfg</a></label>
+			</div>
+		</li>
+	
+		<li>
+			<button type="button" id="login-button" onclick="$('.login-modal').dialog('open');">Login</button>
+		</li>
+	
+		<li>
+			<button type="button" onclick="ajax('I');">Training</button>
+		</li>
+	
+		<li>
+			<button type="button" onclick="ajax('I');" style="margin-right: 40px;">Contact</button>
+		</li>
+	
+		<li>
+			<button type="button" onclick="ajax('I');">Submit</button>
+		</li>
+	
+		<li>
+			<button type="button" onclick="clearinputs();">Clear Inputs</button> <!-- Remove This ?, it's kinda dangerous and won't be used much (it's done automatically) -->
+		</li>
+		
+		<li>
+			<a href="index.html" id="logo"><br />CORE<br />2062</a>
+		</li>
+	</ul>
+	
+	<hr style="margin:10px;" />
 
-<hr style="margin:10px;" />
-
-<div id="progressbar">
-	<div id="progressbar-value"></div>
-	<div id="errorbar-value"></div>
-</div>
+</td>
+</tr>
 <!-- END Top-Bar -->
 
-<!--START Form-->
-<form style="height: 100%; position:absolute; top:0; visibility: hidden;">
+
+
+<!--START Content-->
+<tr>
+<td id="content">
+
+	<!-- START Regular -->
+	<span class="Regular-c">
 	
+		<li>
+			<fieldset style="min-width:610px;">
+				<legend>Penalties</legend>
+				<ul>
+					<li>
+						<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+						<input type="text" id="RCard" value="" onchange="" />
+					</li>
+					
+					<li>
+						<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+						<input type="text" id="YCard" value="" />
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+		
+		<li> <!-- remove/replace with real field -->
+			<fieldset>
+				<legend>Penalties</legend>
+				<ul>
+					<li>
+						<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+						<input type="text" id="RCard" value="" onchange="" />
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+	
+	</span>
+	<!-- END Regular -->
+
+
+	<!-- START Human-Player -->
+	<span class="Human-Player-c">
+	
+		<p> human player stuff</p>
+	
+		<li> <!-- remove/replace with real field -->
+			<fieldset>
+				<legend>Penalties</legend>
+				<ul>
+					<li>
+						<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+						<input type="text" id="RCard" value="" onchange="" />
+					</li>
+	
+					<li>
+						<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+						<input type="text" id="YCard" value="" />
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+	
+	</span>
+	<!-- END Human-Player -->
+	
+	
+	<!-- START Pit -->
+	<span class="Pit-c">
+	
+		<p>pit stuff</p>
+	
+	</span>
+	<!-- END Pit -->
+	
+	
+	<!-- START Mutual -->
+	<span class="Regular-c Human-Player-c">
+	
+		<li>
+			<fieldset>
+				<legend>Alliance</legend>
+				<ul>
+					<li>
+						<label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label>
+						<select size="1" id="AllianceColor">
+							<option value="r">Red</option>
+							<option value="b">Blue</option>
+						</select>
+					</li>
+	
+					<li>
+						<label for="AllianceScore">Score:</label>
+						<input type="text" id="AllianceScore" value="" />
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+	
+		<li>
+			<fieldset>
+			<legend>Other</legend>
+				<ul>
+					<li>
+						<label for="Comments">Relevant Comments:</label>
+						<textarea style="width: 200px; height: 50px;" id="Comments"></textarea>
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+	
+	</span>
+	
+	<span class="Regular-c Human-Player-c Pit-c">
+	
+		<li>
+			<fieldset>
+			<legend>Insert Name Here</legend>
+				<ul>
+					<li>
+						<label for="TeamNum">Team Number:</label>
+						<button onclick="" class="icon help">?</button>
+						<input type="text" id="TeamNum"/>
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+	
+	</span>
+	<!-- END Mutual -->
+
+</td>
+<!--END Content-->
+
+
+
 <!-- START Sidebar -->
-<span class="Regular-c Human-Player-c" style="float:right; width:400px; min-height:100%;">
+<td id="sidebar">
+
+
+<span class="Regular-c Human-Player-c">
 
 	<li>
 		<fieldset style="margin-top:90px;">
@@ -155,144 +300,30 @@ function clearinputs(){
 	</li>
 
 </span>
-<!-- END Sidebar -->
-
-<!--START Sub-Page-->
-<div style="overflow:auto; max-height:100%; margin-top:80px; visibility: visible;">
-
-<!-- START Regular -->
-<span class="Regular-c">
-
-	<li>
-		<fieldset style="min-width:610px;">
-			<legend>Penalties</legend>
-			<ul>
-				<li>
-					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
-					<input type="text" id="RCard" value="" onchange="" />
-				</li>
-				
-				<li>
-					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
-					<input type="text" id="YCard" value="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-	
-	<li> <!-- remove/replace with real field -->
-		<fieldset>
-			<legend>Penalties</legend>
-			<ul>
-				<li>
-					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
-					<input type="text" id="RCard" value="" onchange="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-</span>
-<!-- END Regular -->
-
-
-<!-- START Human-Player -->
-<span class="Human-Player-c">
-
-	<p> human player stuff</p>
-
-	<li> <!-- remove/replace with real field -->
-		<fieldset>
-			<legend>Penalties</legend>
-			<ul>
-				<li>
-					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
-					<input type="text" id="RCard" value="" onchange="" />
-				</li>
-
-				<li>
-					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
-					<input type="text" id="YCard" value="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-</span>
-<!-- END Human-Player -->
-
-
-<!-- START Pit -->
-<span class="Pit-c">
-
-	<p>pit stuff</p>
-
-</span>
-<!-- END Pit -->
-
-
-<!-- START Mutual -->
-<span class="Regular-c Human-Player-c">
-
-	<li>
-		<fieldset>
-			<legend>Alliance</legend>
-			<ul>
-				<li>
-					<label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label>
-					<select size="1" id="AllianceColor">
-						<option value="r">Red</option>
-						<option value="b">Blue</option>
-					</select>
-				</li>
-
-				<li>
-					<label for="AllianceScore">Score:</label>
-					<input type="text" id="AllianceScore" value="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-	<li>
-		<fieldset>
-		<legend>Other</legend>
-			<ul>
-				<li>
-					<label for="Comments">Relevant Comments:</label>
-					<textarea style="width: 200px; height: 50px;" id="Comments"></textarea>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-</span>
-
-<span class="Regular-c Human-Player-c Pit-c">
-
-	<li>
-		<fieldset>
-		<legend>Insert Name Here</legend>
-			<ul>
-				<li>
-					<label for="TeamNum">Team Number:</label>
-					<button onclick="" class="icon help">?</button>
-					<input type="text" id="TeamNum"/>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-</span>
-<!-- END Mutual -->
-
-</div>
-<!--END Sub-Page-->
-
-</form>
-<!--END Form-->
 
 <div id="jGrowl-container" class="jGrowl bottom-right"></div>
+
+</td>
+<!-- END Sidebar -->
+
+</tr>
+
+
+<tr id="foot">
+<td colspan="2">
+	
+	<div id="progressbar">
+		<div id="progressbar-value"></div>
+		<div id="errorbar-value"></div>
+	</div>
+	
+</td>
+</tr>
+</table>
+<!-- END Layout -->
+
+
+
 
 <!-- START Modals -->
 
