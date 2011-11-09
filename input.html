@@ -81,6 +81,9 @@ function clearinputs(){
 </script>
 </head>
 <body>
+<!-- TODO add version number... probably at bottom of page -->
+<!-- TODO add data for bookmarks -->
+
 
 <!-- START Layout -->
 <table id="layout">
@@ -89,9 +92,9 @@ function clearinputs(){
 <tr id="head">
 <td colspan="2">
 	<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
-		<li>
+		<li> <!-- TODO fix radio buttons in navbar for chrome -->
 			<div id="nav-buttonset" class="ui-buttonset">
-				<input type="radio" id="Regular-r"  name="Nav-SegButton" />
+				<input type="radio" id="Regular-r"  name="Nav-SegButton" /> <!-- TODO change the rest of these labels to have "a" links w/ titles & height/width = 100% -->
 				<label for="Regular-r" id="Regular-l" onclick="window.location = '#Regular'" class="ui-corner-left">Regular</label>
 	
 				<input type="radio" id="Human-Player-r" name="Nav-SegButton"/>
@@ -131,23 +134,21 @@ function clearinputs(){
 	</ul>
 	
 	<hr style="margin:10px;" />
+<!-- END Top-Bar -->
 
 </td>
 </tr>
-<!-- END Top-Bar -->
-
-
-
-<!--START Content-->
 <tr>
 <td id="content">
+
+<!--START Content-->
 
 	<!-- START Regular -->
 	<span class="Regular-c">
 	
 		<li>
 			<fieldset style="min-width:610px;">
-				<legend>Penalties</legend>
+				<legend>Penalties</legend> <!-- TODO make legend grey gradient (normal) and active color on focus -->
 				<ul>
 					<li>
 						<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
@@ -267,15 +268,13 @@ function clearinputs(){
 	
 	</span>
 	<!-- END Mutual -->
-
-</td>
+	
 <!--END Content-->
 
-
-
-<!-- START Sidebar -->
+</td>
 <td id="sidebar" style="max-height:100%;">
-
+	
+<!-- START Sidebar -->
 
 <span class="Regular-c Human-Player-c">
 
@@ -297,10 +296,13 @@ function clearinputs(){
 
 </span>
 
-<div id="jGrowl-container" class="jGrowl bottom-right"></div>
+<div id="jGrowl-container" class="jGrowl bottom-right"></div> <!--TODO fix jGrowl positioning - make it flow with other content/no overlap (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
+<!-- TODO create classes of jGrowl notifications to close selectively -->
+
+<!-- END Sidebar -->
 
 </td>
-<!-- END Sidebar -->
+
 
 </tr>
 
@@ -323,8 +325,6 @@ function clearinputs(){
 
 <!-- START Modals -->
 
-
-
 <div style="display: none;" class="modal-container Navagation-c Login-c Contact-c">
 
 	<div class="modal-titlebar ui-widget-header ui-helper-clearfix">
@@ -344,7 +344,7 @@ function clearinputs(){
 			<td style="padding-right:80px;">
 				<p>Home</p>
 				<ul>
-					<li><a href="index.html#Front-Page">Front Page</a></li>
+					<li><a href="index.html#Front-Page">Front Page</a></li><!--TODO fix style for "a" links-->
 					<li><a href="index.html#Synopsis">Synopsis</a></li>
 					<li><a href="index.html#Tour">Tour</a></li>
 					<li><a href="index.html#Signup">Signup</a></li>
@@ -437,7 +437,7 @@ function clearinputs(){
 <!-- END Modal Content -->
 
 	<div class="modal-buttons ui-widget-content ui-helper-clearfix">
-		<button type="button" onclick="modalclose();">Close</button>
+		<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
 	</div>
 
 </div>
@@ -449,6 +449,9 @@ function clearinputs(){
 
 $('#AllianceColor').easySelectBox({speed:100});
 $('#to').easySelectBox({speed:100});
+
+$('#Nav-options-l').tipsy(); //TODO make a array (and loop through it) for all elements to apply tipsy to, or just search for "a" links with a title attribute -->
+
 
 </script>
 </body>
