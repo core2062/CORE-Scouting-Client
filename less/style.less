@@ -3,6 +3,8 @@ Designer: Sean Lang
 Language: LESS
 */
 
+/*TODO rewrite/reorganize most of the css */
+
 //Colors
 @regcolor: #d1d1d1; //gray
 @l-regcolor: lighten(@regcolor, 15%);
@@ -31,7 +33,7 @@ Language: LESS
 @d-white: darken(@l-white, 30%);
 
 // Images
-// TODO embed images
+/* TODO embed images */
 @plushelp: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAgCAYAAADJ2fKUAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJCwQdAJZZZ/wAAAHPSURBVDjL7ZO/ixNBFMc/byaeP3I3iHDIrcihlc39AVYeNjaCoKXNYWObysLOStBKsLC7XhHBwk6sxdarrUwM5yns3sYkZudrkYmsMUfW3i8Ms+9957vvvXlvDCDPux54CFwHTvEnInAAPA8hewxgSbQD7LIcN0LIXrtkbKX9PbC+YJWJvwTQSsYzYA/wIWRfZ7/N8+4q8KCWsvud3iLkefcW8AQ4l1wfgDshZB/tCMFL4GYy+8B9YDeETPX05nEl7a+AnRCyvE4eJdpO3Od5wUJRnnc3gM1UbwD2l4qADnCv1lg/f8AtEPkl/ELn99r3Af/xjxgM9q8dHvbelmW/Iw3bS69ckgNdkLgqaSvG0ckmfUrCKe9ci6YiAMxMjSbCzKKZjZL5E46N/xrYouhtOmcnJKIkqqqKwJkUcbUsv10sil4hyXvviTFOWsCjGLUOVIC89xZjPJ9E28DGNCIuxuiB0oqi9wU4C8zyN0mzeqzmn3HDFnAXWEtvB2DinLssqeOcvZH0oqriyDln05JtvLC5Zdm/XRQ9lWX/qaTjjZor6XQy2zBYa9SnWh1q+nIxs1lUayySFAGZ2WQ8HjabCOf8JzPembG3stL+MX/mF9ggxYnbLvIlAAAAAElFTkSuQmCC);
 @select: url(../img/ie/select.gif);
 @progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
@@ -1016,6 +1018,8 @@ div.jGrowl {
 
 	// Tipsy
 	
+	/*TODO change tipsy style, fix font, add fade in?...*/
+	
 	.tipsy {
 		font-size: 10px;
 		position: absolute;
@@ -1028,21 +1032,10 @@ div.jGrowl {
 		max-width: 200px;
 		padding: 5px 8px 4px 8px;
 		text-align: center;
-	}
-	
-	// Rounded corners
-	.tipsy-inner {
 		.border-radius(3px);
+		.box-shadow (0 0 5px #000);
 	}
 	
-	//Shadow
-	/*
-	.tipsy-inner {
-		box-shadow: 0 0 5px #000000;
-		-webkit-box-shadow: 0 0 5px #000000;
-		-moz-box-shadow: 0 0 5px #000000;
-	}
-	*/
 	.tipsy-arrow {
 		position: absolute;
 		width: 0;
@@ -1148,7 +1141,7 @@ div.jGrowl {
 	z-index: 1000;
 }
 
-.modal-container { // TODO fix this modal css
+.modal-container { /* TODO fix this modal css */
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #B6B6B6;
     color: #4F4F4F;

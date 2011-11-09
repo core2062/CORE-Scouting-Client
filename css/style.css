@@ -136,8 +136,7 @@ button{height:32px;}
 span.icon{display:inline-block;color:inherit;line-height:36px;}
 button.icon{height:28px;padding:4px;}
 .tipsy{font-size:10px;position:absolute;padding:5px;z-index:100000;}
-.tipsy-inner{background-color:#000;color:#FFF;max-width:200px;padding:5px 8px 4px 8px;text-align:center;}
-.tipsy-inner{-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
+.tipsy-inner{background-color:#000;color:#FFF;max-width:200px;padding:5px 8px 4px 8px;text-align:center;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-moz-box-shadow:0 0 5px #000000;-webkit-box-shadow:0 0 5px #000000;box-shadow:0 0 5px #000000;}
 .tipsy-arrow{position:absolute;width:0;height:0;line-height:0;border:5px dashed #000;}
 .tipsy-arrow-n{border-bottom-color:#000;}
 .tipsy-arrow-s{border-top-color:#000;}

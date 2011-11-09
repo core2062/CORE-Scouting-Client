@@ -1215,7 +1215,7 @@ function LoginCheck(){
                 var dynamicExp = "var sortWrapper = function(a,b) {",
                     l = sortList.length;
 
-                // TODO: inline functions.
+                // TO DO: inline functions
                 for (var i = 0; i < l; i++) {
 
                     var c = sortList[i][0];
@@ -1847,6 +1847,7 @@ function LoginCheck(){
 
 // START ajax processing
 
+// TODO fix any links to process.php
 function AccessDBT(query,type,place,variable){
 window.query = query;
 window.type = type;
