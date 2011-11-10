@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Input</title>
-<link rel="shortcut icon" href="favicon.ico" />
+<link href="favicon.ico" rel="shortcut icon" id="favicon"/>
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
 <![endif]-->
@@ -12,73 +12,6 @@
 <script src="script/jquery-1.6.2.min.js"></script>
 <script src="script/script.js"></script>
 
-<script language="javascript" type="text/javascript">
-// global vars for page navigation
-var subpages = ['Regular', 'Human-Player', 'Pit']; //the first element will be the default page
-var modals = ['Navagation', 'Login', 'Contact'];
-
-// global vars for errorcheck(), actual values assigned later
-var errornum = 0; //# of inputs with errors
-var inputnum = 0; //# of inputs filled
-
-function increase(elementid){
-var startvalue = document.getElementById(elementid).value;
-	if (isNaN(startvalue) == true || startvalue == '') {
-		startvalue = 1;
-	}
-	else {
-		startvalue = parseFloat(document.getElementById(elementid).value) + 1;
-	}
-document.getElementById(elementid).value = startvalue;
-}
-
-function errorcheck(){
-	if (currentpage == 'Regular') {
-		inputspossible = 6;
-		
-		// TODO error checking code
-		
-	} else if (currentpage == 'Human-Player') {
-		inputspossible = 6;
-		
-		//error checking code
-		
-	} else if (currentpage == 'Pit') {
-		inputspossible = 6;
-		
-		//error checking code
-		
-	}
-	
-	$("#progressbar-value").animate( { width: inputnum / inputspossible * 100 + "%" } );
-	$("#errorbar-value").animate( { width: errornum / inputspossible * 100 + "%" } );
-}
-
-function clearinputs(){
-	if (currentpage == 'Regular') {
-		inputspossible = 6;
-		
-		// TODO clear input code
-		
-	} else if (currentpage == 'Human-Player') {
-		inputspossible = 6;
-		
-		//clear input code
-		
-	} else if (currentpage == 'Pit') {
-		inputspossible = 6;
-		
-		//clear input code
-		
-	}
-	document.getElementById('TeamNum').value = "";
-	document.getElementById('AllianceScore').value = '';
-	document.getElementById('RCard').value = '';
-	document.getElementById('YCard').value = '';
-	document.getElementById('Comments').innerHTML = '';
-	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
-}
-</script>
 </head>
 <body>
 <!-- TODO add version number... probably at bottom of page -->
@@ -142,6 +75,9 @@ function clearinputs(){
 <td id="content">
 
 <!--START Content-->
+
+<!-- TODO make list of field sets sortable? -->
+<!-- make content scroll when its height exceeds height of sidebar? -->
 
 	<!-- START Regular -->
 	<span class="Regular-c">
@@ -314,7 +250,7 @@ function clearinputs(){
 		<div id="progressbar-value"></div>
 		<div id="errorbar-value"></div>
 	</div>
-	
+<!-- TODO add +1 and like button to bottom left corner of page (float: right, in this cell)	
 </td>
 </tr>
 </table>
@@ -446,6 +382,71 @@ function clearinputs(){
 <!-- END Modals -->
 
 <script language="JavaScript" type="text/javascript">
+// global vars for page navigation
+var subpages = ['Regular', 'Human-Player', 'Pit']; //the first element will be the default page
+var modals = ['Navagation', 'Login', 'Contact'];
+
+// global vars for errorcheck(), actual values assigned later
+var errornum = 0; //# of inputs with errors
+var inputnum = 0; //# of inputs filled
+
+function increase(elementid){
+var startvalue = document.getElementById(elementid).value;
+	if (isNaN(startvalue) == true || startvalue == '') {
+		startvalue = 1;
+	}
+	else {
+		startvalue = parseFloat(document.getElementById(elementid).value) + 1;
+	}
+document.getElementById(elementid).value = startvalue;
+}
+
+function errorcheck(){
+	if (currentpage == 'Regular') {
+		inputspossible = 6;
+		
+		// TODO error checking code
+		
+	} else if (currentpage == 'Human-Player') {
+		inputspossible = 6;
+		
+		//error checking code
+		
+	} else if (currentpage == 'Pit') {
+		inputspossible = 6;
+		
+		//error checking code
+		
+	}
+	
+	$("#progressbar-value").animate( { width: inputnum / inputspossible * 100 + "%" } );
+	$("#errorbar-value").animate( { width: errornum / inputspossible * 100 + "%" } );
+}
+
+function clearinputs(){
+	if (currentpage == 'Regular') {
+		inputspossible = 6;
+		
+		// TODO clear input code
+		
+	} else if (currentpage == 'Human-Player') {
+		inputspossible = 6;
+		
+		//clear input code
+		
+	} else if (currentpage == 'Pit') {
+		inputspossible = 6;
+		
+		//clear input code
+		
+	}
+	document.getElementById('TeamNum').value = "";
+	document.getElementById('AllianceScore').value = '';
+	document.getElementById('RCard').value = '';
+	document.getElementById('YCard').value = '';
+	document.getElementById('Comments').innerHTML = '';
+	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
+}
 
 $('#AllianceColor').easySelectBox({speed:100});
 $('#to').easySelectBox({speed:100});

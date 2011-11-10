@@ -1,8 +1,17 @@
+// START jQuery
+	//TODO before production, put jQuery here	
+// END jQuery
+
 // Designer: Sean Lang
 
 // global vars
 var currentpage = '' //actual value gets assigned later
 var pagetitle = document.title; //used as base for page titles
+
+function setFavicon() { //make something easier than this
+  $('#favicon').remove();
+  $('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
+}
 
 $(document).ready(function() {
 	//if favicon breaks replace with body onload
@@ -19,7 +28,6 @@ window.onpopstate = function (event) {
 	// if nav() is failing, check browser support for this
 	console.log(event);
 	Nav();
-
 }
 
 function Nav() {
@@ -33,6 +41,7 @@ function Nav() {
 		} else { //if not a modal & not a subpage
 			currentpage = subpages[0]; //use default page
 			window.location = '#' + currentpage;
+			setFavicon();
 		}
 	} else { //if not a modal
 		$(listModals).fadeOut(250);
