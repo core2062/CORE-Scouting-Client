@@ -122,14 +122,16 @@
 
 
 <?php
-//$html = ob_get_contents();
-//ob_clean ();
+$html = ob_get_contents();
+ob_clean ();
 
 
-//remove html commments
+$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); 
 //strip double spaces from html (regex)
 //strip out any space outside of tags ( divide by line break into array, loop through & trim(); & remove blank lines)
 //optimize & embed css and js
 //base64 images ?
+
+die($html);
 
 ?>
