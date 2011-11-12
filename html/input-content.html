@@ -1,0 +1,128 @@
+<!-- TODO make list of field sets sortable? -->
+<!-- make content scroll when its height exceeds height of sidebar? -->
+
+<!-- START Regular -->
+<span class="Regular-c">
+
+	<li>
+		<fieldset style="min-width:610px;">
+			<legend>Penalties</legend> <!-- TODO make legend grey gradient (normal) and active color on focus -->
+			<ul>
+				<li>
+					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="RCard" value="" onchange="" />
+				</li>
+				
+				<li>
+					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="YCard" value="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+	
+	<li> <!-- remove/replace with real field -->
+		<fieldset>
+			<legend>Penalties</legend>
+			<ul>
+				<li>
+					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="RCard" value="" onchange="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Regular -->
+
+
+<!-- START Human-Player -->
+<span class="Human-Player-c">
+
+	<p>human player stuff</p>
+
+	<li> <!-- remove/replace with real field -->
+		<fieldset>
+			<legend>Penalties</legend>
+			<ul>
+				<li>
+					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="RCard" value="" onchange="" />
+				</li>
+
+				<li>
+					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<input type="text" id="YCard" value="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Human-Player -->
+
+
+<!-- START Pit -->
+<span class="Pit-c">
+
+	<p>pit stuff</p>
+
+</span>
+<!-- END Pit -->
+
+
+<!-- START Mutual -->
+<span class="Regular-c Human-Player-c">
+
+	<li>
+		<fieldset>
+			<legend>Alliance</legend>
+			<ul>
+				<li>
+					<label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label>
+					<select size="1" id="AllianceColor">
+						<option value="r">Red</option>
+						<option value="b">Blue</option>
+					</select>
+				</li>
+
+				<li>
+					<label for="AllianceScore">Score:</label>
+					<input type="text" id="AllianceScore" value="" />
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+	<li>
+		<fieldset>
+		<legend>Other</legend>
+			<ul>
+				<li>
+					<label for="Comments">Relevant Comments:</label>
+					<textarea style="width: 200px; height: 50px;" id="Comments"></textarea>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+
+<span class="Regular-c Human-Player-c Pit-c">
+
+	<li>
+		<fieldset>
+		<legend>Insert Name Here</legend>
+			<ul>
+				<li>
+					<label for="TeamNum">Team Number:</label>
+					<button onclick="" class="icon help">?</button>
+					<input type="text" id="TeamNum"/>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+</span>
+<!-- END Mutual -->
