@@ -113,10 +113,10 @@
 <script type="text/javascript">
 
 // embed script w/ php (form input, home ...)
-
-</script>
-</body>
-</html>
+  
+  </script>
+</body>  
+</html>  
 
 
 
@@ -127,8 +127,8 @@ ob_clean ();
 
 
 $html = preg_replace('/<!--(.|\s)*?-->/', '', $html); 
-//strip double spaces from html (regex)
-//strip out any space outside of tags ( divide by line break into array, loop through & trim(); & remove blank lines)
+$html = preg_replace('/\s+/', ' ',$html);
+$html = preg_replace('/\> </', '><',$html);
 //optimize & embed css and js
 //base64 images ?
 
