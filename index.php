@@ -1,3 +1,21 @@
+<!--
+	PHP embeds pages based on user id, and popularity of page (can't actually see page requested)
+	JS reads hash & searches the page for the sub-page requested
+	if requested page is found, then that is presented, otherwise it is downloaded (from catche or from page.php)
+	page.php takes necessary components to build the page and sends it to JS via AJAX
+-->
+	
+<!--
+	Offical Terms: 
+	
+	Site: index.php, which acts as the container for all pages
+	Page: a set of sub-pages, and modals within the site (like input, home, or query)
+	Subpage: a piece of a page, only one subpage is displayed at a time
+	Modal: a dialog which gets overlayed on top of the site, some pages require specific modals, and these are sent with the page request
+	Base Page: page components which are needed for all/most pages
+-->
+
+
 <?php
 
 //TODO php code to assign embedded pages var (which may later be based on the user requesting the page), and put code for js var in page script area
@@ -69,8 +87,12 @@
 	<!-- START Bottom Bar -->
 	<tr id="foot">
 		<td colspan="2">
-			<g:plusone size="medium" style"float:left;"></g:plusone><!-- Google +1 Button -->
+			
+			<!--<iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe>--><!-- Facebook Like Button -->
+			
+			<!--<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>--><!-- Google +1 Button -->
 			<!-- TODO make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
+			
 			<div id="progressbar"> <!-- make JS code to turn on/off per page by var -->
 				<div id="progressbar-value"></div>
 				<div id="errorbar-value"></div>
@@ -109,10 +131,10 @@
 <!-- END Modals -->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script> <!-- FIRST teams only exist in countries that can access google, no hosting issues -->
-<script src="script/script.js"></script>
+<script src="script/base.js"></script>
 <script type="text/javascript">
 
-// embed script w/ php (form input, home ...)
+// embed script w/ php (form input, home ...), do after html processing
   
   </script>
 </body>  
@@ -123,13 +145,14 @@
 
 <?php
 $html = ob_get_contents();
-ob_clean ();
+ob_clean (); //empty output buffer
 
 
-$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); 
-$html = preg_replace('/\s+/', ' ',$html);
-$html = preg_replace('/\> </', '><',$html);
-//optimize & embed css and js
+$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
+$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
+$html = preg_replace('/\> </', '><',$html); // removes spaces between tags
+
+//optimize & embed css and js (must be after html processing)
 //base64 images ?
 
 die($html);
