@@ -1,1 +1,13 @@
-This is the CORE Scouting Database (CSD)... /* make Kremer or Evan write something nice here */. This repo excludes all php files, which were removed because some contain sensitive info for interaction with user management systems and the sql database. If you would like to see the source of these files, contact me: slang800@gmail.com
+This is the CORE Scouting Database (CSD)... /* make Kremer or Evan write something nice here */.
+
+This repo excludes all php files, which were removed because some contain sensitive info for interaction with user management systems and the sql database. If you would like to see the source of these files, contact me: slang800@gmail.com
+
+The code provided here is only to be used for referance/academic pourposes (you may learn from the code here, and see how it works), or if you are part of the team creating the site. This code may not be copied without my explicit permission. This is not because I don't want others to benifit from using my code; you can contact me, and I will probably let you use whatever code you want. Rather, I do not want people to redistribute this site as their own scouting database, because that would decentralize the collection of data, and reduce the usefulness of the origional site (because: competition with another scouting database = less users = less data = less accurate analysis on our site). Also, users of a copy of the origional site would not be provided with updates which our team releases. If you would like to improve the site, join the development team.
+
+/*TODO reword this so it sounds better */
+
+/*TODO make this a private repo? (reasons provided above), find some way to allow people to learn from the code provided w/out redistributing */
+
+
+
+/*make someone write a license here/ modify a existing one*/

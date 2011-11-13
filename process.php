@@ -8,9 +8,11 @@ $ScoutID=$_POST["s"];
 $pword=$_POST["pw"];
 $Request=$_POST["rt"]; // I = Input	Q = Query	A = Admin	P = Poll	M = Mail
 
+include 'variables.php'; //assigns varables for $mysql_server, $mysql_user, $mysql_pasword
+
 $log=" | Request: $Request"; //start log
 
-$link = mysql_connect("localhost","test","test") or send_error('Could Not Connect', 'Could Not Connect: ' . mysql_error()); //build MySQL Link
+$link = mysql_connect($mysql_server,$mysql_user,$mysql_pasword) or send_error('Could Not Connect', 'Could Not Connect: ' . mysql_error()); //build MySQL Link
 mysql_select_db('test') or send_error('Could Not Select Database',''); //select database
 
 if ($ScoutID == "" || $pword == "") {
@@ -188,18 +190,29 @@ function send_error($error_text, $error) {
 	global $starttime;
 	global $log;
 	global $ScoutID;
+	
 	$log.= $error;
 	if ($error == "") {$log.= " | " . $error_text;}
+	
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
-	$total_time = ($endtime - $starttime); 
+	$total_time = ($endtime - $starttime);
+	
 	mysql_query ("INSERT INTO log VALUES ('$ScoutID', NOW(), '[Error]$log |', '$total_time')"); //write to log
+	ob_clean (); //empty output buffer, error_text is only thing sent
 	die("<error>$error_text</error>");
 }
 function send_reg() {
-	global $return_text;
+	global $starttime;
 	global $log;
 	global $ScoutID;
+	
+	global $return_text;
+	
+	list($micro, $sec) = explode(" ",microtime());
+	$endtime = (float)$sec + (float)$micro;
+	$total_time = ($endtime - $starttime);
+	
 	mysql_query ("INSERT INTO log VALUES ('$ScoutID', NOW(), '[Success]$log |', '$total_time')"); //write to log
 	die("$return_text</root>");
 }
