@@ -142,9 +142,18 @@ Language: LESS
 }
 
 .opacity (@opacity) {
+	@opacity_percent: @opacity * 10;
 	-moz-opacity: @opacity;
-	filter:alpha(opacity=@opacity);
+	filter:alpha(opacity=@opacity_percent);
 	opacity: @opacity;
+}
+
+.transition (@time) {
+	-webkit-transition: all @time ease-out;  /* Saf3.2+, Chrome */
+	-moz-transition: all @time ease-out;  /* FF4+ */
+	-ms-transition: all @time ease-out;  /* IE10? */
+	-o-transition: all @time ease-out;  /* Opera 10.5+ */
+	transition: all @time ease-out;  
 }
 
 @font-face {
@@ -951,6 +960,11 @@ div.jGrowl {
 		left: 25%;
 		position: relative;
 		.border-radius(4px);
+	}
+	
+	#progressbar:hover {
+		.opacity(0.4);
+		.transition(0.3s);
 	}
 	
 	#progressbar-value {

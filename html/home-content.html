@@ -1,34 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Home</title>
-<link rel="shortcut icon" href="favicon.ico" />
-<!--[if lt IE 8]>
-<link rel="stylesheet" type="text/css" href="css/style-ie.css" />
-<![endif]-->
-<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
-<script src="script/jquery-1.6.2.min.js"></script>
-<script src="script/jquery-ui.min.js"></script>
-<script language="javascript" type="text/javascript" src="script/script.js"></script>
-<script language="javascript" type="text/javascript">
-
-var currentpage = 'Home';
-
-function Hide(obj){	
-document.getElementById('Home').style.display = 'none';
-document.getElementById('Signup').style.display = 'none';
-document.getElementById(obj).style.display = 'block';
-currentpage = obj;
-}
-</script>
-</head>
-<body>
-<p id="logo" onclick="$('#jGrowl-container').jGrowl('you are already at the homepage, clicking this won\'t bring you anywhere.');"><br />CORE<br />2062</p>
-
-
-<!-- TODO change to table layout -->
-
 <span id="FrontPage-c" style="display: none;">
 	<!-- TODO add some sort of slider to show off aspects of the sight -->
 	<!-- TODO add writing about site / purpose / something -->
@@ -49,12 +18,3 @@ currentpage = obj;
 <span id="Donate-c" style="display: none;">
 	
 </span>
-
-
-
-<div id="jGrowl-container" class="jGrowl bottom-left"></div>
-
-<p id="bottom-text">CORE Scouting Database - Created By <a href="#" onclick="$('.contact-modal').dialog('open');">Sean Lang</a> - &copy;2011</p>
-
-</body>
-</html>
