@@ -1,3 +1,7 @@
+<?php
+require_once('FirePHP/fb.php');
+?>
+
 <!--
 	PHP embeds pages based on user id, and popularity of page (can't actually see page requested)
 	JS reads hash & searches the page for the sub-page requested
@@ -18,6 +22,8 @@
 
 <?php
 
+//chech if files were modified & get temp file if they were not
+
 //TODO php code to assign embedded pages var (which may later be based on the user requesting the page), and put code for js var in page script area
 
 ?>
@@ -31,7 +37,7 @@
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
 <![endif]-->
-<link rel="stylesheet" href="css/style.css" /> <!-- embed into the page ? -->
+<link rel="stylesheet" href="css/base.css" /> <!-- embed into the page -->
 <style>
 	
 	/* embed linked css (input, home...) w/ php */ 
@@ -53,6 +59,10 @@
 			<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 			
 			<!-- get nav bar stuff -->
+			
+			<li>
+				<a href="index.html" id="logo"><br />CORE<br />2062</a>
+			</li>
 			
 			</ul>
 			
@@ -87,10 +97,9 @@
 	<!-- START Bottom Bar -->
 	<tr id="foot">
 		<td colspan="2">
-			
-			<!--<iframe src="//www.facebook.com/plugins/like.php?href&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe>--><!-- Facebook Like Button -->
-			
-			<!--<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>--><!-- Google +1 Button -->
+
+				<!-- Google +1 Button -->
+				<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
 			<!-- TODO make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
 			
 			<div id="progressbar"> <!-- make JS code to turn on/off per page by var -->
@@ -154,6 +163,8 @@ $html = preg_replace('/\> </', '><',$html); // removes spaces between tags
 
 //optimize & embed css and js (must be after html processing)
 //base64 images ?
+
+//fb('hello world');
 
 die($html);
 
