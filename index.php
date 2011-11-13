@@ -96,7 +96,7 @@ require_once('FirePHP/fb.php');
 	
 	<!-- START Bottom Bar -->
 	<tr id="foot">
-		<td colspan="2">
+		<td colspan="2" style="height:20px;">
 
 				<!-- Google +1 Button -->
 				<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
@@ -106,7 +106,11 @@ require_once('FirePHP/fb.php');
 				<div id="progressbar-value"></div>
 				<div id="errorbar-value"></div>
 			</div>
-		</td>
+			
+			<div style="left: 25%; position: relative; width: 50%; margin-top: -14px; font-size: 12px; text-align: center; z-index: -1;">
+				<p>CORE Scouting Database - Created By <a href="#" onclick="$('.contact-modal').dialog('open');">Sean Lang</a> - &copy;2011 - version: alpha</p>
+			</div>
+						</td>
 	</tr>
 	<!-- END Bottom Bar -->
 
