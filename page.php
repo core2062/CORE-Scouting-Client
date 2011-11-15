@@ -1,10 +1,19 @@
 <?php
-require_once('FirePHP/fb.php');
-ob_start();
+	 // TODO remove this section before production
+	require_once('FirePHP/fb.php');
+	ob_start();
+	
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', 1 );
+?>
 
-// ex: http://localhost/CSD/page.php?page=input
+<?php
+// ex: http://localhost/CSD/page.php?pages={"0":"input", "1":"home"}
 
-$page=$_GET["page"];
+// TODO allow multiple pages to be sent per request
+
+$embedded = json_decode($_GET["pages"], true);
+$length = count($embedded);
 
 //TODO maybe add some logging here
 
@@ -15,31 +24,37 @@ ini_set( 'display_errors', 1 ); // TODO remove before production
 <root>
 	<navbar>
 		<?php
-			getfile('html/' . $page . '-navbar.html');
+			echo embed('html/', '-navbar.html');
 		?>
 	</navbar>
 	
 	<content>
 		<?php
-			getfile('html/' . $page . '-content.html');
+			echo embed('html/', '-content.html');
 		?>
 	</content>
 	
+	<sidebar>
+		<?php
+			echo embed('html/', '-sidebar.html');
+		?>
+	</sidebar>
+	
 	<modals>
 		<?php
-			getfile('html/' . $page . '-modals.html');
+			echo embed('html/', '-modals.html');
 		?>
 	</modals>
 	
 	<js>
 		<?php
-			getfile('script/' . $page . '.js');
+			echo embed('script/', '.js');
 		?>
 	</js>
 	
 	<css>
 		<?php
-			getfile('css/' . $page . '.css');
+			echo embed('css/', '.css');
 		?>
 	</css>
 	
@@ -48,10 +63,20 @@ ini_set( 'display_errors', 1 ); // TODO remove before production
 
 <?php
 
-function getfile($file) {
-	if (file_exists($file) == true) {
-		echo file_get_contents($file);
+
+function embed($folder, $extension) {
+	global $length;
+	global $embedded;
+	$output = ""; //start output var
+	
+	for ($i = 0; $i < $length; ++$i) {
+		$file = $folder . $embedded[$i] . $extension;
+		
+		if (file_exists($file) == true) {
+			$output .= file_get_contents($file);
+		}
 	}
+	return $output;
 }
 
 $html = ob_get_contents();
@@ -66,8 +91,6 @@ $html = preg_replace('/\> </', '><',$html); // removes spaces between tags
 //base64 images ?
 
 //make temp file
-
-fb($page);
 
 die($html);
 

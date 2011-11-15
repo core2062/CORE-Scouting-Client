@@ -1,3 +1,13 @@
+<?php
+	 // TODO remove this section before production
+	require_once('FirePHP/fb.php');
+	ob_start();
+	
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', 1 );
+?>
+
+
 <!--
 	PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
 	JS reads hash & searches the page for the sub-page requested
@@ -11,26 +21,17 @@
 	Site: index.php, which acts as the container for all pages
 	Page: a set of sub-pages, and modals within the site (like input, home, or query)
 	Subpage: a piece of a page, only one subpage is displayed at a time
-	Modal: a dialog which gets overlayed on top of the site, some pages require specific modals, and these are sent with the page request
+	Modal: a dialog which gets overlaid on top of the site, some pages require specific modals, and these are sent with the page request
 	Base Page: page components which are needed for more than 1 page, these are embedded on first page request
 -->
 
 <?php
-require_once('FirePHP/fb.php');
-ob_start();
-
-error_reporting( E_ALL ); // TODO remove before production
-ini_set( 'display_errors', 1 ); // TODO remove before production
-
-
-//check if files were modified & get temp file if they were not
-
-//TODO php code to assign embedded pages var (which may later be based on the user requesting the page), and put code for js var in page script area
-
-$embedded[0] = "base";
-
-
-fb($embedded);
+	//check if files were modified & get temp file if they were not
+	
+	$embedded[0] = "base";
+	$embedded[1] = "home";
+	
+	$length = count($embedded);
 ?>
 
 <!DOCTYPE html>
@@ -43,14 +44,10 @@ fb($embedded);
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
 <![endif]-->
 <style>
-
 	<?php
-		$length = count($embedded);
-		for ($i = 0; $i < $length; ++$i) {
-			getfile('css/' . $embedded[$i] . '.css');
-		}
+		echo embed('css/', '.css');
+		//TODO add in csstidy + fix gradient support
 	?>
-
 </style>
 
 </head>
@@ -68,10 +65,7 @@ fb($embedded);
 			<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 			
 				<?php
-					$length = count($embedded);
-					for ($i = 0; $i < $length; ++$i) {
-						getfile('html/' . $embedded[$i] . '-navbar.html');
-					}
+					echo embed('html/', '-navbar.html');
 				?>
 			
 			</ul>
@@ -87,10 +81,7 @@ fb($embedded);
 		<td id="content">
 			
 			<?php
-				$length = count($embedded);
-				for ($i = 0; $i < $length; ++$i) {
-					getfile('html/' . $embedded[$i] . '-content.html');
-				}
+				echo embed('html/', '-content.html');
 			?>
 	
 		</td>
@@ -99,10 +90,7 @@ fb($embedded);
 			
 			
 			<?php
-				$length = count($embedded);
-				for ($i = 0; $i < $length; ++$i) {
-					getfile('html/' . $embedded[$i] . '-sidebar.html');
-				}
+				echo embed('html/', '-sidebar.html');
 			?>
 			
 			
@@ -119,8 +107,8 @@ fb($embedded);
 	<tr id="foot">
 		<td colspan="2" style="height:20px;">
 
-				<!-- Google +1 Button -->
-				<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
+			<!-- Google +1 Button -->
+			<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
 			<!-- TODO make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
 			
 			<div id="progressbar"> <!-- make JS code to turn on/off per page by var -->
@@ -131,7 +119,7 @@ fb($embedded);
 			<div style="left: 25%; position: relative; width: 50%; margin-top: -14px; font-size: 12px; text-align: center; z-index: -1;">
 				<p>CORE Scouting Database - Created By <a href="#" onclick="$('.contact-modal').dialog('open');">Sean Lang</a> - &copy;2011 - version: alpha</p>
 			</div>
-						</td>
+		</td>
 	</tr>
 	<!-- END Bottom Bar -->
 
@@ -153,7 +141,9 @@ fb($embedded);
 		</a>
 	</div>
 	
-	<!-- get Modal Content w/ php -->
+		<?php
+			echo embed('html/', '-modals.html');
+		?>
 
 	<div class="modal-buttons ui-widget-content ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
 		<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
@@ -168,7 +158,9 @@ fb($embedded);
 <script src="script/base.js"></script>
 <script type="text/javascript">
 
-// embed script w/ php (form input, home ...), do after html processing
+	<?php
+		echo embed('script/', '.js');
+	?>
   
   </script>
 </body>  
@@ -179,19 +171,30 @@ fb($embedded);
 
 <?php
 
-function getfile($file) {
-	if (file_exists($file) == true) {
-		echo file_get_contents($file);
+function embed($folder, $extension) {
+	global $length;
+	global $embedded;
+	$output = ""; //start output var
+	
+	for ($i = 0; $i < $length; ++$i) {
+		$file = $folder . $embedded[$i] . $extension;
+		
+		if (file_exists($file) == true) {
+			$output .= file_get_contents($file);
+		}
 	}
+	return $output;
 }
+
+
 
 $html = ob_get_contents();
 ob_clean (); //empty output buffer
 
 
-$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
-$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
-$html = preg_replace('/\> </', '><',$html); // removes spaces between tags
+//$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
+//$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
+//$html = preg_replace('/\> </', '><',$html); // removes spaces between tags
 
 //optimize & embed css and js (must be after html processing)
 //base64 images ?
