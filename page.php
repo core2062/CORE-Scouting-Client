@@ -10,15 +10,11 @@
 <?php
 // ex: http://localhost/CSD/page.php?pages={"0":"input", "1":"home"}
 
-// TODO allow multiple pages to be sent per request
-
 $embedded = json_decode($_GET["pages"], true);
 $length = count($embedded);
 
 //TODO maybe add some logging here
 
-error_reporting( E_ALL ); // TODO remove before production
-ini_set( 'display_errors', 1 ); // TODO remove before production
 ?>
 
 <root>
@@ -55,6 +51,7 @@ ini_set( 'display_errors', 1 ); // TODO remove before production
 	<css>
 		<?php
 			echo embed('css/', '.css');
+			//TODO add in csstidy + fix gradient support
 		?>
 	</css>
 	

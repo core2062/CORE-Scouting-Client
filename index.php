@@ -30,6 +30,7 @@
 	
 	$embedded[0] = "base";
 	$embedded[1] = "home";
+	$embedded[2] = "input";
 	
 	$length = count($embedded);
 ?>
@@ -195,6 +196,8 @@ ob_clean (); //empty output buffer
 //$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 //$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
 //$html = preg_replace('/\> </', '><',$html); // removes spaces between tags
+
+//TODO fix above html minification - it is fucking up the css
 
 //optimize & embed css and js (must be after html processing)
 //base64 images ?
