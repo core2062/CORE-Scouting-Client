@@ -1,18 +1,22 @@
 <?php
+require_once('FirePHP/fb.php');
+ob_start();
+
+
 //start timer
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
 //get basic parameters
-$ScoutID=$_POST["s"];
-$pword=$_POST["pw"];
-$Request=$_POST["rt"]; // I = Input	Q = Query	A = Admin	P = Poll	M = Mail
+$ScoutID=$_POST["ScoutID"];
+$pword=$_POST["pword"];
+$Request=$_POST["Request"]; // I = Input	Q = Query	A = Admin	P = Poll	M = Mail
 
 include 'variables.php'; //assigns varables for $mysql_server, $mysql_user, $mysql_pasword
 
 $log=" | Request: $Request"; //start log
 
-$link = mysql_connect($mysql_server,$mysql_user,$mysql_pasword) or send_error('Could Not Connect', 'Could Not Connect: ' . mysql_error()); //build MySQL Link
+$link = mysql_connect($mysql_server,$mysql_user,$mysql_password) or send_error('Could Not Connect', 'Could Not Connect: ' . mysql_error()); //build MySQL Link
 mysql_select_db('test') or send_error('Could Not Select Database',''); //select database
 
 if ($ScoutID == "" || $pword == "") {
