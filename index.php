@@ -1,9 +1,5 @@
-<?php
-require_once('FirePHP/fb.php');
-?>
-
 <!--
-	PHP embeds pages based on user id, and popularity of page (can't actually see page requested)
+	PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
 	JS reads hash & searches the page for the sub-page requested
 	if requested page is found, then that is presented, otherwise it is downloaded (from catche or from page.php)
 	page.php takes necessary components to build the page and sends it to JS via AJAX
@@ -16,32 +12,45 @@ require_once('FirePHP/fb.php');
 	Page: a set of sub-pages, and modals within the site (like input, home, or query)
 	Subpage: a piece of a page, only one subpage is displayed at a time
 	Modal: a dialog which gets overlayed on top of the site, some pages require specific modals, and these are sent with the page request
-	Base Page: page components which are needed for all/most pages
+	Base Page: page components which are needed for more than 1 page, these are embedded on first page request
 -->
 
-
 <?php
+require_once('FirePHP/fb.php');
+ob_start();
 
-//chech if files were modified & get temp file if they were not
+error_reporting( E_ALL ); // TODO remove before production
+ini_set( 'display_errors', 1 ); // TODO remove before production
+
+
+//check if files were modified & get temp file if they were not
 
 //TODO php code to assign embedded pages var (which may later be based on the user requesting the page), and put code for js var in page script area
 
+$embedded[0] = "base";
+
+
+fb($embedded);
 ?>
 
 <!DOCTYPE html>
 <html>	<!--TODO add  manifest="manifest.mf" + make file-->
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 <title>Input</title>
 <link href="favicon.ico" rel="shortcut icon" id="favicon"/>
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
 <![endif]-->
-<link rel="stylesheet" href="css/base.css" /> <!-- embed into the page -->
 <style>
-	
-	/* embed linked css (input, home...) w/ php */ 
-	
+
+	<?php
+		$length = count($embedded);
+		for ($i = 0; $i < $length; ++$i) {
+			getfile('css/' . $embedded[$i] . '.css');
+		}
+	?>
+
 </style>
 
 </head>
@@ -58,16 +67,16 @@ require_once('FirePHP/fb.php');
 		<td colspan="2">
 			<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 			
-			<!-- get nav bar stuff -->
-			
-			<li>
-				<a href="index.html" id="logo"><br />CORE<br />2062</a>
-			</li>
+				<?php
+					$length = count($embedded);
+					for ($i = 0; $i < $length; ++$i) {
+						getfile('html/' . $embedded[$i] . '-navbar.html');
+					}
+				?>
 			
 			</ul>
 			
 			<hr style="margin:10px;" />
-
 		
 		</td>
 	</tr>
@@ -76,13 +85,25 @@ require_once('FirePHP/fb.php');
 	<!-- START Content -->
 	<tr>
 		<td id="content">
+			
+			<?php
+				$length = count($embedded);
+				for ($i = 0; $i < $length; ++$i) {
+					getfile('html/' . $embedded[$i] . '-content.html');
+				}
+			?>
 	
 		</td>
 		
 		<td id="sidebar" style="max-height:100%;">
 			
 			
-			
+			<?php
+				$length = count($embedded);
+				for ($i = 0; $i < $length; ++$i) {
+					getfile('html/' . $embedded[$i] . '-sidebar.html');
+				}
+			?>
 			
 			
 			
@@ -157,6 +178,13 @@ require_once('FirePHP/fb.php');
 
 
 <?php
+
+function getfile($file) {
+	if (file_exists($file) == true) {
+		echo file_get_contents($file);
+	}
+}
+
 $html = ob_get_contents();
 ob_clean (); //empty output buffer
 

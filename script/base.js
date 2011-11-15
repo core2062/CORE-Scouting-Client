@@ -15,6 +15,39 @@
 // global vars
 var currentpage = '' //actual value gets assigned later
 var pagetitle = document.title; //used as base for page titles
+var site = {
+"pages": [
+	{"home": {
+		"subpages": ["front-page", "synopsis", "tour", "signup"],
+		"modals": [],
+		"login-required": false, 
+		"min-width": "1150px",
+		"progressbar": false}
+	},
+	{"input": {
+		"subpages": ["regular", "human-player", "pit"],
+		"modals": [],
+		"login-required": true, 
+		"min-width": "1150px",
+		"progressbar": true}
+	},
+	{"analysis": {
+		"subpages": ["view-stats", "data-liberation"],
+		"modals": [],
+		"login-required": true, 
+		"min-width": "1150px",
+		"progressbar": false}
+	},
+	{"team-leader": {
+		"subpages": ["manage-scouting", "view-contribution", "view-team-members"],
+		"modals": [],
+		"login-required": true,
+		"min-width": "1150px",
+		"progressbar": false}
+	}
+]
+}
+// JS will need to convert "-" to " " and capatilize beginning of each word
 
 function setFavicon() { //make something easier than this
   $('#favicon').remove();
@@ -654,9 +687,10 @@ window.variable = variable;
 ajax('Q');
 }
 
+//TODO total rewrite of ajax & AccessDBT use jquery ajax?
+
 function ajax(RequestType){
-var ScoutID = document.getElementById('ScoutID').value;
-var pword = document.getElementById('pword').value;
+//scoutid and pword should be stored in vars, not in form input
 
 switch (RequestType) {
 case "P": // Poll
@@ -769,14 +803,14 @@ else { // error handling
 	
 	if (RequestType == 'I'){
 		$('#jGrowl-container').jGrowl('To prevent the loss of valuable scouting data, I have compiled all of the data which you have entered for this match. <br /> Click the button below to open a window containing the scouting data, then send the text to me at <a href="mailto:slang800@gmail.com">slang800@gmail.com</a>, and I will add it to the database.<br /><button type="button" style="margin-left:187px;;" onclick="WriteToWindow();">Open</button>', {sticky: true, theme: 'error'});
-		window.writetext = "&s="+ScoutID + "&pw="+pword + "&rt="+RequestType + RequestText;
+		window.writetext = "&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + RequestText;
 	}
 }
 }
 }
 xmlhttp.open("POST", "process.php", true);
 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xmlhttp.send("&s="+ScoutID + "&pw="+pword + "&rt="+RequestType + RequestText);
+xmlhttp.send("&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + RequestText);
 }
 
 
