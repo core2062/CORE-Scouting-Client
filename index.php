@@ -33,6 +33,8 @@
 	$embedded[2] = "input";
 	
 	$length = count($embedded);
+	
+	include 'php/jsminplus.php';
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +48,7 @@
 <![endif]-->
 <style>
 	<?php
-		echo embed('css/', '.css');
+		embed('css/', '.css');
 		//TODO add in csstidy + fix gradient support
 	?>
 </style>
@@ -66,7 +68,7 @@
 			<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 			
 				<?php
-					echo embed('html/', '-navbar.html');
+					embed('html/', '-navbar.html');
 				?>
 			
 			</ul>
@@ -82,7 +84,7 @@
 		<td id="content">
 			
 			<?php
-				echo embed('html/', '-content.html');
+				embed('html/', '-content.html');
 			?>
 	
 		</td>
@@ -91,7 +93,7 @@
 			
 			
 			<?php
-				echo embed('html/', '-sidebar.html');
+				embed('html/', '-sidebar.html');
 			?>
 			
 			
@@ -143,7 +145,7 @@
 	</div>
 	
 		<?php
-			echo embed('html/', '-modals.html');
+			embed('html/', '-modals.html');
 		?>
 
 	<div class="modal-buttons ui-widget-content ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
@@ -155,15 +157,8 @@
 <div class="overlay Navagation-c Login-c Contact-c" onclick="modalclose();"></div>
 <!-- END Modals -->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script> <!-- FIRST teams only exist in countries that can access google, no hosting issues -->
-<script src="script/base.js"></script>
-<script type="text/javascript">
-
-	<?php
-		echo embed('script/', '.js');
-	?>
-  
-  </script>
+<script src="script/jquery.min.js"></script>
+<script type="text/javascript"></script>
 </body>  
 </html>  
 
@@ -184,7 +179,7 @@ function embed($folder, $extension) {
 			$output .= file_get_contents($file);
 		}
 	}
-	return $output;
+	echo $output;
 }
 
 
@@ -193,16 +188,24 @@ $html = ob_get_contents();
 ob_clean (); //empty output buffer
 
 
-//$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
-//$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
-//$html = preg_replace('/\> </', '><',$html); // removes spaces between tags
+$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
+$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
+//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags
 
-//TODO fix above html minification - it is fucking up the css
+//TODO fix the last command
 
-//optimize & embed css and js (must be after html processing)
+$javascript = '';
+for ($i = 0; $i < $length; ++$i) {
+	$file = 'script/' . $embedded[$i] . '.js';
+
+	if (file_exists($file) == true) {
+		$javascript .= JSMinPlus::minify(file_get_contents($file));
+	}
+}
+$html = preg_replace('/<script type="text\/javascript"><\/script>/', '<script type="text/javascript">' . $javascript . '</script>', $html);
+
+//optimize css and js
 //base64 images ?
-
-//fb('hello world');
 
 die($html);
 

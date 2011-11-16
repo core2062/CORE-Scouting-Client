@@ -48,7 +48,7 @@ table.tablesorter thead tr .headerSortDown,table.tablesorter thead tr .headerSor
 select,input,textarea{outline:none;resize:none;}
 div.jGrowl{padding:10px;z-index:9999;color:#fff;font-size:12px;}
 div.jGrowl{position:absolute;}
-body>div.jGrowl{position:fixed;}
+body div.jGrowl{position:fixed;}
 div.jGrowl.bottom-right{right:0;bottom:0;}
 div.center div.jGrowl-notification,div.center div.jGrowl-closer{margin-left:auto;margin-right:auto;}
 div.jGrowl div.jGrowl-notification,div.jGrowl div.jGrowl-closer{background-color:#000;zoom:1;width:235px;padding:10px;margin-top:5px;margin-bottom:5px;font-family:"BankGothicMdBTMedium","bankgothic lt bt";font-size:1em;text-align:left;display:none;-moz-opacity:0.8;filter:alpha(opacity=8);opacity:0.8;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}

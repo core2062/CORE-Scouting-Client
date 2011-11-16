@@ -20,37 +20,33 @@ $length = count($embedded);
 <root>
 	<navbar>
 		<?php
-			echo embed('html/', '-navbar.html');
+			embed('html/', '-navbar.html');
 		?>
 	</navbar>
 	
 	<content>
 		<?php
-			echo embed('html/', '-content.html');
+			embed('html/', '-content.html');
 		?>
 	</content>
 	
 	<sidebar>
 		<?php
-			echo embed('html/', '-sidebar.html');
+			embed('html/', '-sidebar.html');
 		?>
 	</sidebar>
 	
 	<modals>
 		<?php
-			echo embed('html/', '-modals.html');
+			embed('html/', '-modals.html');
 		?>
 	</modals>
 	
-	<js>
-		<?php
-			echo embed('script/', '.js');
-		?>
-	</js>
+	<js></js>
 	
 	<css>
 		<?php
-			echo embed('css/', '.css');
+			embed('css/', '.css');
 			//TODO add in csstidy + fix gradient support
 		?>
 	</css>
@@ -60,6 +56,7 @@ $length = count($embedded);
 
 <?php
 
+//TODO fix up this area using the code from index.php, and change from XML to JSON!
 
 function embed($folder, $extension) {
 	global $length;
@@ -73,18 +70,17 @@ function embed($folder, $extension) {
 			$output .= file_get_contents($file);
 		}
 	}
-	return $output;
+	echo $output;
 }
 
 $html = ob_get_contents();
 ob_clean (); //empty output buffer
 
-
 $html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 $html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
-$html = preg_replace('/\> </', '><',$html); // removes spaces between tags
+$html = preg_replace('/\/> </', '/><',$html); // removes spaces between tags
 
-//optimize & embed css and js (must be after html processing)
+//optimize css and js
 //base64 images ?
 
 //make temp file
