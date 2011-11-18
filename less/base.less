@@ -41,6 +41,7 @@ Language: LESS
 @stripe: url(data:image/gif;base64,R0lGODlhBQAFAOMKAEpNYUtOYkpMYPLy8vPz8/T09PX19fz8/P39/f7+/v///////////////////////yH5BAEKAA8ALAAAAAAFAAUAAAQMEElEki1JKaN3510EADs=);
 @logo: url(../CSD/img/logo.svg);
 @bg_fallback: url(../CSD/img/bg_fallback.png);
+@close-icon: url(../CSD/img/icon_sprite.png);
 
 @list-icon: url(../CSD/img/icon/list.svg);
 @plus-icon: url(../CSD/img/icon/plus.svg);
@@ -255,7 +256,6 @@ fieldset {
 	vertical-align:middle;
 	border: 1px solid #B6B6B6;
 	.box-shadow(0 0 5px #000000);
-	visibility: visible;
 }
 
 legend {
@@ -267,8 +267,10 @@ legend {
 	margin-left: -10px;
 	margin-top: -15px;
 	padding:0 10px;
-	.border-radius-br(8px);
+}
 
+fieldset, legend {
+	.border-radius-br(8px);
 }
 
 // START form-styling
@@ -1217,7 +1219,7 @@ div.jGrowl {
 		span {
 			display: block;
 			margin: 1px;
-			background: url(../img/icon_sprite.png) 0 -16px no-repeat;
+			background: @close-icon 0 -16px no-repeat;
 		}
 		&:hover span {
 			background-position: -16px -16px;

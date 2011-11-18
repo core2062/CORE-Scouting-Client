@@ -11,8 +11,9 @@ label,button,legend,#logo{-webkit-user-select:none;-khtml-user-select:none;-moz-
 #logo{float:right;color:#000;height:50px;margin-right:10px;border:none;width:110px;text-align:right;font-size:18px;line-height:13px;text-decoration:none;font-weight:700;letter-spacing:-0.1em;background-image:url(../CSD/img/logo.svg);background-repeat:no-repeat;background-size:50px;}
 li{margin:0;display:inline;}
 ul{padding-left:0;margin:10px 0px;}
-fieldset{background:#ffffff;padding:1px;padding:0 10px;padding-top:15px;margin:10px;display:inline;vertical-align:middle;border:1px solid #B6B6B6;-moz-box-shadow:0 0 5px #000000;-webkit-box-shadow:0 0 5px #000000;box-shadow:0 0 5px #000000;visibility:visible;}
-legend{float:left;font-size:18px;text-shadow:0px 1px 0px rgba(255, 255, 255, 0.3),0px -1px 0px rgba(0, 0, 0, 0.7);background:#ff5c00;color:white;margin-left:-10px;margin-top:-15px;padding:0 10px;-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomright:8px;border-bottom-right-radius:8px;}
+fieldset{background:#ffffff;padding:1px;padding:0 10px;padding-top:15px;margin:10px;display:inline;vertical-align:middle;border:1px solid #B6B6B6;-moz-box-shadow:0 0 5px #000000;-webkit-box-shadow:0 0 5px #000000;box-shadow:0 0 5px #000000;}
+legend{float:left;font-size:18px;text-shadow:0px 1px 0px rgba(255, 255, 255, 0.3),0px -1px 0px rgba(0, 0, 0, 0.7);background:#ff5c00;color:white;margin-left:-10px;margin-top:-15px;padding:0 10px;}
+fieldset,legend{-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomright:8px;border-bottom-right-radius:8px;}
 input,textarea,.select-box,#selectarrow,.select-box ul,.select-box ul li,#plus,#help{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
 label{font-weight:400;}
 input,textarea,.select-box,#selectarrow,.select-box ul{border:none;background-repeat:repeat;background-image:url(data:image/gif;base64,R0lGODlhBQAFAOMKAEpNYUtOYkpMYPLy8vPz8/T09PX19fz8/P39/f7+/v///////////////////////yH5BAEKAA8ALAAAAAAFAAUAAAQMEElEki1JKaN3510EADs=);-moz-box-shadow:inset 0 0 6px #000000;-webkit-box-shadow:inset 0 0 6px #000000;box-shadow:inset 0 0 6px #000000;width:150px;cursor:pointer;height:23px;padding:2px 5px 1px 5px;margin-right:20px;vertical-align:middle;font-family:"BankGothicMdBTMedium","bankgothic lt bt";font-size:13px;}
@@ -155,7 +156,7 @@ button.icon{height:28px;padding:4px;}
 .modal-container{background:none repeat scroll 0 0 #FFFFFF;border:1px solid #B6B6B6;color:#4F4F4F;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;position:absolute;padding:0;overflow:hidden;display:block;z-index:1002;outline:0px none;height:auto;width:700px;top:20px;left:410px;-moz-box-shadow:0 2px 12px rgba(0, 0, 0, 0.6);-webkit-box-shadow:0 2px 12px rgba(0, 0, 0, 0.6);box-shadow:0 2px 12px rgba(0, 0, 0, 0.6);}.modal-container .Navagation-c{position:relative;border:0;padding:.5em 1em;background:none;overflow:auto;zoom:1;}
 .modal-container .modal-buttons{text-align:left;border-width:1px 0 0 0;background-image:none;margin:.5em 0 0 0;padding:.3em 1em .5em .4em;}.modal-container .modal-buttons button{float:right;margin:.5em .4em .5em 0;}
 .modal-titlebar{padding:0.7em 1em 0.6em 1em;position:relative;border:none;border-bottom:1px solid #979797;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;}.modal-titlebar #modal-title{float:left;margin:.1em 16px .2em 0;font-size:14px;text-shadow:0 1px 0 rgba(255, 255, 255, 0.5);}
-.modal-titlebar .close{-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;position:absolute;right:.8em;top:55%;width:16px;margin:-10px 0 0 0;padding:0;height:16px;border:0;}.modal-titlebar .close span{display:block;margin:1px;background:url(../img/icon_sprite.png) 0 -16px no-repeat;}
+.modal-titlebar .close{-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;position:absolute;right:.8em;top:55%;width:16px;margin:-10px 0 0 0;padding:0;height:16px;border:0;}.modal-titlebar .close span{display:block;margin:1px;background:url(../CSD/img/icon_sprite.png) 0 -16px no-repeat;}
 .modal-titlebar .close:hover span{background-position:-16px -16px;}
 div.nav-modal ul{margin:0 0 15px 0;}
 div.nav-modal p{margin-top:5px;}
