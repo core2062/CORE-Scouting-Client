@@ -25,6 +25,9 @@
 	Base Page: page components which are needed for more than 1 page, these are embedded on first page request
 -->
 
+<!-- TODO make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628 -->
+<!-- TODO change MySQL to MongoDB -->
+
 <?php
 	//check if files were modified & get temp file if they were not
 	
@@ -170,16 +173,14 @@
 function embed($folder, $extension) {
 	global $length;
 	global $embedded;
-	$output = ""; //start output var
 	
 	for ($i = 0; $i < $length; ++$i) {
 		$file = $folder . $embedded[$i] . $extension;
 		
 		if (file_exists($file) == true) {
-			$output .= file_get_contents($file);
+			echo file_get_contents($file);
 		}
 	}
-	echo $output;
 }
 
 
@@ -204,8 +205,10 @@ for ($i = 0; $i < $length; ++$i) {
 }
 $html = preg_replace('/<script type="text\/javascript"><\/script>/', '<script type="text/javascript">' . $javascript . '</script>', $html);
 
-//optimize css and js
+//optimize css
 //base64 images ?
+
+$html = trim($html);
 
 die($html);
 
