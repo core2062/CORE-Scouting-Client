@@ -11,7 +11,7 @@ label,button,legend,#logo{-webkit-user-select:none;-khtml-user-select:none;-moz-
 #logo{float:right;color:#000;height:50px;margin-right:10px;border:none;width:110px;text-align:right;font-size:18px;line-height:13px;text-decoration:none;font-weight:700;letter-spacing:-0.1em;background-image:url(../CSD/img/logo.svg);background-repeat:no-repeat;background-size:50px;}
 li{margin:0;display:inline;}
 ul{padding-left:0;margin:10px 0px;}
-fieldset{background:#ffffff;padding:1px;padding:0 10px;padding-top:15px;margin:10px;display:inline;vertical-align:middle;border:1px solid #B6B6B6;-moz-box-shadow:0 0 5px #000000;-webkit-box-shadow:0 0 5px #000000;box-shadow:0 0 5px #000000;}
+fieldset{background:#f4f4f4;padding:1px;padding:0 10px;padding-top:15px;margin:10px;display:inline;vertical-align:middle;border:1px solid #B6B6B6;-moz-box-shadow:0 0 5px #000000;-webkit-box-shadow:0 0 5px #000000;box-shadow:0 0 5px #000000;}
 legend{float:left;font-size:18px;text-shadow:0px 1px 0px rgba(255, 255, 255, 0.3),0px -1px 0px rgba(0, 0, 0, 0.7);background:#ff5c00;color:white;margin-left:-10px;margin-top:-15px;padding:0 10px;}
 fieldset,legend{-webkit-border-bottom-right-radius:8px;-moz-border-radius-bottomright:8px;border-bottom-right-radius:8px;}
 input,textarea,.select-box,#selectarrow,.select-box ul,.select-box ul li,#plus,#help{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}

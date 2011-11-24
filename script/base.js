@@ -55,7 +55,6 @@ function setFavicon() { //make something easier than this
 }
 
 $(document).ready(function() {
-	//if favicon breaks replace with body onload
 	window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	window.underpage = ''; //underpage must be set to something
