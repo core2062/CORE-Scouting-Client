@@ -66,7 +66,7 @@
 <table id="layout">
 	
 	<!-- START Top-Bar -->
-	<tr id="head">
+	<tr class="head">
 		<td colspan="2">
 			<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 			
@@ -94,12 +94,9 @@
 		
 		<td id="sidebar" style="max-height:100%;">
 			
-			
 			<?php
 				embed('html/', '-sidebar.html');
 			?>
-			
-			
 			
 			<div id="jGrowl-container" class="jGrowl bottom-right"></div>
 			<!--TODO fix jGrowl positioning - make it flow with other content/no overlap (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
