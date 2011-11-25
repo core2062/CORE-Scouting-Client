@@ -193,15 +193,16 @@ td {
 	padding: 0;
 }
 
-tr.head {
+.head {
 	height:65px;
+	
+	a {
+		height:100%;
+		width:100%;
+	}
 }
 
-#head {
-	height: 50px;
-}
-
-#foot {
+.foot {
 	height: 15px;
 }
 
@@ -211,11 +212,6 @@ tr.head {
 
 a, a:link, a:visited, a:active {
 	color:#FFF;
-}
-
-.head a {
-	height:100%;
-	width:100%;
 }
 
 p {
@@ -231,27 +227,22 @@ label, button, legend, #logo {
 	user-select: none;
 }
 
-#logo {
+a#logo {
 	float: right;
 	color:#000;
 	margin-right:10px;
 	border:none;
 	height:50px;
-	width:110px;
+	width:115px;
 	text-align:right;
-	font-size:24px; //18px for full text
+	font-size:28px; //18px for full text
 	line-height:17px; //13px for full text
 	text-decoration: none;
-	font-weight:700;
+	font-weight:500;
 	letter-spacing: -0.1em;
 	background-image: @logo;
 	background-repeat:no-repeat;
 	background-size: 50px;
-}
-
-a#logo {
-	width: 110px;
-	height: 50px;
 }
 
 li {
