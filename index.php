@@ -198,7 +198,7 @@ include 'php/jsminplus.php';
 
 <div style="display: none;" class="modal-container Navagation-c Login-c Contact-c">
 
-	<div class="modal-titlebar ui-widget-header ui-helper-clearfix">
+	<div class="modal-titlebar ui-widget-header ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
 		<span id="modal-title">Title</span>
 		
 		<a href="#" class="close"> <!--TODO fix this ... it fucks up the url --> 

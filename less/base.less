@@ -266,6 +266,10 @@ fieldset {
 	.box-shadow(0 0 5px #000000);
 }
 
+fieldset, legend {
+	.border-radius-br(8px);
+}
+
 legend {
 	float:left;
 	font-size: 18px;
@@ -277,17 +281,14 @@ legend {
 	padding:0 10px;
 }
 
-fieldset, legend {
-	.border-radius-br(8px);
-}
 
-input, textarea, .select-box, #selectarrow, .select-box ul, .select-box ul li, #plus, #help {
-	.border-radius(5px);
-}
+
+
 
 label {
 	font-weight:400;
 }
+
 input, textarea, .select-box, #selectarrow, .select-box ul {
 	border:none;
 	background-repeat: repeat;
@@ -301,169 +302,97 @@ input, textarea, .select-box, #selectarrow, .select-box ul {
 	vertical-align:middle;
 	font-family: @font-list;
 	font-size:13px;
+	.border-radius(5px);
+}
+
+.select-box ul li {
+	.border-radius(5px);
 }
 
 textarea {
 	padding:5px;
+	resize: none;
 }
 
 input:focus, textarea:focus {
 	.box-shadow (inset 0 0 4px @d-blue);
 }
 
-button {
-	.border-radius(3px);	
-}
 
-
-
-
-
-
-
-// Safari
-select, input, textarea {
-	outline:none;
-	resize:none;
-}
 // JGrowl
-div.jGrowl {
-	padding: 			10px;
-	z-index: 			9999;
-	color: 				#fff;
-	font-size: 			12px;
-}
-// Normal Style Positions
-div.jGrowl {
-	position:			absolute;
-}
-body div.jGrowl {
-	position:			fixed;
-}
-div.jGrowl.bottom-right {
-	right:0;
-	bottom:0;
-}
+	div.jGrowl {
+		padding: 			10px;
+		z-index: 			9999;
+		color: 				#fff;
+		font-size: 			12px;
+	}
+	// Normal Style Positions
+	div.jGrowl {
+		position:			absolute;
+	}
+	body div.jGrowl {
+		position:			fixed;
+	}
+	div.jGrowl.bottom-right {
+		right:0;
+		bottom:0;
+	}
 // Cross Browser Styling
-div.center div.jGrowl-notification, div.center div.jGrowl-closer {
-	margin-left: 		auto;
-	margin-right: 		auto;
-}
-div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
-	background-color: #000;
-	zoom: 1;
-	width: 235px;
-	padding: 10px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-family: @font-list;
-	font-size: 1em;
-	text-align: left;
-	display: none;
-	.opacity (.8);
-	.border-radius (3px);
-}
-
-div.jGrowl div.jGrowl-notification {
-	min-height: 			10px;
-}
-div.jGrowl div.jGrowl-notification div.jGrowl-header {
-	font-weight: 			bold;
-	font-size:				.85em;
-}
-div.jGrowl div.jGrowl-notification div.jGrowl-close {
-	z-index:				99;
-	float: 					right;
-	font-weight: 			bold;
-	font-size: 				1em;
-	cursor:					pointer;
-}
-div.jGrowl div.jGrowl-closer {
-	padding-top: 			4px;
-	padding-bottom: 		4px;
-	cursor: 				pointer;
-	font-size:				.9em;
-	font-weight: 			bold;
-	text-align: 			center;
-}
-.error {
-	background-color:#B20000 !important;
-}
-.message {
-	background-color:#000066 !important;
-}
-
-// Hide jGrowl when printing
-@media print {
-div.jGrowl {
-	display: 			none;
-}
-}
-
-// jQuery UI CSS Framework 1.8.7
-
-// Layout helpers
-
-
-	.ui-helper-hidden {
+	div.center div.jGrowl-notification, div.center div.jGrowl-closer {
+		margin-left: 		auto;
+		margin-right: 		auto;
+	}
+	div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
+		background-color: #000;
+		zoom: 1;
+		width: 235px;
+		padding: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-family: @font-list;
+		font-size: 1em;
+		text-align: left;
 		display: none;
+		.opacity (.8);
+		.border-radius (3px);
 	}
-	.ui-helper-hidden-accessible {
-		position: absolute !important;
-		clip: rect(1px 1px 1px 1px);
-		clip: rect(1px,1px,1px,1px);
+	
+	div.jGrowl div.jGrowl-notification {
+		min-height: 			10px;
 	}
-	.ui-helper-reset {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		outline: 0;
-		line-height: 1.3;
-		text-decoration: none;
-		font-size: 100%;
-		list-style: none;
+	div.jGrowl div.jGrowl-notification div.jGrowl-header {
+		font-weight: 			bold;
+		font-size:				.85em;
 	}
-
-
-// end clearfix
-/*
-	.ui-helper-zfix {
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		position: absolute;
-		opacity: 0;
-		filter: Alpha(Opacity=0);
+	div.jGrowl div.jGrowl-notification div.jGrowl-close {
+		z-index:				99;
+		float: 					right;
+		font-weight: 			bold;
+		font-size: 				1em;
+		cursor:					pointer;
 	}
-*/
-
-// Interaction Cues
-
-/*
-	.ui-state-disabled {
-		cursor: default !important;
+	div.jGrowl div.jGrowl-closer {
+		padding-top: 			4px;
+		padding-bottom: 		4px;
+		cursor: 				pointer;
+		font-size:				.9em;
+		font-weight: 			bold;
+		text-align: 			center;
 	}
-*/
-
-// Icons
-
-
-// states and images
-
-	.icon {
-		display: block;
-		//text-indent: -99999px;
-		overflow: hidden;
-		background-repeat: no-repeat;
+	.error {
+		background-color:#B20000 !important;
+	}
+	.message {
+		background-color:#000066 !important;
+	}
+	
+	// Hide jGrowl when printing
+	@media print {
+	div.jGrowl {
+		display: 			none;
+	}
 	}
 
-
-
-
-// jQuery UI CSS Framework 1.8.7
-
-// Component containers
 
 	input, select, textarea, button {
 		font-family: @font-list;
@@ -471,11 +400,7 @@ div.jGrowl {
 	}
 
 
-
-
-// Misc visuals
-
-// Corner radius
+// Corner Radius
 
 	.ui-corner-tl {
 		.border-radius-tl (3px);
@@ -510,9 +435,13 @@ div.jGrowl {
 	}
 
 
-	//icons
-	
+
+// Icons
+
 	.icon {
+		display: block;
+		overflow: hidden;
+		background-repeat: no-repeat;
 		vertical-align: middle;
 		font-size: 22px;
 		font-weight: 200;
@@ -537,13 +466,11 @@ div.jGrowl {
 
 
 // Buttons
+
 	button {
+		.border-radius(3px);
 		height: 32px; //fixes weird button height differance
 	}
-
-
-
-
 
 
 // Buttons and Button Sets
@@ -557,9 +484,6 @@ div.jGrowl {
 		background: #ededed @bg_fallback 0 0 repeat-x;
 		.reg-gradent(@regcolor);
 		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
-	}
-
-	button, .ui-buttonset label {
 		display: inline-block;
 		position: relative;
 		padding: 0;
@@ -866,7 +790,6 @@ div.jGrowl {
 
 
 	.ui-widget-header {
-		//border: 1px solid #B6B6B6;
 		color: #4F4F4F;
 		font-weight:700;
 		background: #ededed @bg_fallback 0 0 repeat-x;
