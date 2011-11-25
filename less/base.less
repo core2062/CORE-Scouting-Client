@@ -169,228 +169,150 @@ Language: LESS
 
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
 
-body, html, table {
-	height: 100%;
-	margin: 0;
-}
-
-body {
-	background-color: @page_bgcolor;
-	background-image: @background-dots;
-	font-family: @font-list;
-	margin:0 8px 0 8px;
-	min-width: 1150px;
-}
-
-#layout {
-	width: 100%;
-	border: 0;
-}
-
-td {
-	vertical-align: top;
-	padding: 0;
-}
-
-.head {
-	height:65px;
+	body, html, table {
+		height: 100%;
+		margin: 0;
+	}
 	
-	a {
-		height:100%;
-		width:100%;
-	}
-}
-
-.foot {
-	height: 15px;
-}
-
-.Regular-c, .Human-Player-c, .Pit-c {
-	display: none;
-}
-
-a, a:link, a:visited, a:active {
-	color:#FFF;
-}
-
-p {
-	display:inline;
-	margin:2px;
-}
-
-label, button, legend, #logo {
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-}
-
-a#logo {
-	float: right;
-	color:#000;
-	margin-right:10px;
-	border:none;
-	height:50px;
-	width:115px;
-	text-align:right;
-	font-size:30px; //18px for full text
-	line-height:17px; //13px for full text
-	text-decoration: none;
-	font-weight:500;
-	letter-spacing: -0.1em;
-	background-image: @logo;
-	background-repeat:no-repeat;
-	overflow: visible;
-}
-
-li {
-	margin:0;
-	display:inline; // for forms
-}
-
-ul {
-	padding-left:0;
-	margin:10px 0px
-}
-
-fieldset {
-	background: @form_bgcolor;
-	padding:1px;
-	padding:0 10px;
-	padding-top: 15px;
-	margin:10px;
-	display:inline;
-	vertical-align:middle;
-	border: 1px solid #B6B6B6;
-	.box-shadow(0 0 5px #000000);
-}
-
-fieldset, legend {
-	.border-radius-br(8px);
-}
-
-legend {
-	float:left;
-	font-size: 18px;
-	text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
-	background:@activecolor;
-	color:white;
-	margin-left: -10px;
-	margin-top: -15px;
-	padding:0 10px;
-}
-
-
-
-
-
-label {
-	font-weight:400;
-}
-
-input, textarea, .select-box, #selectarrow, .select-box ul {
-	border:none;
-	background-repeat: repeat;
-	background-image: @stripe;
-	.box-shadow(inset 0 0 6px #000000);
-	width:150px;
-	cursor:pointer;
-	height:23px;
-	padding:2px 5px 1px 5px;
-	margin-right:20px;
-	vertical-align:middle;
-	font-family: @font-list;
-	font-size:13px;
-	.border-radius(5px);
-}
-
-.select-box ul li {
-	.border-radius(5px);
-}
-
-textarea {
-	padding:5px;
-	resize: none;
-}
-
-input:focus, textarea:focus {
-	.box-shadow (inset 0 0 4px @d-blue);
-}
-
-
-// JGrowl
-	div.jGrowl {
-		padding: 			10px;
-		z-index: 			9999;
-		color: 				#fff;
-		font-size: 			12px;
-	}
-	// Normal Style Positions
-	div.jGrowl {
-		position:			absolute;
-	}
-	body div.jGrowl {
-		position:			fixed;
-	}
-	div.jGrowl.bottom-right {
-		right:0;
-		bottom:0;
-	}
-// Cross Browser Styling
-	div.center div.jGrowl-notification, div.center div.jGrowl-closer {
-		margin-left: 		auto;
-		margin-right: 		auto;
-	}
-	div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
-		background-color: #000;
-		zoom: 1;
-		width: 235px;
-		padding: 10px;
-		margin-top: 5px;
-		margin-bottom: 5px;
+	body {
+		background-color: @page_bgcolor;
+		background-image: @background-dots;
 		font-family: @font-list;
-		font-size: 1em;
-		text-align: left;
+		margin:0 8px 0 8px;
+		min-width: 1150px;
+	}
+	
+	#layout {
+		width: 100%;
+		border: 0;
+	}
+	
+	td {
+		vertical-align: top;
+		padding: 0;
+	}
+	
+	.head {
+		height:65px;
+		
+		a {
+			height:100%;
+			width:100%;
+		}
+	}
+	
+	.foot {
+		height: 15px;
+	}
+	
+	.Regular-c, .Human-Player-c, .Pit-c {
 		display: none;
-		.opacity (.8);
-		.border-radius (3px);
 	}
 	
-	div.jGrowl div.jGrowl-notification {
-		min-height: 			10px;
-	}
-	div.jGrowl div.jGrowl-notification div.jGrowl-header {
-		font-weight: 			bold;
-		font-size:				.85em;
-	}
-	div.jGrowl div.jGrowl-notification div.jGrowl-close {
-		z-index:				99;
-		float: 					right;
-		font-weight: 			bold;
-		font-size: 				1em;
-		cursor:					pointer;
-	}
-	div.jGrowl div.jGrowl-closer {
-		padding-top: 			4px;
-		padding-bottom: 		4px;
-		cursor: 				pointer;
-		font-size:				.9em;
-		font-weight: 			bold;
-		text-align: 			center;
-	}
-	.error {
-		background-color:#B20000 !important;
-	}
-	.message {
-		background-color:#000066 !important;
+	a, a:link, a:visited, a:active {
+		color:#FFF;
 	}
 	
-	// Hide jGrowl when printing
-	@media print {
-	div.jGrowl {
-		display: 			none;
+	p {
+		display:inline;
+		margin:2px;
 	}
+	
+	label, button, legend, #logo {
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+	
+	a#logo {
+		float: right;
+		color:#000;
+		margin-right:10px;
+		border:none;
+		height:50px;
+		width:115px;
+		text-align:right;
+		font-size:30px; //18px for full text
+		line-height:17px; //13px for full text
+		text-decoration: none;
+		font-weight:500;
+		letter-spacing: -0.1em;
+		background-image: @logo;
+		background-repeat:no-repeat;
+		overflow: visible;
+	}
+	
+	li {
+		margin:0;
+		display:inline; // for forms
+	}
+	
+	ul {
+		padding-left:0;
+		margin:10px 0px
+	}
+	
+	fieldset {
+		background: @form_bgcolor;
+		padding:1px;
+		padding:0 10px;
+		padding-top: 15px;
+		margin:10px;
+		display:inline;
+		vertical-align:middle;
+		border: 1px solid #B6B6B6;
+		.box-shadow(0 0 5px #000000);
+	}
+	
+	fieldset, legend {
+		.border-radius-br(8px);
+	}
+	
+	legend {
+		float:left;
+		font-size: 18px;
+		text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
+		background:@activecolor;
+		color:white;
+		margin-left: -10px;
+		margin-top: -15px;
+		padding:0 10px;
+	}
+	
+	
+	label {
+		font-weight:400;
+	}
+	
+	input, textarea, .select-box, #selectarrow, .select-box ul {
+		border:none;
+		background-repeat: repeat;
+		background-image: @stripe;
+		.box-shadow(inset 0 0 6px #000000);
+		width:150px;
+		cursor:pointer;
+		height:23px;
+		padding:2px 5px 1px 5px;
+		margin-right:20px;
+		vertical-align:middle;
+		font-family: @font-list;
+		font-size:13px;
+		.border-radius(5px);
+	}
+	
+	.select-box ul li {
+		.border-radius(5px);
+	}
+	
+	textarea {
+		padding:5px;
+		resize: none;
+	}
+	
+	input:focus, textarea:focus {
+		.box-shadow (inset 0 0 4px @d-blue);
 	}
 
 
@@ -398,6 +320,11 @@ input:focus, textarea:focus {
 		font-family: @font-list;
 		font-size: 1em;
 	}
+
+
+
+
+
 
 
 // Corner Radius
@@ -475,8 +402,6 @@ input:focus, textarea:focus {
 
 // Buttons and Button Sets
 
-
-
 	button, .ui-buttonset label {
 		border: 1px solid #B6B6B6;
 		font-weight: normal;
@@ -501,13 +426,20 @@ input:focus, textarea:focus {
 		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 		padding: 0 1em;
 		height: 31px;
+		
+		&:hover { 
+			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+			color: #313131;
+		}
+		
+		// remove dotted lines in firefox
+		&::-moz-focus-inner {
+			border: 0;
+			padding: 0;
+		}
 	}
 
-	button:hover, .ui-buttonset label:hover { 
-		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-		color: #313131;
-	}
-	
+
 	button:active, .ui-buttonset input[type="radio"]:checked + label {
 		outline: none;
 		color: #1c4257;
@@ -517,11 +449,7 @@ input:focus, textarea:focus {
 		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 	}
 
-	// remove dotted lines in firefox
-	button::-moz-focus-inner, .ui-buttonset label::-moz-focus-inner {
-		border: 0;
-		padding: 0;
-	}
+
 
 // Button Sets
 	.ui-buttonset {
@@ -582,117 +510,6 @@ input:focus, textarea:focus {
 	}
 	
 
-// Tipsy
-/* TODO change tipsy style, fix font, add fade in?...*/
-	
-	.tipsy {
-		font-family: 'BankSans';
-		font-size: 10px;
-		line-height: 15px;
-		position: absolute;
-		padding: 5px;
-		z-index: 100000;
-	}
-	.tipsy-inner {
-		background-color: #000;
-		color: #FFF;
-		max-width: 200px;
-		padding: 5px 8px 4px 8px;
-		text-align: center;
-		.border-radius(3px);
-		.box-shadow (0 0 5px #000);
-	}
-	
-	.tipsy-arrow {
-		position: absolute;
-		width: 0;
-		height: 0;
-		line-height: 0;
-		border: 5px dashed #000;
-	}
-	  
-	// Rules to color arrows
-	
-	.tipsy-arrow-n {
-		border-bottom-color: #000;
-	}
-	.tipsy-arrow-s {
-		border-top-color: #000;
-	}
-	.tipsy-arrow-e {
-		border-left-color: #000;
-	}
-	.tipsy-arrow-w {
-		border-right-color: #000;
-	}
-	.tipsy-n .tipsy-arrow {
-		top: 0;
-		left: 50%;
-		margin-left: -5px;
-		border-bottom-style: solid;
-		border-top: none;
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-	.tipsy-nw .tipsy-arrow {
-		top: 0;
-		left: 10px;
-		border-bottom-style: solid;
-		border-top: none;
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-	.tipsy-ne .tipsy-arrow {
-		top: 0;
-		right: 10px;
-		border-bottom-style: solid;
-		border-top: none;
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-	.tipsy-s .tipsy-arrow {
-		bottom: 0;
-		left: 50%;
-		margin-left: -5px;
-		border-top-style: solid;
-		border-bottom: none;
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-	.tipsy-sw .tipsy-arrow {
-		bottom: 0;
-		left: 10px;
-		border-top-style: solid;
-		border-bottom: none;
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-	.tipsy-se .tipsy-arrow {
-		bottom: 0;
-		right: 10px;
-		border-top-style: solid;
-		border-bottom: none;
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-	.tipsy-e .tipsy-arrow {
-		right: 0;
-		top: 50%;
-		margin-top: -5px;
-		border-left-style: solid;
-		border-right: none;
-		border-top-color: transparent;
-		border-bottom-color: transparent;
-	}
-	.tipsy-w .tipsy-arrow {
-		left: 0;
-		top: 50%;
-		margin-top: -5px;
-		border-right-style: solid;
-		border-left: none;
-		border-top-color: transparent;
-		border-bottom-color: transparent;
-	}
 
 
 // Modals
@@ -942,4 +759,195 @@ input:focus, textarea:focus {
 
 	a.select-box-disp {
 		color:#000;
+	}
+
+
+// JGrowl
+	body div.jGrowl {
+		position:			fixed;
+	}
+	div.jGrowl.bottom-right {
+		right:0;
+		bottom:0;
+	}
+
+	div.center div.jGrowl-notification, div.center div.jGrowl-closer {
+		margin-left: 		auto;
+		margin-right: 		auto;
+	}
+
+	div.jGrowl {
+		padding: 10px;
+		z-index: 9999;
+		color: #fff;
+		font-size: 12px;
+		position: absolute;
+		
+		div.jGrowl-notification, div.jGrowl-closer {
+			background-color: #000;
+			zoom: 1;
+			width: 235px;
+			padding: 10px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			font-family: @font-list;
+			font-size: 1em;
+			text-align: left;
+			display: none;
+			.opacity (.8);
+			.border-radius (3px);
+		}
+		
+		div.jGrowl-notification {
+			min-height: 10px;
+			
+			div.jGrowl-header {
+				font-weight: bold;
+				font-size: .85em;
+			}
+			
+			div.jGrowl-close {
+				z-index: 99;
+				float: right;
+				font-weight: bold;
+				font-size: 1em;
+				cursor: pointer;
+			}
+		}
+		
+		div.jGrowl-closer {
+			padding-top: 4px;
+			padding-bottom: 4px;
+			cursor: pointer;
+			font-size: .9em;
+			font-weight: bold;
+			text-align: center;
+		}
+	}
+
+	.error {
+		background-color:#B20000 !important;
+	}
+	.message {
+		background-color:#000066 !important;
+	}
+	
+	// Hide jGrowl when printing
+	@media print {
+		div.jGrowl {
+			display: 			none;
+		}
+	}
+
+
+// Tipsy
+/* TODO change tipsy style, fix font, add fade in?...*/
+	
+	.tipsy {
+		font-family: 'BankSans';
+		font-size: 10px;
+		line-height: 15px;
+		position: absolute;
+		padding: 5px;
+		z-index: 100000;
+	}
+	.tipsy-inner {
+		background-color: #000;
+		color: #FFF;
+		max-width: 200px;
+		padding: 5px 8px 4px 8px;
+		text-align: center;
+		.border-radius(3px);
+		.box-shadow (0 0 5px #000);
+	}
+	
+	.tipsy-arrow {
+		position: absolute;
+		width: 0;
+		height: 0;
+		line-height: 0;
+		border: 5px dashed #000;
+	}
+	  
+	// Rules to color arrows
+	
+	.tipsy-arrow-n {
+		border-bottom-color: #000;
+	}
+	.tipsy-arrow-s {
+		border-top-color: #000;
+	}
+	.tipsy-arrow-e {
+		border-left-color: #000;
+	}
+	.tipsy-arrow-w {
+		border-right-color: #000;
+	}
+	.tipsy-n .tipsy-arrow {
+		top: 0;
+		left: 50%;
+		margin-left: -5px;
+		border-bottom-style: solid;
+		border-top: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+	.tipsy-nw .tipsy-arrow {
+		top: 0;
+		left: 10px;
+		border-bottom-style: solid;
+		border-top: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+	.tipsy-ne .tipsy-arrow {
+		top: 0;
+		right: 10px;
+		border-bottom-style: solid;
+		border-top: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+	.tipsy-s .tipsy-arrow {
+		bottom: 0;
+		left: 50%;
+		margin-left: -5px;
+		border-top-style: solid;
+		border-bottom: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+	.tipsy-sw .tipsy-arrow {
+		bottom: 0;
+		left: 10px;
+		border-top-style: solid;
+		border-bottom: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+	.tipsy-se .tipsy-arrow {
+		bottom: 0;
+		right: 10px;
+		border-top-style: solid;
+		border-bottom: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+	.tipsy-e .tipsy-arrow {
+		right: 0;
+		top: 50%;
+		margin-top: -5px;
+		border-left-style: solid;
+		border-right: none;
+		border-top-color: transparent;
+		border-bottom-color: transparent;
+	}
+	.tipsy-w .tipsy-arrow {
+		left: 0;
+		top: 50%;
+		margin-top: -5px;
+		border-right-style: solid;
+		border-left: none;
+		border-top-color: transparent;
+		border-bottom-color: transparent;
 	}
