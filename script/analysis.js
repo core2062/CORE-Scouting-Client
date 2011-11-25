@@ -33,8 +33,6 @@ else{document.getElementById(putid).innerHTML = 'team entered &#x2260; number';}
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  * 
- */
-/**
  * 
  * @description Create a sortable table with multi-column sorting capabilitys
  * 

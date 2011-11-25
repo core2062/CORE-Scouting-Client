@@ -157,6 +157,8 @@ Language: LESS
 	transition: all @time ease-out;  
 }
 
+
+// Fonts
 @font-face {
     font-family: 'BankGothicMdBTMedium';
     src: url('/CSD/font/bank-gothic-medium-bt.ttf');
@@ -167,7 +169,6 @@ Language: LESS
     src: url('/CSD/font/bank-sans.ttf');
 }
 
-//Font List
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
 
 body, html, table {
@@ -254,7 +255,6 @@ ul {
 	padding-left:0;
 	margin:10px 0px
 }
-// Nav End
 
 fieldset {
 	background: @form_bgcolor;
@@ -282,8 +282,6 @@ legend {
 fieldset, legend {
 	.border-radius-br(8px);
 }
-
-// START form-styling
 
 input, textarea, .select-box, #selectarrow, .select-box ul, .select-box ul li, #plus, #help {
 	.border-radius(5px);
@@ -319,9 +317,9 @@ button {
 	.border-radius(3px);	
 }
 
-// END form-styling
 
-// START Easy Select Box
+
+// Easy Select Box
 #selectarrow {
 	background-color: @activecolor;
 	.img-gradent(@select, @activecolor);
@@ -405,10 +403,8 @@ a.select-box-disp {
 	background:@activecolor;
 	color:#fff;
 }
-// END Select Box
 
 //Pager
-
 div.tablesorterPager {
 	padding: 10px 0 10px 0;
 	background-color: #D6D2C2;
@@ -433,8 +429,7 @@ div.tablesorterPager input {
 }
 
 
-//tablesorter
-
+//Tablesorter
 table.tablesorter {
 	font-family:arial;
 	background-color: #CDCDCD;
@@ -1018,7 +1013,6 @@ div.jGrowl {
 
 
 // Buttons
-
 	button {
 		height: 32px; //fixes weird button height differance
 	}
@@ -1032,7 +1026,6 @@ div.jGrowl {
 	}
 
 // Button Sets
-
 	.ui-buttonset {
 		margin-right: 7px;
 		display: inline;
@@ -1054,7 +1047,6 @@ div.jGrowl {
 
 
 // Progressbar
-
 	#progressbar {
 		margin-top:3px;
 		height: 12px;
@@ -1207,7 +1199,6 @@ div.jGrowl {
 	}
 
 // Modals
-
 	.modal-titlebar {
 		padding: 0.7em 1em 0.6em 1em;
 		position: relative;
@@ -1297,7 +1288,6 @@ div.jGrowl {
 	}
 	
 //Nav Modal
-	
 	div.nav-modal {
 		ul {
 			margin: 0 0 15px 0;
