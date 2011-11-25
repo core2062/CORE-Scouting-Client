@@ -193,6 +193,10 @@ td {
 	padding: 0;
 }
 
+tr.head {
+	height:65px;
+}
+
 #head {
 	height: 50px;
 }
@@ -924,19 +928,18 @@ div.jGrowl {
 		padding-right: 2.1em;
 	}
 	*/
+	
+	
 	//no icon support for input elements, provide padding by default
-	input.ui-button, button, .ui-buttonset label {
+	
+	button, .ui-buttonset label {
 		font-size: 14px;
 		font-weight:700;
 		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 		padding: 0 1em;
 		height: 31px;
 	}
-	//remove submit button internal padding in Firefox
-	input.ui-button::-moz-focus-inner, button::-moz-focus-inner, .ui-buttonset label::-moz-focus-inner {
-		border: 0;
-		padding: 0;
-	}
+
 
 /*
 // fix webkits handling of the box model
@@ -945,8 +948,6 @@ div.jGrowl {
 		height: 31px !important;
 	}
 }*/
-
-//button sets
 
 
 
@@ -957,9 +958,7 @@ div.jGrowl {
 		padding: 0;
 	} 
 */
-	button {
-		height: 32px; //fixes weird button height differance
-	}
+
 
 
 
@@ -1029,12 +1028,17 @@ div.jGrowl {
 
 // Buttons
 
+	button {
+		height: 32px; //fixes weird button height differance
+	}
 
 
 
-
-
-
+	// remove dotted lines in firefox
+	button::-moz-focus-inner, .ui-buttonset label::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
 
 // Button Sets
 

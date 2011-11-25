@@ -2,6 +2,7 @@
 body{background-color:#cccccc;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);font-family:"BankGothicMdBTMedium","bankgothic lt bt";margin:0 8px 0 8px;min-width:1150px;}
 #layout{width:100%;border:0;}
 td{vertical-align:top;padding:0;}
+tr.head{height:65px;}
 #head{height:50px;}
 #foot{height:15px;}
 .Regular-c,.Human-Player-c,.Pit-c{display:none;}
@@ -108,12 +109,12 @@ button.ui-button-icon-only{width:2.4em;}
 button.ui-button-icons-only{width:3.7em;}
 .ui-button.ui-state-hover,button:hover,.ui-buttonset label:hover{-moz-box-shadow:0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;-webkit-box-shadow:0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;box-shadow:0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;color:#313131;}
 .ui-button.ui-state-focus,button:active,.ui-buttonset input[type="radio"]:checked+label{outline:none;color:#1c4257;border-color:#7096ab;background-color:#ededed url(../CSD/img/bg_fallback.png) 0 -50px repeat-x;background-image:-webkit-linear-gradient(top, #b9e0f5, #92bdd6);background-image:-moz-linear-gradient(top, #b9e0f5, #92bdd6);background-image:-ms-linear-gradient(top, #b9e0f5 #92bdd6);background-image:"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#b9e0f5), to(#92bdd6)";background-image:-o-linear-gradient(top, #b9e0f5, #92bdd6);background-image:linear-gradient(top, #b9e0f5, #92bdd6);-moz-box-shadow:0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;-webkit-box-shadow:0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;box-shadow:0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;}
-input.ui-button,button,.ui-buttonset label{font-size:14px;font-weight:700;text-shadow:0 1px 0 rgba(255, 255, 255, 0.6);padding:0 1em;height:31px;}
-input.ui-button::-moz-focus-inner,button::-moz-focus-inner,.ui-buttonset label::-moz-focus-inner{border:0;padding:0;}
-button{height:32px;}
+button,.ui-buttonset label{font-size:14px;font-weight:700;text-shadow:0 1px 0 rgba(255, 255, 255, 0.6);padding:0 1em;height:31px;}
 .icon{vertical-align:middle;font-size:22px;font-weight:200;}
 span.icon{display:inline-block;color:inherit;line-height:36px;}
 button.icon{height:28px;padding:4px;}
+button{height:32px;}
+button::-moz-focus-inner,.ui-buttonset label::-moz-focus-inner{border:0;padding:0;}
 .ui-buttonset{margin-right:7px;display:inline;}.ui-buttonset input[type="radio"]{display:none;}
 .ui-buttonset label{margin-left:-3px;margin-right:-3px;line-height:31px;}
 #progressbar{margin-top:3px;height:12px;background:#FFF;width:50%;background-image:-webkit-linear-gradient(top, #b3b3b3, #ffffff);background-image:-moz-linear-gradient(top, #b3b3b3, #ffffff);background-image:-ms-linear-gradient(top, #b3b3b3 #ffffff);background-image:"-webkit-gradient(linear, 0% 0%, 0% 100%, from(#b3b3b3), to(#ffffff)";background-image:-o-linear-gradient(top, #b3b3b3, #ffffff);background-image:linear-gradient(top, #b3b3b3, #ffffff);border:1px solid #b3b3b3;left:25%;position:relative;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}#progressbar:hover{-moz-opacity:0.4;filter:alpha(opacity=8);opacity:0.4;-webkit-transition:all 0.3s ease-out;-moz-transition:all 0.3s ease-out;-ms-transition:all 0.3s ease-out;-o-transition:all 0.3s ease-out;transition:all 0.3s ease-out;}
