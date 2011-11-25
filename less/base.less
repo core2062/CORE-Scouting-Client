@@ -3,8 +3,6 @@ Designer: Sean Lang
 Language: LESS
 */
 
-/*TODO rewrite/reorganize most of the css */
-
 //Colors
 @regcolor: #d1d1d1; //gray
 @l-regcolor: lighten(@regcolor, 15%);
@@ -236,7 +234,7 @@ a#logo {
 	height:50px;
 	width:115px;
 	text-align:right;
-	font-size:28px; //18px for full text
+	font-size:30px; //18px for full text
 	line-height:17px; //13px for full text
 	text-decoration: none;
 	font-weight:500;
@@ -321,70 +319,7 @@ button {
 
 
 
-//Pager
-div.tablesorterPager {
-	padding: 10px 0 10px 0;
-	background-color: #D6D2C2;
-	text-align: center;
-}
-div.tablesorterPager span {
-	padding: 0 5px 0 5px;
-}
-div.tablesorterPager input.prev {
-	width: auto;
-	margin-right: 10px;
-}
-div.tablesorterPager input.next {
-	width: auto;
-	margin-left: 10px;
-}
-div.tablesorterPager input {
-	font-size: 8px;
-	width: 50px;
-	border: 1px solid #330000;
-	text-align: center;
-}
 
-
-//Tablesorter
-table.tablesorter {
-	font-family:arial;
-	background-color: #CDCDCD;
-	margin:10px 0pt 15px;
-	font-size: 8pt;
-	width: 100%;
-	text-align: left;
-}
-table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-	background-color: #e6EEEE;
-	border: 1px solid #FFF;
-	font-size: 8pt;
-	padding: 4px;
-}
-table.tablesorter thead tr .header {
-	background-image: @ts-bg;
-	background-repeat: no-repeat;
-	background-position: center right;
-	cursor: pointer;
-}
-table.tablesorter tbody td {
-	color: #3D3D3D;
-	padding: 4px;
-	background-color: #FFF;
-	vertical-align: top;
-}
-table.tablesorter tbody tr.odd td {
-	background-color:#F0F0F6;
-}
-table.tablesorter thead tr .headerSortUp {
-	background-image: @ts-asc;
-}
-table.tablesorter thead tr .headerSortDown {
-	background-image: @ts-desc;
-}
-table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
-background-color: #8dbdd8;
-}
 
 // Safari
 select, input, textarea {
@@ -690,75 +625,15 @@ div.jGrowl {
 		.border-radius (3px);
 	}
 
-	.ui-widget-shadow {
-		margin: -8px 0 0 -8px;
-		padding: 8px;
-		background: #000000;
-		opacity: .30;
-		filter: Alpha(Opacity=30);
-		-moz-border-radius: 8px;
-		-webkit-border-radius: 8px;
-		border-radius: 8px;
-	}
 
-/*
-// jQuery UI Autocomplete 1.8.7
 
-.ui-autocomplete {
-	position: absolute; cursor: default; z-index: 3;
-		-moz-border-radius: 0; 
-		-webkit-border-radius: 0;
-		border-radius: 0;
-		.box-shadow(0 1px 5px rgba(0,0,0,0.3));
-}	
-*/
-// jQuery UI Menu 1.8.7
-/*
-.ui-menu {
-	list-style:none;
-	padding: 2px;
-	margin: 0;
-	display:block;
-	float: left;
-}
-.ui-menu .ui-menu {
-	margin-top: -3px;
-}
-.ui-menu .ui-menu-item {
-	margin:0;
-	padding: 0;
-	zoom: 1;
-	float: left;
-	clear: left;
-	width: 100%;
-}
-.ui-menu .ui-menu-item a {
-	text-decoration:none;
-	display:block;
-	padding:.2em .4em;
-	line-height:1.5;
-	zoom:1;
-}
-.ui-menu .ui-menu-item a.ui-state-hover,
-.ui-menu .ui-menu-item a.ui-state-active {
-	font-weight: normal;
-	margin: -1px;
-	background: #5f83b9;
-	color: #FFFFFF;
-	text-shadow:0 1px 1px #234386;
-	border-color: #466086;
-	.border-radius(0);
-}
-*/
+
 // jQuery UI Button 1.8.7
 
-.ui-buttonset input[type="radio"] {
-    left: ~'-1e+8px';
-    position: absolute;
-}
 
 
-	.ui-button, button, .ui-buttonset label {
+
+	button, .ui-buttonset label {
 		display: inline-block;
 		position: relative;
 		padding: 0;
@@ -772,110 +647,9 @@ div.jGrowl {
 		-moz-transition: -moz-box-shadow 0.25s ease-in-out;
 		-o-transition: -o-box-shadow 0.25s ease-in-out;
 	}
-	//the overflow property removes extra width in IE
-	.ui-button-icon-only {
-		width: 2.2em;
-	}
-	//to make room for the icon, a width needs to be set here
-	button.ui-button-icon-only {
-		width: 2.4em;
-	}
-	//button elements seem to need a little more width
-	.ui-button-icons-only {
-		width: 3.4em;
-	}
-	button.ui-button-icons-only {
-		width: 3.7em;
-	}
-
-// button animation properties
-
-//states
-button:hover, .ui-buttonset label:hover { 
-	.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-	color: #313131;
-}
-button:active, .ui-buttonset input[type="radio"]:checked + label {
-	outline: none;
-	color: #1c4257;
-	border-color: #7096ab;
-	background-color: #ededed @bg_fallback 0 -50px repeat-x;
-	.advanced-gradent(#b9e0f5, #92bdd6);
-	.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-}
-
- // button text element
-/*
-	.ui-button .ui-button-text {
-		display: block;
-		line-height: 1.4;
-		font-size: 14px;
-		font-weight:700;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-	}
-	.ui-button-text-only .ui-button-text {
-		padding: .4em 1em;
-	}
-	.ui-button-icon-only .ui-button-text, .ui-button-icons-only .ui-button-text {
-		padding: .4em;
-		text-indent: -9999999px;
-	}
-	.ui-button-text-icon-primary .ui-button-text, .ui-button-text-icons .ui-button-text {
-		padding: .4em 1em .4em 2.1em;
-	}
-	.ui-button-text-icon-secondary .ui-button-text, .ui-button-text-icons .ui-button-text {
-		padding: .4em 2.1em .4em 1em;
-	}
-	.ui-button-text-icons .ui-button-text {
-		padding-left: 2.1em;
-		padding-right: 2.1em;
-	}
-	*/
-	
-	
-	//no icon support for input elements, provide padding by default
-	
-	button, .ui-buttonset label {
-		font-size: 14px;
-		font-weight:700;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-		padding: 0 1em;
-		height: 31px;
-	}
 
 
-/*
-// fix webkits handling of the box model
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-	button, .ui-buttonset label {
-		height: 31px !important;
-	}
-}*/
 
-
-// Extra Input Field Styling
-/*
-	.ui-form textarea, .ui-form input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]) {
-		padding: 3px;
-		.border-radius (2px);
-		border: 1px solid #cecece;
-		outline: none;
-		.box-shadow(~'0 1px 3px rgba(0,0,0,0.1) inset, 0 1px 0 rgba(255,255,255,0.2)');
-	    -webkit-transition: all 0.25s ease-in-out;
-	    -moz-transition: all 0.25 ease-in-out;
-	    -o-transition: all 0.25s ease-in-out;
-	}
-
-	.ui-form textarea:hover, .ui-form input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):hover {
-		border: 1px solid #bdbdbd;
-		.box-shadow(~'0 1px 3px rgba(0,0,0,0.2) inset, 0 1px 0 rgba(255,255,255,0.2)');
-	}
-	
-	.ui-form textarea:focus, .ui-form input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):focus {
-		border: 1px solid #95bdd4;
-		.box-shadow(~'0 2px 3px rgba(161,202,226,0.5) inset, 0 1px 0 rgba(255,255,255,0.2)');
-	}
-*/
 	//icons
 	
 	.icon {
@@ -922,12 +696,38 @@ button:active, .ui-buttonset input[type="radio"]:checked + label {
 
 
 
+
+
+
+// Buttons and Button Sets
+
+	button, .ui-buttonset label {
+		font-size: 14px;
+		font-weight:700;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+		padding: 0 1em;
+		height: 31px;
+	}
+
+	button:hover, .ui-buttonset label:hover { 
+		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+		color: #313131;
+	}
+	
+	button:active, .ui-buttonset input[type="radio"]:checked + label {
+		outline: none;
+		color: #1c4257;
+		border-color: #7096ab;
+		background-color: #ededed @bg_fallback 0 -50px repeat-x;
+		.advanced-gradent(#b9e0f5, #92bdd6);
+		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+	}
+
 	// remove dotted lines in firefox
 	button::-moz-focus-inner, .ui-buttonset label::-moz-focus-inner {
 		border: 0;
 		padding: 0;
 	}
-
 
 // Button Sets
 	.ui-buttonset {
@@ -936,6 +736,8 @@ button:active, .ui-buttonset input[type="radio"]:checked + label {
 		
 		input[type="radio"] {
 		    display:none;
+		    left: ~'-1e+8px';
+		    position: absolute;
 		}
 		
 		label {
@@ -1167,7 +969,7 @@ button:active, .ui-buttonset input[type="radio"]:checked + label {
 			border-width: 1px 0 0 0;
 			background-image: none;
 			margin: .5em 0 0 0;
-			padding: .3em 1em .5em .4em;
+			//padding: .3em 1em .5em .4em; /*TODO fix this area */
 			
 			button {
 				float: right;
@@ -1229,76 +1031,157 @@ button:active, .ui-buttonset input[type="radio"]:checked + label {
 		background-position:center;
 		width:15px;
 		display:inline-block;
+		
+		&:active {
+			.inv-img-gradent(@select, @activecolor);
+		}
+		
+		&:hover, &:active {
+			.box-shadow(inset 0 0 4px #fff);
+		}
 	}
-	
-	#selectarrow:hover, #selectarrow:active {
-		.box-shadow(inset 0 0 4px #fff);
-	}
-	
-	#selectarrow:active {
-		.inv-img-gradent(@select, @activecolor);
-	}
-	
+
 	.select-box {
 		color:#000;
 		display:inline-block;
 		position:relative;
 		font-size:13px;
 		line-height:23px;
+		
+		.select-box-disp, .select-box-disp:visited {
+			text-decoration:none;
+			padding:0 3px;
+			vertical-align:middle;
+		}
+		.select-box-disp:hover {
+			position:relative;
+			text-decoration:none;
+		}
+		
+		ul {
+			position:absolute;
+			top:100%;
+			left:0;
+			display:none;
+			z-index:99;
+			width:inherit;
+			max-height:200px;
+			overflow:auto;
+			height:auto;
+			.box-shadow(0 0 16px #000000);
+			margin:0;
+			padding:5px !important;
+			
+			li {
+				display:block !important;
+				padding:0 !important;
+				
+				a {
+					color:#000;
+					width: 100%;
+					height: 100%;
+					display: block;
+					
+					&:hover {
+						color:#fff;
+					}
+				}
+				
+				a, a:visited {
+					padding:1px;
+					cursor:default;
+					text-decoration:none;
+				}
+				
+				&:hover {
+					background:@activecolor;
+					color:#fff;
+				}
+			}
+		}
 	}
-	.select-box .select-box-disp, .select-box .select-box-disp:visited {
-		text-decoration:none;
-		padding:0 3px;
-		vertical-align:middle;
-	}
-	.select-box .select-box-disp:hover {
-		position:relative;
-		text-decoration:none;
-	}
-	.select-box ul {
-		position:absolute;
-		top:100%;
-		left:0;
-		display:none;
-		z-index:99;
-		width:inherit;
-		max-height:200px;
-		overflow:auto;
-		height:auto;
-		.box-shadow(0 0 16px #000000);
-		margin:0;
-		padding:5px !important;
-	}
-	
-	.select-box ul li {
-		display:block !important;
-		padding:0 !important;
-	}
-	
-	.select-box ul li a {
-		color:#000;
-		width: 100%;
-		height: 100%;
-		display: block;
-	}
-	
+
 	a.select-box-disp {
 		color:#000;
 	}
 	
-	.select-box ul li a:hover {
-		color:#fff;
-	}
-	
-	.select-box ul li a, .select-box ul li a:visited {
-		padding:1px;
-		cursor:default;
-		text-decoration:none;
-	}
-	
-	.select-box ul li:hover {
-		background:@activecolor;
-		color:#fff;
-	}
-	
+//Tablesorter
+	table.tablesorter {
+		font-family:arial;
+		background-color: #CDCDCD;
+		margin:10px 0pt 15px;
+		font-size: 8pt;
+		width: 100%;
+		text-align: left;
+		
+		thead tr th, tfoot tr th {
+			background-color: #e6EEEE;
+			border: 1px solid #FFF;
+			font-size: 8pt;
+			padding: 4px;
+		}
+		
+		thead tr {
+			.header {
+				background-image: @ts-bg;
+				background-repeat: no-repeat;
+				background-position: center right;
+				cursor: pointer;
+			}
+			
+			.headerSortUp {
+				background-image: @ts-asc;
+			}
+			
+			.headerSortDown {
+				background-image: @ts-desc;
+			}
+			
+			.headerSortDown, .headerSortUp {
+				background-color: #8dbdd8;
+			}
+		}
+		
+		tbody {
+			td {
+				color: #3D3D3D;
+				padding: 4px;
+				background-color: #FFF;
+				vertical-align: top;
+			}
+			
+			tr.odd td {
+				background-color:#F0F0F6;
+			}
+		}
 
+	}
+
+//Pager
+	div.tablesorterPager {
+		padding: 10px 0 10px 0;
+		background-color: #D6D2C2;
+		text-align: center;
+		
+		span {
+			padding: 0 5px 0 5px;
+		}
+		
+		/* TODO test merge of below 3 inputs */
+		input {
+			font-size: 8px;
+			width: 50px;
+			border: 1px solid #330000;
+			text-align: center;
+		}
+		
+		input.prev {
+			width: auto;
+			margin-right: 10px;
+		}
+		
+		input.next {
+			width: auto;
+			margin-left: 10px;
+		}
+	}
