@@ -1,10 +1,10 @@
 <?php
-	 // TODO remove this section before production
-	require_once('FirePHP/fb.php');
-	ob_start();
-	
-	error_reporting( E_ALL );
-	ini_set( 'display_errors', 1 );
+ // remove this section before production
+require_once('FirePHP/fb.php');
+ob_start();
+
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
 ?>
 
 
@@ -29,15 +29,78 @@
 <!-- TODO change MySQL to MongoDB -->
 
 <?php
-	//check if files were modified & get temp file if they were not
+// TODO make code check if files were modified & get temp file if they were not
+
+$embedded[0] = "base";
+$embedded[1] = "home";
+$embedded[2] = "input";
+
+sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
+
+//TODO maybe add some logging here
+
+$length = count($embedded);
+
+
+$filename = $embedded[0];
+for ($i = 1; $i < $length; ++$i) {
+	$filename .= "," . $embedded[$i];
+}
+$filename = 'cache/' . $filename . '-index';
+
+
+if (file_exists($filename) == true){
+
+	$htmlparts[0] = 'navbar';
+	$htmlparts[1] = 'content';
+	$htmlparts[2] = 'sidebar';
+	$htmlparts[3] = 'modals';
 	
-	$embedded[0] = "base";
-	$embedded[1] = "home";
-	$embedded[2] = "input";
+	$parts_length = count($htmlparts);
+
+	$cache_date = filemtime($filename);
+
+	//check if files have been modified
+	function cache_check() {
+		global $length;
+		global $htmlparts;
+		global $parts_length;
+		global $cache_date;
+		global $embedded;
+		
+		for ($i = 0; $i < $length; ++$i) {
+			$file = 'css/' . $embedded[$i] . '.css';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
+			}
+		}
+		for ($i = 0; $i < $length; ++$i) {
+			$file = 'script/' . $embedded[$i] . '.js';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
+			}
+		}
+		for ($e = 0; $e < $parts_length; ++$e) {
+			for ($i = 0; $i < $length; ++$i) {
+				$file = 'html/' . $embedded[$i] . '-' . $htmlparts[$e] . '.html';
+				if (file_exists($file)) {
+					if (filemtime($file) > $cache_date) {return false;}
+				}
+			}
+		}
+		return true;
+	}
 	
-	$length = count($embedded);
-	
-	include 'php/jsminplus.php';
+	//code to get cached file and send it
+	if (cache_check() === true) {
+		$html = file_get_contents ($filename);
+		fb('cached');
+		ob_clean (); //empty output buffer
+		die($html);
+	}
+}
+
+include 'php/jsminplus.php';
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +170,7 @@
 	<!-- END Content -->
 	
 	<!-- START Bottom Bar -->
-	<tr id="foot">
+	<tr class="foot">
 		<td colspan="2" style="height:20px;">
 
 			<!-- Google +1 Button -->
@@ -180,11 +243,7 @@ function embed($folder, $extension) {
 	}
 }
 
-
-
 $html = ob_get_contents();
-ob_clean (); //empty output buffer
-
 
 $html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 $html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
@@ -207,6 +266,11 @@ $html = preg_replace('/<script type="text\/javascript"><\/script>/', '<script ty
 
 $html = trim($html);
 
-die($html);
+//cache data to temporary file
+$fp = fopen($filename, "w+"); 
+fwrite($fp, $html); 
+fclose($fp); 
 
+ob_clean (); //empty output buffer
+die($html);
 ?>

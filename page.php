@@ -1,10 +1,10 @@
 <?php
-	 // remove this section before production
-	require_once('FirePHP/fb.php');
-	ob_start();
-	
-	error_reporting( E_ALL );
-	ini_set( 'display_errors', 1 );
+ // remove this section before production
+require_once('FirePHP/fb.php');
+ob_start();
+
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
 ?>
 
 <?php
@@ -23,9 +23,7 @@ $filename = $embedded[0];
 for ($i = 1; $i < $length; ++$i) {
 	$filename .= "," . $embedded[$i];
 }
-$filename = 'cache/' . $filename;
-
-$cache_date = filemtime($filename);
+$filename = 'cache/' . $filename . '-page';
 
 $htmlparts[0] = 'navbar';
 $htmlparts[1] = 'content';
@@ -34,45 +32,49 @@ $htmlparts[3] = 'modals';
 
 $parts_length = count($htmlparts);
 
-//check if files have been modified
-function cache_check() {
-	global $length;
-	global $htmlparts;
-	global $parts_length;
-	global $cache_date;
-	global $embedded;
+if (file_exists($filename) == true){
+
+	$cache_date = filemtime($filename);
 	
-	for ($i = 0; $i < $length; ++$i) {
-		$file = 'css/' . $embedded[$i] . '.css';
-		if (file_exists($file)) {
-			if (filemtime($file) > $cache_date) {return false;}
-		}
-	}
-	for ($i = 0; $i < $length; ++$i) {
-		$file = 'script/' . $embedded[$i] . '.js';
-		if (file_exists($file)) {
-			if (filemtime($file) > $cache_date) {return false;}
-		}
-	}
-	for ($e = 0; $e < $parts_length; ++$e) {
+	//check if files have been modified
+	function cache_check() {
+		global $length;
+		global $htmlparts;
+		global $parts_length;
+		global $cache_date;
+		global $embedded;
+		
 		for ($i = 0; $i < $length; ++$i) {
-			$file = 'html/' . $embedded[$i] . '-' . $htmlparts[$e] . '.html';
+			$file = 'css/' . $embedded[$i] . '.css';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
+		for ($i = 0; $i < $length; ++$i) {
+			$file = 'script/' . $embedded[$i] . '.js';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
+			}
+		}
+		for ($e = 0; $e < $parts_length; ++$e) {
+			for ($i = 0; $i < $length; ++$i) {
+				$file = 'html/' . $embedded[$i] . '-' . $htmlparts[$e] . '.html';
+				if (file_exists($file)) {
+					if (filemtime($file) > $cache_date) {return false;}
+				}
+			}
+		}
+		return true;
 	}
-	return true;
+	
+	//code to get cached file and send it
+	if (cache_check() === true) {
+		$json = file_get_contents ($filename);
+		fb('cached');
+		ob_clean (); //empty output buffer
+		die($json);
+	}
 }
-
-//code to get cached file and send it
-if (cache_check() === true) {
-	$json = file_get_contents ($filename);
-	fb('cached');
-	ob_clean (); //empty output buffer
-	die($json);
-}
-
 
 //compile needed files into JSON
 function htmlembed($type) {
@@ -153,5 +155,4 @@ fclose($fp);
 
 ob_clean (); //empty output buffer
 die($json);
-
 ?>
