@@ -1,4 +1,5 @@
 // global vars for page navigation
+// TODO remove & replace vars with sitemap
 var subpages = ['Regular', 'Human-Player', 'Pit']; //the first element will be the default page
 var modals = ['Navagation', 'Login', 'Contact'];
 
