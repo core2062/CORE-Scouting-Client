@@ -1,3 +1,24 @@
+//TODO fix crappy JS
+
+var currentpage = 'teamlookfull';
+
+function Hide(obj){	
+document.getElementById('direct').style.display = 'none';
+document.getElementById('teamlookfull').style.display = 'none';
+document.getElementById('teamlooksum').style.display = 'none';
+document.getElementById(obj).style.display = 'block';
+currentpage = obj;
+}
+
+function getval(getid,putid){ // for putting the team number in the pre tags
+getid = document.getElementById(getid).value;
+if (isNaN(getid) == false){document.getElementById(putid).innerHTML = getid;}
+else{document.getElementById(putid).innerHTML = 'team entered &#x2260; number';}
+}
+
+
+//END CRAPPY JS
+
 // START TableSorter
 
 /*

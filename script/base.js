@@ -32,7 +32,7 @@ var site = {
 		"progressbar": true}
 	},
 	{"analysis": {
-		"subpages": ["view-stats", "data-liberation"],
+		"subpages": ["public", "member", "data-liberation"],
 		"modals": [],
 		"login-required": true, 
 		"min-width": "1150px",

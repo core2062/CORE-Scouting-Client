@@ -29,7 +29,6 @@ ini_set( 'display_errors', 1 );
 <!-- TODO change MySQL to MongoDB -->
 
 <?php
-// TODO make code check if files were modified & get temp file if they were not
 
 $embedded[0] = "base";
 $embedded[1] = "home";
