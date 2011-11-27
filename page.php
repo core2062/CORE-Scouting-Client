@@ -13,6 +13,8 @@ ini_set( 'display_errors', 1 );
 
 $embedded = json_decode($_GET["pages"], true);
 
+//TODO add code to check id sent with cookie to determine if admin page can be sent with request
+
 sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 
 //TODO maybe add some logging here
