@@ -36,6 +36,9 @@ $embedded[0] = "base";
 $embedded[1] = "home";
 $embedded[2] = "input";
 
+
+//TODO add code to check id sent with cookie to determine if admin page can be sent with request
+
 sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 
 //TODO maybe add some logging here
