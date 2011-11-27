@@ -12,7 +12,7 @@ $ScoutID=$_POST["ScoutID"];
 $pword=$_POST["pword"];
 $Request=$_POST["Request"]; // I = Input	Q = Query	A = Admin	P = Poll	M = Mail
 
-include 'variables.php'; //assigns varables for $mysql_server, $mysql_user, $mysql_pasword
+include 'vars.php'; //assigns variables for $mysql_server, $mysql_user, $mysql_pasword
 
 $log=" | Request: $Request"; //start log
 

@@ -37,17 +37,17 @@ Language: LESS
 @progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
 @background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
 @stripe: url(data:image/gif;base64,R0lGODlhBQAFAOMKAEpNYUtOYkpMYPLy8vPz8/T09PX19fz8/P39/f7+/v///////////////////////yH5BAEKAA8ALAAAAAAFAAUAAAQMEElEki1JKaN3510EADs=);
-@logo: url(../CSD/img/logo.svg);
-@bg_fallback: url(../CSD/img/bg_fallback.png);
-@close-icon: url(../CSD/img/icon_sprite.png);
+@logo: url(img/logo.svg);
+@bg_fallback: url(img/bg_fallback.png);
+@close-icon: url(img/icon_sprite.png);
 
-@list-icon: url(../CSD/img/icon/list.svg);
-@plus-icon: url(../CSD/img/icon/plus.svg);
-@help-icon: url(../CSD/img/icon/help.svg);
+@list-icon: url(img/icon/list.svg);
+@plus-icon: url(img/icon/plus.svg);
+@help-icon: url(img/icon/help.svg);
 
-@ts-bg: url(../CSD/img/ie/bg.gif);
-@ts-asc: url(../CSD/img/ie/asc.gif);
-@ts-desc: url(../CSD/img/ie/desc.gif);
+@ts-bg: url(img/ie/bg.gif);
+@ts-asc: url(img/ie/asc.gif);
+@ts-desc: url(img/ie/desc.gif);
 
 // Parametric Mixins
 
@@ -159,12 +159,12 @@ Language: LESS
 // Fonts
 @font-face {
     font-family: 'BankGothicMdBTMedium';
-    src: url('/CSD/font/bank-gothic-medium-bt.ttf');
+    src: url('font/bank-gothic-medium-bt.ttf');
 }
 
 @font-face {
     font-family: 'BankSans';
-    src: url('/CSD/font/bank-sans.ttf');
+    src: url('font/bank-sans.ttf');
 }
 
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
@@ -628,15 +628,17 @@ Language: LESS
 		}
 	}
 
-	.ui-helper-clearfix:after {
-		content: ".";
-		display: block;
-		height: 0;
-		clear: both;
-		visibility: hidden;
-	}
+
 	.ui-helper-clearfix {
 		display: inline-block;
+		
+		&:after {
+			content: ".";
+			display: block;
+			height: 0;
+			clear: both;
+			visibility: hidden;
+		}
 	}
 
 	* html .ui-helper-clearfix {
