@@ -196,12 +196,6 @@ Language: LESS
 	
 	.head {
 		height:65px;
-		
-		a {
-			height:100%;
-			width:100%;
-			display:block;
-		}
 	}
 	
 	.foot {
@@ -223,7 +217,7 @@ Language: LESS
 		margin:2px;
 	}
 	
-	label, button, legend, #logo {
+	label, button, legend, a#logo {
 		-webkit-user-select: none;
 		-khtml-user-select: none;
 		-moz-user-select: none;
@@ -291,6 +285,12 @@ Language: LESS
 		font-weight:400;
 	}
 	
+	
+	input, select, textarea, button {
+		font-family: @font-list;
+		font-size: 1em;
+	}
+	
 	input, textarea, .select-box, #selectarrow, .select-box ul {
 		border:none;
 		background-repeat: repeat;
@@ -303,7 +303,7 @@ Language: LESS
 		margin-right:20px;
 		vertical-align:middle;
 		font-family: @font-list;
-		font-size:13px;
+		font-size: 15px;
 		.border-radius(5px);
 	}
 	
@@ -321,10 +321,7 @@ Language: LESS
 	}
 
 
-	input, select, textarea, button {
-		font-family: @font-list;
-		font-size: 1em;
-	}
+
 
 
 
@@ -347,10 +344,7 @@ Language: LESS
 		line-height: 36px;
 	}
 	
-	button.icon {
-		height: 28px;
-		padding: 4px;
-	}
+
 
 
 
@@ -367,13 +361,18 @@ Language: LESS
 
 	button {
 		.border-radius(3px);
-		height: 32px; //fixes weird button height differance
+		height: 32px; //fixes weird button height diff
+		
+		&.icon {
+			height: 28px;
+			padding: 4px;
+		}
 	}
 
 
 // Buttons and Button Sets
 
-	button, .ui-buttonset label {
+	button, .buttonset label {
 		border: 1px solid #B6B6B6;
 		font-weight: normal;
 		color: @litetext;
@@ -412,7 +411,7 @@ Language: LESS
 	}
 
 
-	button:active, .ui-buttonset input[type="radio"]:checked + label {
+	button:active, .buttonset input[type="radio"]:checked + label {
 		outline: none;
 		color: #1c4257;
 		border-color: #7096ab;
@@ -425,7 +424,7 @@ Language: LESS
 
 // Button Sets
 
-	.ui-buttonset {
+	.buttonset {
 		margin-right: 7px;
 		display: inline;
 		
@@ -450,6 +449,15 @@ Language: LESS
 				.border-radius-tr (3px);
 			}
 		}
+		
+		a {
+			height:100%;
+			width:100%;
+			display:block;
+		}
+		
+		/* TODO button & button sets transitions */
+		
 	}
 
 
@@ -492,11 +500,10 @@ Language: LESS
 		background-repeat: repeat-x;
 		width: 50%; // default value
 	}
-	
-
 
 
 // Modals
+
 	.modal-titlebar {
 		padding: 0.7em 1em 0.6em 1em;
 		position: relative;
@@ -631,9 +638,11 @@ Language: LESS
 	.ui-helper-clearfix {
 		display: block;
 	}
-
+	
+/* TODO fix above */
 
 //Nav Modal
+
 	div.Navagation-c {
 		ul {
 			margin: 5px 0 15px 0;
