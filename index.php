@@ -126,8 +126,8 @@ include 'php/jsminplus.php';
 
 </head>
 <body>
-<!-- TODO add version number... probably at bottom of page -->
-<!-- TODO add data for bookmarks -->
+
+<!-- TODO add tags for bookmarks and for search engines -->
 
 
 <!-- START Layout -->
@@ -201,7 +201,7 @@ include 'php/jsminplus.php';
 <div class="modal-aligner">
 	<div class="modal-wrapper">
 		<div style="display: none;" class="modal-container Navagation-c Login-c Contact-c">
-			<div class="modal-titlebar ui-widget-header ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
+			<div class="modal-titlebar">
 				<span id="modal-title">Title</span>
 				
 				<a href="#" class="close"> <!--TODO fix this ... it fucks up the url --> 
@@ -213,7 +213,7 @@ include 'php/jsminplus.php';
 				embed('html/', '-modals.html');
 			?>
 		
-			<div class="modal-buttons ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
+			<div class="modal-buttons">
 				<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
 			</div>
 		</div>
@@ -278,3 +278,44 @@ fclose($fp);
 ob_clean (); //empty output buffer
 die($html);
 ?>
+
+
+
+
+
+
+
+<!-- TODO make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time -->
+
+message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. only send data from the computer it was generated from or the database will reject it (IF TOKEN BASED LOGIN). If it is not possible to send it from this computer... contact me/send it to me.
+
+check to see if save valuable scouting data jGrowl pops up for blank ScoutID or other errors
+
+change popup thing with scouting data POST string to a modal (or even better: downloadify type thing)
+
+add check to php: if data being entered is exactly the same (except for date) as another entry then allow it (or "overwrite" it) & move on
+
+make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
+
+make submit button disabled when form is blank
+
+change "Submit" to upload to cloud icon + tool tip
+
+add styling for disabled button
+
+
+if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
+
+if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
+
+above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a seperate entry, even if they are duplicates.
+in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
+
+
+make data sent by input page be in JSON
+
+remove convert to table thing in process, instead send JSON to client, and on client side convert to table.
+
+
+
+

@@ -294,7 +294,7 @@ Language: LESS
 		}
 		
 		&:hover legend {
-			font-size: 22px;
+			//add bg color change
 		}
 	}
 	
@@ -402,6 +402,7 @@ Language: LESS
 // Buttons and Button Sets
 
 	button, .buttonset label {
+		/* TODO add transitions*/
 		border: 1px solid #B6B6B6;
 		.theme1();
 		display: inline-block;
@@ -412,13 +413,9 @@ Language: LESS
 		text-align: center;
 		zoom: 1; 
 		overflow: visible;
-		-webkit-transition: -webkit-box-shadow 0.25s ease-in-out;
-		-moz-transition: -moz-box-shadow 0.25s ease-in-out;
-		-o-transition: -o-box-shadow 0.25s ease-in-out;
-/* TODO fix above */
 		height: 31px;
 		
-		&:hover { 
+		&:hover {
 			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 			color: #313131;
 		}
@@ -476,8 +473,6 @@ Language: LESS
 			display:block;
 		}
 		
-		/* TODO button & button sets transitions */
-		
 	}
 
 
@@ -526,7 +521,8 @@ Language: LESS
 
 	.modal-aligner {
 		position: absolute;
-		top:0px;
+		top:0;
+		left:0;
 		width: 100%;
 		height: 100%;
 		display:table;
@@ -539,43 +535,18 @@ Language: LESS
 		visibility: hidden;
 	}
 	
-	.modal-container { /* TODO fix this modal css */
-		visibility: visible;
-	    background: @form_bgcolor;
-	    border: 1px solid #B6B6B6;
-	    color: @litetext;
-		.border-radius (3px);
-		position: relative;
-		z-index: 1002;
-		width: 700px;
-		margin: auto; //centers it horizontally
-
-
-		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
-		
-		& > ul {
-			margin:10px;
-		}
-		
-		.modal-buttons {
-			border-top: 1px solid #B6B6B6;
-			
-			button {
-				float: right;
-				margin: .5em .4em .5em 0;
-			}
-		}
-	}
-
 	.modal-titlebar {
 		padding: 0.7em 1em 0.6em 1em;
 		position: relative;
 		border: none;
 		border-bottom: 1px solid #979797;
 		.border-radius (0);
+		color: @litetext;
+		font-weight:700;
+		background: #ededed;
+		.advanced-gradent(#ededed, #c4c4c4);
 		
 		#modal-title {
-			float: left;
 			margin: .1em 16px .2em 0;
 			font-size: 14px;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
@@ -602,6 +573,33 @@ Language: LESS
 			}
 		}
 	}
+	
+	.modal-container {
+		visibility: visible;
+	    background: @form_bgcolor;
+	    border: 1px solid #B6B6B6;
+	    color: @litetext;
+		.border-radius (3px);
+		position: relative;
+		z-index: 1002;
+		width: 700px;
+		margin: auto; //centers it horizontally
+		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
+		
+		& > ul {
+			margin:10px;
+		}
+		
+		.modal-buttons {
+			border-top: 1px solid #B6B6B6;
+			overflow:hidden; //might be a insufficant solution! ... test more
+			
+			button {
+				float: right;
+				margin: .5em .4em .5em 0;
+			}
+		}
+	}
 
 	.overlay {
 		display: none;
@@ -615,43 +613,6 @@ Language: LESS
 		z-index: 1000;
 	}
 
-
-
-/* TODO fix below */
-
-
-	.ui-widget-header {
-		color: @litetext;
-		font-weight:700;
-		background: #ededed;
-		.advanced-gradent(#ededed, #c4c4c4);
-		
-		a {
-			color: @litetext;
-		}
-	}
-
-
-	.ui-helper-clearfix {
-		display: inline-block;
-		
-		&:after {
-			content: ".";
-			display: block;
-			height: 0;
-			clear: both;
-			visibility: hidden;
-		}
-	}
-
-	* html .ui-helper-clearfix {
-		height: 1%;
-	}
-	.ui-helper-clearfix {
-		display: block;
-	}
-	
-/* TODO fix above */
 
 //Nav Modal
 
@@ -859,7 +820,7 @@ Language: LESS
 
 
 // Tipsy
-/* TODO change tipsy style, fix font, add fade in?...*/
+/* TODO change tipsy style add fade in...*/
 	
 	.tipsy {
 		font-family: 'BankSans';
