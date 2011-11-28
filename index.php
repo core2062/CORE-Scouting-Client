@@ -127,7 +127,7 @@ include 'php/jsminplus.php';
 </head>
 <body>
 
-<!-- TODO add tags for bookmarks and for search engines -->
+<!-- TODO add tags for bookmarks and/or for search engines -->
 
 
 <!-- START Layout -->

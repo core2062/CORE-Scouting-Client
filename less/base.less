@@ -270,13 +270,12 @@ Language: LESS
 		}
 	}
 	
-	td#content > ul {
+	td#content > ul, td#sidebar > ul {
 		display:inline; // for forms
 	}
 	
-	.Robot-c, .Human-c, .Pit-c {
-		display: none; /* FIXME display none at page load */
-	}
+
+
 	
 	fieldset {
 		background: @form_bgcolor;
@@ -286,7 +285,7 @@ Language: LESS
 		display:inline;
 		vertical-align:middle;
 		border: 1px solid #B6B6B6;
-		.box-shadow(0 0 5px #000000);
+		.box-shadow(0 0 5px #000);
 		
 		ul {
 			margin:10px;
