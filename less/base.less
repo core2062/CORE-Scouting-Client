@@ -742,34 +742,26 @@ Language: LESS
 
 
 // JGrowl
-	body div.jGrowl {
-		position:			fixed;
-	}
-	div.jGrowl.bottom-right {
-		right:0;
-		bottom:0;
-	}
 
 	div.center div.jGrowl-notification, div.center div.jGrowl-closer {
-		margin-left: 		auto;
-		margin-right: 		auto;
+		margin-left:auto;
+		margin-right:auto;
 	}
 
 	div.jGrowl {
 		padding: 10px;
+		padding-top:0;
+		padding-bottom:0;
 		z-index: 9999;
 		color: #fff;
 		font-size: 12px;
-		position: absolute;
-		
+
 		div.jGrowl-notification, div.jGrowl-closer {
 			background-color: #000;
-			zoom: 1;
-			width: 235px;
 			padding: 10px;
+
 			margin-top: 5px;
 			margin-bottom: 5px;
-			font-family: @font-list;
 			font-size: 1em;
 			text-align: left;
 			display: none;
@@ -814,7 +806,7 @@ Language: LESS
 	// Hide jGrowl when printing
 	@media print {
 		div.jGrowl {
-			display: 			none;
+			display:none;
 		}
 	}
 
