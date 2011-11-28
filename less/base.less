@@ -40,7 +40,6 @@ Language: LESS
 @background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
 @stripe: url(data:image/gif;base64,R0lGODlhBQAFAOMKAEpNYUtOYkpMYPLy8vPz8/T09PX19fz8/P39/f7+/v///////////////////////yH5BAEKAA8ALAAAAAAFAAUAAAQMEElEki1JKaN3510EADs=);
 @logo: url(img/logo.svg);
-@bg_fallback: url(img/bg_fallback.png);
 @close-icon: url(img/icon_sprite.png);
 
 @list-icon: url(img/icon/list.svg);
@@ -397,7 +396,7 @@ Language: LESS
 		border: 1px solid #B6B6B6;
 		font-weight: normal;
 		color: @litetext;
-		background: #ededed @bg_fallback 0 0 repeat-x;
+		background: #ededed;
 		.reg-gradent(@regcolor);
 		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
 		display: inline-block;
@@ -436,7 +435,7 @@ Language: LESS
 		outline: none;
 		color: #1c4257;
 		border-color: #7096ab;
-		background-color: #ededed @bg_fallback 0 -50px repeat-x;
+		background-color: #ededed;
 		.advanced-gradent(#b9e0f5, #92bdd6);
 		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 	}
@@ -621,7 +620,7 @@ Language: LESS
 	.ui-widget-header {
 		color: @litetext;
 		font-weight:700;
-		background: #ededed @bg_fallback 0 0 repeat-x;
+		background: #ededed;
 		.advanced-gradent(#ededed, #c4c4c4);
 		
 		a {
