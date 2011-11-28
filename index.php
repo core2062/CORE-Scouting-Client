@@ -198,28 +198,30 @@ include 'php/jsminplus.php';
 
 
 <!-- START Modals -->
-
-<div style="display: none;" class="modal-container Navagation-c Login-c Contact-c">
-
-	<div class="modal-titlebar ui-widget-header ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
-		<span id="modal-title">Title</span>
+<div class="modal-aligner">
+	<div class="modal-wrapper">
+		<div style="display: none;" class="modal-container Navagation-c Login-c Contact-c">
+			<div class="modal-titlebar ui-widget-header ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
+				<span id="modal-title">Title</span>
+				
+				<a href="#" class="close"> <!--TODO fix this ... it fucks up the url --> 
+					<span class="icon icon-closethick"></span>
+				</a>
+			</div>
+			
+			<?php
+				embed('html/', '-modals.html');
+			?>
 		
-		<a href="#" class="close"> <!--TODO fix this ... it fucks up the url --> 
-			<span class="icon icon-closethick"></span>
-		</a>
-	</div>
-	
-		<?php
-			embed('html/', '-modals.html');
-		?>
-
-	<div class="modal-buttons ui-widget-content ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
-		<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
-	</div>
-
+			<div class="modal-buttons ui-helper-clearfix"> <!-- TODO get rid of these classes, i hate them -->
+				<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
+			</div>
+		</div>
+	</div>	
 </div>
 
 <div class="overlay Navagation-c Login-c Contact-c" onclick="modalclose();"></div>
+
 <!-- END Modals -->
 
 <script src="script/jquery.min.js"></script>
