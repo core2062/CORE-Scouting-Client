@@ -19,7 +19,7 @@ Language: LESS
 @d-errorcolor: darken(@errorcolor, 15%);
 
 @page_bgcolor: #adadad;
-@form_bgcolor: #f4f4f4; 
+@form_bgcolor: #fff; //#f4f4f4
 
 @blue: #1054AA; //used for guider headers
 @d-blue: darken(saturate(@blue, 10%),15%);
@@ -524,6 +524,49 @@ Language: LESS
 
 // Modals
 
+	.modal-aligner {
+		position: absolute;
+		top:0px;
+		width: 100%;
+		height: 100%;
+		display:table;
+		visibility: hidden;
+	}
+
+	.modal-wrapper {
+		vertical-align:middle;
+		display:table-cell;
+		visibility: hidden;
+	}
+	
+	.modal-container { /* TODO fix this modal css */
+		visibility: visible;
+	    background: @form_bgcolor;
+	    border: 1px solid #B6B6B6;
+	    color: @litetext;
+		.border-radius (3px);
+		position: relative;
+		z-index: 1002;
+		width: 700px;
+		margin: auto; //centers it horizontally
+
+
+		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
+		
+		& > ul {
+			margin:10px;
+		}
+		
+		.modal-buttons {
+			border-top: 1px solid #B6B6B6;
+			
+			button {
+				float: right;
+				margin: .5em .4em .5em 0;
+			}
+		}
+	}
+
 	.modal-titlebar {
 		padding: 0.7em 1em 0.6em 1em;
 		position: relative;
@@ -559,41 +602,6 @@ Language: LESS
 			}
 		}
 	}
-	
-	.modal-container { /* TODO fix this modal css */
-	    background: #FFFFFF;
-	    border: 1px solid #B6B6B6;
-	    color: @litetext;
-		.border-radius (3px);
-		position: absolute;
-		padding: 0;
-		overflow: hidden;
-		display: block;
-		z-index: 1002;
-		outline: 0px none;
-		height: auto;
-		width: 700px;
-		top: 20px;
-		left: 410px;
-		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
-		
-		& > ul {
-			margin:10px;
-		}
-		
-		.modal-buttons {
-			text-align: left;
-			border-width: 1px 0 0 0;
-			background-image: none;
-			margin: .5em 0 0 0;
-			//padding: .3em 1em .5em .4em; /*TODO fix this area */
-			
-			button {
-				float: right;
-				margin: .5em .4em .5em 0;
-			}
-		}
-	}
 
 	.overlay {
 		display: none;
@@ -617,17 +625,6 @@ Language: LESS
 		font-weight:700;
 		background: #ededed;
 		.advanced-gradent(#ededed, #c4c4c4);
-		
-		a {
-			color: @litetext;
-		}
-	}
-
-
-	.ui-widget-content {
-		border: 1px solid #B6B6B6;
-		background: #ffffff;
-		color: @litetext;
 		
 		a {
 			color: @litetext;

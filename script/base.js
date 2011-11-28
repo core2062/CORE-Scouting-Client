@@ -121,11 +121,11 @@ function EatCookie(name) {
 	document.getElementById(name).value = CookieValue;
 }
 
-function LoginCheck(){
+function LoginCheck(){ //TODO make login check run at login modal close
 	if (document.getElementById('ScoutID').value == '' || document.getElementById('pword').value == '') {
 		document.getElementById('ScoutID').innerHTML = 'Login';
 		$('#jGrowl-container').jGrowl('ScoutID or Password is blank', {theme: 'error'});
-		$('.login-modal').dialog('open');
+		window.location = '#Login';
 	}
 	else {
 		document.getElementById('login-button').innerHTML = 'Logout';
