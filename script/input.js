@@ -1,6 +1,6 @@
 // global vars for page navigation
 // TODO remove & replace vars with sitemap
-var subpages = ['Regular', 'Human-Player', 'Pit']; //the first element will be the default page
+var subpages = ['Robot', 'Human', 'Pit']; //the first element will be the default page
 var modals = ['Navagation', 'Login', 'Contact'];
 
 // global vars for errorcheck(), actual values assigned later
@@ -68,4 +68,4 @@ function clearinputs(){
 $('#AllianceColor').easySelectBox({speed:100});
 $('#to').easySelectBox({speed:100});
 
-$('#Nav-options-l').tipsy(); //TODO make a array (and loop through it) for all elements to apply tipsy to, or just search for "a" links with a title attribute -->
+$('a[title]').tipsy(); //TODO make a array (and loop through it) for all elements to apply tipsy to, or just search for "a" links with a title attribute -->

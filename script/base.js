@@ -26,7 +26,7 @@ var site = {
 		"progressbar": false}
 	},
 	{"input": {
-		"subpages": ["regular", "human-player", "pit"],
+		"subpages": ["robot", "human", "pit"],
 		"modals": [],
 		"login-required": true, 
 		"min-width": "1150px",
