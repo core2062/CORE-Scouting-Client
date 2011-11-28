@@ -4,6 +4,8 @@ Language: LESS
 */
 
 //Colors
+@litetext: #4F4F4F; //gray, used for buttons & modals
+
 @regcolor: #d1d1d1; //gray
 @l-regcolor: lighten(@regcolor, 15%);
 @d-regcolor: darken(@regcolor, 15%);
@@ -374,7 +376,7 @@ Language: LESS
 	button, .ui-buttonset label {
 		border: 1px solid #B6B6B6;
 		font-weight: normal;
-		color: #4F4F4F;
+		color: @litetext;
 		background: #ededed @bg_fallback 0 0 repeat-x;
 		.reg-gradent(@regcolor);
 		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
@@ -534,7 +536,7 @@ Language: LESS
 	.modal-container { /* TODO fix this modal css */
 	    background: none repeat scroll 0 0 #FFFFFF;
 	    border: 1px solid #B6B6B6;
-	    color: #4F4F4F;
+	    color: @litetext;
 		.border-radius (3px);
 		position: absolute;
 		padding: 0;
@@ -589,13 +591,13 @@ Language: LESS
 
 
 	.ui-widget-header {
-		color: #4F4F4F;
+		color: @litetext;
 		font-weight:700;
 		background: #ededed @bg_fallback 0 0 repeat-x;
 		.advanced-gradent(#ededed, #c4c4c4);
 		
 		a {
-			color: #4F4F4F;
+			color: @litetext;
 		}
 	}
 
@@ -603,10 +605,10 @@ Language: LESS
 	.ui-widget-content {
 		border: 1px solid #B6B6B6;
 		background: #ffffff;
-		color: #4F4F4F;
+		color: @litetext;
 		
 		a {
-			color: #4F4F4F;
+			color: @litetext;
 		}
 	}
 
@@ -632,18 +634,25 @@ Language: LESS
 
 
 //Nav Modal
-	div.nav-modal {
+	div.Navagation-c {
 		ul {
-			margin: 0 0 15px 0;
+			margin: 5px 0 15px 0;
+			padding-left: 20px;
 			li {
 				display: list-item;
 				margin: 6px;
 				list-style: square;
 				margin: 0 0 0 40px;
 				white-space:nowrap;
+				
+				a {
+					color: @litetext;
+				}
+				
 				a:hover {
+					/* TODO fix below, it could look better*/
 					color:white;
-					background-color: gray;
+					background-color: @litetext;
 				}
 			}
 		}
