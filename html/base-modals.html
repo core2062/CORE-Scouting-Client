@@ -45,54 +45,53 @@
 	</table>
 </div>
 
-<div class="Login-c">
-	<ul>
-		<li><label for="ScoutID">ScoutID:</label></li>
-		<li><input type="text" id="ScoutID" value="" onchange="BakeCookie('ScoutID');"/></li>
-		
-		<li><label for="pword">Password:</label></li>
-		<li><input type="password" id="pword" value="" onchange="BakeCookie('pword');"/></li>
-		<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
-		<!-- TODO add return home button to login modal -->
-	</ul>
-</div>
 
-<div class="Contact-c">
-	<ul>
-		<li>
-			<label for="to">To:</label>
-		</li>
-		<li>
-			<select onchange="if (document.getElementById('to').value == 'One_Scout') {document.getElementById('ToScoutList').style.visibility = 'visible'} else {document.getElementById('ToScoutList').style.visibility = 'hidden'};" size="1" id="to">
-				<option value="Scout_Leader">Scout Leader</option>
-				<option value="Full_Team">Full Team</option>
-				<option value="Admin">Admin</option>
-				<option value="One_Scout">One Scout</option>
-			</select>
-		</li>
-			<span id="ToScoutList" style="visibility:hidden;">
-				<li>
-					<label for="ToScout">Scout ID:</label>
-				</li>
-				<li>
-					<input id="ToScout" type="text" value="" style="width:120px;"/>
-				</li>
-			</span>
-		<li>
-			<textarea style="width:400px; height:135px;"></textarea>
-		</li>
-		<li>
-			<button type="button" onclick="ajax('M');">
-				Send
-			</button>
-		</li>
-		<li>
-			<p style="font-size:11px; display: inline-block; margin:0px; vertical-align:middle;">
-				messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
-			</p>
-		</li>
-	</ul>
-</div>
+<ul class="Login-c">
+	<li><label for="ScoutID">ScoutID:</label></li>
+	<li><input type="text" id="ScoutID" value="" onchange="BakeCookie('ScoutID');"/></li>
+	
+	<li><label for="pword">Password:</label></li>
+	<li><input type="password" id="pword" value="" onchange="BakeCookie('pword');"/></li>
+	<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
+	<!-- TODO add return home button to login modal -->
+</ul>
+
+
+<ul class="Contact-c">
+	<li>
+		<label for="to">To:</label>
+	</li>
+	<li>
+		<select onchange="if (document.getElementById('to').value == 'One_Scout') {document.getElementById('ToScoutList').style.visibility = 'visible'} else {document.getElementById('ToScoutList').style.visibility = 'hidden'};" size="1" id="to">
+			<option value="Scout_Leader">Scout Leader</option>
+			<option value="Full_Team">Full Team</option>
+			<option value="Admin">Admin</option>
+			<option value="One_Scout">One Scout</option>
+		</select>
+	</li>
+		<span id="ToScoutList" style="visibility:hidden;">
+			<li>
+				<label for="ToScout">Scout ID:</label>
+			</li>
+			<li>
+				<input id="ToScout" type="text" value="" style="width:120px;"/>
+			</li>
+		</span>
+	<li>
+		<textarea style="width:400px; height:135px;"></textarea>
+	</li>
+	<li>
+		<button type="button" onclick="ajax('M');">
+			Send
+		</button>
+	</li>
+	<li>
+		<p style="font-size:11px; display: inline-block; margin:0px; vertical-align:middle;">
+			messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
+		</p>
+	</li>
+</ul>
+
 
 <!-- TODO add credits modal -->
 <!-- TODO add edit account modal -->
