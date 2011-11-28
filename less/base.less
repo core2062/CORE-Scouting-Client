@@ -247,10 +247,6 @@ Language: LESS
 	.foot {
 		height: 15px;
 	}
-	
-	.Regular-c, .Human-Player-c, .Pit-c {
-		display: none;
-	}
 
 
 // Forms
@@ -272,6 +268,14 @@ Language: LESS
 			margin:0;
 			display:inline; // for forms
 		}
+	}
+	
+	td#content > ul {
+		display:inline; // for forms
+	}
+	
+	.Regular-c, .Human-Player-c, .Pit-c {
+		display: none;
 	}
 	
 	fieldset {
@@ -749,9 +753,7 @@ Language: LESS
 	}
 
 	div.jGrowl {
-		padding: 10px;
-		padding-top:0;
-		padding-bottom:0;
+		padding: 0 10px;
 		z-index: 9999;
 		color: #fff;
 		font-size: 12px;
@@ -759,7 +761,6 @@ Language: LESS
 		div.jGrowl-notification, div.jGrowl-closer {
 			background-color: #000;
 			padding: 10px;
-
 			margin-top: 5px;
 			margin-bottom: 5px;
 			font-size: 1em;
@@ -778,7 +779,6 @@ Language: LESS
 			}
 			
 			div.jGrowl-close {
-				z-index: 99;
 				float: right;
 				font-weight: bold;
 				font-size: 1em;
