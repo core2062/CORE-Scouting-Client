@@ -136,14 +136,11 @@ include 'php/jsminplus.php';
 	<!-- START Top-Bar -->
 	<tr class="head">
 		<td colspan="2">
-			<ul style="padding:10px 0 0 0; margin:0 0 0 10px;">
 			
 				<?php
 					embed('html/', '-navbar.html');
 				?>
-			
-			</ul>
-			
+
 			<hr style="margin:10px;" />
 		
 		</td>
