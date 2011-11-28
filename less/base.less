@@ -171,6 +171,41 @@ Language: LESS
 
 @font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
 
+
+// Logo
+
+	a#logo {
+		float: right;
+		color:#000;
+		margin-right:10px;
+		border:none;
+		height:50px;
+		width:115px;
+		text-align:right;
+		font-size:30px; //18px for full text
+		line-height:17px; //13px for full text
+		text-decoration: none;
+		font-weight:500;
+		letter-spacing: -0.1em;
+		background-image: @logo;
+		background-repeat:no-repeat;
+		overflow: visible;
+	}
+
+
+// Reset
+
+	label, button, legend, a#logo {
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+
+// Layout
+
 	body, html, table {
 		height: 100%;
 		margin: 0;
@@ -205,68 +240,50 @@ Language: LESS
 	.Regular-c, .Human-Player-c, .Pit-c {
 		display: none;
 	}
-	
-	/*
-	a, a:link, a:visited, a:active {
-		color:#FFF;
-	}
-	*/
+
+
+// Forms
 	
 	p {
 		display:inline;
 		margin:2px;
 	}
-	
-	label, button, legend, a#logo {
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-		user-select: none;
-	}
-	
-	a#logo {
-		float: right;
-		color:#000;
-		margin-right:10px;
-		border:none;
-		height:50px;
-		width:115px;
-		text-align:right;
-		font-size:30px; //18px for full text
-		line-height:17px; //13px for full text
-		text-decoration: none;
-		font-weight:500;
-		letter-spacing: -0.1em;
-		background-image: @logo;
-		background-repeat:no-repeat;
-		overflow: visible;
-	}
-	
-	li {
-		margin:0;
-		display:inline; // for forms
-	}
+
+
 	
 	ul {
 		padding-left:0;
-		margin:10px 0px
+		margin:0;
+		
+		&.navbar {
+			margin: 10px;
+		}
+		
+		li {
+			margin:0;
+			display:inline; // for forms
+		}
 	}
 	
 	fieldset {
 		background: @form_bgcolor;
 		padding:1px;
-		padding:0 10px;
-		padding-top: 15px;
+		padding: 15px 10px 0;
 		margin:10px;
 		display:inline;
 		vertical-align:middle;
 		border: 1px solid #B6B6B6;
 		.box-shadow(0 0 5px #000000);
-	}
-	
-	fieldset, legend {
-		.border-radius-br(8px);
+		
+		ul {
+			margin:10px;
+			
+			li:first-child label {
+				margin:0;
+			}
+			
+		}
+		
 	}
 	
 	legend {
@@ -280,9 +297,14 @@ Language: LESS
 		padding:0 10px;
 	}
 	
+	fieldset, legend {
+		.border-radius-br(8px);
+	}
+	
 	
 	label {
 		font-weight:400;
+		margin-left:20px;
 	}
 	
 	
@@ -300,7 +322,6 @@ Language: LESS
 		cursor:pointer;
 		height:23px;
 		padding:2px 5px 1px 5px;
-		margin-right:20px;
 		vertical-align:middle;
 		font-family: @font-list;
 		font-size: 15px;
@@ -338,7 +359,7 @@ Language: LESS
 	
 	}
 	
-	span.icon {
+	span.icon { //just move to modal close button
 		display:inline-block;
 		color: inherit;
 		line-height: 36px;
