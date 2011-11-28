@@ -198,6 +198,7 @@ Language: LESS
 		a {
 			height:100%;
 			width:100%;
+			display:block;
 		}
 	}
 	
@@ -326,45 +327,6 @@ Language: LESS
 
 
 
-
-
-
-// Corner Radius
-
-	.ui-corner-tl {
-		.border-radius-tl (3px);
-	}
-	.ui-corner-tr {
-		.border-radius-tr (3px);
-	}
-	.ui-corner-bl {
-		.border-radius-bl (3px);
-	}
-	.ui-corner-br {
-		.border-radius-br (3px);
-	}
-	.ui-corner-top {
-		.border-radius-tl (3px);
-		.border-radius-tr (3px);
-	}
-	.ui-corner-bottom {
-		.border-radius-bl (3px);
-		.border-radius-br (3px);
-	}
-	.ui-corner-right {
-		.border-radius-br (3px);
-		.border-radius-tr (3px);
-	}
-	.ui-corner-left {
-		.border-radius-bl (3px);
-		.border-radius-tl (3px);
-	}
-	.ui-corner-all {
-		.border-radius (3px);
-	}
-
-
-
 // Icons
 
 	.icon {
@@ -390,7 +352,12 @@ Language: LESS
 
 
 
+
+
 		//START CLEAN CSS				START CLEAN CSS			START CLEAN CSS				START CLEAN CSS
+
+
+
 
 
 
@@ -439,6 +406,7 @@ Language: LESS
 			border: 0;
 			padding: 0;
 		}
+		
 	}
 
 
@@ -454,6 +422,7 @@ Language: LESS
 
 
 // Button Sets
+
 	.ui-buttonset {
 		margin-right: 7px;
 		display: inline;
@@ -468,11 +437,22 @@ Language: LESS
 			margin-left: -3px;
 			margin-right: -3px;
 			line-height: 31px; //aligns text to center
+			
+			&.first {
+				.border-radius-bl (3px);
+				.border-radius-tl (3px);
+			}
+			
+			&.last {
+				.border-radius-br (3px);
+				.border-radius-tr (3px);
+			}
 		}
 	}
 
 
 // Progressbar
+
 	#progressbar {
 		margin-top:3px;
 		height: 12px;

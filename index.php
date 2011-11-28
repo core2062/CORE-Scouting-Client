@@ -28,6 +28,7 @@ ini_set( 'display_errors', 1 );
 <!-- TODO make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628 -->
 <!-- TODO change MySQL to MongoDB -->
 <!-- TODO add gzip to server -->
+<!-- TODO make sure links on facebook contain a nice description of the site -->
 
 
 <?php
