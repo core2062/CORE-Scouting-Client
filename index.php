@@ -127,7 +127,7 @@ include 'php/jsminplus.php';
 </head>
 <body>
 
-<!-- TODO add tags for bookmarks and/or for search engines -->
+<!--TODO add tags for bookmarks and/or for search engines -->
 
 
 <!-- START Layout -->
@@ -164,7 +164,7 @@ include 'php/jsminplus.php';
 			?>
 			
 			<div id="jGrowl-container" class="jGrowl bottom-right"></div>
-			<!--TODO fix jGrowl positioning - make it flow with other content/no overlap (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
+			<!--TODO fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
 			<!-- TODO create classes of jGrowl notifications to close selectively -->
 
 		</td>
