@@ -142,33 +142,7 @@ case "Q": // Query
 		
 	if ($type=="table")
 	{
-	$return_text.="<queryreturn place=\"$place\"><![CDATA[ "; 
-	$return_text.="<table border='1' style=\"border-collapse:collapse; margin:10px; width:95%;\" class=\"tablesorter\" id=\"QueryTable\"><thead>"; //Open HTML Table
-	$Result = mysql_query($Query); //Execute the query
-
-		//Header Row with Field Names
-		$NumFields = mysql_num_fields($Result);
-		$return_text.= "<tr>";
-		for ($i=0; $i < $NumFields; $i++)
-		{     
-		$return_text.= "<th>" . mysql_field_name($Result, $i) . "</th>"; 
-		}
-		$return_text.= "</tr></thead><tbody>";
-		//Loop thru results
-		$RowCt = 0; //Row Counter
-		while($Row = mysql_fetch_assoc($Result))
-		{
-		$return_text.= "<tr>";
-		//Loop thru each field
-		foreach($Row as $field => $value)
-		{
-		$return_text.="<td>$value</td>";
-		}
-		$return_text.="</tr>";
-		}
-	
-	$return_text.="</tbody></table> ]]></queryreturn>";
-	$return_text.="<queryreturn place=\"resultnum\">" . mysql_num_rows($Result) . "</queryreturn>";
+		//table formatter used to be here, send json rather than html
 	}
 	
 	
