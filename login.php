@@ -1,9 +1,8 @@
 <?php
-
-
 // TODO finish token based login
 
-	fb(uniqid("",true));
+$token = uniqid("",true);
+fb($token);
 
 
 
