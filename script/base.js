@@ -60,9 +60,20 @@ $(document).ready(function() {
 	window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	window.underpage = ''; //underpage must be set to something
 	Nav();
-	EatCookie('ScoutID');
-	EatCookie('pword');
-	LoginCheck();
+	
+	window.scoutid = EatCookie('scoutid');
+	window.token = EatCookie('token');
+	if (scoutid == '' || token == ''){
+		LoginCheck();
+	}
+		
+	// TODO send token to server to validate
+	
+	if (loggedin !== true) {
+		LoginCheck();
+	}
+
+	
  });
 
 window.onpopstate = function (event) {
@@ -100,10 +111,10 @@ function modalclose() {
 	window.location = '#' + underpage;
 }
 
-function BakeCookie(name) {
+function BakeCookie(name, value) {
 	var expires = new Date();
 	expires.setTime(expires.getTime()+(15552000000));
-	document.cookie = name + "=" + document.getElementById(name).value + "; expires=" + expires.toGMTString() + "; path=/";
+	document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
 }
 
 function EatCookie(name) {
@@ -118,18 +129,40 @@ function EatCookie(name) {
 		}
 		else var CookieValue = "";
 	}
-	document.getElementById(name).value = CookieValue;
+	return CookieValue;
 }
 
 function LoginCheck(){ //TODO make login check run at login modal close
-	if (document.getElementById('ScoutID').value == '' || document.getElementById('pword').value == '') {
-		document.getElementById('ScoutID').innerHTML = 'Login';
-		$('#jGrowl-container').jGrowl('ScoutID or Password is blank', {theme: 'error'});
-		window.location = '#Login';
+	scoutidinput = document.getElementById('scoutid');
+	pwordinput = document.getElementById('pword');
+	loginbutton = document.getElementById('login-button');
+
+	
+	if (scoutidinput.value == '') {
+		$('#jGrowl-container').jGrowl('ScoutID is blank', {theme: 'error'});
+	} else if (pwordinput.value == '') {
+		$('#jGrowl-container').jGrowl('Password is blank', {theme: 'error'});
 	}
 	else {
-		document.getElementById('login-button').innerHTML = 'Logout';
+		
+		//validate login & get token ... put response in cookies & vars
+		
+		if (loggedin = true){
+			loginbutton.innerHTML = 'Logout';
+			scoutidinput.value = ''
+			return true
+		}
 	}
+	
+	loginbutton.innerHTML = 'Login';
+	window.location = '#Login';
+}
+
+function logout(){
+	scoutid = '';
+	token = '';
+	loginbutton.innerHTML = 'Login';
+	window.location = '#Login';
 }
 
 function numbersonly(e){ //used for limiting form input

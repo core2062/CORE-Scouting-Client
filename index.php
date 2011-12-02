@@ -64,7 +64,7 @@ if (file_exists($filename) == true){
 	$parts_length = count($htmlparts);
 
 	$cache_date = filemtime($filename);
-
+	
 	//check if files have been modified
 	function cache_check() {
 		global $length;
