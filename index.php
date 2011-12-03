@@ -215,6 +215,7 @@ include 'php/jsminplus.php';
 		
 			<div class="modal-buttons">
 				<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
+				<button type="button" style="display: none;" class="Login-c" onclick="modalclose();">Login</button> <!-- FIXME -->
 			</div>
 		</div>
 	</div>	
