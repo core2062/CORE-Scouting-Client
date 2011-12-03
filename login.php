@@ -22,8 +22,8 @@ $db = $m->selectDB("CSD");
 $json = $_POST["data"];
 $json = json_decode($json, true);
 
-$scoutid = $json["scoutid"] or send_error("scoutid not in cookie","");
-$pword_input = $json["pword"] or send_error("pword not in cookie","");
+$scoutid = $json["scoutid"] or send_error("scoutid was not received","");
+$pword_input = $json["pword"] or send_error("password was not received","");
 $ip=$_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
 
 fb($scoutid);
