@@ -19,8 +19,11 @@ $m = new Mongo(); // connect
 $db = $m->selectDB("CSD");
 
 //variables_order must contain "C" in php.ini
-$scoutid = $_COOKIE['scoutid'] or send_error("scoutid not in cookie","");
-$pword_input = $_COOKIE['pword'] or send_error("pword not in cookie","");
+$json = $_POST["data"];
+$json = json_decode($json, true);
+
+$scoutid = $json["scoutid"] or send_error("scoutid not in cookie","");
+$pword_input = $json["pword"] or send_error("pword not in cookie","");
 $ip=$_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
 
 fb($scoutid);
@@ -44,7 +47,7 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-$input = "{type:'token-gen]', scoutid:'$scoutid', time:'$starttime', duration:'$total_time', place:'login.php', token:'$token', ip:'$ip', log:'$log'}";
+$input = "{type:'token-gen', scoutid:'$scoutid', time:'$starttime', duration:'$total_time', place:'login.php', token:'$token', ip:'$ip', log:'$log'}";
 $db->execute("db.log.insert($input)");
 
 ob_clean (); //empty output buffer, error_text is only thing sent

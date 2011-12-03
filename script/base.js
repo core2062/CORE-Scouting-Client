@@ -138,10 +138,13 @@ function LoginCheck(){ //TODO make login check run at login modal close
 	loginbutton = document.getElementById('login-button');
 
 	window.scoutid = scoutidinput.value;
+	pword = pwordinput.value;
 	
-	if (scoutidinput.value == '') {
+//	onchange="BakeCookie('scoutid', this.value);"
+	
+	if (scoutid == '') {
 		$('#jGrowl-container').jGrowl('ScoutID is blank', {theme: 'error'});
-	} else if (pwordinput.value == '') {
+	} else if (pword == '') {
 		$('#jGrowl-container').jGrowl('Password is blank', {theme: 'error'});
 	}
 	else {
@@ -859,6 +862,41 @@ xmlhttp.open("POST", "process.php", true);
 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 xmlhttp.send("&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + RequestText);
 }
+
+
+//new AJAX
+function post(filename, json) {
+	var xmlhttp;
+	
+	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	} else { // code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4) {	
+			if (xmlhttp.status==200) { // 200 = OK, process result
+				
+				return xmlhttp.responseText;
+				//processing code (return result)
+				
+			}
+		} else { // error handling
+			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {sticky: true, theme: 'error'});
+			
+			//pass error to function origin
+
+		
+		}
+	}
+	
+	xmlhttp.open("POST", filename, true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlhttp.send("&data="+json);
+}
+
+
 
 
 // TODO replace with something better, like downloadify
