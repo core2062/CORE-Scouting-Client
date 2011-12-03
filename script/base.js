@@ -66,8 +66,6 @@ $(document).ready(function() {
 	if (scoutid == '' || token == ''){
 		LoginCheck();
 	}
-		
-	// TODO send token to server to validate
 	
 	if (loggedin !== true) {
 		LoginCheck();
@@ -140,22 +138,28 @@ function LoginCheck(){ //TODO make login check run at login modal close
 	window.scoutid = scoutidinput.value;
 	pword = pwordinput.value;
 	
-//	onchange="BakeCookie('scoutid', this.value);"
-	
 	if (scoutid == '') {
 		$('#jGrowl-container').jGrowl('ScoutID is blank', {theme: 'error'});
 	} else if (pword == '') {
 		$('#jGrowl-container').jGrowl('Password is blank', {theme: 'error'});
-	}
-	else {
+	} else {
+		var json = post('login.php','{"scoutid":' + scoutid + ',"pword":' + pword + '}');
+		json = jQuery.parseJSON(json);
 		
-		//validate login & get token ... put response in cookies & vars
-		
-		if (loggedin = true){
+		if (json.token) {
+			BakeCookie('scoutid', scoutid);
+			BakeCookie('token', json.token);
+			
 			loginbutton.innerHTML = 'Logout';
 			scoutidinput.value = ''
 			pwordinput.value = ''
 			return true
+		} else if (json.error) {
+			$('#jGrowl-container').jGrowl('Login Failure: ' + json.error, {theme: 'error'});
+			return false
+		} else {
+			$('#jGrowl-container').jGrowl('Login Failure: server did not respond properly', {theme: 'error'});
+			return false
 		}
 	}
 	
@@ -909,5 +913,3 @@ top.consoleRef.document.write(
 )
 top.consoleRef.document.close()
 }
-
-// END ajax processing
