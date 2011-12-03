@@ -137,6 +137,7 @@ function LoginCheck(){ //TODO make login check run at login modal close
 	pwordinput = document.getElementById('pword');
 	loginbutton = document.getElementById('login-button');
 
+	window.scoutid = scoutidinput.value;
 	
 	if (scoutidinput.value == '') {
 		$('#jGrowl-container').jGrowl('ScoutID is blank', {theme: 'error'});
@@ -150,6 +151,7 @@ function LoginCheck(){ //TODO make login check run at login modal close
 		if (loggedin = true){
 			loginbutton.innerHTML = 'Logout';
 			scoutidinput.value = ''
+			pwordinput.value = ''
 			return true
 		}
 	}
@@ -163,6 +165,11 @@ function logout(){
 	token = '';
 	loginbutton.innerHTML = 'Login';
 	window.location = '#Login';
+}
+
+function getkey(e){
+var unicode=e.keyCode? e.keyCode : e.charCode;
+return unicode;
 }
 
 function numbersonly(e){ //used for limiting form input

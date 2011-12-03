@@ -44,7 +44,7 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-$input = "{type:'token-gen', scoutid:'$scoutid', time:'$starttime', duration:'$total_time', place:'login.php', token:'$token', ip:'$ip', log:'$log'}";
+$input = "{type:'token-gen]', scoutid:'$scoutid', time:'$starttime', duration:'$total_time', place:'login.php', token:'$token', ip:'$ip', log:'$log'}";
 $db->execute("db.log.insert($input)");
 
 ob_clean (); //empty output buffer, error_text is only thing sent
