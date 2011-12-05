@@ -12,45 +12,151 @@
 
 /* TODO float google +1 button left w/out 4px overhang  */
 
-
 // global vars
 var currentpage = '' //actual value gets assigned later
 var pagetitle = document.title; //used as base for page titles
-var site = {
-"pages": [
-	{"home": {
-		"subpages": ["front-page", "synopsis", "tour", "signup"],
-		"modals": [],
-		"login-required": false, 
-		"min-width": "1150px",
-		"progressbar": false}
+var pages =
+[
+	{
+		'name':'base',
+		'description':'',
+		'subpages':[],
+		'modals':
+			[
+				{
+					'name':'navagation',
+					'login-required':false
+				},
+				{
+					'name':'login',
+					'login-required':false
+				},
+				{
+					'name':'contact',
+					'login-required':false
+				},
+				{
+					'name':'credits',
+					'login-required':false
+				},
+				{
+					'name':'edit-account',
+					'login-required':true
+				}
+			],
+		'min-width':'1150px',
+		'progressbar':false
 	},
-	{"input": {
-		"subpages": ["robot", "human", "pit"],
-		"modals": [],
-		"login-required": true, 
-		"min-width": "1150px",
-		"progressbar": true}
+	{
+		'name':'home',
+		'description':'lorem',
+		'subpages':
+			[
+				{
+					'name':'front-page',
+					'description':'lorem',
+					'login-required':false
+				},
+				{
+					'name':'synopsis',
+					'description':'lorem',
+					'login-required':false
+				},
+				{
+					'name':'tour',
+					'description':'lorem',
+					'login-required':false
+				},
+				{
+					'name':'signup',
+					'description':'lorem',
+					'login-required':false
+				}
+			],
+		'modals':[],
+		'min-width':'1150px',
+		'progressbar':false
 	},
-	{"analysis": {
-		"subpages": ["public", "member", "data-liberation"],
-		"modals": [],
-		"login-required": true, 
-		"min-width": "1150px",
-		"progressbar": false}
+	{
+		'name':'input',
+		'description':'lorem',
+		'subpages':
+			[
+				{
+					'name':'robot',
+					'description':'lorem',
+					'login-required':true
+				},
+				{
+					'name':'human',
+					'description':'lorem',
+					'login-required':true
+				},
+				{
+					'name':'pit',
+					'description':'lorem',
+					'login-required':true
+				}
+			],
+		'modals':[],
+		'min-width':'1150px',
+		'progressbar':true
 	},
-	{"team-leader": {
-		"subpages": ["manage-scouting", "view-contribution", "view-team-members"],
-		"modals": [],
-		"login-required": true,
-		"min-width": "1150px",
-		"progressbar": false}
+	{
+		'name':'analysis',
+		'description':'lorem',
+		'subpages':
+			[
+				{
+					'name':'public', //move this to new page
+					'description':'lorem',
+					'login-required':false
+				},
+				{
+					'name':'member',
+					'description':'lorem',
+					'login-required':true
+				},
+				{
+					'name':'data-liberation',
+					'description':'lorem',
+					'login-required':true
+				}
+			],
+		'modals':[],
+		'min-width':'1150px',
+		'progressbar':false
+	},
+	{
+		'name':'team-leader',
+		'description':'lorem',
+		'subpages':
+			[
+				{
+					'name':'manage-scouting',
+					'description':'lorem',
+					'login-required':false
+				},
+				{
+					'name':'view-contribution',
+					'description':'lorem',
+					'login-required':false
+				},
+				{
+					'name':'view-team-members',
+					'description':'lorem',
+					'login-required':false
+				}
+			],
+		'modals':[],
+		'min-width':'1150px',
+		'progressbar':false
 	}
 ]
-}
+
 // JS will need to convert "-" to " " and capatilize beginning of each word
 
-function setFavicon() { //make something easier than this
+function fixFavicon() { //fixes favicon bug in firefox
   $('#favicon').remove();
   $('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
@@ -91,7 +197,7 @@ function Nav() {
 		} else { //if not a modal & not a subpage
 			currentpage = subpages[0]; //use default page
 			window.location = '#' + currentpage;
-			setFavicon();
+			fixFavicon();
 		}
 	} else { //if not a modal
 		$(listModals).fadeOut(250);
@@ -103,6 +209,13 @@ function Nav() {
 		document.getElementById(currentpage + '-r').checked = true;
 		underpage = currentpage; //store for modal close
 	}
+}
+
+function nav () {
+	newpage = location.hash.substring(1);
+	//search page array
+	
+	//determine modal or page 
 }
 
 function modalclose() {
@@ -143,22 +256,21 @@ function LoginCheck(){ //TODO make login check run at login modal close
 	} else if (pword == '') {
 		$('#jGrowl-container').jGrowl('Password is blank', {theme: 'error'});
 	} else {
-		var json = post('login.php','{"scoutid":' + scoutid + ',"pword":' + pword + '}');
-		json = jQuery.parseJSON(json);
-		
+		var json = post('login.php','{"scoutid":"' + scoutid + '","pword":"' + pword + '"}');
+
 		if (json.token) {
 			BakeCookie('scoutid', scoutid);
 			BakeCookie('token', json.token);
 			
 			loginbutton.innerHTML = 'Logout';
-			scoutidinput.value = ''
-			pwordinput.value = ''
+			scoutidinput.value = '';
+			pwordinput.value = '';
 			return true
 		} else if (json.error) {
 			$('#jGrowl-container').jGrowl('Login Failure: ' + json.error, {theme: 'error'});
 			return false
 		} else {
-			$('#jGrowl-container').jGrowl('Login Failure: server did not respond properly', {theme: 'error'});
+			$('#jGrowl-container').jGrowl('Login Failure: Server did not respond properly', {theme: 'error'});
 			return false
 		}
 	}
@@ -870,34 +982,21 @@ xmlhttp.send("&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + R
 
 //new AJAX
 function post(filename, json) {
-	var xmlhttp;
-	
-	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp=new XMLHttpRequest();
-	} else { // code for IE6, IE5
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	
-	xmlhttp.onreadystatechange=function() {
-		if (xmlhttp.readyState==4) {	
-			if (xmlhttp.status==200) { // 200 = OK, process result
-				
-				return xmlhttp.responseText;
-				//processing code (return result)
-				
-			}
-		} else { // error handling
-			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {sticky: true, theme: 'error'});
-			
-			//pass error to function origin
+	var ajax = $.ajax({
+		type: "POST",
+		url: filename,
+		data: 'data=' + json,
+		async: false,
+		success: function(){
 
-		
+		},
+		error: function(){
+			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {sticky: true, theme: 'error'});
 		}
-	}
-	
-	xmlhttp.open("POST", filename, true);
-	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xmlhttp.send("&data="+json);
+	});
+	console.log(ajax);
+	json = eval("(" + ajax.responseText + ")");
+	return json;
 }
 
 

@@ -146,7 +146,7 @@ include 'php/jsminplus.php';
 		</td>
 	</tr>
 	<!-- END Top-Bar -->
-	
+
 	<!-- START Content -->
 	<tr>
 		<td id="content">
@@ -215,7 +215,7 @@ include 'php/jsminplus.php';
 		
 			<div class="modal-buttons">
 				<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
-				<button type="button" style="display: none;" class="Login-c" onclick="modalclose();">Login</button> <!-- FIXME -->
+				<button type="button" style="display: none;" class="Login-c" onclick="modalclose();LoginCheck();">Login</button> <!-- FIXME -->
 			</div>
 		</div>
 	</div>	
