@@ -15,7 +15,8 @@ ini_set( 'display_errors', 1 );
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//TODO fix logging
+//TODO fix logging & remove below at that time
+$log = '';
 
 $m = new Mongo(); // connect
 $db = $m->selectDB("CSD");
@@ -46,9 +47,8 @@ if ($pword !== $input['pword']) {
 
 $vars['token'] = uniqid("",true);
 $db->execute("
-	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "'}});
-	db.user.update({'ip':'$ip'}, {'\$set':{'ip':'', 'token':''}}); //remove tokens from same ip
-	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'ip':'$ip'}});
+	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'ip':'', 'token':''}});
+	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "', 'ip':'" . $vars['ip'] . "'}});
 ");
 
 //regular end
@@ -56,13 +56,13 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-$input = json_encode($input);
-$vars = json_encode($vars);
-$log = json_encode($log);
+//add log_ prefix to be able to use origionals in end function
+$log_input = json_encode($input);
+$log_vars = json_encode($vars);
+$log_log = json_encode($log);
 
-$log_input = "{type:'token-gen', place:'login.php', time:'$starttime', duration:'$total_time', input:$input, log:$log, vars:$vars}";
-fb($log_input);
-$db->execute("db.log.insert($log_input)");
+$insert = "{type:'token-gen', place:'login.php', time:'$starttime', duration:'$total_time', input:$log_input, log:$log_log, vars:$log_vars}";
+$db->execute("db.log.insert($insert)");
 
 ob_clean (); //empty output buffer, error_text is only thing sent
 die("{'token':'" . $vars['token'] . "'}");
@@ -83,12 +83,12 @@ function send_error($error_text, $error) {
 	$endtime = (float)$sec + (float)$micro;
 	$total_time = ($endtime - $starttime);
 	
-	$input = json_encode($input);
-	$vars = json_encode($vars);
-	$log = json_encode($log);
+	$log_input = json_encode($input);
+	$log_vars = json_encode($vars);
+	$log_log = json_encode($log);
 	
-	$log_input = "{type:'error', errorcode:'$error', place:'login.php', time:'$starttime', duration:'$total_time', input:$input, log:$log, vars:$vars}";
-	$db->execute("db.log.insert($log_input)");
+	$insert = "{type:'error', errorcode:'$error', place:'login.php', time:'$starttime', duration:'$total_time', input:$log_input, log:$log_log, vars:$log_vars}";
+	$db->execute("db.log.insert($insert)");
 	
 	ob_clean (); //empty output buffer, error_text is only thing sent
 	die("{'error':'$error_text'}");
