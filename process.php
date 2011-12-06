@@ -1,42 +1,59 @@
 <?php
+ // remove this section before production
 require_once('FirePHP/fb.php');
 ob_start();
 
+error_reporting( E_ALL );
+ini_set( 'display_errors', 1 );
+?>
 
+<?php
 //start timer
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//get basic parameters
-$ScoutID=$_POST["ScoutID"];
-$pword=$_POST["pword"];
+//add back when database is secured: include 'vars.php'; //assigns variables for DB & other sensitive info
+
+$log=""; //start log
+
+$m = new Mongo(); // connect
+$db = $m->selectDB("CSD");
+
+//variables_order must contain "C" in php.ini
+$scoutid = $_COOKIE['scoutid'] or send_error("scoutid was not received","");
+$token = $_COOKIE['token'] or send_error("token was not received","");
+$ip = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
+
+if ($scoutid == "") {
+	send_error("scoutid is blank","");
+}
+if ($token == "") {
+	send_error("token is blank","");
+}
+
+$user = $db->execute("db.user.findOne({_id : '$scoutid'})");
+$user = $user['retval'];
+
+if ($user['token'] !== $token) {
+	//TODO make this send a logout function
+	send_error("token is incorrect","");
+}
+
+if ($user['ip'] !== $ip) {
+	//TODO make this send a logout function
+	send_error("ip is incorrect","");
+}
+
+$json = $_POST['data'];
+$json = json_decode($json, true);
+
+//$json["scoutid"];
+
+//garbage script
 $Request=$_POST["Request"]; // I = Input	Q = Query	A = Admin	P = Poll	M = Mail
-
-include 'vars.php'; //assigns variables for $mysql_server, $mysql_user, $mysql_pasword
-
 $log=" | Request: $Request"; //start log
+//garbage script
 
-$link = mysql_connect($mysql_server,$mysql_user,$mysql_password) or send_error('Could Not Connect', 'Could Not Connect: ' . mysql_error()); //build MySQL Link
-mysql_select_db('test') or send_error('Could Not Select Database',''); //select database
-
-if ($ScoutID == "" || $pword == "") {
-	send_error('ScoutID Or Password Is Blank','');
-}
-
-// clean parameters
-$ScoutID = mysql_real_escape_string($ScoutID);
-$pword = mysql_real_escape_string($pword);
-$Request = mysql_real_escape_string($Request);
-
-if (mysql_result(mysql_query("SELECT COUNT(ScoutID) FROM users WHERE ScoutID='$ScoutID'"),0) == "0") {
-	send_error('ScoutID Is Incorrect', ' | Bad ScoutID | Password: '.$pword);
-}
-
-if (mysql_result(mysql_query("SELECT password FROM users WHERE ScoutID='$ScoutID'"),0) != $pword){
-	send_error('Invalid Password', ' | Bad Password | Password: '.$pword);
-}
-
-$permission = mysql_result(mysql_query("SELECT Permission FROM users WHERE ScoutID='$ScoutID'"),0);
 
 // 0 = account banned, can't do anything
 // 1 = low account, only input access
@@ -45,7 +62,7 @@ $permission = mysql_result(mysql_query("SELECT Permission FROM users WHERE Scout
 // 8 = near admin account all access of 3 level permission + scout leader access
 // 9 = admin account, full access, direct SQL Query access
 
-if ($permission == 0) {
+if ($user['permission'] == 0) {
 	send_error('Your Account Is Banned', ' | Banned Account');
 }
 

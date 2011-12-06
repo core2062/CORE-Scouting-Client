@@ -15,32 +15,24 @@ ini_set( 'display_errors', 1 );
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//start log var
-$log = "";
+//TODO fix logging
 
 $m = new Mongo(); // connect
 $db = $m->selectDB("CSD");
 
-//variables_order must contain "C" in php.ini
-$json = $_POST['data'];
-$json = json_decode($json, true);
+$input = $_POST['data'];
+$input = json_decode($input, true);
 
-$scoutid = $json["scoutid"] or send_error("scoutid was not received","");
-$pword_input = $json["pword"] or send_error("password was not received","");
-$ip=$_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
+$vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
 
-fb($scoutid);
-fb($pword_input);
-fb($ip);
-
-if ($pword_input == "") {
-	send_error("password is blank","");
-}
-if ($scoutid == "") {
+if ($input['scoutid'] == "") {
 	send_error("scoutid is blank","");
 }
+if ($input['pword'] == "") {
+	send_error("password is blank","");
+}
 
-$pword = $db->execute("db.user.findOne({_id : '$scoutid'},{_id:0, pword:1})");
+$pword = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{_id:0, pword:1})");
 
 if ($pword['retval'] == '') {
 	send_error("scoutid is incorrect","");
@@ -48,17 +40,15 @@ if ($pword['retval'] == '') {
 
 $pword = $pword["retval"]["pword"];
 
-fb($pword);
-
-if ($pword !== $pword_input) {
+if ($pword !== $input['pword']) {
 	send_error("password is incorrect","");
 }
 
-$token = uniqid("",true);
+$vars['token'] = uniqid("",true);
 $db->execute("
-	db.user.update({_id : '$scoutid'}, {'\$set':{'token':'$token'}});
-	db.user.update({'ip':'$ip'}, {'\$set':{'ip':'', 'token':''}});
-	db.user.update({_id : '$scoutid'}, {'\$set':{'ip':'$ip'}});
+	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "'}});
+	db.user.update({'ip':'$ip'}, {'\$set':{'ip':'', 'token':''}}); //remove tokens from same ip
+	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'ip':'$ip'}});
 ");
 
 //regular end
@@ -66,12 +56,16 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-$input = "{type:'token-gen', scoutid:'$scoutid', time:'$starttime', duration:'$total_time', place:'login.php', token:'$token', ip:'$ip', log:'$log'}";
-$db->execute("db.log.insert($input)");
+$input = json_encode($input);
+$vars = json_encode($vars);
+$log = json_encode($log);
+
+$log_input = "{type:'token-gen', place:'login.php', time:'$starttime', duration:'$total_time', input:$input, log:$log, vars:$vars}";
+fb($log_input);
+$db->execute("db.log.insert($log_input)");
 
 ob_clean (); //empty output buffer, error_text is only thing sent
-
-die("{'token':'$token'}");
+die("{'token':'" . $vars['token'] . "'}");
 
 
 
@@ -80,8 +74,8 @@ function send_error($error_text, $error) {
 	global $db;
 	global $starttime;
 	global $log;
-	global $scoutid;
-	global $ip;
+	global $input;
+	global $vars;
 
 	if ($error == "") {$error = $error_text;}
 	
@@ -89,12 +83,14 @@ function send_error($error_text, $error) {
 	$endtime = (float)$sec + (float)$micro;
 	$total_time = ($endtime - $starttime);
 	
-	$input = "{type:'error', scoutid:'$scoutid', time:'$starttime', duration:'$total_time', place:'login.php', errorcode:'$error', ip:'$ip', log:'$log'}";
-	$db->execute("db.log.insert($input)");
+	$input = json_encode($input);
+	$vars = json_encode($vars);
+	$log = json_encode($log);
 	
-
+	$log_input = "{type:'error', errorcode:'$error', place:'login.php', time:'$starttime', duration:'$total_time', input:$input, log:$log, vars:$vars}";
+	$db->execute("db.log.insert($log_input)");
 	
-	//ob_clean (); //empty output buffer, error_text is only thing sent
+	ob_clean (); //empty output buffer, error_text is only thing sent
 	die("{'error':'$error_text'}");
 }
 ?>

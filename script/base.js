@@ -12,6 +12,17 @@
 
 /* TODO float google +1 button left w/out 4px overhang  */
 
+
+//set fieldset class on focus
+$("input, textarea").focus(function() {
+    $(this).parentsUntil($("form"), "fieldset").addClass('focus');
+});
+
+$("input, textarea").focusout(function() {
+    $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
+});
+
+
 // global vars
 var currentpage = '' //actual value gets assigned later
 var pagetitle = document.title; //used as base for page titles
@@ -1012,3 +1023,81 @@ top.consoleRef.document.write(
 )
 top.consoleRef.document.close()
 }
+
+//shit code below
+/*
+switch (RequestType) {
+case "P": // Poll
+
+//AJAX
+
+// stuff for processing mail XML
+
+break;
+case "I": // Input 
+	$('#jGrowl-container').jGrowl('Submit pending...');
+
+	if (currentpage == 'Regular'){
+	var v1 = errornum
+	// var 2 in mutual
+	var v3 = document.getElementById('AllianceColor').value;
+	var v4 = document.getElementById('AllianceScore').value;
+	var v5 = document.getElementById('TeamNum').value;
+	var v6 = document.getElementById('YCard').value;
+	var v7 = document.getElementById('RCard').value;
+	// var 8 in mutual
+	var v9 = ''
+	
+	}
+	
+	if (currentpage == 'Human-Player'){
+		var inputXML = "" // build XML for Human-Player
+	}
+	
+	if (currentpage == 'Regular' || currentpage == 'Human-Player') {
+	var v2 = document.getElementById('MatchNum').value;
+	var v8 = document.getElementById('Comments').value;
+	}
+	
+	if (currentpage == 'Pit'){
+		var inputXML = "" // build XML for pit
+	}
+	
+	var RequestText = "&c="+currentpage + "&i="+inputXML
+	
+//AJAX
+
+
+	$('#jGrowl-container').jGrowl('To prevent the loss of valuable scouting data, I have compiled all of the data which you have entered for this match. <br /> Click the button below to open a window containing the scouting data, then send the text to me at <a href="mailto:slang800@gmail.com">slang800@gmail.com</a>, and I will add it to the database.<br /><button type="button" style="margin-left:187px;;" onclick="WriteToWindow();">Open</button>', {sticky: true, theme: 'error'});
+	window.writetext = "&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + RequestText;
+
+	//if no errors
+	if (RequestType == 'I') {
+		clearinputs();
+		if (currentpage == 'Regular' || currentpage == 'Human-Player') {
+			increase('MatchNum');
+		}
+	}
+
+	
+break;
+case "M": // Mail
+
+
+//AJAX
+
+	// Code to clear mail inputs
+
+break;
+case "Q": // Query
+	if (query.length==0) {
+		document.getElementById(place).innerHTML="";
+		return;
+	}
+	var RequestText = "&q="+query + "&t="+type + "&v1="+variable + "&p="+place
+	
+//AJAX
+
+	
+break;
+*/
