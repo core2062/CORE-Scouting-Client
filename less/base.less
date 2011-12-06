@@ -296,8 +296,13 @@ Language: LESS
 			
 		}
 		
-		&:hover legend {
-			//add bg color change
+		&.focus legend {
+			/*TODO fix below*/
+			color: #1c4257;
+			border-color: #7096ab;
+			background-color: #ededed;
+			.advanced-gradent(#b9e0f5, #92bdd6);
+			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 		}
 	}
 	
@@ -405,6 +410,7 @@ Language: LESS
 // Buttons and Button Sets
 
 	button, .buttonset label {
+		outline: none;
 		/* TODO add transitions*/
 		border: 1px solid #B6B6B6;
 		.theme1();
@@ -432,7 +438,6 @@ Language: LESS
 
 
 	button:active, .buttonset input[type="radio"]:checked + label {
-		outline: none;
 		color: #1c4257;
 		border-color: #7096ab;
 		background-color: #ededed;
