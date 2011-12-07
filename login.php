@@ -48,7 +48,7 @@ if ($pword !== $input['pword']) {
 $vars['token'] = uniqid("",true);
 $db->execute("
 	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'ip':'', 'token':''}});
-	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "', 'ip':'" . $vars['ip'] . "'}});
+	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "', 'ip':'" . $vars['ip'] . "', 'logintime':'$starttime'}});
 ");
 
 //regular end
@@ -61,7 +61,15 @@ $log_input = json_encode($input);
 $log_vars = json_encode($vars);
 $log_log = json_encode($log);
 
-$insert = "{type:'token-gen', place:'login.php', time:'$starttime', duration:'$total_time', input:$log_input, log:$log_log, vars:$log_vars}";
+$insert = "{
+	type:'token-gen',
+	place:'login.php',
+	time:'$starttime',
+	duration:'$total_time',
+	input:$log_input,
+	log:$log_log,
+	vars:$log_vars
+}";
 $db->execute("db.log.insert($insert)");
 
 ob_clean (); //empty output buffer, error_text is only thing sent
@@ -87,7 +95,16 @@ function send_error($error_text, $error) {
 	$log_vars = json_encode($vars);
 	$log_log = json_encode($log);
 	
-	$insert = "{type:'error', errorcode:'$error', place:'login.php', time:'$starttime', duration:'$total_time', input:$log_input, log:$log_log, vars:$log_vars}";
+	$insert = "{
+		type:'error',
+		errorcode:'$error',
+		place:'login.php',
+		time:'$starttime',
+		duration:'$total_time',
+		input:$log_input,
+		log:$log_log,
+		vars:$log_vars
+	}";
 	$db->execute("db.log.insert($insert)");
 	
 	ob_clean (); //empty output buffer, error_text is only thing sent
