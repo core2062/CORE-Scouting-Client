@@ -54,25 +54,20 @@ $input = array_merge(json_decode($json, true),$input);
 die();
 
 
-//garbage script
-//$Request=$_POST["Request"]; // I = Input	Q = Query	A = Admin	P = Poll	M = Mail
-//$log=" | Request: $Request"; //start log
-//garbage script
-
 
 // 0 = account banned, can't do anything
 // 1 = low account, only input access
 // 2 = low account, input + scout leader access
 // 3 = normal account, no direct SQL Query, no scout leader access, can access other analisis
 // 8 = near admin account all access of 3 level permission + scout leader access
-// 9 = admin account, full access, direct SQL Query access
+// 9 = admin account, full access, all DB access
 
 if ($user['permission'] == 0) {
 	send_error('Your Account Is Banned', ' | Banned Account');
 }
 
 switch ($input['request']) {
-case "P": // Poll
+case "Poll": //for match signup
 
 	send_error('This part is not finished','');
 
@@ -107,19 +102,19 @@ case "P": // Poll
 
 
 break;
-case "I": // Input 
+case "Input": 
 
 	send_error('This part is not finished','');
 	include 'php/input.php';
 
 break;
-case "M": // Mail
+case "Mail":
 
 	send_error('This part is not finished','');
 	include 'php/mail.php';
 
 break;
-case "Q": // Query
+case "Query":
 	if ($permission < 3) {
 		send_error( 'Invalid Permissions','');
 	}
@@ -172,15 +167,23 @@ case "Q": // Query
 	}
 	else send_error('Invalid Request Type','');
 break;
-case "A": // Admin
+case "Admin":
 	if ($permission < 9) {
-		send_error('Invalid Permissions',' | Invalid Permissions - Admin Only | Permissions');
+		send_error('invalid permissions - admin only','');
 	}
+	
+	//Errorcheck
+	//Recalculate
+	//Reset
+	
+break;
+case "Logout":
 
+	// delete token & ip for active user
 
 break;
 default:
-	send_error('Invalid Request Type','');
+	send_error('invalid request type','');
 }
 
 
@@ -206,7 +209,17 @@ function send_error($error_text, $error) {
 	$log_log = json_encode($log);
 	$log_user = json_encode($user);
 	
-	$insert = "{type:'error', errorcode:'$error', place:'process.php', time:'$starttime', duration:'$total_time', input:$log_input, log:$log_log, vars:$log_vars user:$log_user}";
+	$insert = "{
+		type:'error',
+		errorcode:'$error',
+		place:'process.php',
+		time:'$starttime',
+		duration:'$total_time',
+		input:$log_input,
+		log:$log_log,
+		vars:$log_vars,
+		user:$log_user
+	}";
 	$db->execute("db.log.insert($insert)");
 	
 	ob_clean (); //empty output buffer, error_text is only thing sent
@@ -231,7 +244,17 @@ function send_reg() {
 	$log_log = json_encode($log);
 	$log_user = json_encode($user);
 	
-	$insert = "{type:'regular', return:'$return', place:'process.php', time:'$starttime', duration:'$total_time', input:$log_input, log:$log_log, vars:$log_vars user:$log_user}";
+	$insert = "{
+		type:'regular',
+		return:'$return',
+		place:'process.php',
+		time:'$starttime',
+		duration:'$total_time',
+		input:$log_input,
+		log:$log_log,
+		vars:$log_vars,
+		user:$log_user
+	}";
 	$db->execute("db.log.insert($insert)");
 	
 	$return = json_encode($return);
