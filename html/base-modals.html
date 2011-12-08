@@ -1,40 +1,54 @@
 <div class="Navagation-c">
 	<table>
 	<tbody>
+	
+	<!-- TODO make code to automatically make nav modal in php (using the JSON site-map) -->
+
 	<tr>
 		<td style="padding-right:80px;">
 			<p>Home</p>
 			<ul>
-				<li><a href="index.html#Front-Page">Front Page</a></li>
-				<li><a href="index.html#Synopsis">Synopsis</a></li>
-				<li><a href="index.html#Tour">Tour</a></li>
-				<li><a href="index.html#Signup">Signup</a></li>
+				<li><a href="#front-page">Front Page</a></li>
+				<li><a href="#synopsis">Synopsis</a></li>
+				<li><a href="#tour">Tour</a></li>
+				<li><a href="#signup">Signup</a></li>
 			</ul>
 		
 			<p>Input</p>
 			<ul>
-				<li><a href="input.html#Regular">Regular</a></li>
-				<li><a href="input.html#Human-Player">Human Player</a></li>
-				<li><a href="input.html#Pit">Pit</a></li>	
+				<li><a href="#robot">Robot</a></li>
+				<li><a href="#human">Human</a></li>
+				<li><a href="#pit">Pit</a></li>	
 			</ul>
 		
 			<p>Analysis</p>
 			<ul>
-				<li><a href="query.html">View Stats</a></li>
-				<li><a href="">Data Liberation</a></li>		
+				<li><a href="#public">Public</a></li>
+				<li><a href="#member">Member</a></li>	
+				<li><a href="#data-liberation">Data Liberation</a></li>		
 			</ul>
 	
 			<p>Team Leader</p>
 			<ul>
-				<li><a href="">Manage Scouting</a></li>
-				<li><a href="">View Contribution</a></li>
-				<li><a href="">View Team Members</a></li>	
+				<li><a href="#manage-scouting">Manage Scouting</a></li>
+				<li><a href="#view-contribution">View Contribution</a></li>
+				<li><a href="#view-team-members">View Team Members</a></li>	<!-- TODO merge w/ manage scouting ? -->
+			</ul>
+			
+			<p>Help</p>
+			<ul>
+				<li><a href="#manage-training">Manage Training</a></li>
+				<li><a href="#documentation">Documentation</a></li>
+				<li><a href="#forum">Forum</a></li>
 			</ul>
 			
 			<p>Other</p>
 			<ul>
-				<li><a href="">Edit Account</a></li>
-				<li><a href="">Contact</a></li>		
+				<li><a href="#edit-account">Edit Account</a></li>
+				<li><a href="#contact">Contact</a></li>
+				<li><a href="#credits">Credits</a></li>
+				<li><a href="#navagation">Navagation</a></li>
+				<li><a href="#login">Login</a></li>
 			</ul>
 		</td>
 		<td style="width:100%;">
@@ -53,7 +67,7 @@
 	<li><label for="pword">Password:</label></li>
 	<li><input type="password" id="pword" value="" onkeypress="if(getkey(event) == 13) {modalclose();LoginCheck();}"/></li>
 	<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
-	<!-- TODO add return home button to login modal -->
+	<!-- TODO add return home button & create account to login modal -->
 </ul>
 
 
