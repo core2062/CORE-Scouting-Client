@@ -374,12 +374,6 @@ Language: LESS
 	
 	}
 	
-	span.icon { /*TODO just move to modal close button*/
-		display:inline-block;
-		color: inherit;
-		line-height: 36px;
-	}
-	
 
 
 
@@ -575,6 +569,12 @@ Language: LESS
 				display: block;
 				margin: 1px;
 				background: @close-icon 0 -16px no-repeat;
+				
+				&.icon { /*TODO fix all this css*/
+					display:inline-block;
+					color: inherit;
+					line-height: 36px;
+				}
 			}
 			&:hover span {
 				background-position: -16px -16px;
