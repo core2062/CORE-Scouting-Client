@@ -23,7 +23,6 @@ $("input, textarea").focusout(function () {
     $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
 });
 
-
 // global vars
 var currentpage = ''; //actual value gets assigned later
 var pagetitle = document.title; //used as base for page titles
@@ -163,10 +162,35 @@ var pages =
 		"modals": [],
 		"min-width": "1150px",
 		"progressbar": false
+	},
+	{
+		"name": "help",
+		"description": "lorem",
+		"subpages": 
+			[
+				{
+					"name": "manage-training",
+					"description": "lorem",
+					"login-required": true
+				},
+				{
+					"name": "documentation",
+					"description": "lorem",
+					"login-required": false
+				},
+				{
+					"name": "forum",
+					"description": "lorem",
+					"login-required": true
+				}
+			],
+		"modals": [],
+		"min-width": "1150px",
+		"progressbar": false
 	}
 ];
 //TODO move public to new page - out of member analysis
-// JS will need to convert "-" to " " and capatilize beginning of each word
+// JS will need to convert "-" to " " and capatilize beginning of each word to make title
 
 function fixFavicon() { //fixes favicon bug in firefox
   $('#favicon').remove();
