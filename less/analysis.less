@@ -180,6 +180,7 @@ Language: LESS
 
 
 //Tablesorter
+
 	table.tablesorter {
 		font-family:arial;
 		background-color: #CDCDCD;
@@ -241,21 +242,20 @@ Language: LESS
 			padding: 0 5px 0 5px;
 		}
 		
-		/* TODO test merge of below 3 inputs */
 		input {
 			font-size: 8px;
 			width: 50px;
 			border: 1px solid #330000;
 			text-align: center;
-		}
-		
-		input.prev {
-			width: auto;
-			margin-right: 10px;
-		}
-		
-		input.next {
-			width: auto;
-			margin-left: 10px;
+			
+			&.prev {
+				width: auto;
+				margin-right: 10px;
+			}
+			
+			&.next {
+				width: auto;
+				margin-left: 10px;
+			}
 		}
 	}

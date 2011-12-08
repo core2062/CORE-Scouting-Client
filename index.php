@@ -32,6 +32,26 @@ ini_set( 'display_errors', 1 );
 
 
 <?php
+//start timer
+list($micro, $sec) = explode(" ",microtime());
+$starttime = (float)$sec + (float)$micro;
+
+
+$m = new Mongo(); // connect
+$db = $m->selectDB("CSD");
+
+if (isset($_GET['dev'])) {
+	$dev = true;
+	fb('dev mode enabled');
+} else {
+	$dev = false;
+}
+//TODO require authentication to use dev, or just remove before production
+
+if (isset($_COOKIE['scoutid'])) {
+	$input['scoutid'] = $_COOKIE['scoutid'];
+}
+$input['ip'] = $_SERVER['REMOTE_ADDR'];
 
 $embedded[0] = "base";
 $embedded[1] = "home";
@@ -72,6 +92,11 @@ if (file_exists($filename) == true){
 		global $parts_length;
 		global $cache_date;
 		global $embedded;
+		global $dev;
+		
+		if ($dev == true){
+			return false;
+		}
 		
 		for ($i = 0; $i < $length; ++$i) {
 			$file = 'css/' . $embedded[$i] . '.css';
@@ -100,6 +125,24 @@ if (file_exists($filename) == true){
 	if (cache_check() === true) {
 		$html = file_get_contents ($filename);
 		fb('cached');
+		
+		list($micro, $sec) = explode(" ",microtime());
+		$endtime = (float)$sec + (float)$micro;
+		$total_time = ($endtime - $starttime);
+		
+		$log_input = json_encode($input);
+		
+		$insert = "{
+			type:'page-cache',
+			place:'index.php',
+			time:'$starttime',
+			duration:'$total_time',
+			filename:'$filename',
+			input:$log_input
+		}";
+		
+		$db->execute("db.log.insert($insert)");
+				
 		ob_clean (); //empty output buffer
 		die($html);
 	}
@@ -137,9 +180,9 @@ include 'php/jsminplus.php';
 	<tr class="head">
 		<td colspan="2">
 			
-				<?php
-					embed('html/', '-navbar.html');
-				?>
+			<?php
+				embed('html/', '-navbar.html');
+			?>
 
 			<hr style="margin:10px;" />
 		
@@ -224,8 +267,7 @@ include 'php/jsminplus.php';
 <div class="overlay Navagation-c Login-c Contact-c" onclick="modalclose();"></div>
 
 <!-- END Modals -->
-
-<script src="script/jquery.min.js"></script>
+<script type="text/javascript" src="script/jquery.js"></script> <!--TODO embed jquery, fix issues w/ being in same file -->
 <script type="text/javascript"></script>
 </body>  
 </html>  
@@ -250,24 +292,29 @@ function embed($folder, $extension) {
 
 $html = ob_get_contents();
 
-$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
-$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
-//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags
+if ($dev == false) {
+	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
+	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
+	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags
+	
+	//TODO fix the last command	
+}
 
-//TODO fix the last command
-
-$javascript = '';
+$javascript = ''; //or put jquery in at this point file_get_contents('script/jquery.js')
 for ($i = 0; $i < $length; ++$i) {
 	$file = 'script/' . $embedded[$i] . '.js';
 
 	if (file_exists($file) == true) {
-		$javascript .= JSMinPlus::minify(file_get_contents($file));
+		$javascript .= file_get_contents($file);
 	}
+}
+if ($dev == false){
+	$javascript = JSMinPlus::minify($javascript);
 }
 $html = preg_replace('/<script type="text\/javascript"><\/script>/', '<script type="text/javascript">' . $javascript . '</script>', $html);
 
 //optimize css
-//base64 images ?
+//TODO base64 images w/ php ?
 
 $html = trim($html);
 
@@ -276,7 +323,27 @@ $fp = fopen($filename, "w+");
 fwrite($fp, $html); 
 fclose($fp); 
 
-ob_clean (); //empty output buffer
+list($micro, $sec) = explode(" ",microtime());
+$endtime = (float)$sec + (float)$micro;
+$total_time = ($endtime - $starttime);
+
+	$log_input = json_encode($input);
+
+$insert = "{
+	type:'page-gen',
+	place:'index.php',
+	time:'$starttime',
+	duration:'$total_time',
+	filename:'$filename',
+	dev:'$dev',
+	input:$log_input
+}";
+
+$db->execute("db.log.insert($insert)");
+
+if ($dev == false){
+	ob_clean ();
+}
 die($html);
 ?>
 
@@ -284,7 +351,7 @@ die($html);
 
 
 
-
+<!-- TODO make a 404 page -->
 
 <!-- TODO make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time -->
 
