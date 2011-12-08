@@ -31,7 +31,8 @@ if ($input['token'] == "") {
 	send_error("token is blank","");
 }
 
-$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'})");
+$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");
+fb($user);
 $user = $user['retval'];
 
 if ($user['token'] !== $input['token']) {
@@ -67,7 +68,7 @@ if ($user['permission'] == 0) {
 }
 
 switch ($input['request']) {
-case "Poll": //for match signup
+case "Poll": //for match signup, mail poll, other?
 
 	send_error('This part is not finished','');
 
@@ -79,7 +80,7 @@ case "Poll": //for match signup
 	// clean parameters
 //	$checksignup = mysql_real_escape_string($checksignup);
 //	$competition = mysql_real_escape_string($competition);
-//	$matchnum= mysql_real_escape_string($matchnum);
+//	$matchnum = mysql_real_escape_string($matchnum);
 	
 	
 	// BEGIN MESSAGE POLL
@@ -120,17 +121,17 @@ case "Query":
 	}
 	
 	//get more parameters
-//	$QueryDirty=$_POST["q"];
-//	$type=$_POST["t"];
-//	$var1=$_POST["v1"];
-//	$place=$_POST["p"];
+	//$QueryDirty=$_POST["q"];
+	//$type=$_POST["t"];
+	//$var1=$_POST["v1"];
+	//$place=$_POST["p"];
 	
 	// clean parameters
-//	$Query = mysql_real_escape_string($QueryDirty);
-//	$type = mysql_real_escape_string($type);
-//	$var1 = mysql_real_escape_string($var1);
+	//$Query = mysql_real_escape_string($QueryDirty);
+	//$type = mysql_real_escape_string($type);
+	//$var1 = mysql_real_escape_string($var1);
 	
-	mysql_query ("INSERT INTO log VALUES ('Database Q', NOW(), 'ScoutID: $ScoutID | table query: $Query | type: $type | var1: $var1')"); //write to log ---------------------- REMOVE
+	//mysql_query ("INSERT INTO log VALUES ('Database Q', NOW(), 'ScoutID: $ScoutID | table query: $Query | type: $type | var1: $var1')"); //write to log
 	
 	switch ($Query)
 	{
@@ -149,9 +150,9 @@ case "Query":
 		break;
 	default:
 		if ($permission < 9) {
-		send_error('Invalid Permissions', ' | Bad Permissions - Admin Only | Permissions: '.$permission);
+			send_error('invalid permissions - admin only','');
 		};
-		$Query = $QueryDirty;
+		//$Query = $QueryDirty;
 	};
 	
 		

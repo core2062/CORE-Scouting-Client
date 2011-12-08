@@ -1,9 +1,9 @@
 // Designer: Sean Lang
-
+console.log('Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.');
 
 // Google +1 Button
 /*
-(function() {
+(function () {
 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
 	po.src = 'https://apis.google.com/js/plusone.js';
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
@@ -12,159 +12,160 @@
 
 /* TODO float google +1 button left w/out 4px overhang  */
 
-
 //set fieldset class on focus
-$("input, textarea").focus(function() {
+$("input, textarea").focus(function () {
+	"use strict";
     $(this).parentsUntil($("form"), "fieldset").addClass('focus');
 });
 
-$("input, textarea").focusout(function() {
+$("input, textarea").focusout(function () {
+	"use strict";
     $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
 });
 
 
 // global vars
-var currentpage = '' //actual value gets assigned later
+var currentpage = ''; //actual value gets assigned later
 var pagetitle = document.title; //used as base for page titles
 var pages =
 [
 	{
-		'name':'base',
-		'description':'',
-		'subpages':[],
-		'modals':
+		"name": "base",
+		"description": "",
+		"subpages": [],
+		"modals":
 			[
 				{
-					'name':'navagation',
-					'login-required':false
+					"name": "navagation",
+					"login-required": false
 				},
 				{
-					'name':'login',
-					'login-required':false
+					"name": "login",
+					"login-required": false
 				},
 				{
-					'name':'contact',
-					'login-required':false
+					"name": "contact",
+					"login-required": false
 				},
 				{
-					'name':'credits',
-					'login-required':false
+					"name": "credits",
+					"login-required": false
 				},
 				{
-					'name':'edit-account',
-					'login-required':true
+					"name": "edit-account",
+					"login-required": true
 				}
 			],
-		'min-width':'1150px',
-		'progressbar':false
+		"min-width": "1150px",
+		"progressbar": false
 	},
 	{
-		'name':'home',
-		'description':'lorem',
-		'subpages':
+		"name": "home",
+		"description": "lorem",
+		"subpages":
 			[
 				{
-					'name':'front-page',
-					'description':'lorem',
-					'login-required':false
+					"name": "front-page",
+					"description": "lorem",
+					"login-required": false
 				},
 				{
-					'name':'synopsis',
-					'description':'lorem',
-					'login-required':false
+					"name": "synopsis",
+					"description": "lorem",
+					"login-required": false
 				},
 				{
-					'name':'tour',
-					'description':'lorem',
-					'login-required':false
+					"name": "tour",
+					"description": "lorem",
+					"login-required": false
 				},
 				{
-					'name':'signup',
-					'description':'lorem',
-					'login-required':false
+					"name": "signup",
+					"description": "lorem",
+					"login-required": false
 				}
 			],
-		'modals':[],
-		'min-width':'1150px',
-		'progressbar':false
+		"modals": [],
+		"min-width": "1150px",
+		"progressbar": false
 	},
 	{
-		'name':'input',
-		'description':'lorem',
-		'subpages':
+		"name": "input",
+		"description": "lorem",
+		"subpages": 
 			[
 				{
-					'name':'robot',
-					'description':'lorem',
-					'login-required':true
+					"name": "robot",
+					"description": "lorem",
+					"login-required": true
 				},
 				{
-					'name':'human',
-					'description':'lorem',
-					'login-required':true
+					"name": "human",
+					"description": "lorem",
+					"login-required": true
 				},
 				{
-					'name':'pit',
-					'description':'lorem',
-					'login-required':true
+					"name": "pit",
+					"description": "lorem",
+					"login-required": true
 				}
 			],
-		'modals':[],
-		'min-width':'1150px',
-		'progressbar':true
+		"modals": [],
+		"min-width": "1150px",
+		"progressbar": true
 	},
 	{
-		'name':'analysis',
-		'description':'lorem',
-		'subpages':
+		"name": "analysis",
+		"description": "lorem",
+		"subpages": 
 			[
 				{
-					'name':'public', //move this to new page
-					'description':'lorem',
-					'login-required':false
+					"name": "public",
+					"description": "lorem",
+					"login-required": false
 				},
 				{
-					'name':'member',
-					'description':'lorem',
-					'login-required':true
+					"name": "member",
+					"description": "lorem",
+					"login-required": true
 				},
 				{
-					'name':'data-liberation',
-					'description':'lorem',
-					'login-required':true
+					"name": "data-liberation",
+					"description": "lorem",
+					"login-required": true
 				}
 			],
-		'modals':[],
-		'min-width':'1150px',
-		'progressbar':false
+		"modals": [],
+		"min-width": "1150px",
+		"progressbar": false
 	},
 	{
-		'name':'team-leader',
-		'description':'lorem',
-		'subpages':
+		"name": "team-leader",
+		"description": "lorem",
+		"subpages": 
 			[
 				{
-					'name':'manage-scouting',
-					'description':'lorem',
-					'login-required':false
+					"name": "manage-scouting",
+					"description": "lorem",
+					"login-required": false
 				},
 				{
-					'name':'view-contribution',
-					'description':'lorem',
-					'login-required':false
+					"name": "view-contribution",
+					"description": "lorem",
+					"login-required": false
 				},
 				{
-					'name':'view-team-members',
-					'description':'lorem',
-					'login-required':false
+					"name": "view-team-members",
+					"description": "lorem",
+					"login-required": false
 				}
 			],
-		'modals':[],
-		'min-width':'1150px',
-		'progressbar':false
+		"modals": [],
+		"min-width": "1150px",
+		"progressbar": false
 	}
-]
-
+];
+//TODO move public to new page - out of member analysis
 // JS will need to convert "-" to " " and capatilize beginning of each word
 
 function fixFavicon() { //fixes favicon bug in firefox
@@ -172,7 +173,7 @@ function fixFavicon() { //fixes favicon bug in firefox
   $('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
 	window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	window.underpage = ''; //underpage must be set to something
@@ -194,6 +195,7 @@ $(document).ready(function() {
 window.onpopstate = function (event) {
 	// if nav() is failing, check browser support for this
 	console.log(event);
+	fixFavicon(); //remove this?????
 	Nav();
 }
 
@@ -208,7 +210,7 @@ function Nav() {
 		} else { //if not a modal & not a subpage
 			currentpage = subpages[0]; //use default page
 			window.location = '#' + currentpage;
-			fixFavicon();
+			//fixFavicon();
 		}
 	} else { //if not a modal
 		$(listModals).fadeOut(250);
@@ -222,7 +224,7 @@ function Nav() {
 	}
 }
 
-function nav () {
+function nav() {
 	newpage = location.hash.substring(1);
 	//search page array
 	
@@ -252,6 +254,14 @@ function EatCookie(name) {
 		else var CookieValue = "";
 	}
 	return CookieValue;
+}
+
+function login(){
+	
+}
+
+function logout(){
+	
 }
 
 function LoginCheck(){ //TODO make login check run at login modal close
@@ -327,7 +337,7 @@ function numbersonly(e){ //used for limiting form input
     };
     
     Tipsy.prototype = {
-        show: function() {
+        show: function () {
             var title = this.getTitle();
             if (title && this.enabled) {
                 var $tip = this.tip();
@@ -383,22 +393,22 @@ function numbersonly(e){ //used for limiting form input
             }
         },
         
-        hide: function() {
+        hide: function () {
             if (this.options.fade) {
-                this.tip().stop().fadeOut(function() { $(this).remove(); });
+                this.tip().stop().fadeOut(function () { $(this).remove(); });
             } else {
                 this.tip().remove();
             }
         },
         
-        fixTitle: function() {
+        fixTitle: function () {
             var $e = this.$element;
             if ($e.attr('title') || typeof($e.attr('original-title')) != 'string') {
                 $e.attr('original-title', $e.attr('title') || '').removeAttr('title');
             }
         },
         
-        getTitle: function() {
+        getTitle: function () {
             var title, $e = this.$element, o = this.options;
             this.fixTitle();
             var title, o = this.options;
@@ -411,14 +421,14 @@ function numbersonly(e){ //used for limiting form input
             return title || o.fallback;
         },
         
-        tip: function() {
+        tip: function () {
             if (!this.$tip) {
                 this.$tip = $('<div class="tipsy"></div>').html('<div class="tipsy-arrow"></div><div class="tipsy-inner"></div>');
             }
             return this.$tip;
         },
         
-        validate: function() {
+        validate: function () {
             if (!this.$element[0].parentNode) {
                 this.hide();
                 this.$element = null;
@@ -426,9 +436,9 @@ function numbersonly(e){ //used for limiting form input
             }
         },
         
-        enable: function() { this.enabled = true; },
-        disable: function() { this.enabled = false; },
-        toggleEnabled: function() { this.enabled = !this.enabled; }
+        enable: function () { this.enabled = true; },
+        disable: function () { this.enabled = false; },
+        toggleEnabled: function () { this.enabled = !this.enabled; }
     };
     
     $.fn.tipsy = function(options) {
@@ -459,7 +469,7 @@ function numbersonly(e){ //used for limiting form input
                 tipsy.show();
             } else {
                 tipsy.fixTitle();
-                setTimeout(function() { if (tipsy.hoverState == 'in') tipsy.show(); }, options.delayIn);
+                setTimeout(function () { if (tipsy.hoverState == 'in') tipsy.show(); }, options.delayIn);
             }
         };
         
@@ -469,11 +479,11 @@ function numbersonly(e){ //used for limiting form input
             if (options.delayOut == 0) {
                 tipsy.hide();
             } else {
-                setTimeout(function() { if (tipsy.hoverState == 'out') tipsy.hide(); }, options.delayOut);
+                setTimeout(function () { if (tipsy.hoverState == 'out') tipsy.hide(); }, options.delayOut);
             }
         };
         
-        if (!options.live) this.each(function() { get(this); });
+        if (!options.live) this.each(function () { get(this); });
         
         if (options.trigger != 'manual') {
             var binder   = options.live ? 'live' : 'bind',
@@ -509,11 +519,11 @@ function numbersonly(e){ //used for limiting form input
         return $.metadata ? $.extend({}, options, $(ele).metadata()) : options;
     };
     
-    $.fn.tipsy.autoNS = function() {
+    $.fn.tipsy.autoNS = function () {
         return $(this).offset().top > ($(document).scrollTop() + $(window).height() / 2) ? 's' : 'n';
     };
     
-    $.fn.tipsy.autoWE = function() {
+    $.fn.tipsy.autoWE = function () {
         return $(this).offset().left > ($(document).scrollLeft() + $(window).width() / 2) ? 'e' : 'w';
     };
     
@@ -533,7 +543,7 @@ function numbersonly(e){ //used for limiting form input
      *        component.
      */
      $.fn.tipsy.autoBounds = function(margin, prefer) {
-		return function() {
+		return function () {
 			var dir = {ns: prefer[0], ew: (prefer.length > 1 ? prefer[1] : false)},
 			    boundTop = $(document).scrollTop() + margin,
 			    boundLeft = $(document).scrollLeft() + margin,
@@ -571,7 +581,7 @@ function numbersonly(e){ //used for limiting form input
 			
 			var options = $.extend(defaults, options);
 		
-    		return this.each(function() {
+    		return this.each(function () {
 				var o =options;
 				
 				//Assign current element to variable, in this case is UL element
@@ -612,7 +622,7 @@ function numbersonly(e){ //used for limiting form input
 					} else {
 						$(easySelect).children('ul').slideDown(o.speed);
 						easySelect.css('z-index',100);
-						$('.'+o.className).not(easySelect).each(function(){
+						$('.'+o.className).not(easySelect).each(function (){
 							if($(this).children('ul').is(':visible')){
 								$(this).children('ul').slideUp(o.speed);	
 								$(this).css('z-index',99);
@@ -624,8 +634,8 @@ function numbersonly(e){ //used for limiting form input
 				});
 				
 				//close when not clicked. use document as window does not work IE
-				$(document).click(function(){
-					$('.'+o.className).each(function(){
+				$(document).click(function (){
+					$('.'+o.className).each(function (){
 						if($(this).children('ul').is(':visible')){
 							$(this).children('ul').slideUp(o.speed);	
 						}
@@ -633,7 +643,7 @@ function numbersonly(e){ //used for limiting form input
 				});
 
 				//change value
-				easySelect.children('ul').children('li').click(function(){									   
+				easySelect.children('ul').children('li').click(function (){									   
 					easySelect.children('.'+displayClass).html($(this).children('a').html());	
 					selectObj.children('option').removeAttr('selected');
 					selectObj.find('option').eq($(this).index()).attr('selected','selected');
@@ -654,7 +664,7 @@ function numbersonly(e){ //used for limiting form input
 		if ( $.isFunction(this.each) ) {
 			var args = arguments;
 
-			return this.each(function() {
+			return this.each(function () {
 				var self = this;
 
 				/** Create a jGrowl Instance on the Container if it does not exist **/
@@ -734,21 +744,21 @@ function numbersonly(e){ //used for limiting form input
 				'<div class="jGrowl-close">' + o.closeTemplate + '</div>' +
 				'<div class="jGrowl-header">' + o.header + '</div>' +
 				'<div class="jGrowl-message">' + message + '</div></div>'
-			).data("jGrowl", o).addClass(o.theme).children('div.jGrowl-close').bind("click.jGrowl", function() {
+			).data("jGrowl", o).addClass(o.theme).children('div.jGrowl-close').bind("click.jGrowl", function () {
 				$(this).parent().trigger('jGrowl.close');
 			}).parent();
 
 
 			/** Notification Actions **/
-			$(notification).bind("mouseover.jGrowl", function() {
+			$(notification).bind("mouseover.jGrowl", function () {
 				$('div.jGrowl-notification', self.element).data("jGrowl.pause", true);
-			}).bind("mouseout.jGrowl", function() {
+			}).bind("mouseout.jGrowl", function () {
 				$('div.jGrowl-notification', self.element).data("jGrowl.pause", false);
-			}).bind('jGrowl.beforeOpen', function() {
+			}).bind('jGrowl.beforeOpen', function () {
 				if ( o.beforeOpen.apply( notification , [notification,message,o,self.element] ) != false ) {
 					$(this).trigger('jGrowl.open');
 				}
-			}).bind('jGrowl.open', function() {
+			}).bind('jGrowl.open', function () {
 				if ( o.open.apply( notification , [notification,message,o,self.element] ) != false ) {
 					if ( o.glue == 'after' ) {
 						$('div.jGrowl-notification:last', self.element).after(notification);
@@ -756,7 +766,7 @@ function numbersonly(e){ //used for limiting form input
 						$('div.jGrowl-notification:first', self.element).before(notification);
 					}
 					
-					$(this).animate(o.animateOpen, o.openDuration, o.easing, function() {
+					$(this).animate(o.animateOpen, o.openDuration, o.easing, function () {
 						// Fixes some anti-aliasing issues with IE filters.
 						if ($.browser.msie && (parseInt($(this).css('opacity'), 10) === 1 || parseInt($(this).css('opacity'), 10) === 0))
 							this.style.removeAttribute('filter');
@@ -767,15 +777,15 @@ function numbersonly(e){ //used for limiting form input
 						$(this).trigger('jGrowl.afterOpen');
 					});
 				}
-			}).bind('jGrowl.afterOpen', function() {
+			}).bind('jGrowl.afterOpen', function () {
 				o.afterOpen.apply( notification , [notification,message,o,self.element] );
-			}).bind('jGrowl.beforeClose', function() {
+			}).bind('jGrowl.beforeClose', function () {
 				if ( o.beforeClose.apply( notification , [notification,message,o,self.element] ) != false )
 					$(this).trigger('jGrowl.close');
-			}).bind('jGrowl.close', function() {
+			}).bind('jGrowl.close', function () {
 				// Pause the notification, lest during the course of animation another close event gets called.
 				$(this).data('jGrowl.pause', true);
-				$(this).animate(o.animateClose, o.closeDuration, o.easing, function() {
+				$(this).animate(o.animateClose, o.closeDuration, o.easing, function () {
 					if ( $.isFunction(o.close) ) {
 						if ( o.close.apply( notification , [notification,message,o,self.element] ) !== false )
 							$(this).remove();
@@ -790,7 +800,7 @@ function numbersonly(e){ //used for limiting form input
 				 $('div.jGrowl-closer', self.element).size() == 0 && this.defaults.closer != false ) {
 				$(this.defaults.closerTemplate).addClass('jGrowl-closer').addClass(this.defaults.theme)
 					.appendTo(self.element).animate(this.defaults.animateOpen, this.defaults.speed, this.defaults.easing)
-					.bind("click.jGrowl", function() {
+					.bind("click.jGrowl", function () {
 						$(this).siblings().trigger("jGrowl.beforeClose");
 
 						if ( $.isFunction( self.defaults.closer ) ) {
@@ -801,8 +811,8 @@ function numbersonly(e){ //used for limiting form input
 		},
 
 		/** Update the jGrowl Container, removing old jGrowl notifications **/
-		update:	 function() {
-			$(this.element).find('div.jGrowl-notification:parent').each( function() {
+		update:	 function () {
+			$(this.element).find('div.jGrowl-notification:parent').each( function () {
 				if ( $(this).data("jGrowl") != undefined && $(this).data("jGrowl").created != undefined && 
 					 ($(this).data("jGrowl").created.getTime() + parseInt($(this).data("jGrowl").life))  < (new Date()).getTime() && 
 					 $(this).data("jGrowl").sticky != true && 
@@ -818,7 +828,7 @@ function numbersonly(e){ //used for limiting form input
 				this.render( this.notifications.shift() );
 
 			if ( $(this.element).find('div.jGrowl-notification:parent').size() < 2 ) {
-				$(this.element).find('div.jGrowl-closer').animate(this.defaults.animateClose, this.defaults.speed, this.defaults.easing, function() {
+				$(this.element).find('div.jGrowl-closer').animate(this.defaults.animateClose, this.defaults.speed, this.defaults.easing, function () {
 					$(this).remove();
 				});
 			}
@@ -827,7 +837,7 @@ function numbersonly(e){ //used for limiting form input
 		/** Setup the jGrowl Notification Container **/
 		startup:	function(e) {
 			this.element = $(e).addClass('jGrowl').append('<div class="jGrowl-notification"></div>');
-			this.interval = setInterval( function() { 
+			this.interval = setInterval( function () { 
 				$(e).data('jGrowl.instance').update(); 
 			}, parseInt(this.defaults.check));
 			
@@ -837,13 +847,13 @@ function numbersonly(e){ //used for limiting form input
 		},
 
 		/** Shutdown jGrowl, removing it and clearing the interval **/
-		shutdown:   function() {
+		shutdown:   function () {
 			$(this.element).removeClass('jGrowl').find('div.jGrowl-notification').remove();
 			clearInterval( this.interval );
 		},
 		
-		close: 	function() {
-			$(this.element).find('div.jGrowl-notification').each(function(){
+		close: 	function () {
+			$(this.element).find('div.jGrowl-notification').each(function (){
 				$(this).trigger('jGrowl.beforeClose');
 			});
 		}
@@ -864,131 +874,9 @@ window.variable = variable;
 ajax('Q');
 }
 
-//TODO total rewrite of ajax & AccessDBT use jquery ajax?
 
-function ajax(RequestType){
 //scoutid and pword should be stored in vars, not in form input
 
-switch (RequestType) {
-case "P": // Poll
-
-
-break;
-case "I": // Input 
-	$('#jGrowl-container').jGrowl('Submit pending...');
-
-	if (currentpage == 'Regular'){
-	var v1 = errornum
-	// var 2 in mutual
-	var v3 = document.getElementById('AllianceColor').value;
-	var v4 = document.getElementById('AllianceScore').value;
-	var v5 = document.getElementById('TeamNum').value;
-	var v6 = document.getElementById('YCard').value;
-	var v7 = document.getElementById('RCard').value;
-	// var 8 in mutual
-	var v9 = ''
-	
-	}
-	
-	if (currentpage == 'Human-Player'){
-		var inputXML = "" // build XML for Human-Player
-	}
-	
-	if (currentpage == 'Regular' || currentpage == 'Human-Player') {
-	var v2 = document.getElementById('MatchNum').value;
-	var v8 = document.getElementById('Comments').value;
-	}
-	
-	if (currentpage == 'Pit'){
-		var inputXML = "" // build XML for pit
-	}
-	
-	var RequestText = "&c="+currentpage + "&i="+inputXML
-break;
-case "M": // Mail
-
-
-break;
-case "Q": // Query
-	if (query.length==0) {
-		document.getElementById(place).innerHTML="";
-		return;
-	}
-	var RequestText = "&q="+query + "&t="+type + "&v1="+variable + "&p="+place
-break;
-case "A": // Admin
-
-
-break;
-}
-
-
-var xmlhttp;
-if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-xmlhttp=new XMLHttpRequest();
-}
-else { // code for IE6, IE5
-xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-xmlhttp.onreadystatechange=function() {
-if (xmlhttp.readyState==4) {	
-if (xmlhttp.status==200) { // 200 = OK, process result
-	if (window.DOMParser) {
-		parser=new DOMParser();
-		xmlDoc=parser.parseFromString(xmlhttp.responseText,"text/xml");
-	}
-	else { // Internet Explorer
-		xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-		xmlDoc.async="false";
-		xmlDoc.loadXML(xmlhttp.responseText);
-	}
-	
-	myArray = xmlDoc.getElementsByTagName("error")
-	for ( var i=myArray.length-1; i>=0; --i ) {
-		$('#jGrowl-container').jGrowl(myArray[i].childNodes[0].nodeValue, {sticky: true, theme: 'error'});
-	}
-	
-	if (myArray.length == 0) { // if there are no errors
-	$('#jGrowl-container').jGrowl('close');
-		if (RequestType == 'I') {
-			clearinputs();
-			if (currentpage == 'Regular' || currentpage == 'Human-Player') {
-				increase('MatchNum');
-			}
-		}
-		if (RequestType == 'M') {
-		// Code to clear mail inputs
-		}
-	}
-	
-	myArray = xmlDoc.getElementsByTagName("readout")
-	for ( var i=myArray.length-1; i>=0; --i ) {
-		$('#jGrowl-container').jGrowl(myArray[i].childNodes[0].nodeValue);
-	}
-	
-	myArray = xmlDoc.getElementsByTagName("queryreturn") // process query results and match signup table return
-	for ( var i=myArray.length-1; i>=0; --i ) {
-			document.getElementById(myArray[i].getAttribute("place")).innerHTML = myArray[i].childNodes[0].nodeValue;
-	}
-	
-	if (RequestType == 'P') { // Poll
-		// stuff for processing mail XML
-	}
-}
-else { // error handling
-	$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {sticky: true, theme: 'error'});
-	
-	if (RequestType == 'I'){
-		$('#jGrowl-container').jGrowl('To prevent the loss of valuable scouting data, I have compiled all of the data which you have entered for this match. <br /> Click the button below to open a window containing the scouting data, then send the text to me at <a href="mailto:slang800@gmail.com">slang800@gmail.com</a>, and I will add it to the database.<br /><button type="button" style="margin-left:187px;;" onclick="WriteToWindow();">Open</button>', {sticky: true, theme: 'error'});
-		window.writetext = "&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + RequestText;
-	}
-}
-}
-}
-xmlhttp.open("POST", "process.php", true);
-xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xmlhttp.send("&ScoutID="+ScoutID + "&pword="+pword + "&Request="+RequestType + RequestText);
-}
 
 
 //new AJAX
@@ -998,10 +886,10 @@ function post(filename, json) {
 		url: filename,
 		data: 'data=' + json,
 		async: false,
-		success: function(){
+		success: function (){
 
 		},
-		error: function(){
+		error: function (){
 			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {sticky: true, theme: 'error'});
 		}
 	});
@@ -1012,12 +900,12 @@ function post(filename, json) {
 
 
 
-
-// TODO replace with something better, like downloadify
+// TODO replace with something better, like downloadify or just a modal
 function WriteToWindow() {
 top.consoleRef=window.open('','myconsole','width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
+//TODO fix link to style sheet, or replace compleatly
 top.consoleRef.document.write(
-'<html><head><title>Scouting Data</title><link rel="stylesheet" type="text/css" media="all" href="css/style.css" /></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">'
+'<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">'
 +writetext
 +'</textarea></body></html>'
 )
