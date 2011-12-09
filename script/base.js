@@ -25,7 +25,6 @@ $("input, textarea").focusout(function () {
 
 // global vars
 var currentpage = ''; //actual value gets assigned later
-var pagetitle = document.title; //used as base for page titles
 var pages =
 [
 	{
@@ -199,6 +198,21 @@ $(document).ready(function () {
 	}
  });
 
+function cache (){
+	var len = pages.length;
+	for (var i = 0; i < len; i++) {
+		var len2 = pages[i].subpages.length;
+		
+		for (var i = 0; i < len; i++) {
+			if (typeof pages[i].subpages[newpage] != 'undefined'){
+				current = {"index": i, "type": "subpages", "lastsub": newpage};
+				break;
+			}
+		}
+	}
+	cache.subpages = '.' + subpages.join("-c, .") + '-c';
+}
+
 window.onpopstate = function (event) {
 	// if nav() is failing, check browser support for this
 	console.log(event);
@@ -235,26 +249,20 @@ function nav() {
 	
 	
 	//bad code
-	if (subpages.indexOf(newpage) == -1){
+
 		if (modals.indexOf(newpage) != -1){ //if it's a modal
-			$('#overlay, #modal-container, #modal-content > *').css('display', 'none');
+			$('#overlay, #modal-container, #modal-content > *, #modal-buttons > *').css('display', 'none');
 			document.getElementById('modal-title').innerHTML = newpage;
 			$('#overlay').fadeIn(50);
-			console.log($('.' + newpage + '-c, #modal-titlebar, #modal-container'));
 			$('.' + newpage + '-c, #modal-titlebar, #modal-container').delay(50).fadeIn(250);
-		} else { //if not a modal & not a subpage
-			newpage = subpages[0]; //use default page
-			window.location = '#' + newpage;
-			//fixFavicon();
-		}
-	} else { //if not a modal
+		} else { //if not a modal
 		$('#modal-content > *, #overlay, #modal-container').fadeOut(250);
-		if (newpage != current.lastsub) {
-			$(listSubpages).fadeOut(250);
+		if (newpage != current.subpage) {
+			$(cache.listsubpages).fadeOut(250);
 			$('.' + newpage + '-c').delay(250).fadeIn(250);
 		}
 		$(newpage + '-r').checked = true; //CONSIDER using [type="radio"]
-	}
+		}
 	current.subpage = newpage;
 }
 
