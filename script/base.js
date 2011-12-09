@@ -33,28 +33,23 @@ var pages =
 		"description": "",
 		"subpages": [],
 		"modals":
-			[
-				{
-					"name": "navagation",
+			{
+				"navagation": {
 					"login-required": false
 				},
-				{
-					"name": "login",
+				"login": {
 					"login-required": false
 				},
-				{
-					"name": "contact",
+				"contact": {
 					"login-required": false
 				},
-				{
-					"name": "credits",
+				"credits": {
 					"login-required": false
 				},
-				{
-					"name": "edit-account",
+				"edit-account": {
 					"login-required": true
 				}
-			],
+			},
 		"min-width": "1150px",
 		"progressbar": false
 	},
@@ -62,29 +57,25 @@ var pages =
 		"name": "home",
 		"description": "lorem",
 		"subpages":
-			[
-				{
-					"name": "front-page",
+			{
+				"front-page": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "synopsis",
+				"synopsis": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "tour",
+				"tour": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "signup",
+				"signup": {
 					"description": "lorem",
 					"login-required": false
 				}
-			],
-		"modals": [],
+			},
+		"modals": {},
 		"min-width": "1150px",
 		"progressbar": false
 	},
@@ -92,24 +83,21 @@ var pages =
 		"name": "input",
 		"description": "lorem",
 		"subpages": 
-			[
-				{
-					"name": "robot",
+			{
+				"robot": {
 					"description": "lorem",
 					"login-required": true
 				},
-				{
-					"name": "human",
+				"human": {
 					"description": "lorem",
 					"login-required": true
 				},
-				{
-					"name": "pit",
+				"pit": {
 					"description": "lorem",
 					"login-required": true
 				}
-			],
-		"modals": [],
+			},
+		"modals": {},
 		"min-width": "1150px",
 		"progressbar": true
 	},
@@ -117,24 +105,21 @@ var pages =
 		"name": "analysis",
 		"description": "lorem",
 		"subpages": 
-			[
-				{
-					"name": "public",
+			{
+				"public": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "member",
+				"member": {
 					"description": "lorem",
 					"login-required": true
 				},
-				{
-					"name": "data-liberation",
+				"data-liberation": {
 					"description": "lorem",
 					"login-required": true
 				}
-			],
-		"modals": [],
+			},
+		"modals": {},
 		"min-width": "1150px",
 		"progressbar": false
 	},
@@ -142,24 +127,21 @@ var pages =
 		"name": "team-leader",
 		"description": "lorem",
 		"subpages": 
-			[
-				{
-					"name": "manage-scouting",
+			{
+				"manage-scouting": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "view-contribution",
+				"view-contribution": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "view-team-members",
+				"view-team-members": {
 					"description": "lorem",
 					"login-required": false
 				}
-			],
-		"modals": [],
+			},
+		"modals": {},
 		"min-width": "1150px",
 		"progressbar": false
 	},
@@ -167,24 +149,21 @@ var pages =
 		"name": "help",
 		"description": "lorem",
 		"subpages": 
-			[
-				{
-					"name": "manage-training",
+			{
+				"manage-training": {
 					"description": "lorem",
 					"login-required": true
 				},
-				{
-					"name": "documentation",
+				"documentation": {
 					"description": "lorem",
 					"login-required": false
 				},
-				{
-					"name": "forum",
+				"forum": {
 					"description": "lorem",
 					"login-required": true
 				}
-			],
-		"modals": [],
+			},
+		"modals": {},
 		"min-width": "1150px",
 		"progressbar": false
 	}
@@ -192,16 +171,22 @@ var pages =
 //TODO move public to new page - out of member analysis
 // JS will need to convert "-" to " " and capatilize beginning of each word to make title
 
+var current = {
+	"index": "",
+	"type": "",
+	"lastsub": ""
+};
+
 function fixFavicon() { //fixes favicon bug in firefox
-  $('#favicon').remove();
-  $('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
+	$('#favicon').remove();
+	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
 
 $(document).ready(function () {
-	window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
-	window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
-	window.underpage = ''; //underpage must be set to something
-	Nav();
+	//window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
+	//window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
+	//window.underpage = ''; //underpage must be set to something
+	nav();
 	
 	window.scoutid = EatCookie('scoutid');
 	window.token = EatCookie('token');
@@ -212,51 +197,68 @@ $(document).ready(function () {
 	if (loggedin !== true) {
 		LoginCheck();
 	}
-
-	
  });
 
 window.onpopstate = function (event) {
 	// if nav() is failing, check browser support for this
 	console.log(event);
 	fixFavicon(); //remove this?????
-	Nav();
-}
-
-function Nav() {
-	currentpage = location.hash.substring(1);
-	if (subpages.indexOf(currentpage) == -1){
-		if (modals.indexOf(currentpage) != -1){ //if it's a modal
-			$(listModals).css('display', 'none');
-			document.getElementById('modal-title').innerHTML = currentpage;
-			$('.overlay').fadeIn(50);
-			$('.' + currentpage + '-c').delay(50).fadeIn(250);
-		} else { //if not a modal & not a subpage
-			currentpage = subpages[0]; //use default page
-			window.location = '#' + currentpage;
-			//fixFavicon();
-		}
-	} else { //if not a modal
-		$(listModals).fadeOut(250);
-		if (currentpage != underpage) {
-			$(listSubpages).fadeOut(250);
-			$('.' + currentpage + '-c').delay(250).fadeIn(250);
-			document.title = pagetitle + ' - ' + currentpage;
-		}
-		document.getElementById(currentpage + '-r').checked = true;
-		underpage = currentpage; //store for modal close
-	}
+	nav();
 }
 
 function nav() {
-	newpage = location.hash.substring(1);
-	//search page array
+	var newpage = location.hash.substring(1);
+	current.index = '';
 	
-	//determine modal or page 
+	var len = pages.length;
+	for (var i = 0; i < len; i++) { //TODO add catching?
+		if (typeof pages[i].subpages[newpage] != 'undefined'){
+			current = {"index": i, "type": "subpages", "lastsub": newpage};
+			break;
+		}
+	}
+	if (current.index === ''){
+		for (var i = 0; i < len; i++) {
+			if (typeof pages[i].modals[newpage] != 'undefined'){
+				current = {"index": i, "type": "modals"};
+				break;
+			}
+		}
+	}
+	if (current.index === ''){ //page cannot be found, select default page
+		window.location = '#robot'; //TODO change to default page when created
+		return;
+	}
+	
+	document.title = caps(pages[current.index].name) + ' - ' + caps(newpage);
+	
+	
+	
+	//bad code
+	if (subpages.indexOf(newpage) == -1){
+		if (modals.indexOf(newpage) != -1){ //if it's a modal
+			$('#modal-content > *').css('display', 'none');
+			document.getElementById('modal-title').innerHTML = newpage;
+			$('.overlay').fadeIn(50);
+			$('.' + newpage + '-c').delay(50).fadeIn(250);
+		} else { //if not a modal & not a subpage
+			newpage = subpages[0]; //use default page
+			window.location = '#' + newpage;
+			//fixFavicon();
+		}
+	} else { //if not a modal
+		$('#modal-content > *').fadeOut(250);
+		if (newpage != current.lastsub) {
+			$(listSubpages).fadeOut(250);
+			$('.' + newpage + '-c').delay(250).fadeIn(250);
+		}
+		$(newpage + '-r').checked = true; //CONSIDER using [type="radio"]
+	}
+	current.subpage = newpage;
 }
 
 function modalclose() {
-	window.location = '#' + underpage;
+	window.location = '#' + current.lastsub;
 }
 
 function BakeCookie(name, value) {
@@ -281,14 +283,19 @@ function EatCookie(name) {
 }
 
 function login(){
+	scoutidinput = document.getElementById('scoutid');
+	pwordinput = document.getElementById('pword');
+	loginbutton = document.getElementById('login-button');
 	
+	window.scoutid = scoutidinput.value;
+	pword = pwordinput.value;
 }
 
 function logout(){
 	
 }
 
-function LoginCheck(){ //TODO make login check run at login modal close
+function getToken(password){ //TODO make login check run at login modal close
 	scoutidinput = document.getElementById('scoutid');
 	pwordinput = document.getElementById('pword');
 	loginbutton = document.getElementById('login-button');
@@ -331,9 +338,11 @@ function logout(){
 	window.location = '#Login';
 }
 
+
+//general functions
 function getkey(e){
-var unicode=e.keyCode? e.keyCode : e.charCode;
-return unicode;
+	var unicode=e.keyCode? e.keyCode : e.charCode;
+	return unicode;
 }
 
 function numbersonly(e){ //used for limiting form input
@@ -344,6 +353,11 @@ function numbersonly(e){ //used for limiting form input
 		}
 	}
 }
+
+function caps(string){
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 
 //Tipsy
 

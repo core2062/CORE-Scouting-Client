@@ -1,7 +1,7 @@
 // global vars for page navigation
 // TODO remove & replace vars with sitemap
-var subpages = ['Robot', 'Human', 'Pit']; //the first element will be the default page
-var modals = ['Navagation', 'Login', 'Contact'];
+var subpages = ['robot', 'human', 'pit']; //the first element will be the default page
+var modals = ['navagation', 'login', 'contact'];
 
 // global vars for errorcheck(), actual values assigned later
 var errornum = 0; //# of inputs with errors
@@ -19,17 +19,17 @@ document.getElementById(elementid).value = startvalue;
 }
 
 function errorcheck(){
-	if (currentpage == 'Regular') {
+	if (currentpage == 'robot') {
 		inputspossible = 6;
 		
 		// TODO error checking code
 		
-	} else if (currentpage == 'Human-Player') {
+	} else if (currentpage == 'human') {
 		inputspossible = 6;
 		
 		//error checking code
 		
-	} else if (currentpage == 'Pit') {
+	} else if (currentpage == 'pit') {
 		inputspossible = 6;
 		
 		//error checking code
@@ -41,17 +41,17 @@ function errorcheck(){
 }
 
 function clearinputs(){
-	if (currentpage == 'Regular') {
+	if (currentpage == 'robot') {
 		inputspossible = 6;
 		
 		// TODO clear input code
 		
-	} else if (currentpage == 'Human-Player') {
+	} else if (currentpage == 'human') {
 		inputspossible = 6;
 		
 		//clear input code
 		
-	} else if (currentpage == 'Pit') {
+	} else if (currentpage == 'pit') {
 		inputspossible = 6;
 		
 		//clear input code
