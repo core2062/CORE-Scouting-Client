@@ -252,9 +252,12 @@ include 'php/jsminplus.php';
 				</a>
 			</div>
 			
-			<?php
-				embed('html/', '-modals.html');
-			?>
+			<div id="modal-content">
+				<?php
+					embed('html/', '-modals.html');
+				?>
+			</div>
+			
 			
 			<div class="modal-buttons">
 				<button type="button" style="display: none;" class="navagation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
@@ -343,9 +346,7 @@ $insert = "{
 
 $db->execute("db.log.insert($insert)");
 
-if ($dev == false){
-	ob_clean ();
-}
+ob_clean ();
 die($html);
 ?>
 
