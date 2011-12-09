@@ -259,7 +259,7 @@ include 'php/jsminplus.php';
 			</div>
 			
 			
-			<div class="modal-buttons">
+			<div id="modal-buttons">
 				<button type="button" style="display: none;" class="navagation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
 				<button type="button" style="display: none;" class="login-c" onclick="login();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
@@ -272,7 +272,10 @@ include 'php/jsminplus.php';
 <div id="overlay" onclick="modalclose();"></div>
 
 <!-- END Modals -->
-<script type="text/javascript" src="script/jquery.js"></script> <!--TODO embed jquery, fix issues w/ being in same file -->
+
+
+<!--TODO embed jquery, fix issues w/ being in same file -->
+<script type="text/javascript" src="script/jquery.js"></script>
 <script type="text/javascript"></script>
 </body>  
 </html>  
