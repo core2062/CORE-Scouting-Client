@@ -243,7 +243,7 @@ include 'php/jsminplus.php';
 <!-- START Modals -->
 <div class="modal-aligner">
 	<div class="modal-wrapper">
-		<div style="display: none;" class="modal-container navagation-c login-c contact-c">
+		<div style="display: none;" id="modal-container">
 			<div class="modal-titlebar">
 				<span id="modal-title">Title</span>
 				
@@ -251,13 +251,13 @@ include 'php/jsminplus.php';
 					<span class="icon icon-closethick"></span>
 				</a>
 			</div>
-			<div id="modal-content"> 
-				<?php
-					embed('html/', '-modals.html');
-				?>
-			</div>
+			
+			<?php
+				embed('html/', '-modals.html');
+			?>
+			
 			<div class="modal-buttons">
-				<button type="button" style="display: none;" class="navagation-c, contact-c, credits-c, edit-account-c" onclick="modalclose();">Close</button>
+				<button type="button" style="display: none;" class="navagation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
 				<button type="button" style="display: none;" class="login-c" onclick="login();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="">Help</button><!-- TODO make help button work -->
@@ -266,7 +266,7 @@ include 'php/jsminplus.php';
 	</div>	
 </div>
 
-<div class="overlay navagation-c login-c contact-c" onclick="modalclose();"></div>
+<div id="overlay" onclick="modalclose();"></div>
 
 <!-- END Modals -->
 <script type="text/javascript" src="script/jquery.js"></script> <!--TODO embed jquery, fix issues w/ being in same file -->

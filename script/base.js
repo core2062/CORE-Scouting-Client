@@ -237,17 +237,18 @@ function nav() {
 	//bad code
 	if (subpages.indexOf(newpage) == -1){
 		if (modals.indexOf(newpage) != -1){ //if it's a modal
-			$('#modal-content > *').css('display', 'none');
+			$('#overlay, #modal-container, #modal-content > *').css('display', 'none');
 			document.getElementById('modal-title').innerHTML = newpage;
-			$('.overlay').fadeIn(50);
-			$('.' + newpage + '-c').delay(50).fadeIn(250);
+			$('#overlay').fadeIn(50);
+			console.log($('.' + newpage + '-c, #modal-titlebar, #modal-container'));
+			$('.' + newpage + '-c, #modal-titlebar, #modal-container').delay(50).fadeIn(250);
 		} else { //if not a modal & not a subpage
 			newpage = subpages[0]; //use default page
 			window.location = '#' + newpage;
 			//fixFavicon();
 		}
 	} else { //if not a modal
-		$('#modal-content > *').fadeOut(250);
+		$('#modal-content > *, #overlay').fadeOut(250);
 		if (newpage != current.lastsub) {
 			$(listSubpages).fadeOut(250);
 			$('.' + newpage + '-c').delay(250).fadeIn(250);
