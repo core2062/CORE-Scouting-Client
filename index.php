@@ -243,28 +243,30 @@ include 'php/jsminplus.php';
 <!-- START Modals -->
 <div class="modal-aligner">
 	<div class="modal-wrapper">
-		<div style="display: none;" class="modal-container Navagation-c Login-c Contact-c">
+		<div style="display: none;" class="modal-container navagation-c login-c contact-c">
 			<div class="modal-titlebar">
 				<span id="modal-title">Title</span>
 				
-				<a href="#" class="close"> <!--TODO fix this ... it fucks up the url --> 
+				<a onclick="modalclose();" class="close"> <!--TODO fix this ... it fucks up the url --> 
 					<span class="icon icon-closethick"></span>
 				</a>
 			</div>
-			
-			<?php
-				embed('html/', '-modals.html');
-			?>
-		
+			<div id="modal-content"> 
+				<?php
+					embed('html/', '-modals.html');
+				?>
+			</div>
 			<div class="modal-buttons">
-				<button type="button" onclick="modalclose();">Close</button> <!-- TODO make enter button close modal -->
-				<button type="button" style="display: none;" class="Login-c" onclick="modalclose();LoginCheck();">Login</button> <!-- FIXME -->
+				<button type="button" style="display: none;" class="navagation-c, contact-c, credits-c, edit-account-c" onclick="modalclose();">Close</button>
+				<button type="button" style="display: none;" class="login-c" onclick="login();">Login</button>
+				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
+				<button type="button" style="display: none;" class="login-c" onclick="">Help</button><!-- TODO make help button work -->
 			</div>
 		</div>
 	</div>	
 </div>
 
-<div class="overlay Navagation-c Login-c Contact-c" onclick="modalclose();"></div>
+<div class="overlay navagation-c login-c contact-c" onclick="modalclose();"></div>
 
 <!-- END Modals -->
 <script type="text/javascript" src="script/jquery.js"></script> <!--TODO embed jquery, fix issues w/ being in same file -->
