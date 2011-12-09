@@ -248,7 +248,7 @@ function nav() {
 			//fixFavicon();
 		}
 	} else { //if not a modal
-		$('#modal-content > *, #overlay').fadeOut(250);
+		$('#modal-content > *, #overlay, #modal-container').fadeOut(250);
 		if (newpage != current.lastsub) {
 			$(listSubpages).fadeOut(250);
 			$('.' + newpage + '-c').delay(250).fadeIn(250);
