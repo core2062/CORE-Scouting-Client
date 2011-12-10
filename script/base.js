@@ -295,11 +295,7 @@ function nav() {
 		if (prev.type == 'subpages') { //subpages
 			$(cache.subpages).fadeOut(1000);
 		} else { //modals
-			var tmp = '#overlay, #modal-container';
-
-			tmp = tmp.concat(cache.subpages, cache.modals);
-			console.log(tmp);
-			$(tmp).fadeOut(1000);
+			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(1000);
 		}
 		
 		$('.' + current.subpage + '-c').delay(1000).fadeIn(1000);
@@ -440,17 +436,6 @@ function numbersonly(e){ //used for limiting form input
 function caps(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-function clean(dirty){
-	var length = dirty.length;
-	var clean =  [];
-	
-	for (i=0; i<length; i++){
-		clean.push(dirty[i]);
-	}
-	return clean
-}
-
 
 //Tipsy
 
