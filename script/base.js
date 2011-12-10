@@ -185,10 +185,8 @@ var prev = {
 //TODO change above to default page
 
 var cache = {
-	"subpages": "",
-	"subpagesList": [],
-	"modals": "",
-	"modalsList": []
+	"subpages": [],
+	"modals": [],
 };
 
 function fixFavicon() { //fixes favicon bug in firefox
@@ -221,11 +219,10 @@ function cacheSubpages(){
 
 	for (var i = 0; i < len; i++) {
 		for (var e in pages[i].subpages) {
-			cache.subpagesList.push(e);
+			cache.subpages.push(e);
 		}
 	}
-	cache.subpages = '.' + cache.subpagesList.join("-c, .");
-	cache.subpages = $(cache.subpages);
+	cache.subpages = '.' + cache.subpages.join("-c, .");
 }
 
 function cacheModals(){
@@ -233,11 +230,10 @@ function cacheModals(){
 
 	for (var i = 0; i < len; i++) {
 		for (var e in pages[i].modals) {
-			cache.modalsList.push(e);
+			cache.modals.push(e);
 		}
 	}
-	cache.modals = '.' + cache.modalsList.join("-c, .");
-	cache.modals = $(cache.modals);
+	cache.modals = '.' + cache.modals.join("-c, .");
 }
 
 window.onpopstate = function (event) {
@@ -250,7 +246,12 @@ window.onpopstate = function (event) {
 function nav() {
 	if (current.subpage == location.hash.substring(1)) {return};
 	current.subpage = location.hash.substring(1).toLowerCase();
-	prev = current;
+	
+	prev.index = current.index;
+	prev.type = current.type;
+	prev.lastSub = current.lastSub;
+	prev.subpage = current.subpage;
+	
 	current.index = '';
 	
 	var len = pages.length;
@@ -276,20 +277,29 @@ function nav() {
 		return;
 	}
 	
-	if (prev.subpage == '') {
+	if (prev.subpage == ''){
 		//fade in default sub-page & set prev page vars
 	}
 	
 	document.title = caps(pages[current.index].name) + ' - ' + caps(current.subpage);
 	
-	//fade out last page
+	//start page changers
+	
+	console.log(prev.type);
+	console.log(current.type);
+	
+	
 	if (current.type == "subpages") { //subpages
 		$('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
 		
 		if (prev.type == 'subpages') { //subpages
 			$(cache.subpages).fadeOut(1000);
 		} else { //modals
-			$('#overlay, #modal-container', cache.modals, cache.subpages).fadeOut(1000);
+			var tmp = '#overlay, #modal-container';
+
+			tmp = tmp.concat(cache.subpages, cache.modals);
+			console.log(tmp);
+			$(tmp).fadeOut(1000);
 		}
 		
 		$('.' + current.subpage + '-c').delay(1000).fadeIn(1000);
@@ -299,9 +309,10 @@ function nav() {
 		
 		if (prev.type == 'subpages') { //subpages
 			$('#overlay').fadeIn(500);
-			$('.' + current.subpage + '-c, #modal-container').delay(500).fadeIn(2500);
+			$('.' + current.subpage + '-c, #modal-container').delay(500).fadeIn(1000);
 		} else { //modals
 			$('#overlay', cache.modals, cache.subpages).fadeOut(1000);
+			$('.' + current.subpage + '-c, #modal-container').delay(1000).fadeIn(1000);
 		}
 		
 		
@@ -428,6 +439,16 @@ function numbersonly(e){ //used for limiting form input
 
 function caps(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function clean(dirty){
+	var length = dirty.length;
+	var clean =  [];
+	
+	for (i=0; i<length; i++){
+		clean.push(dirty[i]);
+	}
+	return clean
 }
 
 
@@ -973,16 +994,8 @@ function caps(string){
 // END jGrowl
 
 
-// START ajax processing
+// START AJAX processing
 
-// TODO fix any links to process.php
-function AccessDBT(query,type,place,variable){
-window.query = query;
-window.type = type;
-window.place = place;
-window.variable = variable;
-ajax('Q');
-}
 
 
 //scoutid and pword should be stored in vars, not in form input
