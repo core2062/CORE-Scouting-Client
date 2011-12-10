@@ -173,7 +173,14 @@ var pages =
 var current = {
 	"index": "",
 	"type": "",
-	"lastSub": "robot"
+	"lastSub": "",
+	"subpage": ""
+};
+var prev = {
+	"index": "",
+	"type": "",
+	"lastSub": "",
+	"subpage": ""
 };
 //TODO change above to default page
 
@@ -195,6 +202,7 @@ $(document).ready(function () {
 	//window.underpage = ''; //underpage must be set to something
 	
 	cacheSubpages();
+	cacheModals()
 	nav();
 	
 	window.scoutid = EatCookie('scoutid');
@@ -220,7 +228,7 @@ function cacheSubpages(){
 	cache.subpages = $(cache.subpages);
 }
 
-function cacheSubpages(){
+function cacheModals(){
 	var len = pages.length;
 
 	for (var i = 0; i < len; i++) {
@@ -240,19 +248,23 @@ window.onpopstate = function (event) {
 }
 
 function nav() {
-	var newpage = location.hash.substring(1);
+	if (current.subpage == location.hash.substring(1)) {return};
+	current.subpage = location.hash.substring(1).toLowerCase();
+	prev = current;
 	current.index = '';
 	
 	var len = pages.length;
 	for (var i = 0; i < len; i++) { //TODO add catching?
-		if (typeof pages[i].subpages[newpage] != 'undefined'){
-			current = {"index": i, "type": "subpages", "lastSub": newpage};
+		if (typeof pages[i].subpages[current.subpage] != 'undefined'){
+			current.index = i;
+			current.type = "subpages";
+			current.lastSub =  current.subpage;
 			break;
 		}
 	}
 	if (current.index === ''){
 		for (var i = 0; i < len; i++) {
-			if (typeof pages[i].modals[newpage] != 'undefined'){
+			if (typeof pages[i].modals[current.subpage] != 'undefined'){
 				current.index = i;
 				current.type = "modals";
 				break;
@@ -264,26 +276,57 @@ function nav() {
 		return;
 	}
 	
-	document.title = caps(pages[current.index].name) + ' - ' + caps(newpage);
+	if (prev.subpage == '') {
+		//fade in default sub-page & set prev page vars
+	}
 	
+	document.title = caps(pages[current.index].name) + ' - ' + caps(current.subpage);
 	
-	
-	//bad code
-
-		if (current.type == "modals"){ //if it's a modal
-			$('#overlay, #modal-container, #modal-content > *, #modal-buttons > *').css('display', 'none');
-			document.getElementById('modal-title').innerHTML = newpage;
-			$('#overlay').fadeIn(50);
-			$('.' + newpage + '-c, #modal-titlebar, #modal-container').delay(50).fadeIn(250);
-		} else { //if not a modal
-			$('#modal-content > *, #overlay, #modal-container').fadeOut(250);
-			if (newpage != current.subpage) {
-				$(cache.subpages).fadeOut(250);
-				$('.' + newpage + '-c').delay(250).fadeIn(250);
-			}
-			$(newpage + '-r').checked = true; //CONSIDER using [type="radio"]
+	//fade out last page
+	if (current.type == "subpages") { //subpages
+		$('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
+		
+		if (prev.type == 'subpages') { //subpages
+			$(cache.subpages).fadeOut(1000);
+		} else { //modals
+			$('#overlay, #modal-container', cache.modals, cache.subpages).fadeOut(1000);
 		}
-	current.subpage = newpage;
+		
+		$('.' + current.subpage + '-c').delay(1000).fadeIn(1000);
+		
+	} else { //modal
+		document.getElementById('modal-title').innerHTML = current.subpage;
+		
+		if (prev.type == 'subpages') { //subpages
+			$('#overlay').fadeIn(500);
+			$('.' + current.subpage + '-c, #modal-container').delay(500).fadeIn(2500);
+		} else { //modals
+			$('#overlay', cache.modals, cache.subpages).fadeOut(1000);
+		}
+		
+		
+	}
+	
+	
+
+	//bad code
+/*
+	if (current.type == "modals"){ //if it's a modal
+		$('#overlay, #modal-container, #modal-content > *, #modal-buttons > *').css('display', 'none');
+		
+		$('#overlay').fadeIn(500);
+		$('.' + current.subpage + '-c, #modal-titlebar, #modal-container').delay(500).fadeIn(2500);
+	} else { //if not a modal
+		cache.modals.fadeOut(2500);
+		$('#overlay, #modal-container').fadeOut(2500);
+		if (current.subpage != prev.subpage && (prev.type =! 'modal' || current.subpage != current.lastSub)) {
+			cache.subpages.fadeOut(2500);
+			ttt = $('.' + current.subpage + '-c');
+			console.log(ttt);
+			ttt.delay(2500).fadeIn(2500);
+		}
+		
+	}*/
 }
 
 function modalclose() {
