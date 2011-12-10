@@ -1,8 +1,3 @@
-// global vars for page navigation
-// TODO remove & replace vars with sitemap
-var subpages = ['robot', 'human', 'pit']; //the first element will be the default page
-var modals = ['navagation', 'login', 'contact'];
-
 // global vars for errorcheck(), actual values assigned later
 var errornum = 0; //# of inputs with errors
 var inputnum = 0; //# of inputs filled
