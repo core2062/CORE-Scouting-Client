@@ -252,12 +252,9 @@ include 'php/jsminplus.php';
 				</a>
 			</div>
 			
-			<div id="modal-content">
 				<?php
 					embed('html/', '-modals.html');
 				?>
-			</div>
-			
 			
 			<div id="modal-buttons">
 				<button type="button" style="display: none;" class="navagation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
