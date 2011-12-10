@@ -173,7 +173,15 @@ var pages =
 var current = {
 	"index": "",
 	"type": "",
-	"lastsub": ""
+	"lastSub": "robot"
+};
+//TODO change above to default page
+
+var cache = {
+	"subpages": "",
+	"subpagesList": [],
+	"modals": "",
+	"modalsList": []
 };
 
 function fixFavicon() { //fixes favicon bug in firefox
@@ -185,6 +193,8 @@ $(document).ready(function () {
 	//window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	//window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
 	//window.underpage = ''; //underpage must be set to something
+	
+	cacheSubpages();
 	nav();
 	
 	window.scoutid = EatCookie('scoutid');
@@ -198,19 +208,28 @@ $(document).ready(function () {
 	}
  });
 
-function cache (){
+function cacheSubpages(){
 	var len = pages.length;
+
 	for (var i = 0; i < len; i++) {
-		var len2 = pages[i].subpages.length;
-		
-		for (var i = 0; i < len; i++) {
-			if (typeof pages[i].subpages[newpage] != 'undefined'){
-				current = {"index": i, "type": "subpages", "lastsub": newpage};
-				break;
-			}
+		for (var e in pages[i].subpages) {
+			cache.subpagesList.push(e);
 		}
 	}
-	cache.subpages = '.' + subpages.join("-c, .") + '-c';
+	cache.subpages = '.' + cache.subpagesList.join("-c, .");
+	cache.subpages = $(cache.subpages);
+}
+
+function cacheSubpages(){
+	var len = pages.length;
+
+	for (var i = 0; i < len; i++) {
+		for (var e in pages[i].modals) {
+			cache.modalsList.push(e);
+		}
+	}
+	cache.modals = '.' + cache.modalsList.join("-c, .");
+	cache.modals = $(cache.modals);
 }
 
 window.onpopstate = function (event) {
@@ -227,14 +246,15 @@ function nav() {
 	var len = pages.length;
 	for (var i = 0; i < len; i++) { //TODO add catching?
 		if (typeof pages[i].subpages[newpage] != 'undefined'){
-			current = {"index": i, "type": "subpages", "lastsub": newpage};
+			current = {"index": i, "type": "subpages", "lastSub": newpage};
 			break;
 		}
 	}
 	if (current.index === ''){
 		for (var i = 0; i < len; i++) {
 			if (typeof pages[i].modals[newpage] != 'undefined'){
-				current = {"index": i, "type": "modals"};
+				current.index = i;
+				current.type = "modals";
 				break;
 			}
 		}
@@ -250,24 +270,24 @@ function nav() {
 	
 	//bad code
 
-		if (modals.indexOf(newpage) != -1){ //if it's a modal
+		if (current.type == "modals"){ //if it's a modal
 			$('#overlay, #modal-container, #modal-content > *, #modal-buttons > *').css('display', 'none');
 			document.getElementById('modal-title').innerHTML = newpage;
 			$('#overlay').fadeIn(50);
 			$('.' + newpage + '-c, #modal-titlebar, #modal-container').delay(50).fadeIn(250);
 		} else { //if not a modal
-		$('#modal-content > *, #overlay, #modal-container').fadeOut(250);
-		if (newpage != current.subpage) {
-			$(cache.listsubpages).fadeOut(250);
-			$('.' + newpage + '-c').delay(250).fadeIn(250);
-		}
-		$(newpage + '-r').checked = true; //CONSIDER using [type="radio"]
+			$('#modal-content > *, #overlay, #modal-container').fadeOut(250);
+			if (newpage != current.subpage) {
+				$(cache.subpages).fadeOut(250);
+				$('.' + newpage + '-c').delay(250).fadeIn(250);
+			}
+			$(newpage + '-r').checked = true; //CONSIDER using [type="radio"]
 		}
 	current.subpage = newpage;
 }
 
 function modalclose() {
-	window.location = '#' + current.lastsub;
+		window.location = '#' + current.lastSub;
 }
 
 function BakeCookie(name, value) {
