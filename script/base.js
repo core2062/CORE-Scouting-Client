@@ -24,7 +24,6 @@ $("input, textarea").focusout(function () {
 });
 
 // global vars
-var currentpage = ''; //actual value gets assigned later
 var pages =
 [
 	{
@@ -179,7 +178,6 @@ var current = {
 var prev = {
 	"index": "",
 	"type": "",
-	"lastSub": "",
 	"subpage": ""
 };
 //TODO change above to default page
@@ -244,13 +242,18 @@ window.onpopstate = function (event) {
 }
 
 function nav() {
-	if (current.subpage == location.hash.substring(1)) {return};
-	current.subpage = location.hash.substring(1).toLowerCase();
+	console.log('start, prev: ' + prev.subpage);
+	console.log('start, curr: ' + current.subpage);
 	
 	prev.index = current.index;
 	prev.type = current.type;
-	prev.lastSub = current.lastSub;
 	prev.subpage = current.subpage;
+	
+	console.log('next, prev: ' + prev.subpage);
+	console.log('next, curr: ' + current.subpage);
+	
+	if (current.subpage == location.hash.substring(1)) {return};
+	current.subpage = location.hash.substring(1).toLowerCase();
 	
 	current.index = '';
 	
@@ -277,38 +280,51 @@ function nav() {
 		return;
 	}
 	
-	if (prev.subpage == ''){
-		//fade in default sub-page & set prev page vars
+	var fadetime = 5000;
+	var delaytime = fadetime;//normally fade time is same as delay
+	
+	if (prev.subpage == ""){ // if this is the first page
+		delaytime = 1; //remove delay because nothing is shown at start
+		//only affects items that use delay time, use 1 to avoid "0/1"
+		
+		if (current.type == 'modals'){
+			console.log('do modal page start stuff');
+			$('.robot-c').fadeIn(fadetime/4);
+			prev.index = 2;
+			prev.subpage = 'robot';
+		}
+		prev.type = "subpages";
+		console.log('page start stuff');
 	}
 	
 	document.title = caps(pages[current.index].name) + ' - ' + caps(current.subpage);
 	
 	//start page changers
-	
-	console.log(prev.type);
-	console.log(current.type);
+	console.log('mid, prev: ' + prev.subpage);
+	console.log('mid, curr: ' + current.subpage);
 	
 	
 	if (current.type == "subpages") { //subpages
 		$('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
 		
 		if (prev.type == 'subpages') { //subpages
-			$(cache.subpages).fadeOut(1000);
+			$(cache.subpages).fadeOut(fadetime, function(){
+				$('.' + current.subpage + '-c').delay(delaytime).fadeIn(fadetime);
+			});
 		} else { //modals
-			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(1000);
+			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime, function(){
+				$('.' + current.subpage + '-c').delay(fadetime).fadeIn(fadetime);
+			});
 		}
-		
-		$('.' + current.subpage + '-c').delay(1000).fadeIn(1000);
-		
 	} else { //modal
 		document.getElementById('modal-title').innerHTML = current.subpage;
 		
 		if (prev.type == 'subpages') { //subpages
 			$('#overlay').fadeIn(500);
-			$('.' + current.subpage + '-c, #modal-container').delay(500).fadeIn(1000);
+			$('.' + current.subpage + '-c, #modal-container').delay(delaytime/2).fadeIn(fadetime);
 		} else { //modals
-			$('#overlay', cache.modals, cache.subpages).fadeOut(1000);
-			$('.' + current.subpage + '-c, #modal-container').delay(1000).fadeIn(1000);
+			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime);
+			$('.' + current.subpage + '-c, #modal-container').delay(fadetime).fadeIn(fadetime);
 		}
 		
 		
