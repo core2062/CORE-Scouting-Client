@@ -180,7 +180,6 @@ var prev = {
 	"type": "",
 	"subpage": ""
 };
-//TODO change above to default page
 
 var cache = {
 	"subpages": [],
@@ -303,53 +302,48 @@ function nav() {
 	console.log('mid, prev: ' + prev.subpage);
 	console.log('mid, curr: ' + current.subpage);
 	
-	
 	if (current.type == "subpages") { //subpages
 		$('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
+		console.log('current type subpages');
 		
 		if (prev.type == 'subpages') { //subpages
+			console.log('prev type subpages');
 			$(cache.subpages).fadeOut(fadetime, function(){
+				console.log('begin fade function');
 				$('.' + current.subpage + '-c').delay(delaytime).fadeIn(fadetime);
 			});
-		} else { //modals
+		} else if(prev.type == 'modals'){ //modals
 			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime, function(){
+				console.log('begin fade function');
 				$('.' + current.subpage + '-c').delay(fadetime).fadeIn(fadetime);
 			});
+		} else {
+			console.log('ERROR: nav(), prev.type is fucked up on current=subpages');
 		}
-	} else { //modal
+	} else if(current.type == 'modals'){ //modal
 		document.getElementById('modal-title').innerHTML = current.subpage;
+		console.log('current type modals');
 		
 		if (prev.type == 'subpages') { //subpages
+			console.log('prev type subpages');
 			$('#overlay').fadeIn(500);
 			$('.' + current.subpage + '-c, #modal-container').delay(delaytime/2).fadeIn(fadetime);
-		} else { //modals
+		} else if(prev.type == 'modals'){ //modals
+			console.log('prev type modals');
 			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime);
 			$('.' + current.subpage + '-c, #modal-container').delay(fadetime).fadeIn(fadetime);
+		} else {
+			console.log('ERROR: nav(), prev.type is fucked up on current=modals');
 		}
 		
 		
+	} else {
+		console.log('ERROR: current.type is fucked up');
 	}
 	
-	
+	console.log("END OF FUNCTION NAV()");
 
-	//bad code
-/*
-	if (current.type == "modals"){ //if it's a modal
-		$('#overlay, #modal-container, #modal-content > *, #modal-buttons > *').css('display', 'none');
-		
-		$('#overlay').fadeIn(500);
-		$('.' + current.subpage + '-c, #modal-titlebar, #modal-container').delay(500).fadeIn(2500);
-	} else { //if not a modal
-		cache.modals.fadeOut(2500);
-		$('#overlay, #modal-container').fadeOut(2500);
-		if (current.subpage != prev.subpage && (prev.type =! 'modal' || current.subpage != current.lastSub)) {
-			cache.subpages.fadeOut(2500);
-			ttt = $('.' + current.subpage + '-c');
-			console.log(ttt);
-			ttt.delay(2500).fadeIn(2500);
-		}
-		
-	}*/
+
 }
 
 function modalclose() {
