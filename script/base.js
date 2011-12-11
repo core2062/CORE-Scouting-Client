@@ -342,8 +342,6 @@ function nav() {
 	}
 	
 	console.log("END OF FUNCTION NAV()");
-
-
 }
 
 function modalclose() {
@@ -446,52 +444,8 @@ function numbersonly(e){ //used for limiting form input
 function caps(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-/*
-function fade(selector, time, direction, delay){ //if direction = undefined assume fade out
-	
-	if (time === undefined) {
-		var time = 100000;
-	}
-	
-	window.frametime = 10;// # of milliseconds per frame
-	
-	window.incrementCSS = 1/time*frametime;
-	if (direction === undefined || direction == 'out') {
-		incrementCSS = -incrementCSS
-	}
-	
-	if (delay === undefined) {
-		delay = 0;
-	}
-	
-	window.fadeArray = $(selector);
-	fadeArray = clean(array);
-	
-	setTimeout('setInterval(nextFrame, frametime)',delay);
-}
 
-function nextFrame() {
-	if (fadeArray.length == 0){
-		
-	} 
-	for(e in fadeArray){
-		if(e.style.opacity){
-			
-		}
-	}
-	console.log(frametime);
-}
 
-function clean(dirty){ //CONSIDER merge w/ fade
-	var length = dirty.length;
-	var clean =  [];
-	
-	for (i=0; i<length; i++){
-		clean.push(dirty[i]);
-	}
-	return clean
-}
-*/
 //Tipsy
 
 (function($) {
