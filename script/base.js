@@ -241,6 +241,8 @@ window.onpopstate = function (event) {
 }
 
 function nav() {
+	console.log("START OF FUNCTION NAV()");
+	
 	console.log('start, prev: ' + prev.subpage);
 	console.log('start, curr: ' + current.subpage);
 	
@@ -258,7 +260,7 @@ function nav() {
 	
 	var len = pages.length;
 	for (var i = 0; i < len; i++) { //TODO add catching?
-		if (typeof pages[i].subpages[current.subpage] != 'undefined'){
+		if (typeof pages[i].subpages[current.subpage] !== 'undefined'){
 			current.index = i;
 			current.type = "subpages";
 			current.lastSub =  current.subpage;
@@ -267,7 +269,7 @@ function nav() {
 	}
 	if (current.index === ''){
 		for (var i = 0; i < len; i++) {
-			if (typeof pages[i].modals[current.subpage] != 'undefined'){
+			if (typeof pages[i].modals[current.subpage] !== 'undefined'){
 				current.index = i;
 				current.type = "modals";
 				break;
@@ -279,13 +281,9 @@ function nav() {
 		return;
 	}
 	
-	var fadetime = 5000;
-	var delaytime = fadetime;//normally fade time is same as delay
+	var fadetime = 1000;
 	
 	if (prev.subpage == ""){ // if this is the first page
-		delaytime = 1; //remove delay because nothing is shown at start
-		//only affects items that use delay time, use 1 to avoid "0/1"
-		
 		if (current.type == 'modals'){
 			console.log('do modal page start stuff');
 			$('.robot-c').fadeIn(fadetime/4);
@@ -308,14 +306,14 @@ function nav() {
 		
 		if (prev.type == 'subpages') { //subpages
 			console.log('prev type subpages');
-			$(cache.subpages).fadeOut(fadetime, function(){
+			$(cache.subpages).fadeOut(fadetime).promise().done(function(){
 				console.log('begin fade function');
-				$('.' + current.subpage + '-c').delay(delaytime).fadeIn(fadetime);
+				$('.' + current.subpage + '-c').fadeIn(fadetime);
 			});
 		} else if(prev.type == 'modals'){ //modals
-			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime, function(){
+			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function(){
 				console.log('begin fade function');
-				$('.' + current.subpage + '-c').delay(fadetime).fadeIn(fadetime);
+				$('.' + current.subpage + '-c').fadeIn(fadetime);
 			});
 		} else {
 			console.log('ERROR: nav(), prev.type is fucked up on current=subpages');
@@ -326,12 +324,14 @@ function nav() {
 		
 		if (prev.type == 'subpages') { //subpages
 			console.log('prev type subpages');
-			$('#overlay').fadeIn(500);
-			$('.' + current.subpage + '-c, #modal-container').delay(delaytime/2).fadeIn(fadetime);
+			$('#overlay').fadeIn(500).promise().done(function(){
+			$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
+			});
 		} else if(prev.type == 'modals'){ //modals
 			console.log('prev type modals');
-			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime);
-			$('.' + current.subpage + '-c, #modal-container').delay(fadetime).fadeIn(fadetime);
+			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime).promise().done(function(){
+			$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
+			});
 		} else {
 			console.log('ERROR: nav(), prev.type is fucked up on current=modals');
 		}
@@ -446,7 +446,52 @@ function numbersonly(e){ //used for limiting form input
 function caps(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+/*
+function fade(selector, time, direction, delay){ //if direction = undefined assume fade out
+	
+	if (time === undefined) {
+		var time = 100000;
+	}
+	
+	window.frametime = 10;// # of milliseconds per frame
+	
+	window.incrementCSS = 1/time*frametime;
+	if (direction === undefined || direction == 'out') {
+		incrementCSS = -incrementCSS
+	}
+	
+	if (delay === undefined) {
+		delay = 0;
+	}
+	
+	window.fadeArray = $(selector);
+	fadeArray = clean(array);
+	
+	setTimeout('setInterval(nextFrame, frametime)',delay);
+}
 
+function nextFrame() {
+	if (fadeArray.length == 0){
+		
+	} 
+	for(e in fadeArray){
+		if(e.style.opacity){
+			
+		}
+	}
+	console.log(frametime);
+}
+
+function clean(dirty){ //CONSIDER merge w/ fade
+	var length = dirty.length;
+	var clean =  [];
+	
+	for (i=0; i<length; i++){
+		clean.push(dirty[i]);
+	}
+	return clean
+}
+*/
 //Tipsy
 
 (function($) {
@@ -794,7 +839,7 @@ function caps(string){
 				var self = this;
 
 				/** Create a jGrowl Instance on the Container if it does not exist **/
-				if ( $(this).data('jGrowl.instance') == undefined ) {
+				if ( $(this).data('jGrowl.instance') === undefined ) {
 					$(this).data('jGrowl.instance', $.extend( new $.fn.jGrowl(), { notifications: [], element: null, interval: null } ));
 					$(this).data('jGrowl.instance').startup( this );
 				}
