@@ -253,30 +253,41 @@ function nav() {
 	console.log('next, prev: ' + prev.subpage);
 	console.log('next, curr: ' + current.subpage);
 	
-	if (current.subpage == location.hash.substring(1)) {return};
+	if (current.subpage == location.hash.substring(1)) {
+		console.log('returning current.subpage == location.hash.substring(1)');
+		return
+	};
 	current.subpage = location.hash.substring(1).toLowerCase();
 	
 	current.index = '';
 	
 	var len = pages.length;
 	for (var i = 0; i < len; i++) { //TODO add catching?
+		console.log('searching for subpages');
 		if (typeof pages[i].subpages[current.subpage] !== 'undefined'){
+			console.log('found subpage');
 			current.index = i;
-			current.type = "subpages";
+			current.type = 'subpages';
 			current.lastSub =  current.subpage;
 			break;
 		}
 	}
-	if (current.index === ''){
+	if (current.index === ''){ // TODO merge with subpage search ?
+		console.log('searching for modals');
 		for (var i = 0; i < len; i++) {
 			if (typeof pages[i].modals[current.subpage] !== 'undefined'){
+				console.log('found modal');
 				current.index = i;
-				current.type = "modals";
+				current.type = 'modals';
 				break;
 			}
 		}
 	}
+	
+	console.log(current.index);
+	
 	if (current.index === ''){ //page cannot be found, select default page
+		console.log('returning current.index is blank');
 		window.location = '#robot'; //TODO change to default page when created
 		return;
 	}
@@ -287,6 +298,7 @@ function nav() {
 		if (current.type == 'modals'){
 			console.log('do modal page start stuff');
 			$('.robot-c').fadeIn(fadetime/4);
+			current.lastSub = 'robot';
 			prev.index = 2;
 			prev.subpage = 'robot';
 		}
@@ -300,21 +312,26 @@ function nav() {
 	console.log('mid, prev: ' + prev.subpage);
 	console.log('mid, curr: ' + current.subpage);
 	
-	if (current.type == "subpages") { //subpages
+	if (current.type == "subpages") { //sub-pages
 		$('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
 		console.log('current type subpages');
 		
-		if (prev.type == 'subpages') { //subpages
+		if (prev.type == 'subpages') { //sub-pages
 			console.log('prev type subpages');
 			$(cache.subpages).fadeOut(fadetime).promise().done(function(){
 				console.log('begin fade function');
 				$('.' + current.subpage + '-c').fadeIn(fadetime);
 			});
 		} else if(prev.type == 'modals'){ //modals
-			$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function(){
-				console.log('begin fade function');
-				$('.' + current.subpage + '-c').fadeIn(fadetime);
-			});
+			if(current.lastSub == prev.subpage){ //don't fade out sub-page if is is already under the modal
+				$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
+			} else {
+				$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function(){
+					console.log('begin fade function');
+					$('.' + current.subpage + '-c').fadeIn(fadetime);
+				});
+			}
+			
 		} else {
 			console.log('ERROR: nav(), prev.type is fucked up on current=subpages');
 		}
@@ -324,13 +341,13 @@ function nav() {
 		
 		if (prev.type == 'subpages') { //subpages
 			console.log('prev type subpages');
-			$('#overlay').fadeIn(500).promise().done(function(){
-			$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
+			$('#overlay').fadeIn(50).promise().done(function(){
+				$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 			});
 		} else if(prev.type == 'modals'){ //modals
 			console.log('prev type modals');
 			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime).promise().done(function(){
-			$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
+				$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 			});
 		} else {
 			console.log('ERROR: nav(), prev.type is fucked up on current=modals');
