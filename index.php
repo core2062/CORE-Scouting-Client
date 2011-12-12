@@ -257,7 +257,7 @@ include 'php/jsminplus.php';
 				?>
 			
 			<div id="modal-buttons">
-				<button type="button" style="display: none;" class="navagation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
+				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
 				<button type="button" style="display: none;" class="login-c" onclick="login();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="">Help</button><!-- TODO make help button work -->
