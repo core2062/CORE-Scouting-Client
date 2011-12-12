@@ -32,7 +32,7 @@ var pages =
 		"subpages": [],
 		"modals":
 			{
-				"navagation": {
+				"navigation": {
 					"login-required": false
 				},
 				"login": {
@@ -167,7 +167,7 @@ var pages =
 	}
 ];
 //TODO move public to new page - out of member analysis
-// JS will need to convert "-" to " " and capatilize beginning of each word to make title
+
 
 var current = {
 	"index": "",
@@ -192,12 +192,8 @@ function fixFavicon() { //fixes favicon bug in firefox
 }
 
 $(document).ready(function () {
-	//window.listSubpages = '.' + subpages.join("-c, .") + '-c'; //used for Jquery selectors on hide
-	//window.listModals = '.' + modals.join("-c, .") + '-c'; //used for Jquery selectors on hide
-	//window.underpage = ''; //underpage must be set to something
-	
 	cacheSubpages();
-	cacheModals()
+	cacheModals();
 	nav();
 	
 	window.scoutid = EatCookie('scoutid');
@@ -240,6 +236,11 @@ window.onpopstate = function (event) {
 	nav();
 }
 
+/*
+ * Navigation Function
+ * this function... TODO fill in
+ */
+
 function nav() {
 
 	prev.index = current.index;
@@ -247,7 +248,7 @@ function nav() {
 	prev.subpage = current.subpage;
 	
 	if (current.subpage == location.hash.substring(1)) {
-		return
+		return;
 	};
 	current.subpage = location.hash.substring(1).toLowerCase();
 	
