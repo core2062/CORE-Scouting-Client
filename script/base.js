@@ -278,7 +278,7 @@ function nav() {
 		return;
 	}
 	
-	var fadetime = 1000;
+	var fadetime = 500;
 	
 	if (prev.subpage == ""){ // if this is the first page
 		if (current.type == 'modals'){
@@ -301,8 +301,9 @@ function nav() {
 			$(cache.subpages).fadeOut(fadetime).promise().done(function(){
 				$('.' + current.subpage + '-c').fadeIn(fadetime);
 			});
-		} else if(prev.type == 'modals'){ //modals
-			if(current.lastSub == prev.subpage){ //don't fade out sub-page if is is already under the modal
+		} else { //modals
+			
+			if(current.lastSub == current.subpage){ //don't fade out sub-page if is is already under the modal
 				$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
 			} else {
 				$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function(){
@@ -317,7 +318,7 @@ function nav() {
 			$('#overlay').fadeIn(50).promise().done(function(){
 				$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 			});
-		} else if(prev.type == 'modals'){ //modals
+		} else { //modals
 			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime).promise().done(function(){
 				$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 			});
