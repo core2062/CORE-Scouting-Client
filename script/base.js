@@ -1,3 +1,15 @@
+/*    ____      _____    ______
+ *  _(::::)_   (:::::)  (::::::)  
+ * (:)````(:) (:)_`_`   (:)```(:) 
+ * (:)     _   `(:::)_  (:)    (:)
+ * (:)____(:)   _`_`(:) (:)___(:) 
+ *  `(::::)`   (:::::)  (::::::)  
+ *    ````      `````    ``````  
+ * --- CORE Scouting Database ---
+*/
+
+
+
 // Designer: Sean Lang
 console.log('Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.');
 
@@ -183,7 +195,7 @@ var prev = {
 
 var cache = {
 	"subpages": [],
-	"modals": [],
+	"modals": []
 };
 
 function fixFavicon() { //fixes favicon bug in firefox
@@ -236,12 +248,12 @@ window.onpopstate = function (event) {
 	nav();
 }
 
+function nav() {
 /*
  * Navigation Function
- * this function... TODO fill in
- */
-
-function nav() {
+ * this function handles all page transitions and applies all page specific options
+ * page specific options and data needed for displaying pages is stored in the JSON object 'pages'
+*/
 
 	prev.index = current.index;
 	prev.type = current.type;
@@ -316,11 +328,12 @@ function nav() {
 		document.getElementById('modal-title').innerHTML = current.subpage;
 		
 		if (prev.type == 'subpages') { //subpages
-			$('#overlay').fadeIn(50).promise().done(function(){
+			$(cache['modals']).hide().promise().done(function(){
+				$('#overlay').fadeIn(40);
 				$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 			});
 		} else { //modals
-			$('#overlay', cache.modals, cache.subpages).fadeOut(fadetime).promise().done(function(){
+			$(cache.modals).fadeOut(fadetime).promise().done(function(){
 				$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 			});
 		}
