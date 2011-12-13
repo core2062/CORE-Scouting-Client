@@ -386,6 +386,7 @@ function loginCheck(){
 	if (eatCookie('scoutid') !== '' && eatCookie('token') !== '') {
 		//assume logged in, if token is wrong error will be returned by process later
 		//other wise there would be too many login checks
+		//on error returned from process.php, token is removed
 		return;
 	}
 	
@@ -424,18 +425,15 @@ function getToken(password){ //merge function with login
 		var json = post('login.php','{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
 
 		if (json.token) {
-			user.token = json.token
+			user.token = json.token;
+			user.prefs = json.prefs;
 			
-			bakeCookie('user', $.toJSON(user));
+			bakeCookie('user', $.toJSON(user)); //store user object in cookie
 
-			
-			// TODO store JSON encoded user object in cookie
-			
 			loginbutton.innerHTML = 'Logout';
+			//TODO change to set stuff for user-button
 			
-			//store all user stuff to 'user object'
-			
-			return true
+			return;
 		} else if (json.error) {
 			$('#jGrowl-container').jGrowl('Login Failure: ' + json.error, {theme: 'error'});
 		} else {
@@ -443,7 +441,7 @@ function getToken(password){ //merge function with login
 		}
 	}
 	
-	loginbutton.innerHTML = 'Login'; //TODO change to global userButton
+	loginbutton.innerHTML = 'Login'; //TODO change to global userButton &  the logout icon
 	window.location = '#Login';
 }
 
@@ -1135,6 +1133,10 @@ case "Q": // Query
 	
 break;
 */
+
+
+
+
 /**
  * jQuery JSON Plugin
  * version: 2.3 (2011-09-17)
@@ -1328,3 +1330,4 @@ break;
 	};
 
 })( jQuery );
+
