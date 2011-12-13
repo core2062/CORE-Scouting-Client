@@ -331,11 +331,9 @@ function nav() {
 		} else { //modals
 			
 			if(prev.lastSub == current.subpage){ //don't fade out sub-page if is is already under the modal
-				console.log('incorrect response');
 				$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
 			} else {
 				$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function(){
-					console.log('correct response');
 					$('.' + current.subpage + '-c').fadeIn(fadetime);
 				});
 			}
