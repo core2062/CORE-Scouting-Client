@@ -1,39 +1,38 @@
 <?php
+/*
+Requires:
+	inputType - robot, human, pit...
+*/
 
-//get more parameters
-$v1=$_POST["v1"]; //[what the thing represents
-$v2=$_POST["v2"];
-$v3=$_POST["v3"];
-$v4=$_POST["v4"];
-$v5=$_POST["v5"];
-$v6=$_POST["v6"];
-$v7=$_POST["v7"];
-$v8=$_POST["v8"];
-$v9=$_POST["v9"];
-$currentpage=$_POST["c"];
-
-mysql_query ("INSERT INTO log VALUES ('Database I', NOW(), 'table input: $ScoutID | Current Page: $currentpage')"); //write to log
-
-//Determine EntryID
-$EntryID = mysql_result (mysql_query ("SELECT COUNT(EntryID) FROM entries"),0);
-
-switch ($currentpage) //Build query based on current page
-{
-case "Regular":
-	$Query = "INSERT INTO entries VALUES ('$EntryID', '$v1', '$ScoutID', '$v2', '$v3', '$v4', '$v5', '$v6', '$v7', '$v8', NOW(), 1)";
-	break;
-case "Human-Player":
-
-	break;
-case "Pit":
-
-	break;
+switch ($input['request']) {
+case "robot":
+	
+	//validation of all data... log invalid data & change errorCount based on it
+	//if error count is too high then set use = false
+	
+	$insert = "{
+		scoutid:'token-gen',
+		time:'$starttime',
+		
+	}";
+	
+break;
+case "human":
+	
+	//validation of all data... log invalid data & change errorCount based on it
+	//if error count is too high then set use = false
+	
+break;
+case "pit":
+	
+	//validation of all data... log invalid data & change errorCount based on it
+	//if error count is too high then set use = false
+	
+break;
 default:
-	send_error('Invalid Current Page', '');
+	send_error('invalid inputType','');
 }
 
-mysql_query ($Query) or send_error('Input Failed', '');
+$db->execute("db.raw.insert($insert)");
 
-echo "1"; // Entered Sucessfully
-mysql_close($link);
 ?>

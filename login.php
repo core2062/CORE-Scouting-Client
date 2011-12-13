@@ -33,23 +33,30 @@ if ($input['pword'] == "") {
 	send_error("password is blank","");
 }
 
-$pword = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{_id:0, pword:1})");
+$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");
 
-if ($pword['retval'] == '') {
+if ($user['retval'] == '') {
 	send_error("scoutid is incorrect","");
 }
 
-$pword = $pword["retval"]["pword"];
+$user = $user['retval'];
 
-if ($pword !== $input['pword']) {
+if ($user['pword'] !== $input['pword']) {
 	send_error("password is incorrect","");
 }
+
+if ($user['permission'] == 0) {
+	send_error("your account is banned","");
+}
+
+//TODO add stuff to return preferences from user var
 
 $vars['token'] = uniqid("",true);
 $db->execute("
 	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'ip':'', 'token':''}});
 	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "', 'ip':'" . $vars['ip'] . "', 'logintime':'$starttime'}});
-");
+"); //first zero out ip & token for users w/ same ip then set ip & token for user logging in
+
 
 //regular end
 list($micro, $sec) = explode(" ",microtime());

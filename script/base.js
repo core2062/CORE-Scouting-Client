@@ -8,7 +8,7 @@
  * --- CORE Scouting Database ---
 */
 
-/*        ______            ___________    _____________
+/*       ________           ___________    _____________
  *     _[░░░░░░░░]_       _[░░░░░░░░░░░]  [░░░░░░░░░░░░░]_
  *   _[░░░]````[░░░]_    [░░░░░]```````   [░░░]``````[░░░░]  
  *  [░░░]`      `[░░░]  [░░░░]`           [░░░]       `[░░░]
@@ -202,6 +202,7 @@ var current = {
 var prev = {
 	"index": "",
 	"type": "",
+	"lastSub": "",
 	"subpage": ""
 };
 
@@ -269,6 +270,7 @@ function nav() {
 
 	prev.index = current.index;
 	prev.type = current.type;
+	prev.lastSub = current.lastSub;
 	prev.subpage = current.subpage;
 	
 	if (current.subpage == location.hash.substring(1)) {
@@ -328,10 +330,12 @@ function nav() {
 			});
 		} else { //modals
 			
-			if(current.lastSub == current.subpage){ //don't fade out sub-page if is is already under the modal
+			if(prev.lastSub == current.subpage){ //don't fade out sub-page if is is already under the modal
+				console.log('incorrect response');
 				$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
 			} else {
 				$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function(){
+					console.log('correct response');
 					$('.' + current.subpage + '-c').fadeIn(fadetime);
 				});
 			}
