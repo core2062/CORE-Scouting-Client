@@ -9,6 +9,8 @@ ini_set( 'display_errors', 1 );
 
 <?php
 /*
+TODO move all scripts & static resources to cookie-less sub-domain
+
 This script handles:
 	validation for logged in users (based on tokens)
 	getting the user object
@@ -44,6 +46,7 @@ $db = $m->selectDB("CSD");
 //variables_order must contain "C" in php.ini
 $input['scoutid'] = $_COOKIE['scoutid'] or send_error("scoutid was not received","");
 $input['token'] = $_COOKIE['token'] or send_error("token was not received","");
+// TODO change to decoding  "user" object from data
 $vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
 
 if ($input['scoutid'] == "") {
