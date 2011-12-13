@@ -215,10 +215,7 @@ function fixFavicon() { //fixes favicon bug in firefox
 }
 
 $(document).ready(function () {
-	cacheSubpages();
-	cacheModals();
-	nav();
-	
+
 	if(eatCookie('user') !== '') {
 		window.user = eval(eatCookie('user'));
 	} else {
@@ -229,22 +226,9 @@ $(document).ready(function () {
 		};
 	}
 	
-	window.user = {
-		"scoutid": [],
-		"token": []
-	};
-	
-	window.scoutid = eatCookie('scoutid');
-	window.token = eatCookie('token');
-	// TODO change to decoding  "user" object from cookie
-	
-	if (scoutid == '' || token == ''){
-		LoginCheck();
-	}
-	
-	if (loggedin !== true) {
-		LoginCheck();
-	}
+	cacheSubpages();
+	cacheModals();
+	nav(); //this will trigger login() if needed
  });
 
 function cacheSubpages(){
@@ -423,30 +407,31 @@ function loginCheck(){
 function getToken(password){ //merge function with login
 	scoutidinput = document.getElementById('scoutid');
 	pwordinput = document.getElementById('pword');
-	loginbutton = document.getElementById('login-button');
+	loginbutton = document.getElementById('login-button'); //TODO change to global userButton
 
-	window.scoutid = scoutidinput.value;
-	pword = pwordinput.value;
+	user.scoutid = scoutidinput.value; //put in user object
+	pword = pwordinput.value; //not global, pword stays in function and is deleted at return
 	
-	if (scoutid == '') {
+	scoutidinput.value = ''; //remove them from inputs
+	pwordinput.value = ''; 
+	
+	if (user.scoutid == '') {
 		$('#jGrowl-container').jGrowl('ScoutID is blank', {theme: 'error'});
 	} else if (pword == '') {
 		$('#jGrowl-container').jGrowl('Password is blank', {theme: 'error'});
 	} else {
-		var json = post('login.php','{"scoutid":"' + scoutid + '","pword":"' + pword + '"}');
+		
+		var json = post('login.php','{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
 
 		if (json.token) {
-			// TODO store all user prefs in 'user' object
+			user.token = json.token
 			
-			bakeCookie('user','{"scoutid": "' + window.user.scoutid + '", "token": "' + window.user.scoutid + '",' + '}');
-			
-			bakeCookie('token', json.token);
+			bakeCookie('user', $.toJSON(user));
+
 			
 			// TODO store JSON encoded user object in cookie
 			
 			loginbutton.innerHTML = 'Logout';
-			scoutidinput.value = '';
-			pwordinput.value = '';
 			
 			//store all user stuff to 'user object'
 			
@@ -458,7 +443,7 @@ function getToken(password){ //merge function with login
 		}
 	}
 	
-	loginbutton.innerHTML = 'Login';
+	loginbutton.innerHTML = 'Login'; //TODO change to global userButton
 	window.location = '#Login';
 }
 
