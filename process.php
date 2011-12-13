@@ -8,6 +8,28 @@ ini_set( 'display_errors', 1 );
 ?>
 
 <?php
+/*
+This script handles:
+	validation for logged in users (based on tokens)
+	getting the user object
+	checking permissions
+	pointing to the correct script depending on the request type
+	general use functions
+	and error/success logging
+	
+Permission Levels:
+	0 = banned : can't do anything
+	1 = scout : input access
+	2 = low scout-leader : access scout-leader stuff, & level 1 permissions
+	3 = analyzer : access data from analysis, download data for team, & level 1 permissions
+	4 = high scout-leader : level 1-3 permissions
+	5 = 
+	6 = 
+	7 =
+	8 = 
+	9 = admin : everything
+*/
+
 //start timer
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
@@ -50,27 +72,17 @@ if ($json == '') {
 	send_error('no data sent','');
 }
 
-$input = array_merge(json_decode($json, true),$input);
-
-die();
-
-
-
-// 0 = account banned, can't do anything
-// 1 = low account, only input access
-// 2 = low account, input + scout leader access
-// 3 = normal account, no direct SQL Query, no scout leader access, can access other analisis
-// 8 = near admin account all access of 3 level permission + scout leader access
-// 9 = admin account, full access, all DB access
+$input = array_merge(json_decode($json, true), $input);
 
 if ($user['permission'] == 0) {
 	send_error('Your Account Is Banned', ' | Banned Account');
 }
 
+// START request switch
 switch ($input['request']) {
-case "Poll": //for match signup, mail poll, other?
+case "poll": //for match signup, mail poll, other?
 
-	send_error('This part is not finished','');
+	send_error('this part is not finished','');
 
 	//get more parameters
 //	$checksignup=$_POST["s"]; // =1 for yes, =0 for no
@@ -100,97 +112,65 @@ case "Poll": //for match signup, mail poll, other?
 		//check for who has signed up for match
 	}
 
-
-
 break;
-case "Input": 
+case "input": 
+	//user is not banned based on above check
+	//therefore user has needed permissions
 
-	send_error('This part is not finished','');
 	include 'php/input.php';
 
 break;
-case "Mail":
+case "mail":
 
-	send_error('This part is not finished','');
+	send_error('this part is not finished','');
 	include 'php/mail.php';
 
 break;
-case "Query":
-	if ($permission < 3) {
+case "query":
+	if ($user['permission'] < 3) {
 		send_error( 'Invalid Permissions','');
 	}
 	
-	//get more parameters
-	//$QueryDirty=$_POST["q"];
-	//$type=$_POST["t"];
-	//$var1=$_POST["v1"];
-	//$place=$_POST["p"];
-	
-	// clean parameters
-	//$Query = mysql_real_escape_string($QueryDirty);
-	//$type = mysql_real_escape_string($type);
-	//$var1 = mysql_real_escape_string($var1);
-	
-	//mysql_query ("INSERT INTO log VALUES ('Database Q', NOW(), 'ScoutID: $ScoutID | table query: $Query | type: $type | var1: $var1')"); //write to log
-	
-	switch ($Query)
-	{
-	case 1: //returns table of all database entries
-		$Query = "SELECT * FROM entries";
-		break;
-	case 2: //finds number of matches
-		$Query = "SELECT COUNT(*) FROM entries WHERE TeamNum=$var1";
-		break;
-	case 3: //handles match signup
-		$Query = "";
-		break;
-	case 4: //handles scout leader access
-	
-		$Query = "";
-		break;
-	default:
-		if ($permission < 9) {
-			send_error('invalid permissions - admin only','');
-		};
-		//$Query = $QueryDirty;
-	};
-	
-		
-	if ($type=="table")
-	{
-		//table formatter used to be here, send json rather than html
-	}
+	send_error('this part is not finished','');
+	include 'php/query.php';
 	
 	
-	elseif($type=="value") {
-	$value = mysql_query($Query);
-	$return_text.="<queryreturn place=\"$place\">" . mysql_result($value,0) . "</queryreturn>";
-	}
-	else send_error('Invalid Request Type','');
 break;
-case "Admin":
-	if ($permission < 9) {
+case "scout-leader":
+	if ($user['permission'] != 2 && $user['permission'] != 4) {
+		send_error('invalid permissions - scout-leader only','');
+	}
+	
+	send_error('this part is not finished','');
+	include 'php/admin.php';
+	
+break;
+case "admin":
+	if ($user['permission'] < 9) {
 		send_error('invalid permissions - admin only','');
 	}
 	
-	//Errorcheck
-	//Recalculate
-	//Reset
+	send_error('this part is not finished','');
+	include 'php/admin.php';
 	
 break;
-case "Logout":
+case "logout":
 
-	// delete token & ip for active user
-
+	$db->execute("
+		db.user.update({'ip':'" . $user['scoutid'] . "'}, {'\$set':{'ip':'', 'token':''}});
+	"); // delete token & ip for active user
+	
+	//return message: successful logout
+	
 break;
 default:
 	send_error('invalid request type','');
 }
+// END request switch
 
 
 
-
-
+// START return functions
 function send_error($error_text, $error) {
 	global $db;
 	global $starttime;
