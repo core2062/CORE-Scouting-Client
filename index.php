@@ -332,7 +332,7 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-	$log_input = json_encode($input);
+$log_input = json_encode($input);
 
 $insert = "{
 	type:'page-gen',
