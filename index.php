@@ -273,9 +273,7 @@ include 'php/jsminplus.php';
 
 <!--TODO embed jquery, fix issues w/ being in same file -->
 <script type="text/javascript" src="script/jquery.js"></script>
-<script type="text/javascript"></script>
-</body>  
-</html>  
+<script type="text/javascript">  
 
 <?php
 
@@ -314,7 +312,7 @@ if ($dev == false){
 	$javascript = JSMinPlus::minify($javascript);
 }
 
-$html = preg_replace('/<script type="text\/javascript"><\/script>/', '<script type="text/javascript">' . $javascript . '</script>', $html);
+$html = $html . $javascript . '</script></body></html>';
 
 //optimize css
 //TODO base64 images w/ php ?
