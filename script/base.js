@@ -1270,41 +1270,6 @@ break;
 	};
 
 	/**
-	 * jQuery.evalJSON
-	 * Evaluates a given piece of json source.
-	 *
-	 * @param src {String}
-	 */
-	$.evalJSON = typeof JSON === 'object' && JSON.parse
-		? JSON.parse
-		: function( src ) {
-		return eval('(' + src + ')');
-	};
-
-	/**
-	 * jQuery.secureEvalJSON
-	 * Evals JSON in a way that is *more* secure.
-	 *
-	 * @param src {String}
-	 */
-	$.secureEvalJSON = typeof JSON === 'object' && JSON.parse
-		? JSON.parse
-		: function( src ) {
-
-		var filtered = 
-			src
-			.replace( /\\["\\\/bfnrtu]/g, '@' )
-			.replace( /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
-			.replace( /(?:^|:|,)(?:\s*\[)+/g, '');
-
-		if ( /^[\],:{}\s]*$/.test( filtered ) ) {
-			return eval( '(' + src + ')' );
-		} else {
-			throw new SyntaxError( 'Error parsing JSON, source is not valid.' );
-		}
-	};
-
-	/**
 	 * jQuery.quoteString
 	 * Returns a string-repr of a string, escaping quotes intelligently.
 	 * Mostly a support function for toJSON.
