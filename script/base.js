@@ -1305,6 +1305,6 @@ break;
 		}
 		return '"' + string + '"';
 	};
-
+ 
 })( jQuery );
 
