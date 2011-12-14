@@ -1155,15 +1155,15 @@ break;
 
 (function( $ ) {
 
-	var	escapeable = /["\\\\\x00-\x1f\x7f-\x9f]/g,
+	var	escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,
 		meta = {
-			'\b': '\\\b',
-			'\t': '\\\t',
-			'\n': '\\\n',
-			'\f': '\\\f',
-			'\r': '\\\r',
-			'"' : '\\\"',
-			'\\\': '\\\\\\\\'
+			'\b': '\\b',
+			'\t': '\\t',
+			'\n': '\\n',
+			'\f': '\\f',
+			'\r': '\\r',
+			'"' : '\\"',
+			'\\': '\\\\'
 		};
 
 	/**
@@ -1282,6 +1282,29 @@ break;
 	};
 
 	/**
+	 * jQuery.secureEvalJSON
+	 * Evals JSON in a way that is *more* secure.
+	 *
+	 * @param src {String}
+	 */
+	$.secureEvalJSON = typeof JSON === 'object' && JSON.parse
+		? JSON.parse
+		: function( src ) {
+
+		var filtered = 
+			src
+			.replace( /\\["\\\/bfnrtu]/g, '@' )
+			.replace( /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
+			.replace( /(?:^|:|,)(?:\s*\[)+/g, '');
+
+		if ( /^[\],:{}\s]*$/.test( filtered ) ) {
+			return eval( '(' + src + ')' );
+		} else {
+			throw new SyntaxError( 'Error parsing JSON, source is not valid.' );
+		}
+	};
+
+	/**
 	 * jQuery.quoteString
 	 * Returns a string-repr of a string, escaping quotes intelligently.
 	 * Mostly a support function for toJSON.
@@ -1300,11 +1323,10 @@ break;
 					return c;
 				}
 				c = a.charCodeAt();
-				return '\\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
+				return '\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
 			}) + '"';
 		}
 		return '"' + string + '"';
 	};
- 
-})( jQuery );
 
+})( jQuery );
