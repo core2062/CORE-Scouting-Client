@@ -277,9 +277,6 @@ include 'php/jsminplus.php';
 </body>  
 </html>  
 
-
-
-
 <?php
 
 function embed($folder, $extension) {
@@ -316,6 +313,7 @@ for ($i = 0; $i < $length; ++$i) {
 if ($dev == false){
 	$javascript = JSMinPlus::minify($javascript);
 }
+
 $html = preg_replace('/<script type="text\/javascript"><\/script>/', '<script type="text/javascript">' . $javascript . '</script>', $html);
 
 //optimize css
