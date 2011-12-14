@@ -1155,7 +1155,20 @@ break;
 
 (function( $ ) {
 
-	var	escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,
+	var	escapeable = /["\\\\\x00-\x1f\x7f-\x9f]/g,
+		meta = {
+			'\b': '\\\b',
+			'\t': '\\\t',
+			'\n': '\\\n',
+			'\f': '\\\f',
+			'\r': '\\\r',
+			'"' : '\\\"',
+			'\\\': '\\\\\\\\'
+		};
+		
+	/*
+	 * above should be: 
+	 * 	var	escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,
 		meta = {
 			'\b': '\\b',
 			'\t': '\\t',
@@ -1165,7 +1178,8 @@ break;
 			'"' : '\\"',
 			'\\': '\\\\'
 		};
-
+	 */
+		
 	/**
 	 * jQuery.toJSON
 	 * Converts the given argument into a JSON respresentation.
@@ -1287,6 +1301,7 @@ break;
 	 *
 	 * @param src {String}
 	 */
+	/*
 	$.secureEvalJSON = typeof JSON === 'object' && JSON.parse
 		? JSON.parse
 		: function( src ) {
@@ -1303,7 +1318,7 @@ break;
 			throw new SyntaxError( 'Error parsing JSON, source is not valid.' );
 		}
 	};
-
+*/
 	/**
 	 * jQuery.quoteString
 	 * Returns a string-repr of a string, escaping quotes intelligently.
@@ -1323,7 +1338,7 @@ break;
 					return c;
 				}
 				c = a.charCodeAt();
-				return '\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
+				return '\\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
 			}) + '"';
 		}
 		return '"' + string + '"';
