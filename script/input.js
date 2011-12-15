@@ -62,5 +62,3 @@ function clearinputs(){
 
 $('#AllianceColor').easySelectBox({speed:100});
 $('#to').easySelectBox({speed:100});
-
-$('a[title]').tipsy(); //TODO make a array (and loop through it) for all elements to apply tipsy to, or just search for "a" links with a title attribute -->
