@@ -188,7 +188,7 @@ Language: LESS
 	a#logo {
 		float: right;
 		color:#000;
-		margin: 8px 5px 0 -10px;
+		margin: 0 5px 0 -10px;
 		border:none;
 		height:50px;
 		width:115px;
@@ -428,9 +428,19 @@ Language: LESS
 		overflow: visible;
 		height: 31px;
 		
+		svg {
+			fill: @litetext;
+			vertical-align: middle;
+			width: 17px;
+			height: 17px;
+		}
+		
 		&:hover {
 			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 			color: #313131;
+			svg {
+				fill: #313131;
+			}
 		}
 		
 		// remove dotted lines in firefox
@@ -483,10 +493,6 @@ Language: LESS
 			padding: 0 1em;
 			height:100%;
 			display:block;
-			
-			img {
-				vertical-align: middle;
-			}
 		}
 		
 	}
