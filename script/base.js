@@ -432,6 +432,8 @@ function getToken(password){ //merge function with login
 
 			loginbutton.innerHTML = 'Logout';
 			//TODO change to set stuff for user-button
+			//hide login button
+			//show user button with name of scout in the inner html
 			
 			return;
 		} else if (json.error) {
@@ -538,7 +540,7 @@ function caps(string){
                 }
                 
                 if (this.options.fade) {
-                    $tip.stop().css({opacity: 0, display: 'block', visibility: 'visible'}).animate({opacity: this.options.opacity});
+                    $tip.stop().css({opacity: 0, display: 'block', visibility: 'visible'}).animate({opacity: this.options.opacity}, this.options.fadeInTime);
                 } else {
                     $tip.css({visibility: 'visible', opacity: this.options.opacity});
                 }
@@ -547,7 +549,7 @@ function caps(string){
         
         hide: function () {
             if (this.options.fade) {
-                this.tip().stop().fadeOut(function () { $(this).remove(); });
+                this.tip().stop().fadeOut(this.options.fadeOutTime, function () { $(this).remove(); });
             } else {
                 this.tip().remove();
             }
@@ -652,7 +654,9 @@ function caps(string){
         className: null,
         delayIn: 0,
         delayOut: 0,
-        fade: false,
+        fade: true,
+        fadeInTime: 500,
+        fadeOutTime: 100,
         fallback: '',
         gravity: 'n',
         html: false,
@@ -1295,3 +1299,5 @@ break;
 	};
 
 })( jQuery );
+
+$('a[title]').tipsy();
