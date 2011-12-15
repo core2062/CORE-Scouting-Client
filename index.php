@@ -66,7 +66,6 @@ sort($embedded); //make sure that filename being searched for in cache is same, 
 
 $length = count($embedded);
 
-
 $filename = $embedded[0];
 for ($i = 1; $i < $length; ++$i) {
 	$filename .= "," . $embedded[$i];
@@ -181,7 +180,7 @@ include 'php/jsminplus.php';
 		<td colspan="2">
 			
 			<?php
-				embed('html/', '-navbar.html');
+				echo file_get_contents('html/navbar.html');
 			?>
 
 			<hr style="margin:10px;" />
