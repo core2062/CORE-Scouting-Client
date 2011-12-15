@@ -1,0 +1,54 @@
+<ul class="input, navbar"><!-- TODO embed svg icons -->
+	<li>
+		<div class="buttonset">
+			<input type="radio" id="robot-r"  name="input-navbar" />
+			<label for="robot-r" id="robot-l" onclick="window.location = '#robot'" class="first"><a title="Robot Scouting">Robot</a></label>
+
+			<input type="radio" id="human-r" name="input-navbar"/>
+			<label for="human-r" id="human-l" onclick="window.location = '#human'"><a title="Human Player Scouting">Human</a></label>
+
+			<input type="radio" id="pit-r" name="input-navbar" />
+			<label for="pit-r" id="pit-l" onclick="window.location = '#pit'"><a title="Pit Scouting">Pit</a></label>
+
+			<input type="radio" id="navigation-r" name="input-navbar" onclick="window.location = '#navigation'" />
+			<label for="navigation-r" class="last">
+				<a title="Navigation">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 32 28" enable-background="new 0 0 32 28" xml:space="preserve">						
+						<circle cx="2" cy="2" r="2"/>
+						<circle cx="2" cy="10" r="2"/>
+						<circle cx="2" cy="18" r="2"/>
+						<circle cx="2" cy="26" r="2"/>
+						<rect x="8" width="24" height="4"/>
+						<rect x="8" y="8" width="24" height="4"/>
+						<rect x="8" y="16" width="24" height="4"/>
+						<rect x="8" y="24" width="24" height="4"/>
+					</svg>
+				</a>
+			</label>
+		</div>
+	</li>
+
+	<li>
+		<button type="button" id="login-button" onclick="window.location = '#login'">Login</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="">Training</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="window.location = '#contact'" style="margin-right: 40px;">Contact</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="ajax('I');">Submit</button>
+	</li>
+
+	<li>
+		<button type="button" onclick="clearinputs();">Clear Inputs</button> <!-- CONSIDER remove clear inputs, it's kinda dangerous and won't be used much (it's done automatically) -->
+	</li>
+	
+	<li>
+		<a href="#home" id="logo" title="CORE 2062 Scouting Database"><br />CSD</a> <!-- CORE<br />2062 -->
+	</li>
+</ul>
