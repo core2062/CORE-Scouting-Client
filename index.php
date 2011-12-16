@@ -97,6 +97,8 @@ if (file_exists($filename) == true){
 			return false;
 		}
 		
+		if (filemtime('html/navbar.html') > $cache_date) {return false;}
+		
 		for ($i = 0; $i < $length; ++$i) {
 			$file = 'css/' . $embedded[$i] . '.css';
 			if (file_exists($file)) {
