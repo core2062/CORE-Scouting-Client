@@ -39,10 +39,8 @@ Language: LESS
 @progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
 @background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
 @stripe: url(data:image/gif;base64,R0lGODlhBQAFAOMKAEpNYUtOYkpMYPLy8vPz8/T09PX19fz8/P39/f7+/v///////////////////////yH5BAEKAA8ALAAAAAAFAAUAAAQMEElEki1JKaN3510EADs=);
-@logo: url(img/logo.svg);
 @close-icon: url(img/icon_sprite.png);
 
-@list-icon: url(img/icon/list.svg);
 @plus-icon: url(img/icon/plus.svg);
 @help-icon: url(img/icon/help.svg);
 
@@ -198,9 +196,14 @@ Language: LESS
 		text-decoration: none;
 		font-weight:500;
 		letter-spacing: -0.1em;
-		background-image: @logo;
 		background-repeat:no-repeat;
 		overflow: visible;
+		
+		path {
+			stroke: #000;
+			fill:none;
+			stroke-width: 20;
+		}
 	}
 
 
