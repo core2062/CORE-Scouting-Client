@@ -183,26 +183,25 @@ Language: LESS
 
 // Logo
 
+	#c, #s, #d {
+		stroke: none !important;
+		fill: #000 !important;
+	}
+
 	a#logo {
 		float: right;
-		color:#000;
-		margin: 0 5px 0 -10px;
-		border:none;
-		height:50px;
-		width:115px;
-		text-align:right;
-		font-size:30px; //18px for full text
-		line-height:17px; //13px for full text
-		text-decoration: none;
-		font-weight:500;
-		letter-spacing: -0.1em;
-		background-repeat:no-repeat;
-		overflow: visible;
+
+		svg {
+			height: 60px;
+			margin-left: -12px;
+			margin-right: -13px;
+			margin-top: -5px;
+		}
 		
 		path {
 			stroke: #000;
 			fill:none;
-			stroke-width: 20;
+			stroke-width: 4.5;
 		}
 	}
 
@@ -263,7 +262,7 @@ Language: LESS
 		padding-left:0;
 		margin:0;
 		
-		&.navbar {
+		&#navbar {
 			margin: 10px;
 		}
 		
@@ -276,9 +275,6 @@ Language: LESS
 	td#content > ul, td#sidebar > ul {
 		display:inline; // for forms
 	}
-	
-
-
 	
 	fieldset {
 		background: @form_bgcolor;
