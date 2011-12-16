@@ -1301,3 +1301,6 @@ break;
 })( jQuery );
 
 $('a[title]').tipsy();
+$('button[title]').tipsy();
+
+

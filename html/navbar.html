@@ -13,7 +13,7 @@
 			<input type="radio" id="navigation-r" name="input-navbar" onclick="window.location = '#navigation'" />
 			<label for="navigation-r" class="last">
 				<a title="Navigation">
-					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 32 28" enable-background="new 0 0 32 28" xml:space="preserve">						
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28">						
 						<circle cx="2" cy="2" r="2"/>
 						<circle cx="2" cy="10" r="2"/>
 						<circle cx="2" cy="18" r="2"/>
@@ -29,26 +29,39 @@
 	</li>
 
 	<li>
-		<button type="button" id="login-button" onclick="window.location = '#login'">
-			<a title="Login">
-				<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-					<path d="m4.30989,0v2.79343h9.89678v11.33333h-9.89678v2.87324h12.69023v-17h-12.69023l0,0z" fill="black"/>
-   					<path d="m0,9.89671l7.07141,0l-2.82537,2.82535l4.23806,0l4.23806,-4.23803l-4.23806,-4.23803l-4.23806,0l2.82537,2.82535l-7.07141,0l0,2.82536l0,0z" fill="black"/>
-				</svg>
-			</a>
+		<button type="button" id="login-button" title="Login" onclick="window.location = '#login'">
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
+				<path d="m0,9.9h7.07l-2.83,2.83h4.24l4.24-4.24-4.24-4.24h-4.24l2.83,2.83h-7.07v2.83z"/>
+			</svg>
+			<!-- logout
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
+				<path d="m12.7,9.9-7.07,0,2.83,2.83-4.24,0l-4.22-4.22,4.24-4.23h4.24l-2.83,2.83h7.07v2.83z"/>
+			</svg>
+			-->
 		</button>
 	</li>
 
 	<li>
-		<button type="button" onclick="">Training</button>
+		<button type="button" title="Training" onclick="">Training</button>
 	</li>
 
 	<li>
-		<button type="button" onclick="window.location = '#contact'" style="margin-right: 40px;">Contact</button>
+		<button type="button" title="Contact" onclick="window.location = '#contact'" style="margin-right: 40px;">
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 24">
+				<path d="M0,0v24h32V0H0z M24.859,4l-7.445,7.445c-0.781,0.781-2.047,0.781-2.828,0L7.141,4H24.859z M4,20V6.516l7.758,7.758c1.172,1.172,2.703,1.758,4.242,1.758s3.07-0.586,4.242-1.758L28,6.516V20H4z"/>
+			</svg>
+		</button>
 	</li>
 
 	<li>
-		<button type="button" onclick="ajax('I');">Submit</button>
+		<button type="button" title="Submit" onclick="ajax('I');">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">		
+				<path d="M24,4c-0.38,0-0.74,0.062-1.1,0.11-1-2.5-4-4.1-7-4.1s-5.6,1.7-6.9,4.1c-0.4,0-0.7-0.1-1.1-0.1-4.4,0-8,3.6-8,8s3.6,8,8,8h16c4.4,0,8-3.6,8-8s-4-8-8-8zm0,12h-16c-2.2,0-4-1.8-4-4s1.9-3.9,4-3.9c0,0.9,0.2,1.8,0.5,2.9l3.7-1.4v-1.6c0-2.2,1.8-4,4-4,1.3,0,2.5,0.64,3.2,1.6-2,1.5-3,3.8-3,6.4h4c0-2.2,1.8-4,4-4s4,1.8,4,4-2,4-4,4z"/>
+				<polygon points="18,26,22,26,16,20,10,26,14,26,14,32,18,32"/>
+			</svg>
+		</button>
 	</li>
 
 	<li>
@@ -56,6 +69,27 @@
 	</li>
 	
 	<li>
-		<a href="#home" id="logo" title="CORE 2062 Scouting Database"><br />CSD</a> <!-- CORE<br />2062 -->
+		<a href="#home" id="logo" title="CORE 2062 Scouting Database">
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+				<g transform="scale(0.2)">
+					<path d="M120,10 a110,110 0 0,0 -110,110"/>
+					<path d="M120,230 a110,110 0 0,0 110,-110"/>
+					
+					<path d="M60,60 a85,85 0 0,0 0,120"/>
+					<path d="M180,60 a85,85 0 0,1 0,120"/>
+					
+					<path d="M60,120 a60,60 0 0,0 60,60"/>
+					<path d="M120,60 a60,60 0 0,1 60,60"/>
+					
+					<path d="M95,145 a35,35 0 0,0 50,0"/>
+					<path d="M95,95 a35,35 0 0,1 50,0"/>
+					
+					<path d="M120,110 a10,10 0 0,0 -10,10"/>
+					<path d="M130,120 a10,10 0 0,1 -10,10"/>
+				</g>
+			</svg>
+			<p>CSD</p>
+		</a>
 	</li>
 </ul>
