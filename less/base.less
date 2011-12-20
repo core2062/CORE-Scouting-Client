@@ -151,7 +151,7 @@ Language: LESS
 	-moz-transition: all @time ease-out;  /* FF4+ */
 	-ms-transition: all @time ease-out;  /* IE10? */
 	-o-transition: all @time ease-out;  /* Opera 10.5+ */
-	transition: all @time ease-out;  
+	transition: all @time ease-out;
 }
 
 
@@ -197,7 +197,7 @@ Language: LESS
 			margin-right: -13px;
 			margin-top: -5px;
 		}
-		
+
 		path {
 			stroke: #000;
 			fill:none;
@@ -223,7 +223,7 @@ Language: LESS
 		height: 100%;
 		margin: 0;
 	}
-	
+
 	body {
 		background-color: @page_bgcolor;
 		background-image: @background-dots;
@@ -231,28 +231,28 @@ Language: LESS
 		margin:0 8px 0 8px;
 		min-width: 1150px;
 	}
-	
+
 	#layout {
 		width: 100%;
 		border: 0;
 	}
-	
+
 	td {
 		vertical-align: top;
 		padding: 0;
 	}
-	
+
 	.head {
 		height:65px;
 	}
-	
+
 	.foot {
 		height: 15px;
 	}
 
 
 // Forms
-	
+
 	p {
 		display:inline;
 		margin:2px;
@@ -261,21 +261,21 @@ Language: LESS
 	ul {
 		padding-left:0;
 		margin:0;
-		
+
 		&#navbar {
 			margin: 10px;
 		}
-		
+
 		li {
 			margin:0;
 			display:inline; // for forms
 		}
 	}
-	
+
 	td#content > ul, td#sidebar > ul {
 		display:inline; // for forms
 	}
-	
+
 	fieldset {
 		background: @form_bgcolor;
 		padding:1px;
@@ -285,16 +285,16 @@ Language: LESS
 		vertical-align:middle;
 		border: 1px solid #B6B6B6;
 		.box-shadow(0 0 5px #000);
-		
+
 		ul {
 			margin:10px;
-			
+
 			li:first-child label {
 				margin:0;
 			}
-			
+
 		}
-		
+
 		&.focus legend {
 			/*TODO fix below*/
 			color: #1c4257;
@@ -304,7 +304,7 @@ Language: LESS
 			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 		}
 	}
-	
+
 	legend {
 		float:left;
 		font-size: 18px;
@@ -315,23 +315,23 @@ Language: LESS
 		padding:0 10px;
 		line-height:20px;
 	}
-	
+
 	fieldset, legend {
 		.border-radius-br(8px);
 	}
-	
-	
+
+
 	label {
 		font-weight:400;
 		margin-left:20px;
 	}
-	
-	
+
+
 	input, select, textarea, button {
 		font-family: @font-list;
 		font-size: 1em;
 	}
-	
+
 	input, textarea, .select-box, #selectarrow, .select-box ul {
 		border:none;
 		background-repeat: repeat;
@@ -346,16 +346,16 @@ Language: LESS
 		font-size: 15px;
 		.border-radius(5px);
 	}
-	
+
 	.select-box ul li {
 		.border-radius(5px);
 	}
-	
+
 	textarea {
 		padding:5px;
 		resize: none;
 	}
-	
+
 	input:focus, textarea:focus { /*TODO extend blue shadow to select box / any other inputs */
 		.box-shadow (inset 0 0 4px @d-blue);
 	}
@@ -370,7 +370,7 @@ Language: LESS
 		vertical-align: middle;
 		font-size: 22px;
 		font-weight: 200;
-	
+
 	}
 
 
@@ -402,7 +402,7 @@ Language: LESS
 		.border-radius(3px);
 		height: 32px; //fixes weird button height diff
 		padding: 0 1em;
-		
+
 		&.icon {
 			height: 28px;
 			padding: 4px;
@@ -423,22 +423,22 @@ Language: LESS
 		text-decoration: none !important;
 		cursor: pointer;
 		text-align: center;
-		zoom: 1; 
+		zoom: 1;
 		overflow: visible;
 		height: 31px;
-		
+
 		a {
 			height:100%;
 			display:block;
 		}
-		
+
 		svg {
 			fill: @litetext;
 			vertical-align: middle;
 			width: 17px;
 			height: 17px;
 		}
-		
+
 		&:hover {
 			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 			color: #313131;
@@ -446,7 +446,7 @@ Language: LESS
 				fill: #313131;
 			}
 		}
-		
+
 		// remove dotted lines in firefox
 		&::-moz-focus-inner {
 			border: 0;
@@ -470,35 +470,35 @@ Language: LESS
 	.buttonset {
 		margin-right: 7px;
 		display: inline;
-		
+
 		input[type="radio"] {
 		    display:none;
 		    left: ~'-1e+8px';
 		    position: absolute;
 		}
-		
+
 		label {
 			margin-left: -3px;
 			margin-right: -3px;
 			line-height: 31px; //aligns text to center
-			
+
 			&.first {
 				.border-radius-bl (3px);
 				.border-radius-tl (3px);
 			}
-			
+
 			&.last {
 				.border-radius-br (3px);
 				.border-radius-tr (3px);
 			}
 		}
-		
+
 		a {
 			padding: 0 1em;
 			height:100%;
 			display:block;
 		}
-		
+
 	}
 
 
@@ -514,25 +514,25 @@ Language: LESS
 		left: 25%;
 		position: relative;
 		.border-radius(4px);
-		
+
 		&:hover {
 			.opacity(0.4);
 			.transition(0.3s);
 		}
 	}
-	
+
 	#progressbar-value {
 		.img-gradent(@progressbar, @activecolor);
 		border: 1px solid @d-activecolor;
 	}
-	
+
 	#errorbar-value {
 		top: 0;
 		position: absolute;
 		.img-gradent(@progressbar, @errorcolor);
 		border: 1px solid @d-errorcolor;
 	}
-	
+
 	#errorbar-value, #progressbar-value {
 		.border-radius-tl (4px);
 		.border-radius-bl (4px);
@@ -560,7 +560,7 @@ Language: LESS
 		display:table-cell;
 		visibility: hidden;
 	}
-	
+
 	.modal-titlebar {
 		padding: 0.7em 1em 0.6em 1em;
 		position: relative;
@@ -571,17 +571,17 @@ Language: LESS
 		font-weight:700;
 		background: #ededed;
 		.advanced-gradent(#ededed, #c4c4c4);
-		
+
 		#modal-title {
 			margin: .1em 16px .2em 0;
 			font-size: 14px;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-			
+
 			&:first-letter {
 				text-transform: uppercase;
 			}
 		}
-		
+
 		.close {
 			.border-radius (3px);
 			position: absolute;
@@ -592,12 +592,12 @@ Language: LESS
 			padding: 0;
 			height: 16px;
 			border: 0;
-			
+
 			span {
 				display: block;
 				margin: 1px;
 				background: @close-icon 0 -16px no-repeat;
-				
+
 				&.icon { /*TODO fix all this css*/
 					display:inline-block;
 					color: inherit;
@@ -610,7 +610,7 @@ Language: LESS
 			}
 		}
 	}
-	
+
 	#modal-container {
 		visibility: visible;
 	    background: @form_bgcolor;
@@ -622,15 +622,15 @@ Language: LESS
 		width: 700px;
 		margin: auto; //centers it horizontally
 		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
-		
+
 		#modal-content > ul {
 			margin:10px;
 		}
-		
+
 		#modal-buttons {
 			border-top: 1px solid #B6B6B6;
 			overflow:hidden; //might be a insufficant solution! ... test more
-			
+
 			button {
 				float: right;
 				margin: .5em .4em .5em 0;
@@ -656,22 +656,22 @@ Language: LESS
 
 	div.navigation-c table {
 		padding: .5em 1em;
-		
+
 		ul {
 			margin: 5px 0 15px 0;
 			padding-left: 20px;
-			
+
 			li {
 				display: list-item;
 				margin: 6px;
 				list-style: square;
 				margin: 0 0 0 40px;
 				white-space:nowrap;
-				
+
 				a {
 					color: @litetext;
 				}
-				
+
 				a:hover {
 					/* TODO fix below, it could look better*/
 					color:white;
@@ -679,7 +679,7 @@ Language: LESS
 				}
 			}
 		}
-		
+
 		p {
 			margin-top: 5px;
 		}
@@ -704,11 +704,11 @@ Language: LESS
 		background-position:center;
 		width:15px;
 		display:inline-block;
-		
+
 		&:active {
 			.inv-img-gradent(@select, @activecolor);
 		}
-		
+
 		&:hover, &:active {
 			.box-shadow(inset 0 0 4px #fff);
 		}
@@ -720,7 +720,7 @@ Language: LESS
 		position:relative;
 		font-size:13px;
 		line-height:23px;
-		
+
 		.select-box-disp, .select-box-disp:visited {
 			text-decoration:none;
 			padding:0 3px;
@@ -730,7 +730,7 @@ Language: LESS
 			position:relative;
 			text-decoration:none;
 		}
-		
+
 		ul {
 			position:absolute;
 			top:100%;
@@ -744,28 +744,28 @@ Language: LESS
 			.box-shadow(0 0 16px #000000);
 			margin:0;
 			padding:5px !important;
-			
+
 			li {
 				display:block !important;
 				padding:0 !important;
-				
+
 				a {
 					color:#000;
 					width: 100%;
 					height: 100%;
 					display: block;
-					
+
 					&:hover {
 						color:#fff;
 					}
 				}
-				
+
 				a, a:visited {
 					padding:1px;
 					cursor:default;
 					text-decoration:none;
 				}
-				
+
 				&:hover {
 					background:@activecolor;
 					color:#fff;
@@ -785,7 +785,7 @@ Language: LESS
 		margin-left:auto;
 		margin-right:auto;
 	}
-	
+
 	div#jGrowl-container {
 
 		vertical-align: bottom;
@@ -808,18 +808,18 @@ Language: LESS
 			.opacity (.8);
 			.border-radius (3px);
 		}
-		
+
 		div.jGrowl-notification {
 			z-index: 9999;
 			min-height: 10px;
 			margin-left: 10px;
 			margin-right: 10px;
-			
+
 			div.jGrowl-header {
 				font-weight: bold;
 				font-size: .85em;
 			}
-			
+
 			div.jGrowl-close {
 				float: right;
 				font-weight: bold;
@@ -827,7 +827,7 @@ Language: LESS
 				cursor: pointer;
 			}
 		}
-		
+
 		div.jGrowl-closer {
 			margin-left: 10px;
 			margin-right: 10px;
@@ -846,7 +846,7 @@ Language: LESS
 	.message {
 		background-color:#000066 !important;
 	}
-	
+
 	// Hide jGrowl when printing
 	@media print {
 		div.jGrowl {
@@ -857,7 +857,7 @@ Language: LESS
 
 // Tipsy
 /* TODO change tipsy style add fade in...*/
-	
+
 	.tipsy {
 		font-family: 'BankSans';
 		font-size: 10px;
@@ -875,7 +875,7 @@ Language: LESS
 		.border-radius(3px);
 		.box-shadow (0 0 5px #000);
 	}
-	
+
 	.tipsy-arrow {
 		position: absolute;
 		width: 0;
@@ -883,9 +883,9 @@ Language: LESS
 		line-height: 0;
 		border: 5px dashed #000;
 	}
-	  
+
 	// Rules to color arrows
-	
+
 	.tipsy-arrow-n {
 		border-bottom-color: #000;
 	}

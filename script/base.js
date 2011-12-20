@@ -192,7 +192,8 @@ var prev = {
 
 var cache = {
     "subpages": [],
-    "modals": []
+    "modals": [],
+	"nav": []
 };
 function fixFavicon() { //fixes favicon bug in firefox
     $('#favicon').remove();
@@ -213,10 +214,11 @@ $(document).ready(function() {
 
     cacheSubpages();
     cacheModals();
+	cacheNav();
     nav(); //this will trigger login() if needed
 });
 
-function cacheSubpages() {
+function cacheSubpages() { //combine cache functions
     var len = pages.length;
 
     for (var i = 0; i < len; i++) {
@@ -224,7 +226,7 @@ function cacheSubpages() {
             cache.subpages.push(e);
         }
     }
-    cache.subpages = '.' + cache.subpages.join("-c, .");
+    cache.subpages = '.' + cache.subpages.join("-c, .") + '-c';
 }
 
 function cacheModals() {
@@ -235,7 +237,16 @@ function cacheModals() {
             cache.modals.push(e);
         }
     }
-    cache.modals = '.' + cache.modals.join("-c, .");
+    cache.modals = '.' + cache.modals.join("-c, .") + '-c';
+}
+
+function cacheNav() {
+    var len = pages.length;
+
+    for (var i = 0; i < len; i++) {
+		cache.nav.push(pages[i].name);
+    }
+    cache.nav = '.' + cache.nav.join("-n, .") + '-n';
 }
 
 window.onpopstate = function(event) {
@@ -246,11 +257,11 @@ window.onpopstate = function(event) {
 }
 
 function nav() {
-/*
- * Navigation Function
- * this function handles all page transitions and applies all page specific options
- * page specific options and data needed for displaying pages is stored in the JSON object 'pages'
-*/
+	/*
+	 * Navigation Function
+	 * this function handles all page transitions and applies all page specific options
+	 * page specific options and data needed for displaying pages is stored in the JSON object 'pages'
+	*/
 
     prev.index = current.index;
     prev.type = current.type;
@@ -302,10 +313,11 @@ function nav() {
     }
 
     document.title = caps(pages[current.index].name) + ' - ' + caps(current.subpage);
-	document.getElementById('body').style.minWidth = pages[current.index].minWidth
+	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
+	$(cache.nav).css('display','none');
+	$(pages[current.index].name).css('display','inline');
 
     //start page changers
-
     if (current.type == "subpages") { //sub-pages
         $('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
 
@@ -492,7 +504,6 @@ function json2table (json) {
 }
 
 //Tipsy
-
 (function($) {
 
     function maybeCall(thing, ctx) {
@@ -776,12 +787,7 @@ function json2table (json) {
 
 })(jQuery);
 
-
-
-// Easy Select Box 1.0 by http://www.codefleet.com/easy-select-box
-// Minor changes by Sean Lang
-
-// START Select Box
+//Easy Select Box
 (function($) {
 
 	// Disable for iOS devices (their native controls are more suitable for a touch device)
@@ -869,10 +875,8 @@ function json2table (json) {
 		}
 	});
 })(jQuery);
-// END Select Box
 
-// START jGrowl
-
+//jGrowl
 (function($) {
 
 	/** Raise jGrowl Notification on a jGrowl Container **/
@@ -1066,7 +1070,6 @@ function json2table (json) {
 	});
 
 })(jQuery);
-// END jGrowl
 
 
 // START AJAX processing
@@ -1191,23 +1194,7 @@ break;
 
 
 
-
-/**
- * jQuery JSON Plugin
- * version: 2.3 (2011-09-17)
- *
- * This document is licensed as free software under the terms of the
- * MIT License: http://www.opensource.org/licenses/mit-license.php
- *
- * Brantley Harris wrote this plugin. It is based somewhat on the JSON.org
- * website's http://www.json.org/json2.js, which proclaims:
- * "NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.", a sentiment that
- * I uphold.
- *
- * It is also influenced heavily by MochiKit's serializeJSON, which is
- * copyrighted 2005 by Bob Ippolito.
- */
-
+//json2js
 (function($) {
 
 	var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,
