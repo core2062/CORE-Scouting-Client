@@ -68,7 +68,7 @@ var pages = [{
         }
     },
     "minWidth": "1150px",
-    "progressbar": false
+    "progressbar": "none"
 }, {
     "name": "home",
     "description": "lorem",
@@ -92,7 +92,7 @@ var pages = [{
     },
     "modals": {},
     "minWidth": "1150px",
-    "progressbar": false
+    "progressbar": "none"
 }, {
     "name": "input",
     "description": "lorem",
@@ -112,7 +112,7 @@ var pages = [{
     },
     "modals": {},
     "minWidth": "1150px",
-    "progressbar": true
+    "progressbar": "block"
 }, {
     "name": "analysis",
     "description": "lorem",
@@ -132,7 +132,7 @@ var pages = [{
     },
     "modals": {},
     "minWidth": "1150px",
-    "progressbar": false
+    "progressbar": "none"
 }, {
     "name": "team-leader",
     "description": "lorem",
@@ -152,7 +152,7 @@ var pages = [{
     },
     "modals": {},
     "minWidth": "1150px",
-    "progressbar": false
+    "progressbar": "none"
 }, {
     "name": "help",
     "description": "lorem",
@@ -172,7 +172,7 @@ var pages = [{
     },
     "modals": {},
     "minWidth": "1150px",
-    "progressbar": false
+    "progressbar": "none"
 }];
 //TODO move public to new page - out of member analysis
 
@@ -218,7 +218,7 @@ $(document).ready(function() {
     nav(); //this will trigger login() if needed
 });
 
-function cacheSubpages() { //combine cache functions
+function cacheSubpages() { //TODO combine cache functions
     var len = pages.length;
 
     for (var i = 0; i < len; i++) {
@@ -314,8 +314,14 @@ function nav() {
 
     document.title = caps(pages[current.index].name) + ' - ' + caps(current.subpage);
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
-	$(cache.nav).css('display','none');
-	$(pages[current.index].name).css('display','inline');
+	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
+
+
+
+	if (pages[current.index].name != 'base'){//rewrite nav switcher to be more robust & maybe merge with page changers
+		$(cache.nav).css('display','none');
+		$('.' + pages[current.index].name + '-n').css('display','inline');
+	}
 
     //start page changers
     if (current.type == "subpages") { //sub-pages

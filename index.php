@@ -216,7 +216,7 @@ include 'php/jsminplus.php';
 
 	<!-- START Bottom Bar -->
 	<tr class="foot">
-		<td colspan="2" style="height:20px;">
+		<td colspan="2">
 
 			<!-- Google +1 Button -->
 			<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
@@ -227,8 +227,8 @@ include 'php/jsminplus.php';
 				<div id="errorbar-value"></div>
 			</div>
 
-			<div style="left: 25%; position: relative; width: 50%; margin-top: -14px; font-size: 12px; text-align: center; z-index: -1;">
-				<p>CORE Scouting Database - Created By <a href="#" onclick="$('.contact-modal').dialog('open');">Sean Lang</a> - &copy;2011 - version: alpha</p>
+			<div style="left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center;">
+				<p>CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;2011 - version: alpha</p>
 			</div>
 		</td>
 	</tr>
