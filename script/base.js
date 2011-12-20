@@ -312,7 +312,7 @@ function nav() {
         prev.type = "subpages";
     }
 
-    document.title = caps(pages[current.index].name) + ' - ' + caps(current.subpage);
+    document.title = caps(pages[current.index].name) + ' - ' + caps(current['subpage'].replace(/\-/g,' '));
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
