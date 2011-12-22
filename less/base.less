@@ -377,13 +377,11 @@ Language: LESS
 // Links
 
 p a {
-    border-radius: 0.25em 0.25em 0.25em 0.25em;
+    .border-radius(0.25em);
 	border: 1px solid transparent;
     color: #336699;
-    margin-left: -0.2em;
-    margin-right: -0.2em;
-    margin-top: -0.3em;
-    padding: 0.2em 0.25em;
+    margin: 0 -0.2em;
+    padding: 0.1em;
     text-decoration: underline;
 
 	&:hover {
@@ -400,14 +398,13 @@ p a {
 
 	&:active {
 		background: #3399CC;
-		border: 1px solid #B6B6B6;
+		border: 1px solid #7096ab;
 		text-decoration: none;
-		background: #ededed;
-		.reg-gradent(@regcolor);
-		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
 		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+		color: #1c4257;
+		background: #ededed;
+		.advanced-gradent(#b9e0f5, #92bdd6);
 		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-		color: #313131;
 	}
 }
 
@@ -439,7 +436,6 @@ p a {
 		text-decoration: none;
 		cursor: pointer;
 		text-align: center;
-		//zoom: 1;
 		overflow: visible;
 		height: 31px;
 
