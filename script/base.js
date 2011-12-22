@@ -310,7 +310,7 @@ function nav() {
         prev.type = "subpages";
     }
 
-    document.title = caps(pages[current.index].name) + ' - ' + caps(current['subpage'].replace(/\-/g,' '));
+    document.title = pages[current.index].name.titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
@@ -527,10 +527,10 @@ function logout() {
 
 //general functions
 
-function getkey(e) {//TODO remove?
-    var unicode = e.keyCode ? e.keyCode : e.charCode;
-    return unicode;
-}
+String.prototype.titleCase = function () {
+    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
+
 
 function numbersonly(e) { //used for limiting form input
     var unicode = e.charCode ? e.charCode : e.keyCode
