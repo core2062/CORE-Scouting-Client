@@ -37,11 +37,13 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 /* TODO float google +1 button left w/out 4px overhang  */
 
 //set fieldset class on focus
-$("input, textarea").focus(function () {
+$("input:not(#pwordin, #pwordout), textarea").focus(function () {
+	console.log('focusin');
     $(this).parentsUntil($("form"), "fieldset").addClass('focus');
 });
 
-$("input, textarea").focusout(function () {
+$("input:not(#pwordin, #pwordout), textarea").focusout(function () {
+	console.log('focusout');
     $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
 });
 
@@ -212,41 +214,37 @@ $(document).ready(function() {
         };
     }
 
-    cacheSubpages();
-    cacheModals();
-	cacheNav();
+    buildCache();
+
     nav(); //this will trigger login() if needed
+
+	window.pwordin = document.getElementById('pwordin');
+	window.pwordout = document.getElementById('pwordout');
+
+	window.boxwidth = 15; //chars
+
+	window.lastinfocus = '';
+	window.pword = '';
+	window.charwidth = $('#testbox').width();
+	console.log(charwidth);
+	pwordin.style.width = charwidth*boxwidth + 10 + 'px';
 });
 
-function cacheSubpages() { //TODO combine cache functions
-    var len = pages.length;
-
-    for (var i = 0; i < len; i++) {
-        for (var e in pages[i].subpages) {
-            cache.subpages.push(e);
-        }
-    }
-    cache.subpages = '.' + cache.subpages.join("-c, .") + '-c';
-}
-
-function cacheModals() {
-    var len = pages.length;
-
-    for (var i = 0; i < len; i++) {
-        for (var e in pages[i].modals) {
-            cache.modals.push(e);
-        }
-    }
-    cache.modals = '.' + cache.modals.join("-c, .") + '-c';
-}
-
-function cacheNav() {
+function buildCache() {
     var len = pages.length;
 
     for (var i = 0; i < len; i++) {
 		cache.nav.push(pages[i].name);
+        for (var e in pages[i].subpages) {
+            cache.subpages.push(e);
+        }
+		for (var e in pages[i].modals) {
+            cache.modals.push(e);
+        }
     }
-    cache.nav = '.' + cache.nav.join("-n, .") + '-n';
+    cache.subpages = '.' + cache.subpages.join("-c, .") + '-c';
+	cache.modals = '.' + cache.modals.join("-c, .") + '-c';
+	cache.nav = '.' + cache.nav.join("-n, .") + '-n';
 }
 
 window.onpopstate = function(event) {
@@ -457,6 +455,68 @@ function getToken(password) { //merge function with login
     loginbutton.innerHTML = 'Login'; //TODO change to global userButton &  the logout icon
     window.location = '#Login';
 }
+
+/*
+if(key == 13) { //enter key
+	//TODO make it process password first
+	modalclose();
+	LoginCheck();
+}
+*/
+
+function pwordchange(newpword, key) {
+	if (document.activeElement.id !== 'pwordin' && document.activeElement.id !== 'pwordout' && lastinfocus !== '') {
+		var infocus = lastinfocus; //if focus is out of inputs
+	} else {
+		var infocus = document.activeElement.id;
+		lastinfocus = infocus;
+	}
+
+	if(infocus == 'pwordin'){
+		if (key !== ''){
+			key = key.charCode? key.charCode : key.keyCode;
+			if (key == 8) { //backspace
+				if (newpword == '') {
+					pword = pword + newpword;
+					var length = pword.length;
+					pwordin.value = pword.charAt(length - 1);
+					pword = pword.substring(0, length - 1);
+					length = pword.length;
+				}
+				newpword = '';
+			} else if (key == 37){ //left arrow
+				pwordout.focus();
+			} else if(key == 13) { //enter key
+				//TODO make it process password first
+				modalclose();
+				LoginCheck();
+			}
+		}
+
+		pword = pword + newpword;
+		var length = pword.length;
+		pwordin.value = "";
+		pwordout.value = pword;
+
+	} else if (infocus == 'pwordout') {
+		if (newpword.substring(0, newpword.length - 1) == pword) {
+			pwordin.focus();
+		}
+		pword = newpword;
+		var length = pword.length;
+		pwordin.value = "";
+		pwordout.value = pword;
+	}
+
+	if(length < boxwidth) {
+		pwordin.style.width = charwidth*(boxwidth-length) + 'px';
+    	pwordout.style.width = charwidth*length  + 'px';
+	} else {
+		pwordin.style.width = charwidth + 'px';
+		pwordout.style.width = charwidth*(boxwidth-1) + 'px';
+	}
+}
+
 function logout() {
     scoutid = '';
     token = '';
@@ -467,7 +527,7 @@ function logout() {
 
 //general functions
 
-function getkey(e) {
+function getkey(e) {//TODO remove?
     var unicode = e.keyCode ? e.keyCode : e.charCode;
     return unicode;
 }

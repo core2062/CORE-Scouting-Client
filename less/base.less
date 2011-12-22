@@ -376,24 +376,40 @@ Language: LESS
 
 // Links
 
-/*
-#entry-content a {
-    background: none repeat scroll 0 0 #F3F9FF;
+p a {
     border-radius: 0.25em 0.25em 0.25em 0.25em;
+	border: 1px solid transparent;
     color: #336699;
     margin-left: -0.2em;
     margin-right: -0.2em;
     margin-top: -0.3em;
     padding: 0.2em 0.25em;
-    text-decoration: none;
+    text-decoration: underline;
+
+	&:hover {
+		background: #3399CC;
+		border: 1px solid #B6B6B6;
+		text-decoration: none;
+		background: #ededed;
+		.reg-gradent(@regcolor);
+		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+		color: #313131;
+	}
+
+	&:active {
+		background: #3399CC;
+		border: 1px solid #B6B6B6;
+		text-decoration: none;
+		background: #ededed;
+		.reg-gradent(@regcolor);
+		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+		color: #313131;
+	}
 }
-#entry-content a:hover, #entry-content div.image p a:hover, #entry-content div.imageFloatRight p a:hover {
-    background: none repeat scroll 0 0 #3399CC;
-    border-color: #3399CC;
-    color: #FFFFFF;
-    text-decoration: none;
-}
-*/
 
 
 // Buttons
@@ -420,10 +436,10 @@ Language: LESS
 		display: inline-block;
 		position: relative;
 		margin-right: .1em;
-		text-decoration: none !important;
+		text-decoration: none;
 		cursor: pointer;
 		text-align: center;
-		zoom: 1;
+		//zoom: 1;
 		overflow: visible;
 		height: 31px;
 
@@ -626,7 +642,7 @@ Language: LESS
 		margin: auto; //centers it horizontally
 		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
 
-		#modal-content > ul {
+		ul {
 			margin:10px;
 		}
 
@@ -694,6 +710,44 @@ Language: LESS
 	}
 
 
+
+
+// Password Input
+
+	#pwordout {
+		border-left:0;
+		padding-right:0;
+		.border-radius-tr(0);
+		.border-radius-br(0);
+		.box-shadow(~"inset 6px 0 6px -6px #000, inset 0 -6px 6px -6px #000, inset 0 6px 6px -6px #000");
+	}
+
+	#pwordin {
+		border-right:0;
+		padding-left:0;
+		.border-radius-tl(0);
+		.border-radius-bl(0);
+		.box-shadow(~"inset -6px 0 6px -6px #000, inset 0 -6px 6px -6px #000, inset 0 6px 6px -6px #000");
+	}
+
+	li.pwordfocus #pwordout {
+		@pwordshadow1: ~`'inset 6px 0 6px -6px' + "@{d-blue}" + ', inset 0 -6px 6px -6px ' + "@{d-blue}" + ', inset 0 6px 6px -6px ' + "@{d-blue}"`;
+		.box-shadow(@pwordshadow1);
+	}
+
+	li.pwordfocus #pwordin {
+		@pwordshadow2: ~`'inset -6px 0 6px -6px' + "@{d-blue}" + ', inset 0 -6px 6px -6px ' + "@{d-blue}" + ', inset 0 6px 6px -6px ' + "@{d-blue}"`;
+		.box-shadow(@pwordshadow2);
+	}
+
+	#pwordout, #pwordin, #testbox {
+		font-size:15px; /* MUST be set to something */
+		font-family: monospace; /* MUST be a monospaced font */
+	}
+
+	#testbox {
+		visibility: hidden;
+	}
 
 // Easy Select Box
 	#selectarrow {
