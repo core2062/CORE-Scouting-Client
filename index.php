@@ -71,7 +71,6 @@ for ($i = 1; $i < $length; ++$i) {
 }
 $filename = 'cache/' . $filename . '-index';
 
-
 if (file_exists($filename) == true){
 
 	$htmlparts[0] = 'navbar';
@@ -123,7 +122,7 @@ if (file_exists($filename) == true){
 
 	//code to get cached file and send it
 	if (cache_check() === true) {
-		$html = file_get_contents ($filename);
+		$html = file_get_contents($filename);
 		fb('cached');
 
 		list($micro, $sec) = explode(" ",microtime());
@@ -166,7 +165,6 @@ include 'php/jsminplus.php';
 		//TODO add in csstidy + fix gradient support
 	?>
 </style>
-
 </head>
 <body id="body">
 
@@ -222,7 +220,7 @@ include 'php/jsminplus.php';
 			<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
 			<!-- TODO make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
 
-			<div id="progressbar"> <!-- make JS code to turn on/off per page by var -->
+			<div id="progressbar">
 				<div id="progressbar-value"></div>
 				<div id="errorbar-value"></div>
 			</div>
