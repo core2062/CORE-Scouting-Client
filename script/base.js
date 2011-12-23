@@ -225,8 +225,11 @@ $(document).ready(function() {
 
 	window.lastinfocus = '';
 	window.pword = '';
-	window.charwidth = $('#testbox').width();
-	console.log(charwidth);
+
+	var testbox = document.getElementById('testbox');
+	window.charwidth = $(testbox).width();
+	testbox.style.display = 'none';
+
 	pwordin.style.width = charwidth*boxwidth + 10 + 'px';
 });
 

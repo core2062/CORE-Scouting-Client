@@ -167,7 +167,6 @@ include 'php/jsminplus.php';
 </style>
 </head>
 <body id="body">
-
 <!--TODO add tags for bookmarks and/or for search engines -->
 
 
@@ -208,6 +207,7 @@ include 'php/jsminplus.php';
 			<!--TODO fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
 			<!-- TODO create classes of jGrowl notifications to close selectively -->
 
+			<span id="testbox" style="float: left">x</span><!-- test width of char -->
 		</td>
 	</tr>
 	<!-- END Content -->
@@ -265,7 +265,6 @@ include 'php/jsminplus.php';
 </div>
 
 <div id="overlay" onclick="modalclose();"></div>
-
 <!-- END Modals -->
 
 
