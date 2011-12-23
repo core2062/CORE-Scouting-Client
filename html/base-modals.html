@@ -67,7 +67,6 @@
 
 	<li><label for="pword">Password:</label></li>
 	<li><input type="password" onblur="pwordchange(this.value,'');$(this).parent().removeClass('pwordfocus');" onfocus="lastinfocus='pwordout';$(this).parent().addClass('pwordfocus');" onkeydown="pwordchange(this.value,'');" id="pwordout" value="" style="width:0;"><input type="text" onkeydown="pwordchange(this.value, event);" onblur="pwordchange(this.value,'');$(this).parent().removeClass('pwordfocus');" onfocus="lastinfocus='pwordin';$(this).parent().addClass('pwordfocus');" id="pwordin" value=""></li>
-	<span id="testbox">x</span><!-- TODO move & hide -->
 	<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
 	<!-- TODO add return home button to login modal -->
 </ul>
