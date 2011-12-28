@@ -37,148 +37,15 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 /* TODO float google +1 button left w/out 4px overhang  */
 
 //set fieldset class on focus
-$("input:not(#pwordin, #pwordout), textarea").focus(function () {
-	console.log('focusin');
+$("input, textarea").focus(function () {
     $(this).parentsUntil($("form"), "fieldset").addClass('focus');
 });
 
-$("input:not(#pwordin, #pwordout), textarea").focusout(function () {
-	console.log('focusout');
+$("input, textarea").focusout(function () {
     $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
 });
 
 // global vars
-var pages = [{
-	"name": "base",
-	"description": "",
-	"subpages": [],
-	"modals": {
-		"navigation": {
-	        "login-required": false
-        },
-        "login": {
-            "login-required": false
-        },
-        "contact": {
-            "login-required": false
-        },
-        "credits": {
-            "login-required": false
-        },
-        "edit-account": {
-	        "login-required": true
-        }
-    },
-    "minWidth": "1150px",
-    "progressbar": "none"
-}, {
-    "name": "home",
-    "description": "lorem",
-    "subpages": {
-        "front-page": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "synopsis": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "tour": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "signup": {
-            "description": "lorem",
-            "login-required": false
-        }
-    },
-    "modals": {},
-    "minWidth": "1150px",
-    "progressbar": "none"
-}, {
-    "name": "input",
-    "description": "lorem",
-    "subpages": {
-        "robot": {
-            "description": "lorem",
-            "login-required": true
-        },
-        "human": {
-            "description": "lorem",
-            "login-required": true
-        },
-        "pit": {
-            "description": "lorem",
-            "login-required": true
-        }
-    },
-    "modals": {},
-    "minWidth": "1150px",
-    "progressbar": "block"
-}, {
-    "name": "analysis",
-    "description": "lorem",
-    "subpages": {
-        "public": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "member": {
-            "description": "lorem",
-            "login-required": true
-        },
-        "data-liberation": {
-            "description": "lorem",
-            "login-required": true
-        }
-    },
-    "modals": {},
-    "minWidth": "1150px",
-    "progressbar": "none"
-}, {
-    "name": "team-leader",
-    "description": "lorem",
-    "subpages": {
-        "manage-scouting": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "view-contribution": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "view-team-members": {
-            "description": "lorem",
-            "login-required": false
-        }
-    },
-    "modals": {},
-    "minWidth": "1150px",
-    "progressbar": "none"
-}, {
-    "name": "help",
-    "description": "lorem",
-    "subpages": {
-        "manage-training": {
-            "description": "lorem",
-            "login-required": true
-        },
-        "documentation": {
-            "description": "lorem",
-            "login-required": false
-        },
-        "forum": {
-            "description": "lorem",
-            "login-required": true
-        }
-    },
-    "modals": {},
-    "minWidth": "1150px",
-    "progressbar": "none"
-}];
-//TODO move public to new page - out of member analysis
-
-
 var current = {
     "index": "",
     "type": "",
@@ -313,13 +180,13 @@ function nav() {
         prev.type = "subpages";
     }
 
-    document.title = pages[current.index].name.titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
+    document.title = pages[current.index].name.replace(/\-/,' ').titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
 
 
-	if (pages[current.index].name != 'base'){//rewrite nav switcher to be more robust & maybe merge with page changers
+	if (current.type != 'modals'){//TODO maybe merge with page changers
 		$(cache.nav).css('display','none');
 		$('.' + pages[current.index].name + '-n').css('display','inline');
 	}
@@ -458,14 +325,6 @@ function getToken(password) { //merge function with login
     loginbutton.innerHTML = 'Login'; //TODO change to global userButton &  the logout icon
     window.location = '#Login';
 }
-
-/*
-if(key == 13) { //enter key
-	//TODO make it process password first
-	modalclose();
-	LoginCheck();
-}
-*/
 
 function pwordchange(newpword, key) {
 	if (document.activeElement.id !== 'pwordin' && document.activeElement.id !== 'pwordout' && lastinfocus !== '') {
@@ -855,6 +714,9 @@ function json2table (json) {
 	};
 
 })(jQuery);
+
+$('a[title]').tipsy();
+$('button[title]').tipsy();
 
 //Easy Select Box
 (function($) {
@@ -1263,7 +1125,7 @@ break;
 
 
 
-//json2js
+// json2js
 (function($) {
 
 	var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,
@@ -1401,5 +1263,11 @@ break;
 
 })(jQuery);
 
-$('a[title]').tipsy();
-$('button[title]').tipsy();
+
+// Accordion
+
+$('.accordion > p').click(function() {
+	console.log('bitches');
+	console.log($(this).next());
+});
+

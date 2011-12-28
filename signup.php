@@ -2,7 +2,7 @@
     // remove this section before production
     require_once('FirePHP/fb.php');
     ob_start();
-    
+
     error_reporting( E_ALL );
     ini_set( 'display_errors', 1 );
 ?>
@@ -49,8 +49,6 @@ $db->execute("
 
 
 
-
-
 function send_error($error_text, $error) {
     global $db;
     global $starttime;
@@ -60,16 +58,16 @@ function send_error($error_text, $error) {
     global $user;
 
     if ($error == "") {$error = $error_text;}
-    
+
     list($micro, $sec) = explode(" ",microtime());
     $endtime = (float)$sec + (float)$micro;
     $total_time = ($endtime - $starttime);
-    
+
     $log_input = json_encode($input);
     $log_vars = json_encode($vars);
     $log_log = json_encode($log);
     $log_user = json_encode($user);
-    
+
     $insert = "{
         type:'error',
         errorcode:'$error',
@@ -82,7 +80,7 @@ function send_error($error_text, $error) {
         user:$log_user
     }";
     $db->execute("db.log.insert($insert)");
-    
+
     ob_clean (); //empty output buffer, error_text is only thing sent
     die("{'error':'$error_text'}");
 }
@@ -95,16 +93,16 @@ function send_reg() {
     global $vars;
     global $user;
     global $return;
-    
+
     list($micro, $sec) = explode(" ",microtime());
     $endtime = (float)$sec + (float)$micro;
     $total_time = ($endtime - $starttime);
-    
+
     $log_input = json_encode($input);
     $log_vars = json_encode($vars);
     $log_log = json_encode($log);
     $log_user = json_encode($user);
-    
+
     $insert = "{
         type:'signup',
         return:'$return',
@@ -117,7 +115,7 @@ function send_reg() {
         user:$log_user
     }";
     $db->execute("db.log.insert($insert)");
-    
+
     $return = json_encode($return);
     ob_clean (); //empty output buffer, return is only thing sent
     die($return);

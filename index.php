@@ -35,6 +35,137 @@ ini_set( 'display_errors', 1 );
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
+$pages = array(
+array(
+    "name"=> "home",
+    "description"=> "lorem",
+    "subpages"=> array(
+        "front-page"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "synopsis"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "tour"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "signup"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        )
+    ),
+    "modals"=> array(),
+    "minWidth"=> "1150px",
+    "progressbar"=> "none"
+), array(
+    "name"=> "input",
+    "description"=> "lorem",
+    "subpages"=> array(
+        "robot"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        ),
+        "human"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        ),
+        "pit"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        )
+    ),
+    "modals"=> array(),
+    "minWidth"=> "1150px",
+    "progressbar"=> "block"
+), array(
+    "name"=> "analysis",
+    "description"=> "lorem",
+    "subpages"=> array(
+        "public"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "member"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        ),
+        "data-liberation"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        )
+    ),
+    "modals"=> array(),
+    "minWidth"=> "1150px",
+    "progressbar"=> "none"
+), array(
+    "name"=> "team-leader",
+    "description"=> "lorem",
+    "subpages"=> array(
+        "manage-scouting"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "view-contribution"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "view-team-members"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        )
+    ),
+    "modals"=> array(),
+    "minWidth"=> "1150px",
+    "progressbar"=> "none"
+), array(
+    "name"=> "help",
+    "description"=> "lorem",
+    "subpages"=> array(
+        "manage-training"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        ),
+        "documentation"=> array(
+            "description"=> "lorem",
+            "login-required"=> false
+        ),
+        "forum"=> array(
+            "description"=> "lorem",
+            "login-required"=> true
+        )
+    ),
+    "modals"=> array(),
+    "minWidth"=> "1150px",
+    "progressbar"=> "none"
+), array(
+	"name"=> "other",
+	"description"=> "",
+	"subpages"=> array(),
+	"modals"=> array(
+		"navigation"=> array(
+	        "login-required"=> false
+        ),
+        "login"=> array(
+            "login-required"=> false
+        ),
+        "contact"=> array(
+            "login-required"=> false
+        ),
+        "credits"=> array(
+            "login-required"=> false
+        ),
+        "edit-account"=> array(
+	        "login-required"=> true
+        )
+    ),
+    "minWidth"=> "1150px",
+    "progressbar"=> "none"
+)
+);
+//TODO move public to new page - out of member analysis
 
 $m = new Mongo(); // connect
 $db = $m->selectDB("CSD");
@@ -236,8 +367,6 @@ include 'php/jsminplus.php';
 <!-- END Layout -->
 
 
-
-
 <!-- START Modals -->
 <div class="modal-aligner">
 	<div class="modal-wrapper">
@@ -277,12 +406,13 @@ include 'php/jsminplus.php';
 function embed($folder, $extension) {
 	global $length;
 	global $embedded;
+	global $pages;
 
 	for ($i = 0; $i < $length; ++$i) {
 		$file = $folder . $embedded[$i] . $extension;
 
 		if (file_exists($file) == true) {
-			echo file_get_contents($file);
+			include($file);
 		}
 	}
 }
@@ -297,7 +427,7 @@ if ($dev == false) {
 	//TODO fix the last command
 }
 
-$javascript = ''; //or put jquery in at this point file_get_contents('script/jquery.js')
+$javascript = 'var pages = ' . json_encode($pages); //or put jquery in at this point: file_get_contents('script/jquery.js')
 for ($i = 0; $i < $length; ++$i) {
 	$file = 'script/' . $embedded[$i] . '.js';
 
