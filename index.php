@@ -465,7 +465,11 @@ if ($dev == false) {
 	//TODO fix the last command
 }
 
-//TODO remove extra stuff from $pages here
+//remove extra stuff from $pages
+$len = count($pages);
+for($i=0; $i < $len; $i++){
+	unset($pages[$i]['embedded']);
+}
 
 $javascript = 'var pages = ' . json_encode($pages); //or put jquery in at this point: file_get_contents('script/jquery.js')
 for ($i = 0; $i < $embeddedLen; ++$i) {
