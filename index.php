@@ -41,18 +41,22 @@ array(
     "description"=> "lorem",
     "subpages"=> array(
         "front-page"=> array(
+			"full-name"=> "Front Page",
             "description"=> "lorem",
             "login-required"=> false
         ),
         "synopsis"=> array(
+			"full-name"=> "Synopsis",
             "description"=> "lorem",
             "login-required"=> false
         ),
         "tour"=> array(
+			"full-name"=> "Tour",
             "description"=> "lorem",
             "login-required"=> false
         ),
         "signup"=> array(
+			"full-name"=> "Signup",
             "description"=> "lorem",
             "login-required"=> false
         )
@@ -65,14 +69,17 @@ array(
     "description"=> "lorem",
     "subpages"=> array(
         "robot"=> array(
+			"full-name"=> "Robot Scouting",
             "description"=> "lorem",
             "login-required"=> true
         ),
         "human"=> array(
+			"full-name"=> "Human Scouting",
             "description"=> "lorem",
             "login-required"=> true
         ),
         "pit"=> array(
+			"full-name"=> "Pit Scouting",
             "description"=> "lorem",
             "login-required"=> true
         )
@@ -85,14 +92,17 @@ array(
     "description"=> "lorem",
     "subpages"=> array(
         "public"=> array(
+			"full-name"=> "Public Analysis",
             "description"=> "lorem",
             "login-required"=> false
         ),
         "member"=> array(
+			"full-name"=> "Member Analysis",
             "description"=> "lorem",
             "login-required"=> true
         ),
         "data-liberation"=> array(
+			"full-name"=> "Data Liberation",
             "description"=> "lorem",
             "login-required"=> true
         )
@@ -104,15 +114,18 @@ array(
     "name"=> "team-leader",
     "description"=> "lorem",
     "subpages"=> array(
-        "manage-scouting"=> array(
+        "manage"=> array(
+			"full-name"=> "Manage Scouting",
             "description"=> "lorem",
             "login-required"=> false
         ),
-        "view-contribution"=> array(
+        "contribution"=> array(
+			"full-name"=> "View Contribution",
             "description"=> "lorem",
             "login-required"=> false
         ),
-        "view-team-members"=> array(
+        "team"=> array(
+			"full-name"=> "View Team Members",
             "description"=> "lorem",
             "login-required"=> false
         )
@@ -124,15 +137,18 @@ array(
     "name"=> "help",
     "description"=> "lorem",
     "subpages"=> array(
-        "manage-training"=> array(
+        "training"=> array(
+			"full-name"=> "Manage Training",
             "description"=> "lorem",
             "login-required"=> true
         ),
         "documentation"=> array(
+			"full-name"=> "Documentation",
             "description"=> "lorem",
             "login-required"=> false
         ),
         "forum"=> array(
+			"full-name"=> "Forum",
             "description"=> "lorem",
             "login-required"=> true
         )
