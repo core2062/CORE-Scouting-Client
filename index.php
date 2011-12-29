@@ -38,6 +38,8 @@ $starttime = (float)$sec + (float)$micro;
 $pages = array(
 array(
     "name"=> "home",
+	"embedded"=> true,
+	"full-name"=> "Home",
     "description"=> "lorem",
     "subpages"=> array(
         "front-page"=> array(
@@ -51,7 +53,7 @@ array(
             "login-required"=> false
         ),
         "tour"=> array(
-			"full-name"=> "Tour",
+			"full-name"=> "Guided Tour",
             "description"=> "lorem",
             "login-required"=> false
         ),
@@ -66,6 +68,8 @@ array(
     "progressbar"=> "none"
 ), array(
     "name"=> "input",
+	"embedded"=> true,
+	"full-name"=> "Input",
     "description"=> "lorem",
     "subpages"=> array(
         "robot"=> array(
@@ -89,6 +93,8 @@ array(
     "progressbar"=> "block"
 ), array(
     "name"=> "analysis",
+	"embedded"=> true,
+	"full-name"=> "Analysis",
     "description"=> "lorem",
     "subpages"=> array(
         "public"=> array(
@@ -112,6 +118,8 @@ array(
     "progressbar"=> "none"
 ), array(
     "name"=> "team-leader",
+	"embedded"=> true,
+	"full-name"=> "Team Leader",
     "description"=> "lorem",
     "subpages"=> array(
         "manage"=> array(
@@ -135,6 +143,8 @@ array(
     "progressbar"=> "none"
 ), array(
     "name"=> "help",
+	"embedded"=> true,
+	"full-name"=> "Help",
     "description"=> "lorem",
     "subpages"=> array(
         "training"=> array(
@@ -157,23 +167,30 @@ array(
     "minWidth"=> "1150px",
     "progressbar"=> "none"
 ), array(
-	"name"=> "other",
+	"name"=> "base",
+	"embedded"=> true,
+	"full-name"=> "Other",
 	"description"=> "",
 	"subpages"=> array(),
 	"modals"=> array(
 		"navigation"=> array(
+			"full-name"=> "Navigation",
 	        "login-required"=> false
         ),
         "login"=> array(
+			"full-name"=> "Login",
             "login-required"=> false
         ),
         "contact"=> array(
+			"full-name"=> "Contact",
             "login-required"=> false
         ),
         "credits"=> array(
+			"full-name"=> "Credits",
             "login-required"=> false
         ),
-        "edit-account"=> array(
+        "account"=> array(
+			"full-name"=> "Edit Account",
 	        "login-required"=> true
         )
     ),
@@ -181,7 +198,21 @@ array(
     "progressbar"=> "none"
 )
 );
-//TODO move public to new page - out of member analysis
+//TODO move public to new page - out of member analysis?
+
+$len = count($pages);
+for($i=0; $i < $len; $i++){
+
+}
+
+$embedded[0] = "base";
+$embedded[1] = "home";
+$embedded[2] = "input";
+
+sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
+$embeddedLen = count($embedded);
+
+
 
 $m = new Mongo(); // connect
 $db = $m->selectDB("CSD");
@@ -199,27 +230,18 @@ if (isset($_COOKIE['scoutid'])) {
 }
 $input['ip'] = $_SERVER['REMOTE_ADDR'];
 
-$embedded[0] = "base";
-$embedded[1] = "home";
-$embedded[2] = "input";
-
-
 //TODO add code to check id sent with cookie to determine if admin page can be sent with request
-
-sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
-
 //TODO maybe add some logging here
 
-$length = count($embedded);
+
 
 $filename = $embedded[0];
-for ($i = 1; $i < $length; ++$i) {
+for ($i = 1; $i < $embeddedLen; ++$i) {
 	$filename .= "," . $embedded[$i];
 }
 $filename = 'cache/' . $filename . '-index';
 
 if (file_exists($filename) == true){
-
 	$htmlparts[0] = 'navbar';
 	$htmlparts[1] = 'content';
 	$htmlparts[2] = 'sidebar';
@@ -231,7 +253,7 @@ if (file_exists($filename) == true){
 
 	//check if files have been modified
 	function cache_check() {
-		global $length;
+		global $embeddedLen;
 		global $htmlparts;
 		global $parts_length;
 		global $cache_date;
@@ -244,20 +266,20 @@ if (file_exists($filename) == true){
 
 		if (filemtime('html/navbar.html') > $cache_date) {return false;}
 
-		for ($i = 0; $i < $length; ++$i) {
+		for ($i = 0; $i < $embeddedLen; ++$i) {
 			$file = 'css/' . $embedded[$i] . '.css';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
-		for ($i = 0; $i < $length; ++$i) {
+		for ($i = 0; $i < $embeddedLen; ++$i) {
 			$file = 'script/' . $embedded[$i] . '.js';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
 		for ($e = 0; $e < $parts_length; ++$e) {
-			for ($i = 0; $i < $length; ++$i) {
+			for ($i = 0; $i < $embeddedLen; ++$i) {
 				$file = 'html/' . $embedded[$i] . '-' . $htmlparts[$e] . '.html';
 				if (file_exists($file)) {
 					if (filemtime($file) > $cache_date) {return false;}
@@ -325,7 +347,7 @@ include 'php/jsminplus.php';
 		<td colspan="2">
 
 			<?php
-				echo file_get_contents('html/navbar.html');
+				include('html/navbar.html');
 			?>
 
 			<hr style="margin:10px;" />
@@ -420,11 +442,11 @@ include 'php/jsminplus.php';
 <?php
 
 function embed($folder, $extension) {
-	global $length;
+	global $embeddedLen;
 	global $embedded;
 	global $pages;
 
-	for ($i = 0; $i < $length; ++$i) {
+	for ($i = 0; $i < $embeddedLen; ++$i) {
 		$file = $folder . $embedded[$i] . $extension;
 
 		if (file_exists($file) == true) {
@@ -443,8 +465,10 @@ if ($dev == false) {
 	//TODO fix the last command
 }
 
+//TODO remove extra stuff from $pages here
+
 $javascript = 'var pages = ' . json_encode($pages); //or put jquery in at this point: file_get_contents('script/jquery.js')
-for ($i = 0; $i < $length; ++$i) {
+for ($i = 0; $i < $embeddedLen; ++$i) {
 	$file = 'script/' . $embedded[$i] . '.js';
 
 	if (file_exists($file) == true) {
@@ -495,7 +519,7 @@ die($html);
 
 <!-- TODO make a 404 page -->
 
-<!-- TODO make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time -->
+<!-- make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time -->
 
 message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. only send data from the computer it was generated from or the database will reject it (IF TOKEN BASED LOGIN). If it is not possible to send it from this computer... contact me/send it to me.
 
@@ -508,8 +532,6 @@ add check to php: if data being entered is exactly the same (except for date) as
 make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
 
 make submit button disabled when form is blank
-
-change "Submit" to upload to cloud icon + tool tip
 
 add styling for disabled button
 
