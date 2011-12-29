@@ -210,7 +210,7 @@ function nav() {
             }
         }
     } else { //modal
-        document.getElementById('modal-title').innerHTML = current.subpage;
+        document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
 
         if (prev.type == 'subpages') { //subpages
             $(cache['modals']).hide().promise().done(function() {

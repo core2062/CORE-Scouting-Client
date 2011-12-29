@@ -93,7 +93,7 @@ array(
     "progressbar"=> "block"
 ), array(
     "name"=> "analysis",
-	"embedded"=> true,
+	"embedded"=> false,
 	"full-name"=> "Analysis",
     "description"=> "lorem",
     "subpages"=> array(
@@ -118,7 +118,7 @@ array(
     "progressbar"=> "none"
 ), array(
     "name"=> "team-leader",
-	"embedded"=> true,
+	"embedded"=> false,
 	"full-name"=> "Team Leader",
     "description"=> "lorem",
     "subpages"=> array(
@@ -143,7 +143,7 @@ array(
     "progressbar"=> "none"
 ), array(
     "name"=> "help",
-	"embedded"=> true,
+	"embedded"=> false,
 	"full-name"=> "Help",
     "description"=> "lorem",
     "subpages"=> array(
@@ -202,12 +202,12 @@ array(
 
 $len = count($pages);
 for($i=0; $i < $len; $i++){
-
+	if($pages[$i]['embedded'] == true) {
+		$embedded[] = $pages[$i]['name'];
+	}
 }
 
-$embedded[0] = "base";
-$embedded[1] = "home";
-$embedded[2] = "input";
+fb($embedded);
 
 sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 $embeddedLen = count($embedded);
