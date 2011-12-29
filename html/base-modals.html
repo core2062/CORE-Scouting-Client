@@ -9,7 +9,7 @@
 			<?php
 			$len = count($pages);
 			for($i=0; $i < $len; $i++) {
-				echo "<p>" . ucwords(preg_replace('/\-/',' ',$pages[$i]['name'])) . "</p>" . "<ul>";
+				echo "<p>" . ucwords(preg_replace('/\-/',' ',$pages[$i]['full-name'])) . "</p>" . "<ul>";
 				foreach($pages[$i]['subpages'] as $k => $v) {
 					echo '<li><a href="#' . $k . '">' . ucwords(preg_replace('/\-/',' ',$k)) . '</a></li>';
 				}

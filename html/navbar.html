@@ -1,71 +1,26 @@
 <ul id="navbar">
 	<li>
 	<div class="buttonset">
-		<span class="home-n" style="display: none;">
-			<input type="radio" id="front-page-r"  name="navbar" />
-			<label for="front-page-r" id="front-page-l" onclick="window.location = '#front-page'" class="first">
-				<a title="Front Page">Front Page</a>
-			</label>
-
-			<input type="radio" id="synopsis-r" name="navbar"/>
-			<label for="synopsis-r" id="synopsis-l" onclick="window.location = '#synopsis'">
-				<a title="Synopsis">Synopsis</a>
-			</label>
-
-			<input type="radio" id="tour-r" name="navbar" />
-			<label for="tour-r" id="tour-l" onclick="window.location = '#tour'">
-				<a title="Tour">Tour</a>
-			</label>
-
-			<input type="radio" id="signup-r" name="navbar" />
-			<label for="signup-r" id="signup-l" onclick="window.location = '#signup'">
-				<a title="Signup">Signup</a>
-			</label>
-		</span>
-
-		<span class="input-n" style="display: none;">
-			<input type="radio" id="robot-r"  name="navbar" />
-			<label for="robot-r" id="robot-l" onclick="window.location = '#robot'" class="first"><a title="Robot Scouting">Robot</a></label>
-
-			<input type="radio" id="human-r" name="navbar"/>
-			<label for="human-r" id="human-l" onclick="window.location = '#human'"><a title="Human Player Scouting">Human</a></label>
-
-			<input type="radio" id="pit-r" name="navbar" />
-			<label for="pit-r" id="pit-l" onclick="window.location = '#pit'"><a title="Pit Scouting">Pit</a></label>
-		</span>
-
-		<span class="analysis-n" style="display: none;">
-			<input type="radio" id="public-r"  name="navbar" />
-			<label for="public-r" id="public-l" onclick="window.location = '#public'" class="first"><a title="Public Analysis">Public</a></label>
-
-			<input type="radio" id="member-r" name="navbar"/>
-			<label for="member-r" id="member-l" onclick="window.location = '#member'"><a title="Member Analysis">Member</a></label>
-
-			<input type="radio" id="data-liberation-r" name="navbar" />
-			<label for="data-liberation-r" id="data-liberation-l" onclick="window.location = '#data-liberation'"><a title="Data Liberation">Data Liberation</a></label>
-		</span>
-
-		<span class="team-leader-n" style="display: none;">
-			<input type="radio" id="manage-scouting-r"  name="navbar" />
-			<label for="manage-scouting-r" id="manage-scouting-l" onclick="window.location = '#manage-scouting'" class="first"><a title="Manage Scouting">Manage</a></label>
-
-			<input type="radio" id="view-contribution-r" name="navbar"/>
-			<label for="view-contribution-r" id="view-contribution-l" onclick="window.location = '#view-contribution'"><a title="View Contribution">Contribution</a></label>
-
-			<input type="radio" id="view-team-members-r" name="navbar" />
-			<label for="view-team-members-r" id="view-team-members-l" onclick="window.location = '#view-team-members'"><a title="View Team Members">Team</a></label>
-		</span>
-		
-		<span class="help-n" style="display: none;">
-			<input type="radio" id="manage-training-r"  name="navbar" />
-			<label for="manage-training-r" id="manage-training-l" onclick="window.location = '#manage-training'" class="first"><a title="Manage Training">Training</a></label>
-
-			<input type="radio" id="documentation-r" name="navbar"/>
-			<label for="documentation-r" id="documentation-l" onclick="window.location = '#documentation'"><a title="Documentation">Docs</a></label>
-
-			<input type="radio" id="forum-r" name="navbar" />
-			<label for="forum-r" id="forum-l" onclick="window.location = '#forum'"><a title="Forum">Forum</a></label>
-		</span>
+	
+		<?php
+		$len = count($pages);
+		for($i=0; $i<$len; $i++) {
+			echo '<span class="' . $pages[$i]['name'] . '-n" style="display: none;">';
+			$e = 0;
+			foreach($pages[$i]['subpages'] as $k => $v) {
+				echo "<input type=\"radio\" id=\"$k-r\" name=\"navbar\"/>";
+				if ($e == 0) {
+					echo "<label for=\"$k-r\" id=\"$k-l\" onclick=\"window.location = '#$k'\" class=\"first\">";
+					$e = 1;
+				} else {
+					echo "<label for=\"$k-r\" id=\"$k-l\" onclick=\"window.location = '#$k'\">";
+				}
+				echo '<a title="' . $pages[$i]['subpages'][$k]['full-name'] . '">' . ucwords(preg_replace('/\-/',' ',$k)) . '</a>';
+				echo "</label> ";//for some reason there must be a space at the end of this
+			}
+			echo "</span>";
+		}
+		?>
 
 		<input type="radio" id="navigation-r" name="navbar" onclick="window.location = '#navigation'" />
 		<label for="navigation-r" class="last">

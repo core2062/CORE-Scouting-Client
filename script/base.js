@@ -180,7 +180,7 @@ function nav() {
         prev.type = "subpages";
     }
 
-    document.title = pages[current.index].name.replace(/\-/,' ').titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
+    document.title = pages[current.index]['full-name'].replace(/\-/,' ').titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
@@ -1270,4 +1270,3 @@ $('.accordion > p').click(function() {
 	console.log('bitches');
 	console.log($(this).next());
 });
-
