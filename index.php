@@ -412,7 +412,7 @@ include 'php/jsminplus.php';
 			<div class="modal-titlebar">
 				<span id="modal-title">Title</span>
 
-				<a onclick="modalclose();" class="close"> <!--TODO fix this ... it fucks up the url -->
+				<a onclick="modalclose();" class="close"> <!--TODO remove the extra a tag ?-->
 					<span class="icon icon-closethick"></span>
 				</a>
 			</div>
@@ -425,7 +425,7 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
 				<button type="button" style="display: none;" class="login-c" onclick="login();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
-				<button type="button" style="display: none;" class="login-c" onclick="">Help</button><!-- TODO make help button work -->
+				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
 			</div>
 		</div>
 	</div>

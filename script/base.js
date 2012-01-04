@@ -131,14 +131,20 @@ function nav() {
 	 * page specific options and data needed for displaying pages is stored in the JSON object 'pages'
 	*/
 
+	if (location.hash.substring(1) == "") {
+		location.hash = '#front-page';
+		return;
+	}
+
     prev.index = current.index;
     prev.type = current.type;
     prev.lastSub = current.lastSub;
     prev.subpage = current.subpage;
 
-    if (current.subpage == location.hash.substring(1)) {
+    if (current.subpage == location.hash.substring(1) && current.subpage != "") {
         return;
-    };
+    }
+
     current.subpage = location.hash.substring(1).toLowerCase();
 
     current.index = '';
