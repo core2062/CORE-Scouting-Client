@@ -1,22 +1,51 @@
-<span id="FrontPage-c" style="display: none;">
+<span class="front-page-c" style="display: none;">
 	<!-- TODO add some sort of slider to show off aspects of the sight -->
 	<!-- TODO add writing about site / purpose / something -->
 </span>
 
-<span id="Synopsis-c" style="display: none;">
+<span class="synopsis-c" style="display: none;">
 
 </span>
 
-<span id="GuidedTour-c" style="display: none;">
+<span class="guided-tour-c" style="display: none;">
 
 </span>
 
-<span id="Signup-c" style="display: none;">
+<ul class="signup-c" style="display: none;">
 
-	
 
-</span>
+	<li>
+		<fieldset style="min-width:100px;">
+			<legend>Basic Info</legend>
+			<ul>
+				<li>
+					<label for="fName">First Name:</label>
+					<input type="text" id="fName" value="" onchange="" />
+				</li>
 
-<span id="Donate-c" style="display: none;">
+				<li>
+					<label for="lName">Last Name:</label>
+					<input type="text" id="lName" value="" />
+				</li>
+
+				<li>
+					<label for="teamNum">Team Number:</label>
+					<input type="text" id="teamNum" value="" style="width:50px;" onkeypress="return numbersonly(event)"/>
+				</li>
+
+				<br/>
+
+				<li>
+					<label>ScoutID: <span id="userName"></span></label>
+				</li>
+
+			</ul>
+		</fieldset>
+	</li>
+
+
+</ul>
+
+<span class="donate-c" style="display: none;">
 
 </span>
