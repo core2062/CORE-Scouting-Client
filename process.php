@@ -18,17 +18,17 @@ This script handles:
 	pointing to the correct script depending on the request type
 	general use functions
 	and error/success logging
-	
+
 Permission Levels:
 	0 = banned : can't do anything
 	1 = scout : input access
 	2 = low scout-leader : access scout-leader stuff, & level 1 permissions
 	3 = analyzer : access data from analysis, download data for team, & level 1 permissions
 	4 = high scout-leader : level 1-3 permissions
-	5 = 
-	6 = 
+	5 =
+	6 =
 	7 =
-	8 = 
+	8 =
 	9 = admin : everything
 */
 
@@ -91,32 +91,32 @@ case "poll": //for match signup, mail poll, other?
 //	$checksignup=$_POST["s"]; // =1 for yes, =0 for no
 //	$competition=$_POST["c"];
 //	$matchnum=$_POST["m"];
-	
+
 	// clean parameters
 //	$checksignup = mysql_real_escape_string($checksignup);
 //	$competition = mysql_real_escape_string($competition);
 //	$matchnum = mysql_real_escape_string($matchnum);
-	
-	
+
+
 	// BEGIN MESSAGE POLL
-	
-	
+
+
 	// check for mail
-	
-	
+
+
 	//delete message after getting it
-	
-	
+
+
 	// END MESSAGE POLL
 	// BEGIN MATCH SIGNUP POLL
-	
+
 	if ($checksignup == 1) {
 		//check if team leader
 		//check for who has signed up for match
 	}
 
 break;
-case "input": 
+case "input":
 	//user is not banned based on above check
 	//therefore user has needed permissions
 
@@ -125,46 +125,45 @@ case "input":
 break;
 case "mail":
 
-	send_error('this part is not finished','');
-	include 'php/mail.php';
+	send_error('this part is not finished','');	include 'php/mail.php';
 
 break;
 case "query":
 	if ($user['permission'] < 3) {
 		send_error( 'Invalid Permissions','');
 	}
-	
+
 	send_error('this part is not finished','');
 	include 'php/query.php';
-	
-	
+
+
 break;
 case "scout-leader":
 	if ($user['permission'] != 2 && $user['permission'] != 4) {
 		send_error('invalid permissions - scout-leader only','');
 	}
-	
+
 	send_error('this part is not finished','');
 	include 'php/admin.php';
-	
+
 break;
 case "admin":
 	if ($user['permission'] < 9) {
 		send_error('invalid permissions - admin only','');
 	}
-	
+
 	send_error('this part is not finished','');
 	include 'php/admin.php';
-	
+
 break;
 case "logout":
 
 	$db->execute("
 		db.user.update({'ip':'" . $user['scoutid'] . "'}, {'\$set':{'ip':'', 'token':''}});
 	"); // delete token & ip for active user
-	
+
 	//return message: successful logout
-	
+
 break;
 default:
 	send_error('invalid request type','');
@@ -183,16 +182,16 @@ function send_error($error_text, $error) {
 	global $user;
 
 	if ($error == "") {$error = $error_text;}
-	
+
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
 	$total_time = ($endtime - $starttime);
-	
+
 	$log_input = json_encode($input);
 	$log_vars = json_encode($vars);
 	$log_log = json_encode($log);
 	$log_user = json_encode($user);
-	
+
 	$insert = "{
 		type:'error',
 		errorcode:'$error',
@@ -205,7 +204,7 @@ function send_error($error_text, $error) {
 		user:$log_user
 	}";
 	$db->execute("db.log.insert($insert)");
-	
+
 	ob_clean (); //empty output buffer, error_text is only thing sent
 	die("{'error':'$error_text'}");
 }
@@ -218,16 +217,16 @@ function send_reg() {
 	global $vars;
 	global $user;
 	global $return;
-	
+
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
 	$total_time = ($endtime - $starttime);
-	
+
 	$log_input = json_encode($input);
 	$log_vars = json_encode($vars);
 	$log_log = json_encode($log);
 	$log_user = json_encode($user);
-	
+
 	$insert = "{
 		type:'regular',
 		return:'$return',
@@ -240,10 +239,10 @@ function send_reg() {
 		user:$log_user
 	}";
 	$db->execute("db.log.insert($insert)");
-	
+
 	$return = json_encode($return);
 	ob_clean (); //empty output buffer, return is only thing sent
 	die($return);
-	
+
 }
 ?>
