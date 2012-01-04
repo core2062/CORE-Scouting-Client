@@ -170,7 +170,7 @@ function nav() {
     }
 
     if (current.index === '') { //page cannot be found, select default page
-        window.location = '#robot'; //TODO change to default page when created
+        window.location = '#front-page';
         return;
     }
 
@@ -178,10 +178,10 @@ function nav() {
 
     if (prev.subpage == "") { // if this is the first page
         if (current.type == 'modals') {
-			$('.robot-c').fadeIn(fadetime / 4);
-            current.lastSub = 'robot';
+			$('.front-page-c').fadeIn(fadetime / 4);
+            current.lastSub = 'front-page';
             prev.index = 2;
-            prev.subpage = 'robot';
+            prev.subpage = 'front-page';
         }
         prev.type = "subpages";
     }
@@ -401,6 +401,15 @@ String.prototype.titleCase = function () {
 
 
 function numbersonly(e) { //used for limiting form input
+    var unicode = e.charCode ? e.charCode : e.keyCode
+    if (unicode != 8) { //if the key isn't the backspace key (which we should allow)
+        if (unicode < 48 || unicode > 57) { //if not a number
+            return false //disable key press
+        }
+    }
+}
+
+function lettersonly(e) {
     var unicode = e.charCode ? e.charCode : e.keyCode
     if (unicode != 8) { //if the key isn't the backspace key (which we should allow)
         if (unicode < 48 || unicode > 57) { //if not a number
