@@ -15,17 +15,19 @@
 
 
 	<li>
-		<fieldset style="min-width:100px;">
+		<fieldset> <!-- TODO fix this inline style, move to a global one -->
 			<legend>Basic Info</legend>
-			<ul>
+			<ul class="signup">
+				<p>this section is required and cannot be changed later</p>
+
 				<li>
 					<label for="fName">First Name:</label>
-					<input type="text" id="fName" value="" onchange="" />
+					<input type="text" id="fName" value="" onchange="" onkeypress="return lettersonly(event)"/>
 				</li>
 
 				<li>
 					<label for="lName">Last Name:</label>
-					<input type="text" id="lName" value="" />
+					<input type="text" id="lName" value="" onkeypress="return lettersonly(event)"/>
 				</li>
 
 				<li>
@@ -33,16 +35,39 @@
 					<input type="text" id="teamNum" value="" style="width:50px;" onkeypress="return numbersonly(event)"/>
 				</li>
 
-				<br/>
 
 				<li>
-					<label>ScoutID: <span id="userName"></span></label>
+					<label for="previewScoutID">ScoutID:</label>
+					<input type="text" id="previewScoutID" value="" title="you cannot change this"/>
+					<!-- TODO make style for disabled inputs-->
+				</li>
+
+				<li>
+					<label for="teamNum">Team Number:</label>
+					<input type="text" id="teamNum" value="" onkeypress=""/>
 				</li>
 
 			</ul>
 		</fieldset>
 	</li>
 
+	<li>
+		<fieldset> <!-- TODO fix this inline style, move to a global one -->
+			<legend>Preferances</legend>
+			<ul class="signup">
+
+			</ul>
+		</fieldset>
+	</li>
+
+	<li>
+		<fieldset> <!-- TODO fix this inline style, move to a global one -->
+			<legend>Optional</legend>
+			<ul class="signup">
+
+			</ul>
+		</fieldset>
+	</li>
 
 </ul>
 
