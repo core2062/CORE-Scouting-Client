@@ -17,22 +17,21 @@
 	<li>
 		<fieldset> <!-- TODO fix this inline style, move to a global one -->
 			<legend>Basic Info</legend>
+			<p>this section is required</p>
 			<ul class="signup">
-				<p>this section is required and cannot be changed later</p>
-
 				<li>
 					<label for="fName">First Name:</label>
-					<input type="text" id="fName" value="" onchange="" onkeypress="return lettersOnly(event)"/><!-- TODO let tab through lettersonly -->
+					<input type="text" id="fName" value="" onkeypress="displayScoutID(); return limitInput(event, 'letter')"/>
 				</li>
 
 				<li>
 					<label for="lName">Last Name:</label>
-					<input type="text" id="lName" value="" onkeypress="return lettersOnly(event)"/>
+					<input type="text" id="lName" value="" onkeypress="displayScoutID(); return limitInput(event, 'letter')"/>
 				</li>
 
 				<li>
 					<label for="teamNum">Team Number:</label>
-					<input type="text" id="teamNum" value="" style="width:50px;" onkeypress="return numbersOnly(event)"/>
+					<input type="text" maxlength=4 id="teamNum" value="" style="width:50px;" onkeypress="displayScoutID(); return limitInput(event, 'number')"/>
 				</li>
 
 
