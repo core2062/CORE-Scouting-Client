@@ -730,8 +730,7 @@ $('button[title]').tipsy();
 
 
 
-	// Disable for iOS devices (their native controls are more suitable for a touch device)
-	if (navigator.userAgent.match(/iPad|iPhone|Android/i)) return false;
+
 
 /*
  *  jQuery selectBox - A cosmetic, styleable replacement for SELECT elements
@@ -744,6 +743,9 @@ $('button[title]').tipsy();
  *
  */
 if(jQuery) (function($) {
+
+	// Disable for iOS devices (their native controls are more suitable for a touch device)
+	if (navigator.userAgent.match(/iPad|iPhone|Android/i)) return false;
 
 	$.extend($.fn, {
 

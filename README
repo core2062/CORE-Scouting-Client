@@ -1,13 +1,23 @@
 This is the CORE Scouting Database (CSD)... /* make Kremer or Evan write something nice here */.
 
-This repo excludes all php files, which were removed because some contain sensitive info for interaction with user management systems and the sql database. If you would like to see the source of these files, contact me: slang800@gmail.com
+RULES:
 
-The code provided here is only to be used for referance/academic pourposes (you may learn from the code here, and see how it works), or if you are part of the team creating the site. This code may not be copied without my explicit permission. This is not because I don't want others to benifit from using my code; you can contact me, and I will probably let you use whatever code you want. Rather, I do not want people to redistribute this site as their own scouting database, because that would decentralize the collection of data, and reduce the usefulness of the origional site (because: competition with another scouting database = less users = less data = less accurate analysis on our site). Also, users of a copy of the origional site would not be provided with updates which our team releases. If you would like to improve the site, join the development team.
+1. I am not responsible in any way for anything that happens to anyone as a result of anything that I have made. This is totally provided AS IS, however I would like people to report bugs (but I cannot be held responsible for them).
+
+2. The code provided here is only to be used for reference/academic purposes (you may learn from the code here, read it, and see how it works, but you may not copy it). This project may not be redistributed/copied/used/hosted without my explicit permission. By downloading/viewing any part of this project, you agree to these terms. Contact me at slang800@gmail.com.
+
+
+WHY:
+
+2. This rule is necessary because I want to keep the database centralized, not in terms of server location (because it would probably be faster to use a distributed network of servers) but in terms of data ownership*. Having the data divided between two owners harms the ability of both of them to do accurate real time analysis. Also, if people host their own scouting database for their team, then only their team will benefit from the data that is collected. Sadly, I'm not really sure how to implement a clause like this without impeding people's ability to use my code on similar projects, or their own scouting database.
+
+I actually want people to benefit from using my code; you can contact me, and I will probably let you use whatever code you want. Rather, I do not want people to redistribute this site as their own scouting database, because that would decentralize the collection of data, and reduce the usefulness of the original site (because: competition with another scouting database = less users = less data = less accurate analysis on our site). Also, users with a copy of the original site would not be provided with updates which our team releases... If you would like to improve the site, join the development team.
+
+
+
+* = When I say "data ownership", I just mean who was the data; I am actually creating a data liberation program similar to Google's which allows users (and entire teams) to download all data that they have submitted... you get the idea.
 
 /*TODO reword this so it sounds better */
 
-/*TODO make this a private repo? (reasons provided above), find some way to allow people to learn from the code provided w/out redistributing */
 
-
-
-/*make someone write a license here/ modify a existing one*/
+/*make someone write a license here/ modify a existing one... look at MIT License, or GPL*/
