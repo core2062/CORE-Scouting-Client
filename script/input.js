@@ -23,7 +23,7 @@ function errorcheck(){
 		inputspossible = 6;
 
 		//error checking code
-		
+
 	} else if (currentpage == 'pit') {
 		inputspossible = 6;
 
@@ -59,6 +59,3 @@ function clearinputs(){
 	document.getElementById('Comments').innerHTML = '';
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
 }
-
-$('#AllianceColor').easySelectBox({speed:100});
-$('#to').easySelectBox({speed:100});
