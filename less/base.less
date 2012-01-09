@@ -38,8 +38,9 @@ Language: LESS
 @select: url(data:image/gif;base64,R0lGODlhBQAJAIABAP///wAAACH5BAEKAAEALAAAAAAFAAkAAAIMTGAHuJ0PU1sKGVsAADs=);
 @progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
 @background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
-@stripe: url(img/ie/stripe.png);//url(data:image/gif;base64,R0lGODlhBQAFAOMKAEpNYUtOYkpMYPLy8vPz8/T09PX19fz8/P39/f7+/v///////////////////////yH5BAEKAA8ALAAAAAAFAAUAAAQMEElEki1JKaN3510EADs=);
+@stripe: url(img/ie/stripe.png);
 @close-icon: url(img/icon_sprite.png);
+@arrow: url(img/arrow.gif);
 
 @plus-icon: url(img/icon/plus.svg);
 @help-icon: url(img/icon/help.svg);
@@ -208,7 +209,7 @@ Language: LESS
 
 // Reset
 
-	label, button, legend, a#logo {
+	label, button, legend, a#logo, .ibutton-container {
 		-webkit-user-select: none;
 		-khtml-user-select: none;
 		-moz-user-select: none;
@@ -320,7 +321,6 @@ Language: LESS
 		.border-radius-br(8px);
 	}
 
-
 	label {
 		font-weight:400;
 		margin-left:20px;
@@ -332,7 +332,7 @@ Language: LESS
 		font-size: 1em;
 	}
 
-	input, textarea, .select-box, #selectarrow, .select-box ul {
+	input, textarea {
 		border:none;
 		background-repeat: repeat;
 		background-image: @stripe;
@@ -349,10 +349,6 @@ Language: LESS
 	input[readonly='readonly'] {
 		background-color: #D4D4D4;
 		color: #525252;
-	}
-
-	.select-box ul li {
-		.border-radius(5px);
 	}
 
 	textarea {
@@ -515,6 +511,338 @@ p a {
 			display:block;
 		}
 
+	}
+
+
+// Toggle (ibutton)
+	.ibutton-container {
+		position: relative;
+		height: 27px;
+		cursor: pointer;
+		overflow: hidden;
+		// set max width to that of sprite
+		max-width: 400px;
+		// set default width based on ON/OFF labels
+		width: 89px;
+
+		input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			/* hide the element */
+			.opacity(0);
+			/* allow checking of input if visible */
+			-moz-user-input: enabled  !important;
+		}
+	}
+
+	.ibutton-handle {
+		display: block;
+		height: 27px;
+		cursor: inherit;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		background: transparent url(../images/ibutton-slider-default.png) no-repeat scroll 0 -54px;
+		z-index: 3;
+		padding-left: 3px;
+		//set default width based on ON/OFF labels
+		width: 33px;
+	}
+
+	.ibutton-handle-right, .ibutton-handle-middle {
+		height: 100%;
+		width: 100%;
+		z-index: 3;
+	}
+
+	.ibutton-handle-right {
+		padding-right: 3px;
+		background: transparent url(../images/ibutton-slider-default.png) no-repeat scroll 100% -54px;
+	}
+
+	.ibutton-handle-middle {
+		background: transparent url(../images/ibutton-slider-default.png) no-repeat scroll 50% -54px;
+	}
+
+	div.ibutton-label-on, div.ibutton-label-off {
+		white-space: nowrap;
+		font-size: 17px;
+		line-height: 17px;
+		font-weight: bold;
+		font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+		text-transform: uppercase;
+		cursor: inherit;
+		display: block;
+		height: 22px;
+		position: absolute;
+		width: auto;
+		top: 0;
+		padding-top: 5px;
+		overflow: hidden;
+		background: transparent url(../images/ibutton-slider-default.png) no-repeat scroll 0 0;
+	}
+
+	div.ibutton-label-on {
+		color: #fff;
+		text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.4);
+		left: 0;
+		padding-top: 5px;
+		z-index: 1;
+
+		span {
+			padding-left: 5px;
+		}
+	}
+
+	div.ibutton-label-off {
+		color: #7c7c7c;
+		background-position: 100% 0;
+		text-shadow: 0 -1px 2px rgba(153, 153, 153, 0.4);
+		text-align: right;
+		right: 0;
+		/* the off label needs to near the left edge (ideally just 5px away)
+		* it just needs to be close enough that it won't show under the handle if dragged to the left
+		*/
+		width: 95%;
+
+		span {
+			padding-right: 5px;
+		}
+	}
+
+	/* create an outline when button gets focus via keyboard */
+	.ibutton-container label {
+		cursor: inherit;
+		padding: 1px 3px;
+		font-size: 1em !important;
+	}
+
+	.ibutton-focus {
+		label {
+			/* we must use border, since outline doesn't work in IE */
+			border: 1px dotted #666 !important;
+			padding: 0 2px;
+		}
+
+		div.ibutton-label-on span label {
+			/* use white for more contrast */
+			border-color: #fff !important;
+		}
+	}
+
+	/* add padding to right/left so that text gets clipped before absolute edge */
+	.ibutton-padding-left, .ibutton-padding-right {
+		position: absolute;
+		top: 4px;
+		z-index: 2;
+		background: transparent url(../images/ibutton-slider-default.png) no-repeat scroll 0 -4px;
+		width: 3px;
+		height: 20px;
+	}
+
+	.ibutton-padding-left {
+		left: 0;
+	}
+
+	.ibutton-padding-right {
+		right: 0;
+		background-position: 100% -4px;
+	}
+
+	/* change the styles of the handle when being dragged */
+	.ibutton-active-handle {
+
+		.ibutton-handle {
+			background-position: 0 -108px;
+		}
+
+		.ibutton-handle-right {
+			background-position: 100% -108px;
+		}
+
+		.ibutton-handle-middle {
+			background-position: 50% -108px;
+		}
+	}
+
+
+
+	/* styles to use when the button is disabled */
+	.ibutton-disabled {
+		cursor: not-allowed !important; /* cursor options: default or not-allowed */
+
+		.ibutton-handle {
+			background-position: 0 -81px;
+		}
+
+		.ibutton-handle-right {
+			background-position: 100% -81px;
+		}
+
+		.ibutton-handle-middle {
+			background-position: 50% -81px;
+		}
+
+		.ibutton-padding-left {
+			background-position: 0 -27px;
+		}
+
+		.ibutton-padding-right {
+			background-position: 100% -27px;
+		}
+
+		div {
+			&.ibutton-label-on {
+				background-position: 0 -27px;
+			}
+
+			&.ibutton-label-off {
+				background-position: 100% -27px;
+			}
+
+			&.ibutton-label-on {
+				color: #fff;
+			}
+
+			&.ibutton-label-off {
+				color: #cbcbcb;
+			}
+		}
+	}
+
+
+//Jquery Select Box
+	/* Dropdown control */
+	.selectBox-dropdown {
+		min-width: 75px;
+		position: relative;
+		border: solid 1px #BBB;
+		line-height: 1.5;
+		text-decoration: none;
+		color: #000;
+		outline: none;
+		vertical-align: middle;
+		background: #F2F2F2;
+		background: -moz-linear-gradient(top, #F8F8F8 1%, #E1E1E1 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #F8F8F8), color-stop(100%, #E1E1E1));
+		//filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F8F8F8', endColorstr='#E1E1E1', GradientType=0);
+		.box-shadow(0 1px 0 rgba(255, 255, 255, .75));
+		.border-radius(4px);
+		display: inline-block;
+		cursor: default;
+	}
+
+	.selectBox-dropdown:focus, .selectBox-dropdown:focus .selectBox-arrow {
+		border-color: #666;
+	}
+
+	.selectBox-dropdown.selectBox-menuShowing {
+		.border-radius-bl(0);
+		.border-radius-br(0);
+	}
+
+	.selectBox-dropdown .selectBox-label {
+		padding: 2px 8px;
+		display: inline-block;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.selectBox-dropdown .selectBox-arrow {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 23px;
+		height: 100%;
+		background: @arrow 50% center no-repeat;
+		border-left: solid 1px #BBB;
+	}
+
+	/* Dropdown menu */
+	.selectBox-dropdown-menu {
+		position: absolute;
+		z-index: 99999;
+		max-height: 200px;
+		border: solid 1px #BBB; /* should be the same border width as .selectBox-dropdown */
+		background: #FFF;
+		.box-shadow(0 2px 6px rgba(0, 0, 0, .2));
+		overflow: auto;
+	}
+
+	/* Inline control */
+	.selectBox-inline {
+		min-width: 75px;
+		outline: none;
+		border: solid 1px #bbb;
+		background: #fff;
+		display: inline-block;
+		.border-radius(4px);
+		overflow: auto;
+
+		&:focus {
+			border-color: #666;
+		}
+	}
+
+	/* Options */
+	.selectBox-options, .selectBox-options li, .selectBox-options li a {
+		list-style: none;
+		display: block;
+		cursor: default;
+		padding: 0;
+		margin: 0;
+	}
+
+	.selectBox-options li {
+		a {
+			line-height: 1.5;
+			padding: 0 .5em;
+			white-space: nowrap;
+			overflow: hidden;
+			background: 6px center no-repeat;
+		}
+
+		&.selectBox-hover a {
+			background-color: #EEE;
+		}
+
+		&.selectBox-disabled a {
+			color: #888;
+			background-color: transparent;
+		}
+
+		&.selectBox-selected a {
+			background-color: #C8DEF4;
+		}
+	}
+
+	.selectBox-options .selectBox-optgroup {
+		color: #666;
+		background: #EEE;
+		font-weight: bold;
+		line-height: 1.5;
+		padding: 0 .3em;
+		white-space: nowrap;
+	}
+
+	// Disabled state
+	.selectBox.selectBox-disabled {
+		color: #888 !important;
+	}
+
+	.selectBox-dropdown.selectBox-disabled .selectBox-arrow {
+		.opacity(.5);
+		border-color: #666;
+	}
+
+	.selectBox-inline.selectBox-disabled {
+		color: #888 !important;
+
+		.selectBox-options a {
+			background-color: transparent !important;
+		}
 	}
 
 
@@ -749,97 +1077,8 @@ p a {
 		visibility: hidden;
 	}
 
-// Easy Select Box
-	#selectarrow {
-		background-color: @activecolor;
-		.img-gradent(@select, @activecolor);
-		.box-shadow(none);
-		position:absolute;
-		right:0;
-		top:0;
-		margin:0;
-		background-repeat:no-repeat;
-		background-position:center;
-		width:15px;
-		display:inline-block;
-
-		&:active {
-			.inv-img-gradent(@select, @activecolor);
-		}
-
-		&:hover, &:active {
-			.box-shadow(inset 0 0 4px #fff);
-		}
-	}
-
-	.select-box {
-		color:#000;
-		display:inline-block;
-		position:relative;
-		font-size:13px;
-		line-height:23px;
-
-		.select-box-disp, .select-box-disp:visited {
-			text-decoration:none;
-			padding:0 3px;
-			vertical-align:middle;
-		}
-		.select-box-disp:hover {
-			position:relative;
-			text-decoration:none;
-		}
-
-		ul {
-			position:absolute;
-			top:100%;
-			left:0;
-			display:none;
-			z-index:99;
-			width:inherit;
-			max-height:200px;
-			overflow:auto;
-			height:auto;
-			.box-shadow(0 0 16px #000000);
-			margin:0;
-			padding:5px !important;
-
-			li {
-				display:block !important;
-				padding:0 !important;
-
-				a {
-					color:#000;
-					width: 100%;
-					height: 100%;
-					display: block;
-
-					&:hover {
-						color:#fff;
-					}
-				}
-
-				a, a:visited {
-					padding:1px;
-					cursor:default;
-					text-decoration:none;
-				}
-
-				&:hover {
-					background:@activecolor;
-					color:#fff;
-				}
-			}
-		}
-	}
-
-	a.select-box-disp {
-		color:#000;
-	}
-
-
 
 // JGrowl
-
 	div.center div.jGrowl-notification, div.center div.jGrowl-closer {
 		margin-left:auto;
 		margin-right:auto;

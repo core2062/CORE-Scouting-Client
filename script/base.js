@@ -399,7 +399,6 @@ String.prototype.titleCase = function () {
     return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
-
 function limitInput(e, limit) { //used for limiting form input
     var unicode = e.charCode ? e.charCode : e.keyCode
     if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { //if the key isn't the backspace key or tab or l/r arrow
@@ -411,10 +410,6 @@ function limitInput(e, limit) { //used for limiting form input
             return false //disable key press
         }
     }
-}
-
-function caps(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function json2table (json) {
@@ -729,80 +724,53 @@ $('a[title]').tipsy();
 $('button[title]').tipsy();
 
 
-
-
-
-/*
- *  jQuery selectBox - A cosmetic, styleable replacement for SELECT elements
- *
- *  Copyright 2012 Cory LaViska for A Beautiful Site, LLC.
- *
- *  https://github.com/claviska/jquery-selectBox
- *
- *  Licensed under both the MIT license and the GNU GPLv2 (same as jQuery: http://jquery.org/license)
- *
- */
-if(jQuery) (function($) {
-
-	// Disable for iOS devices (their native controls are more suitable for a touch device)
-	if (navigator.userAgent.match(/iPad|iPhone|Android/i)) return false;
+//jQuery selectBox - https://github.com/claviska/jquery-selectBox
+if (jQuery)(function($) {
 
 	$.extend($.fn, {
 
 		selectBox: function(method, data) {
 
-			var typeTimer,
-				typeSearch = '',
+			var typeTimer, typeSearch = '',
 				isMac = navigator.platform.match(/mac/i);
 
 			//
 			// Private methods
 			//
-
 			var init = function(select, data) {
 
 				var options;
 
 				// Disable for iOS devices (their native controls are more suitable for a touch device)
-				if( navigator.userAgent.match(/iPad|iPhone|Android|IEMobile|BlackBerry/i) ) return false;
+				if (navigator.userAgent.match(/iPad|iPhone|Android|IEMobile|BlackBerry/i)) return false;
 
 				// Element must be a select control
-				if( select.tagName.toLowerCase() !== 'select' ) return false;
+				if (select.tagName.toLowerCase() !== 'select') return false;
 
 				select = $(select);
-				if( select.data('selectBox-control') ) return false;
+				if (select.data('selectBox-control')) return false;
 
 				var control = $('<a class="selectBox" />'),
 					inline = select.attr('multiple') || parseInt(select.attr('size')) > 1;
 
 				var settings = data || {};
 
-				control
-					.width(select.outerWidth())
-					.addClass(select.attr('class'))
-					.attr('title', select.attr('title') || '')
-					.attr('tabindex', parseInt(select.attr('tabindex')))
-					.css('display', 'inline-block')
-					.bind('focus.selectBox', function() {
-						if( this !== document.activeElement ) $(document.activeElement).blur();
-						if( control.hasClass('selectBox-active') ) return;
-						control.addClass('selectBox-active');
-						select.trigger('focus');
-					})
-					.bind('blur.selectBox', function() {
-						if( !control.hasClass('selectBox-active') ) return;
-						control.removeClass('selectBox-active');
-						select.trigger('blur');
-					});
+				control.width(select.outerWidth()).addClass(select.attr('class')).attr('title', select.attr('title') || '').attr('tabindex', parseInt(select.attr('tabindex'))).css('display', 'inline-block').bind('focus.selectBox', function() {
+					if (this !== document.activeElement) $(document.activeElement).blur();
+					if (control.hasClass('selectBox-active')) return;
+					control.addClass('selectBox-active');
+					select.trigger('focus');
+				}).bind('blur.selectBox', function() {
+					if (!control.hasClass('selectBox-active')) return;
+					control.removeClass('selectBox-active');
+					select.trigger('blur');
+				});
 
-				if( !$(window).data('selectBox-bindings') ) {
-					$(window)
-						.data('selectBox-bindings', true)
-						.bind('scroll.selectBox', hideMenus)
-						.bind('resize.selectBox', hideMenus);
+				if (!$(window).data('selectBox-bindings')) {
+					$(window).data('selectBox-bindings', true).bind('scroll.selectBox', hideMenus).bind('resize.selectBox', hideMenus);
 				}
 
-				if( select.attr('disabled') ) control.addClass('selectBox-disabled');
+				if (select.attr('disabled')) control.addClass('selectBox-disabled');
 
 				// Focus on control when label is clicked
 				select.bind('click.selectBox', function(event) {
@@ -811,44 +779,32 @@ if(jQuery) (function($) {
 				});
 
 				// Generate control
-				if( inline ) {
+				if (inline) {
 
 					//
 					// Inline controls
 					//
 					options = getOptions(select, 'inline');
 
-					control
-						.append(options)
-						.data('selectBox-options', options)
-						.addClass('selectBox-inline selectBox-menuShowing')
-						.bind('keydown.selectBox', function(event) {
-							handleKeyDown(select, event);
-						})
-						.bind('keypress.selectBox', function(event) {
-							handleKeyPress(select, event);
-						})
-						.bind('mousedown.selectBox', function(event) {
-							if( $(event.target).is('A.selectBox-inline') ) event.preventDefault();
-							if( !control.hasClass('selectBox-focus') ) control.focus();
-						})
-						.insertAfter(select);
+					control.append(options).data('selectBox-options', options).addClass('selectBox-inline selectBox-menuShowing').bind('keydown.selectBox', function(event) {
+						handleKeyDown(select, event);
+					}).bind('keypress.selectBox', function(event) {
+						handleKeyPress(select, event);
+					}).bind('mousedown.selectBox', function(event) {
+						if ($(event.target).is('A.selectBox-inline')) event.preventDefault();
+						if (!control.hasClass('selectBox-focus')) control.focus();
+					}).insertAfter(select);
 
 					// Auto-height based on size attribute
-					if( !select[0].style.height ) {
+					if (!select[0].style.height) {
 
 						var size = select.attr('size') ? parseInt(select.attr('size')) : 5;
 
 						// Draw a dummy control off-screen, measure, and remove it
-						var tmp = control
-							.clone()
-							.removeAttr('id')
-							.css({
-								position: 'absolute',
-								top: '-9999em'
-							})
-							.show()
-							.appendTo('body');
+						var tmp = control.clone().removeAttr('id').css({
+							position: 'absolute',
+							top: '-9999em'
+						}).show().appendTo('body');
 						tmp.find('.selectBox-options').html('<li><a>\u00A0</a></li>');
 						optionHeight = parseInt(tmp.find('.selectBox-options A:first').html('&nbsp;').outerHeight());
 						tmp.remove();
@@ -868,35 +824,25 @@ if(jQuery) (function($) {
 						arrow = $('<span class="selectBox-arrow" />');
 
 					// Update label
-					label
-						.attr('class', getLabelClass(select))
-						.text(getLabelText(select));
+					label.attr('class', getLabelClass(select)).text(getLabelText(select));
 
 					options = getOptions(select, 'dropdown');
 					options.appendTo('BODY');
 
-					control
-						.data('selectBox-options', options)
-						.addClass('selectBox-dropdown')
-						.append(label)
-						.append(arrow)
-						.bind('mousedown.selectBox', function(event) {
-							if( control.hasClass('selectBox-menuShowing') ) {
-								hideMenus();
-							} else {
-								event.stopPropagation();
-								// Webkit fix to prevent premature selection of options
-								options.data('selectBox-down-at-x', event.screenX).data('selectBox-down-at-y', event.screenY);
-								showMenu(select);
-							}
-						})
-						.bind('keydown.selectBox', function(event) {
-							handleKeyDown(select, event);
-						})
-						.bind('keypress.selectBox', function(event) {
-							handleKeyPress(select, event);
-						})
-						.insertAfter(select);
+					control.data('selectBox-options', options).addClass('selectBox-dropdown').append(label).append(arrow).bind('mousedown.selectBox', function(event) {
+						if (control.hasClass('selectBox-menuShowing')) {
+							hideMenus();
+						} else {
+							event.stopPropagation();
+							// Webkit fix to prevent premature selection of options
+							options.data('selectBox-down-at-x', event.screenX).data('selectBox-down-at-y', event.screenY);
+							showMenu(select);
+						}
+					}).bind('keydown.selectBox', function(event) {
+						handleKeyDown(select, event);
+					}).bind('keypress.selectBox', function(event) {
+						handleKeyPress(select, event);
+					}).insertAfter(select);
 
 					// Set label width
 					var labelWidth = control.width() - arrow.outerWidth() - parseInt(label.css('paddingLeft')) - parseInt(label.css('paddingLeft'));
@@ -907,11 +853,7 @@ if(jQuery) (function($) {
 				}
 
 				// Store data for later use and show the control
-				select
-					.addClass('selectBox')
-					.data('selectBox-control', control)
-					.data('selectBox-settings', settings)
-					.hide();
+				select.addClass('selectBox').data('selectBox-control', control).data('selectBox-settings', settings).hide();
 
 			};
 
@@ -919,111 +861,99 @@ if(jQuery) (function($) {
 			var getOptions = function(select, type) {
 				var options;
 
-				switch( type ) {
+				switch (type) {
 
-					case 'inline':
+				case 'inline':
 
 
-						options = $('<ul class="selectBox-options" />');
+					options = $('<ul class="selectBox-options" />');
 
-						if( select.find('OPTGROUP').length ) {
+					if (select.find('OPTGROUP').length) {
 
-							select.find('OPTGROUP').each( function() {
+						select.find('OPTGROUP').each(function() {
 
-								var optgroup = $('<li class="selectBox-optgroup" />');
-								optgroup.text($(this).attr('label'));
-								options.append(optgroup);
+							var optgroup = $('<li class="selectBox-optgroup" />');
+							optgroup.text($(this).attr('label'));
+							options.append(optgroup);
 
-								generateOptions($(this).find('OPTION'), options);
+							generateOptions($(this).find('OPTION'), options);
 
-							});
+						});
 
-						} else {
+					} else {
+						generateOptions(select.find('OPTION'), options);
+					}
+
+					options.find('A').bind('mouseover.selectBox', function(event) {
+						addHover(select, $(this).parent());
+					}).bind('mouseout.selectBox', function(event) {
+						removeHover(select, $(this).parent());
+					}).bind('mousedown.selectBox', function(event) {
+						event.preventDefault(); // Prevent options from being "dragged"
+						if (!select.selectBox('control').hasClass('selectBox-active')) select.selectBox('control').focus();
+					}).bind('mouseup.selectBox', function(event) {
+						hideMenus();
+						selectOption(select, $(this).parent(), event);
+					});
+
+					disableSelection(options);
+
+					return options;
+
+				case 'dropdown':
+					options = $('<ul class="selectBox-dropdown-menu selectBox-options" />');
+
+					if (select.find('OPTGROUP').length) {
+
+						select.find('OPTGROUP').each(function() {
+
+							var optgroup = $('<li class="selectBox-optgroup" />');
+							optgroup.text($(this).attr('label'));
+							options.append(optgroup);
+							generateOptions($(this).find('OPTION'), options);
+
+						});
+
+					} else {
+
+						if (select.find('OPTION').length > 0) {
 							generateOptions(select.find('OPTION'), options);
-						}
-
-						options
-							.find('A')
-								.bind('mouseover.selectBox', function(event) {
-									addHover(select, $(this).parent());
-								})
-								.bind('mouseout.selectBox', function(event) {
-									removeHover(select, $(this).parent());
-								})
-								.bind('mousedown.selectBox', function(event) {
-									event.preventDefault(); // Prevent options from being "dragged"
-									if( !select.selectBox('control').hasClass('selectBox-active') ) select.selectBox('control').focus();
-								})
-								.bind('mouseup.selectBox', function(event) {
-									hideMenus();
-									selectOption(select, $(this).parent(), event);
-								});
-
-						disableSelection(options);
-
-						return options;
-
-					case 'dropdown':
-						options = $('<ul class="selectBox-dropdown-menu selectBox-options" />');
-
-						if( select.find('OPTGROUP').length ) {
-
-							select.find('OPTGROUP').each( function() {
-
-								var optgroup = $('<li class="selectBox-optgroup" />');
-								optgroup.text($(this).attr('label'));
-								options.append(optgroup);
-								generateOptions($(this).find('OPTION'), options);
-
-							});
-
 						} else {
-
-							if( select.find('OPTION').length > 0 ) {
-								generateOptions(select.find('OPTION'), options);
-							} else {
-								options.append('<li>\u00A0</li>');
-							}
-
+							options.append('<li>\u00A0</li>');
 						}
 
-						options
-							.data('selectBox-select', select)
-							.css('display', 'none')
-							.appendTo('BODY')
-							.find('A')
-								.bind('mousedown.selectBox', function(event) {
-									event.preventDefault(); // Prevent options from being "dragged"
-									if( event.screenX === options.data('selectBox-down-at-x') && event.screenY === options.data('selectBox-down-at-y') ) {
-										options.removeData('selectBox-down-at-x').removeData('selectBox-down-at-y');
-										hideMenus();
-									}
-								})
-								.bind('mouseup.selectBox', function(event) {
-									if( event.screenX === options.data('selectBox-down-at-x') && event.screenY === options.data('selectBox-down-at-y') ) {
-										return;
-									} else {
-										options.removeData('selectBox-down-at-x').removeData('selectBox-down-at-y');
-									}
-									selectOption(select, $(this).parent());
-									hideMenus();
-								}).bind('mouseover.selectBox', function(event) {
-									addHover(select, $(this).parent());
-								})
-								.bind('mouseout.selectBox', function(event) {
-									removeHover(select, $(this).parent());
-								});
+					}
 
-						// Inherit classes for dropdown menu
-						var classes = select.attr('class') || '';
-						if( classes !== '' ) {
-							classes = classes.split(' ');
-							for( var i in classes ) options.addClass(classes[i] + '-selectBox-dropdown-menu');
+					options.data('selectBox-select', select).css('display', 'none').appendTo('BODY').find('A').bind('mousedown.selectBox', function(event) {
+						event.preventDefault(); // Prevent options from being "dragged"
+						if (event.screenX === options.data('selectBox-down-at-x') && event.screenY === options.data('selectBox-down-at-y')) {
+							options.removeData('selectBox-down-at-x').removeData('selectBox-down-at-y');
+							hideMenus();
 						}
+					}).bind('mouseup.selectBox', function(event) {
+						if (event.screenX === options.data('selectBox-down-at-x') && event.screenY === options.data('selectBox-down-at-y')) {
+							return;
+						} else {
+							options.removeData('selectBox-down-at-x').removeData('selectBox-down-at-y');
+						}
+						selectOption(select, $(this).parent());
+						hideMenus();
+					}).bind('mouseover.selectBox', function(event) {
+						addHover(select, $(this).parent());
+					}).bind('mouseout.selectBox', function(event) {
+						removeHover(select, $(this).parent());
+					});
 
-						disableSelection(options);
+					// Inherit classes for dropdown menu
+					var classes = select.attr('class') || '';
+					if (classes !== '') {
+						classes = classes.split(' ');
+						for (var i in classes) options.addClass(classes[i] + '-selectBox-dropdown-menu');
+					}
 
-						return options;
+					disableSelection(options);
+
+					return options;
 
 				}
 
@@ -1045,7 +975,7 @@ if(jQuery) (function($) {
 			var setLabel = function(select) {
 				select = $(select);
 				var control = select.data('selectBox-control');
-				if( !control ) return;
+				if (!control) return;
 				control.find('.selectBox-label').attr('class', getLabelClass(select)).text(getLabelText(select));
 			};
 
@@ -1054,16 +984,12 @@ if(jQuery) (function($) {
 
 				select = $(select);
 				var control = select.data('selectBox-control');
-				if( !control ) return;
+				if (!control) return;
 				var options = control.data('selectBox-options');
 
 				options.remove();
 				control.remove();
-				select
-					.removeClass('selectBox')
-					.removeData('selectBox-control').data('selectBox-control', null)
-					.removeData('selectBox-settings').data('selectBox-settings', null)
-					.show();
+				select.removeClass('selectBox').removeData('selectBox-control').data('selectBox-control', null).removeData('selectBox-settings').data('selectBox-settings', null).show();
 
 			};
 
@@ -1080,34 +1006,32 @@ if(jQuery) (function($) {
 				var control = select.data('selectBox-control'),
 					settings = select.data('selectBox-settings'),
 					options = control.data('selectBox-options');
-				if( control.hasClass('selectBox-disabled') ) return false;
+				if (control.hasClass('selectBox-disabled')) return false;
 
 				hideMenus();
 
 				var borderBottomWidth = isNaN(control.css('borderBottomWidth')) ? 0 : parseInt(control.css('borderBottomWidth'));
 
 				// Menu position
-				options
-					.width(control.innerWidth())
-					.css({
-						top: control.offset().top + control.outerHeight() - borderBottomWidth,
-						left: control.offset().left
-					});
+				options.width(control.innerWidth()).css({
+					top: control.offset().top + control.outerHeight() - borderBottomWidth,
+					left: control.offset().left
+				});
 
 				// Show menu
-				switch( settings.menuTransition ) {
+				switch (settings.menuTransition) {
 
-					case 'fade':
-						options.fadeIn(settings.menuSpeed);
-						break;
+				case 'fade':
+					options.fadeIn(settings.menuSpeed);
+					break;
 
-					case 'slide':
-						options.slideDown(settings.menuSpeed);
-						break;
+				case 'slide':
+					options.slideDown(settings.menuSpeed);
+					break;
 
-					default:
-						options.show(settings.menuSpeed);
-						break;
+				default:
+					options.show(settings.menuSpeed);
+					break;
 
 				}
 
@@ -1119,7 +1043,7 @@ if(jQuery) (function($) {
 				control.addClass('selectBox-menuShowing');
 
 				$(document).bind('mousedown.selectBox', function(event) {
-					if( $(event.target).parents().andSelf().hasClass('selectBox-options') ) return;
+					if ($(event.target).parents().andSelf().hasClass('selectBox-options')) return;
 					hideMenus();
 				});
 
@@ -1128,29 +1052,29 @@ if(jQuery) (function($) {
 
 			var hideMenus = function() {
 
-				if( $(".selectBox-dropdown-menu").length === 0 ) return;
+				if ($(".selectBox-dropdown-menu").length === 0) return;
 				$(document).unbind('mousedown.selectBox');
 
-				$(".selectBox-dropdown-menu").each( function() {
+				$(".selectBox-dropdown-menu").each(function() {
 
 					var options = $(this),
 						select = options.data('selectBox-select'),
 						control = select.data('selectBox-control'),
 						settings = select.data('selectBox-settings');
 
-					switch( settings.menuTransition ) {
+					switch (settings.menuTransition) {
 
-						case 'fade':
-							options.fadeOut(settings.menuSpeed);
-							break;
+					case 'fade':
+						options.fadeOut(settings.menuSpeed);
+						break;
 
-						case 'slide':
-							options.slideUp(settings.menuSpeed);
-							break;
+					case 'slide':
+						options.slideUp(settings.menuSpeed);
+						break;
 
-						default:
-							options.hide(settings.menuSpeed);
-							break;
+					default:
+						options.hide(settings.menuSpeed);
+						break;
 
 					}
 
@@ -1168,18 +1092,18 @@ if(jQuery) (function($) {
 				var control = select.data('selectBox-control'),
 					settings = select.data('selectBox-settings');
 
-				if( control.hasClass('selectBox-disabled') ) return false;
-				if( li.length === 0 || li.hasClass('selectBox-disabled') ) return false;
+				if (control.hasClass('selectBox-disabled')) return false;
+				if (li.length === 0 || li.hasClass('selectBox-disabled')) return false;
 
-				if( select.attr('multiple') ) {
+				if (select.attr('multiple')) {
 
 					// If event.shiftKey is true, this will select all options between li and the last li selected
-					if( event.shiftKey && control.data('selectBox-last-selected') ) {
+					if (event.shiftKey && control.data('selectBox-last-selected')) {
 
 						li.toggleClass('selectBox-selected');
 
 						var affectedOptions;
-						if( li.index() > control.data('selectBox-last-selected').index() ) {
+						if (li.index() > control.data('selectBox-last-selected').index()) {
 							affectedOptions = li.siblings().slice(control.data('selectBox-last-selected').index(), li.index());
 						} else {
 							affectedOptions = li.siblings().slice(li.index(), control.data('selectBox-last-selected').index());
@@ -1187,13 +1111,13 @@ if(jQuery) (function($) {
 
 						affectedOptions = affectedOptions.not('.selectBox-optgroup, .selectBox-disabled');
 
-						if( li.hasClass('selectBox-selected') ) {
+						if (li.hasClass('selectBox-selected')) {
 							affectedOptions.addClass('selectBox-selected');
 						} else {
 							affectedOptions.removeClass('selectBox-selected');
 						}
 
-					} else if( (isMac && event.metaKey) || (!isMac && event.ctrlKey) ) {
+					} else if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {
 						console.log(isMac);
 						li.toggleClass('selectBox-selected');
 					} else {
@@ -1206,14 +1130,15 @@ if(jQuery) (function($) {
 					li.addClass('selectBox-selected');
 				}
 
-				if( control.hasClass('selectBox-dropdown') ) {
+				if (control.hasClass('selectBox-dropdown')) {
 					control.find('.selectBox-label').text(li.text());
 				}
 
 				// Update original control's value
-				var i = 0, selection = [];
-				if( select.attr('multiple') ) {
-					control.find('.selectBox-selected A').each( function() {
+				var i = 0,
+					selection = [];
+				if (select.attr('multiple')) {
+					control.find('.selectBox-selected A').each(function() {
 						selection[i++] = $(this).attr('rel');
 					});
 				} else {
@@ -1224,7 +1149,7 @@ if(jQuery) (function($) {
 				control.data('selectBox-last-selected', li);
 
 				// Change callback
-				if( select.val() !== selection ) {
+				if (select.val() !== selection) {
 					select.val(selection);
 					setLabel(select);
 					select.trigger('change');
@@ -1257,7 +1182,7 @@ if(jQuery) (function($) {
 
 			var keepOptionInView = function(select, li, center) {
 
-				if( !li || li.length === 0 ) return;
+				if (!li || li.length === 0) return;
 
 				select = $(select);
 				var control = select.data('selectBox-control'),
@@ -1266,14 +1191,14 @@ if(jQuery) (function($) {
 					top = parseInt(li.offset().top - scrollBox.position().top),
 					bottom = parseInt(top + li.outerHeight());
 
-				if( center ) {
-					scrollBox.scrollTop( li.offset().top - scrollBox.offset().top + scrollBox.scrollTop() - (scrollBox.height() / 2) );
+				if (center) {
+					scrollBox.scrollTop(li.offset().top - scrollBox.offset().top + scrollBox.scrollTop() - (scrollBox.height() / 2));
 				} else {
-					if( top < 0 ) {
-						scrollBox.scrollTop( li.offset().top - scrollBox.offset().top + scrollBox.scrollTop() );
+					if (top < 0) {
+						scrollBox.scrollTop(li.offset().top - scrollBox.offset().top + scrollBox.scrollTop());
 					}
-					if( bottom > scrollBox.height() ) {
-						scrollBox.scrollTop( (li.offset().top + li.outerHeight()) - scrollBox.offset().top + scrollBox.scrollTop() - scrollBox.height() );
+					if (bottom > scrollBox.height()) {
+						scrollBox.scrollTop((li.offset().top + li.outerHeight()) - scrollBox.offset().top + scrollBox.scrollTop() - scrollBox.height());
 					}
 				}
 
@@ -1285,7 +1210,6 @@ if(jQuery) (function($) {
 				//
 				// Handles open/close and arrow key functionality
 				//
-
 				select = $(select);
 				var control = select.data('selectBox-control'),
 					options = control.data('selectBox-options'),
@@ -1293,176 +1217,170 @@ if(jQuery) (function($) {
 					totalOptions = 0,
 					i = 0;
 
-				if( control.hasClass('selectBox-disabled') ) return;
+				if (control.hasClass('selectBox-disabled')) return;
 
-				switch( event.keyCode ) {
+				switch (event.keyCode) {
 
-					case 8: // backspace
-						event.preventDefault();
-						typeSearch = '';
-						break;
+				case 8:
+					// backspace
+					event.preventDefault();
+					typeSearch = '';
+					break;
 
-					case 9: // tab
-					case 27: // esc
-						hideMenus();
-						removeHover(select);
-						break;
+				case 9:
+					// tab
+				case 27:
+					// esc
+					hideMenus();
+					removeHover(select);
+					break;
 
-					case 13: // enter
-						if( control.hasClass('selectBox-menuShowing') ) {
-							selectOption(select, options.find('LI.selectBox-hover:first'), event);
-							if( control.hasClass('selectBox-dropdown') ) hideMenus();
-						} else {
-							showMenu(select);
-						}
-						break;
+				case 13:
+					// enter
+					if (control.hasClass('selectBox-menuShowing')) {
+						selectOption(select, options.find('LI.selectBox-hover:first'), event);
+						if (control.hasClass('selectBox-dropdown')) hideMenus();
+					} else {
+						showMenu(select);
+					}
+					break;
 
-					case 38: // up
-					case 37: // left
+				case 38:
+					// up
+				case 37:
+					// left
+					event.preventDefault();
 
-						event.preventDefault();
+					if (control.hasClass('selectBox-menuShowing')) {
 
-						if( control.hasClass('selectBox-menuShowing') ) {
+						var prev = options.find('.selectBox-hover').prev('LI');
+						totalOptions = options.find('LI:not(.selectBox-optgroup)').length;
+						i = 0;
 
-							var prev = options.find('.selectBox-hover').prev('LI');
-							totalOptions = options.find('LI:not(.selectBox-optgroup)').length;
-							i = 0;
-
-							while( prev.length === 0 || prev.hasClass('selectBox-disabled') || prev.hasClass('selectBox-optgroup') ) {
-								prev = prev.prev('LI');
-								if( prev.length === 0 ) {
-									if (settings.loopOptions) {
-										prev = options.find('LI:last');
-									} else {
-										prev = options.find('LI:first');
-									}
+						while (prev.length === 0 || prev.hasClass('selectBox-disabled') || prev.hasClass('selectBox-optgroup')) {
+							prev = prev.prev('LI');
+							if (prev.length === 0) {
+								if (settings.loopOptions) {
+									prev = options.find('LI:last');
+								} else {
+									prev = options.find('LI:first');
 								}
-								if( ++i >= totalOptions ) break;
 							}
-
-							addHover(select, prev);
-							selectOption(select, prev, event);
-							keepOptionInView(select, prev);
-
-						} else {
-							showMenu(select);
+							if (++i >= totalOptions) break;
 						}
 
-						break;
+						addHover(select, prev);
+						selectOption(select, prev, event);
+						keepOptionInView(select, prev);
 
-					case 40: // down
-					case 39: // right
+					} else {
+						showMenu(select);
+					}
 
-						event.preventDefault();
+					break;
 
-						if( control.hasClass('selectBox-menuShowing') ) {
+				case 40:
+					// down
+				case 39:
+					// right
+					event.preventDefault();
 
-							var next = options.find('.selectBox-hover').next('LI');
-							totalOptions = options.find('LI:not(.selectBox-optgroup)').length;
-							i = 0;
+					if (control.hasClass('selectBox-menuShowing')) {
 
-							while( next.length === 0 || next.hasClass('selectBox-disabled') || next.hasClass('selectBox-optgroup') ) {
-								next = next.next('LI');
-								if( next.length === 0 ) {
-									if (settings.loopOptions) {
-										next = options.find('LI:first');
-									} else {
-										next = options.find('LI:last');
-									}
+						var next = options.find('.selectBox-hover').next('LI');
+						totalOptions = options.find('LI:not(.selectBox-optgroup)').length;
+						i = 0;
+
+						while (next.length === 0 || next.hasClass('selectBox-disabled') || next.hasClass('selectBox-optgroup')) {
+							next = next.next('LI');
+							if (next.length === 0) {
+								if (settings.loopOptions) {
+									next = options.find('LI:first');
+								} else {
+									next = options.find('LI:last');
 								}
-								if( ++i >= totalOptions ) break;
 							}
-
-							addHover(select, next);
-							selectOption(select, next, event);
-							keepOptionInView(select, next);
-
-						} else {
-							showMenu(select);
+							if (++i >= totalOptions) break;
 						}
 
-						break;
+						addHover(select, next);
+						selectOption(select, next, event);
+						keepOptionInView(select, next);
 
+					} else {
+						showMenu(select);
+					}
+					break;
 				}
-
 			};
-
 
 			var handleKeyPress = function(select, event) {
 
-				//
 				// Handles type-to-find functionality
-				//
-
 				select = $(select);
 				var control = select.data('selectBox-control'),
 					options = control.data('selectBox-options');
-
-				if( control.hasClass('selectBox-disabled') ) return;
-
-				switch( event.keyCode ) {
-
-					case 9: // tab
-					case 27: // esc
-					case 13: // enter
-					case 38: // up
-					case 37: // left
-					case 40: // down
-					case 39: // right
-						// Don't interfere with the keydown event!
-						break;
-
-					default: // Type to find
-
-						if( !control.hasClass('selectBox-menuShowing') ) showMenu(select);
-
-						event.preventDefault();
-
-						clearTimeout(typeTimer);
-						typeSearch += String.fromCharCode(event.charCode || event.keyCode);
-
-						options.find('A').each( function() {
-							if( $(this).text().substr(0, typeSearch.length).toLowerCase() === typeSearch.toLowerCase() ) {
-								addHover(select, $(this).parent());
-								keepOptionInView(select, $(this).parent());
-								return false;
-							}
-						});
-
-						// Clear after a brief pause
-						typeTimer = setTimeout( function() { typeSearch = ''; }, 1000);
-
-						break;
-
+				if (control.hasClass('selectBox-disabled')) return;
+				switch (event.keyCode) {
+				case 9:
+					// tab
+				case 27:
+					// esc
+				case 13:
+					// enter
+				case 38:
+					// up
+				case 37:
+					// left
+				case 40:
+					// down
+				case 39:
+					// right
+					// Don't interfere with the keydown event!
+					break;
+				default:
+					// Type to find
+					if (!control.hasClass('selectBox-menuShowing')) showMenu(select);
+					event.preventDefault();
+					clearTimeout(typeTimer);
+					typeSearch += String.fromCharCode(event.charCode || event.keyCode);
+					options.find('A').each(function() {
+						if ($(this).text().substr(0, typeSearch.length).toLowerCase() === typeSearch.toLowerCase()) {
+							addHover(select, $(this).parent());
+							keepOptionInView(select, $(this).parent());
+							return false;
+						}
+					});
+					// Clear after a brief pause
+					typeTimer = setTimeout(function() {
+						typeSearch = '';
+					}, 1000);
+					break;
 				}
-
 			};
-
 
 			var enable = function(select) {
 				select = $(select);
 				select.attr('disabled', false);
 				var control = select.data('selectBox-control');
-				if( !control ) return;
+				if (!control) return;
 				control.removeClass('selectBox-disabled');
 			};
-
 
 			var disable = function(select) {
 				select = $(select);
 				select.attr('disabled', true);
 				var control = select.data('selectBox-control');
-				if( !control ) return;
+				if (!control) return;
 				control.addClass('selectBox-disabled');
 			};
-
 
 			var setValue = function(select, value) {
 				select = $(select);
 				select.val(value);
 				value = select.val();
 				var control = select.data('selectBox-control');
-				if( !control ) return;
+				if (!control) return;
 				var settings = select.data('selectBox-settings'),
 					options = control.data('selectBox-options');
 
@@ -1471,24 +1389,21 @@ if(jQuery) (function($) {
 
 				// Update control values
 				options.find('.selectBox-selected').removeClass('selectBox-selected');
-				options.find('A').each( function() {
-					if( typeof(value) === 'object' ) {
-						for( var i = 0; i < value.length; i++ ) {
-							if( $(this).attr('rel') == value[i] ) {
+				options.find('A').each(function() {
+					if (typeof(value) === 'object') {
+						for (var i = 0; i < value.length; i++) {
+							if ($(this).attr('rel') == value[i]) {
 								$(this).parent().addClass('selectBox-selected');
 							}
 						}
 					} else {
-						if( $(this).attr('rel') == value ) {
+						if ($(this).attr('rel') == value) {
 							$(this).parent().addClass('selectBox-selected');
 						}
 					}
 				});
-
-				if( settings.change ) settings.change.call(select);
-
+				if (settings.change) settings.change.call(select);
 			};
-
 
 			var setOptions = function(select, options) {
 
@@ -1496,32 +1411,31 @@ if(jQuery) (function($) {
 				var control = select.data('selectBox-control'),
 					settings = select.data('selectBox-settings');
 
-				switch( typeof(data) ) {
+				switch (typeof(data)) {
 
-					case 'string':
-						select.html(data);
-						break;
+				case 'string':
+					select.html(data);
+					break;
 
-					case 'object':
-						select.html('');
-						for( var i in data ) {
-							if( data[i] === null ) continue;
-							if( typeof(data[i]) === 'object' ) {
-								var optgroup = $('<optgroup label="' + i + '" />');
-								for( var j in data[i] ) {
-									optgroup.append('<option value="' + j + '">' + data[i][j] + '</option>');
-								}
-								select.append(optgroup);
-							} else {
-								var option = $('<option value="' + i + '">' + data[i] + '</option>');
-								select.append(option);
+				case 'object':
+					select.html('');
+					for (var i in data) {
+						if (data[i] === null) continue;
+						if (typeof(data[i]) === 'object') {
+							var optgroup = $('<optgroup label="' + i + '" />');
+							for (var j in data[i]) {
+								optgroup.append('<option value="' + j + '">' + data[i][j] + '</option>');
 							}
+							select.append(optgroup);
+						} else {
+							var option = $('<option value="' + i + '">' + data[i] + '</option>');
+							select.append(option);
 						}
-						break;
-
+					}
+					break;
 				}
 
-				if( !control ) return;
+				if (!control) return;
 
 				// Remove old options
 				control.data('selectBox-options').remove();
@@ -1531,111 +1445,489 @@ if(jQuery) (function($) {
 					options = getOptions(select, type);
 				control.data('selectBox-options', options);
 
-				switch( type ) {
-					case 'inline':
-						control.append(options);
-						break;
-					case 'dropdown':
-						// Update label
-						setLabel(select);
-						$("BODY").append(options);
-						break;
+				switch (type) {
+				case 'inline':
+					control.append(options);
+					break;
+				case 'dropdown':
+					// Update label
+					setLabel(select);
+					$("BODY").append(options);
+					break;
 				}
-
 			};
-
 
 			var disableSelection = function(selector) {
-				$(selector)
-					.css('MozUserSelect', 'none')
-					.bind('selectstart', function(event) {
-						event.preventDefault();
-					});
+				$(selector).css('MozUserSelect', 'none').bind('selectstart', function(event) {
+					event.preventDefault();
+				});
 			};
 
-			var generateOptions = function(originalOptions, options){
-				originalOptions.each(function(){
+			var generateOptions = function(originalOptions, options) {
+				originalOptions.each(function() {
 					var self = $(this);
 					var li = $('<li />'),
-					a = $('<a />');
-					li.addClass( self.attr('class') );
-					li.data( self.data() );
-					a.attr('rel', self.val()).text( self.text() );
+						a = $('<a />');
+					li.addClass(self.attr('class'));
+					li.data(self.data());
+					a.attr('rel', self.val()).text(self.text());
 					li.append(a);
-					if( self.attr('disabled') ) li.addClass('selectBox-disabled');
-					if( self.attr('selected') ) li.addClass('selectBox-selected');
+					if (self.attr('disabled')) li.addClass('selectBox-disabled');
+					if (self.attr('selected')) li.addClass('selectBox-selected');
 					options.append(li);
 				});
 			};
 
-			//
 			// Public methods
-			//
-
-			switch( method ) {
-
-				case 'control':
-					return $(this).data('selectBox-control');
-
-				case 'settings':
-					if( !data ) return $(this).data('selectBox-settings');
-					$(this).each( function() {
-						$(this).data('selectBox-settings', $.extend(true, $(this).data('selectBox-settings'), data));
-					});
-					break;
-
-				case 'options':
-					$(this).each( function() {
-						setOptions(this, data);
-					});
-					break;
-
-				case 'value':
-                    // Empty string is a valid value
-					if( data === undefined ) return $(this).val();
-					$(this).each( function() {
-						setValue(this, data);
-					});
-					break;
-
-				case 'refresh':
-					$(this).each( function() {
-						refresh(this);
-					});
-					break;
-
-				case 'enable':
-					$(this).each( function() {
-						enable(this);
-					});
-					break;
-
-				case 'disable':
-					$(this).each( function() {
-						disable(this);
-					});
-					break;
-
-				case 'destroy':
-					$(this).each( function() {
-						destroy(this);
-					});
-					break;
-
-				default:
-					$(this).each( function() {
-						init(this, method);
-					});
-					break;
-
+			switch (method) {
+			case 'control':
+				return $(this).data('selectBox-control');
+			case 'settings':
+				if (!data) return $(this).data('selectBox-settings');
+				$(this).each(function() {
+					$(this).data('selectBox-settings', $.extend(true, $(this).data('selectBox-settings'), data));
+				});
+				break;
+			case 'options':
+				$(this).each(function() {
+					setOptions(this, data);
+				});
+				break;
+			case 'value':
+				// Empty string is a valid value
+				if (data === undefined) return $(this).val();
+				$(this).each(function() {
+					setValue(this, data);
+				});
+				break;
+			case 'refresh':
+				$(this).each(function() {
+					refresh(this);
+				});
+				break;
+			case 'enable':
+				$(this).each(function() {
+					enable(this);
+				});
+				break;
+			case 'disable':
+				$(this).each(function() {
+					disable(this);
+				});
+				break;
+			case 'destroy':
+				$(this).each(function() {
+					destroy(this);
+				});
+				break;
+			default:
+				$(this).each(function() {
+					init(this, method);
+				});
+				break;
 			}
-
 			return $(this);
-
 		}
-
 	});
 })(jQuery);
+
+
+//Toggle (iButton)
+;(function($) {
+	// set default options
+	$.iButton = {
+		version: "1.0.03",
+		setDefaults: function(options) {
+			$.extend(defaults, options);
+		}
+	};
+
+	$.fn.iButton = function(options) {
+		var method = typeof arguments[0] == "string" && arguments[0];
+		var args = method && Array.prototype.slice.call(arguments, 1) || arguments;
+		// get a reference to the first iButton found
+		var self = (this.length == 0) ? null : $.data(this[0], "iButton");
+
+		// if a method is supplied, execute it for non-empty results
+		if (self && method && this.length) {
+
+			// if request a copy of the object, return it
+			if (method.toLowerCase() == "object") return self;
+			// if method is defined, run it and return either it's results or the chain
+			else if (self[method]) {
+				// define a result variable to return to the jQuery chain
+				var result;
+				this.each(function(i) {
+					// apply the method to the current element
+					var r = $.data(this, "iButton")[method].apply(self, args);
+					// if first iteration we need to check if we're done processing or need to add it to the jquery chain
+					if (i == 0 && r) {
+						// if this is a jQuery item, we need to store them in a collection
+						if ( !! r.jquery) {
+							result = $([]).add(r);
+							// otherwise, just store the result and stop executing
+						} else {
+							result = r;
+							// since we're a non-jQuery item, just cancel processing further items
+							return false;
+						}
+						// keep adding jQuery objects to the results
+					} else if ( !! r && !! r.jquery) {
+						result = result.add(r);
+					}
+				});
+
+				// return either the results (which could be a jQuery object) or the original chain
+				return result || this;
+				// everything else, return the chain
+			} else
+			return this;
+			// initializing request (only do if iButton not already initialized)
+		} else {
+			// create a new iButton for each object found
+			return this.each(function() {
+				new iButton(this, options);
+			});
+		};
+	};
+
+	// count instances
+	var counter = 0;
+	// detect iPhone
+	$.browser.iphone = (navigator.userAgent.toLowerCase().indexOf("iphone") > -1);
+
+	var iButton = function(input, options) {
+		var self = this,
+			$input = $(input),
+			id = ++counter,
+			disabled = false,
+			width = {},
+			mouse = {
+				dragging: false,
+				clicked: null
+			},
+			dragStart = {
+				position: null,
+				offset: null,
+				time: null
+			}
+			// make a copy of the options and use the metadata if provided
+			,
+			options = $.extend({}, defaults, options, ( !! $.metadata ? $input.metadata() : {}))
+			// check to see if we're using the default labels
+			,
+			bDefaultLabelsUsed = (options.labelOn == ON && options.labelOff == OFF)
+			// set valid field types
+			,
+			allow = ":checkbox, :radio";
+
+		// only do for checkboxes buttons, if matches inside that node
+		if (!$input.is(allow)) return $input.find(allow).iButton(options);
+		// if iButton already exists, stop processing
+		else if ($.data($input[0], "iButton")) return;
+
+		// store a reference to this marquee
+		$.data($input[0], "iButton", self);
+
+		// if using the "auto" setting, then don't resize handle or container if using the default label (since we'll trust the CSS)
+		if (options.resizeHandle == "auto") options.resizeHandle = !bDefaultLabelsUsed;
+		if (options.resizeContainer == "auto") options.resizeContainer = !bDefaultLabelsUsed;
+
+		// toggles the state of a button (or can turn on/off)
+		this.toggle = function(t) {
+			var toggle = (arguments.length > 0) ? t : !$input[0].checked;
+			$input.attr("checked", toggle).trigger("change");
+		};
+
+		// disable/enable the control
+		this.disable = function(t) {
+			var toggle = (arguments.length > 0) ? t : !disabled;
+			// mark the control disabled
+			disabled = toggle;
+			// mark the input disabled
+			$input.attr("disabled", toggle);
+			// set the diabled styles
+			$container[toggle ? "addClass" : "removeClass"](options.classDisabled);
+			// run callback
+			if ($.isFunction(options.disable)) options.disable.apply(self, [disabled, $input, options]);
+		};
+
+		// repaint the button
+		this.repaint = function() {
+			positionHandle();
+		};
+
+		// this will destroy the iButton style
+		this.destroy = function() {
+			// remove behaviors
+			$([$input[0], $container[0]]).unbind(".iButton");
+			$(document).unbind(".iButton_" + id);
+			// move the checkbox to it's original location
+			$container.after($input).remove();
+			// kill the reference
+			$.data($input[0], "iButton", null);
+			// run callback
+			if ($.isFunction(options.destroy)) options.destroy.apply(self, [$input, options]);
+		};
+
+		$input
+		// create the wrapper code
+		.wrap('<div class="' + $.trim(options.classContainer + ' ' + options.className) + '" />').after('<div class="' + options.classHandle + '"><div class="' + options.classHandleRight + '"><div class="' + options.classHandleMiddle + '" /></div></div>' + '<div class="' + options.classLabelOff + '"><span><label>' + options.labelOff + '</label></span></div>' + '<div class="' + options.classLabelOn + '"><span><label>' + options.labelOn + '</label></span></div>' + '<div class="' + options.classPaddingLeft + '"></div><div class="' + options.classPaddingRight + '"></div>');
+
+		var $container = $input.parent(),
+			$handle = $input.siblings("." + options.classHandle),
+			$offlabel = $input.siblings("." + options.classLabelOff),
+			$offspan = $offlabel.children("span"),
+			$onlabel = $input.siblings("." + options.classLabelOn),
+			$onspan = $onlabel.children("span");
+
+
+		// if we need to do some resizing, get the widths only once
+		if (options.resizeHandle || options.resizeContainer) {
+			width.onspan = $onspan.outerWidth();
+			width.offspan = $offspan.outerWidth();
+		}
+
+		// automatically resize the handle
+		if (options.resizeHandle) {
+			width.handle = Math.min(width.onspan, width.offspan);
+			$handle.css("width", width.handle);
+		} else {
+			width.handle = $handle.width();
+		}
+
+		// automatically resize the control
+		if (options.resizeContainer) {
+			width.container = (Math.max(width.onspan, width.offspan) + width.handle + 20);
+			$container.css("width", width.container);
+			// adjust the off label to match the new container size
+			$offlabel.css("width", width.container - 5);
+		} else {
+			width.container = $container.width();
+		}
+
+		var handleRight = width.container - width.handle - 6;
+
+		var positionHandle = function(animate) {
+			var checked = $input[0].checked,
+				x = (checked) ? handleRight : 0,
+				animate = (arguments.length > 0) ? arguments[0] : true;
+
+			if (animate && options.enableFx) {
+				$handle.stop().animate({
+					left: x
+				}, options.duration, options.easing);
+				$onlabel.stop().animate({
+					width: x + 4
+				}, options.duration, options.easing);
+				$onspan.stop().animate({
+					marginLeft: x - handleRight
+				}, options.duration, options.easing);
+				$offspan.stop().animate({
+					marginRight: -x
+				}, options.duration, options.easing);
+			} else {
+				$handle.css("left", x);
+				$onlabel.css("width", x + 4);
+				$onspan.css("marginLeft", x - handleRight);
+				$offspan.css("marginRight", -x);
+			}
+		};
+
+		// place the buttons in their default location
+		positionHandle(false);
+
+		var getDragPos = function(e) {
+			return e.pageX || ((e.originalEvent.changedTouches) ? e.originalEvent.changedTouches[0].pageX : 0);
+		};
+
+		// monitor mouse clicks in the container
+		$container.bind("mousedown.iButton touchstart.iButton", function(e) {
+			// abort if disabled or allow clicking the input to toggle the status (if input is visible)
+			if ($(e.target).is(allow) || disabled || (!options.allowRadioUncheck && $input.is(":radio:checked"))) return;
+
+			e.preventDefault();
+			mouse.clicked = $handle;
+			dragStart.position = getDragPos(e);
+			dragStart.offset = dragStart.position - (parseInt($handle.css("left"), 10) || 0);
+			dragStart.time = (new Date()).getTime();
+			return false;
+		});
+
+		// make sure dragging support is enabled
+		if (options.enableDrag) {
+			// monitor mouse movement on the page
+			$(document).bind("mousemove.iButton_" + id + " touchmove.iButton_" + id, function(e) {
+				// if we haven't clicked on the container, cancel event
+				if (mouse.clicked != $handle) {
+					return
+				}
+				e.preventDefault();
+
+				var x = getDragPos(e);
+				if (x != dragStart.offset) {
+					mouse.dragging = true;
+					$container.addClass(options.classHandleActive);
+				}
+
+				// make sure number is between 0 and 1
+				var pct = Math.min(1, Math.max(0, (x - dragStart.offset) / handleRight));
+
+				$handle.css("left", pct * handleRight);
+				$onlabel.css("width", pct * handleRight + 4);
+				$offspan.css("marginRight", -pct * handleRight);
+				$onspan.css("marginLeft", -(1 - pct) * handleRight);
+
+				return false;
+			});
+		}
+
+		// monitor when the mouse button is released
+		$(document).bind("mouseup.iButton_" + id + " touchend.iButton_" + id, function(e) {
+			if (mouse.clicked != $handle) {
+				return false
+			}
+			e.preventDefault();
+
+			// track if the value has changed
+			var changed = true;
+
+			// if not dragging or click time under a certain millisecond, then just toggle
+			if (!mouse.dragging || (((new Date()).getTime() - dragStart.time) < options.clickOffset)) {
+				var checked = $input[0].checked;
+				$input.attr("checked", !checked);
+
+				// run callback
+				if ($.isFunction(options.click)) options.click.apply(self, [!checked, $input, options]);
+			} else {
+				var x = getDragPos(e);
+
+				var pct = (x - dragStart.offset) / handleRight;
+				var checked = (pct >= 0.5);
+
+				// if the value is the same, don't run change event
+				if ($input[0].checked == checked) changed = false;
+
+				$input.attr("checked", checked);
+			}
+
+			// remove the active handler class
+			$container.removeClass(options.classHandleActive);
+			mouse.clicked = null;
+			mouse.dragging = null;
+			// run any change event for the element
+			if (changed) $input.trigger("change");
+			// if the value didn't change, just reset the handle
+			else positionHandle();
+
+			return false;
+		});
+
+		// animate when we get a change event
+		$input.bind("change.iButton", function() {
+			// move handle
+			positionHandle();
+
+			// if a radio element, then we must repaint the other elements in it's group to show them as not selected
+			if ($input.is(":radio")) {
+				var el = $input[0];
+
+				// try to use the DOM to get the grouped elements, but if not in a form get by name attr
+				var $radio = $(el.form ? el.form[el.name] : ":radio[name=" + el.name + "]");
+
+				// repaint the radio elements that are not checked
+				$radio.filter(":not(:checked)").iButton("repaint");
+			}
+
+			// run callback
+			if ($.isFunction(options.change)) options.change.apply(self, [$input, options]);
+		})
+		// if the element has focus, we need to highlight the container
+		.bind("focus.iButton", function() {
+			$container.addClass(options.classFocus);
+		})
+		// if the element has focus, we need to highlight the container
+		.bind("blur.iButton", function() {
+			$container.removeClass(options.classFocus);
+		});
+
+		// if a click event is registered, we must register on the checkbox so it's fired if triggered on the checkbox itself
+		if ($.isFunction(options.click)) {
+			$input.bind("click.iButton", function() {
+				options.click.apply(self, [$input[0].checked, $input, options]);
+			});
+		}
+
+		// if the field is disabled, mark it as such
+		if ($input.is(":disabled")) this.disable(true);
+
+		// special behaviors for IE
+		if ($.browser.msie) {
+			// disable text selection in IE, other browsers are controlled via CSS
+			$container.find("*").andSelf().attr("unselectable", "on");
+			// IE needs to register to the "click" event to make changes immediately (the change event only occurs on blur)
+			$input.bind("click.iButton", function() {
+				$input.triggerHandler("change.iButton");
+			});
+		}
+
+		// run the init callback
+		if ($.isFunction(options.init)) options.init.apply(self, [$input, options]);
+	};
+
+	var defaults = {
+		duration: 200 // the speed of the animation
+		,
+		easing: "swing" // the easing animation to use
+		,
+		labelOn: "ON" // the text to show when toggled on
+		,
+		labelOff: "OFF" // the text to show when toggled off
+		,
+		resizeHandle: "auto" // determines if handle should be resized
+		,
+		resizeContainer: "auto" // determines if container should be resized
+		,
+		enableDrag: true // determines if we allow dragging
+		,
+		enableFx: true // determines if we show animation
+		,
+		allowRadioUncheck: false // determine if a radio button should be able to be unchecked
+		,
+		clickOffset: 120 // if millseconds between a mousedown & mouseup event this value, then considered a mouse click
+		// define the class statements
+		,
+		className: "",
+		classContainer: "ibutton-container",
+		classDisabled: "ibutton-disabled",
+		classFocus: "ibutton-focus",
+		classLabelOn: "ibutton-label-on",
+		classLabelOff: "ibutton-label-off",
+		classHandle: "ibutton-handle",
+		classHandleMiddle: "ibutton-handle-middle",
+		classHandleRight: "ibutton-handle-right",
+		classHandleActive: "ibutton-active-handle",
+		classPaddingLeft: "ibutton-padding-left",
+		classPaddingRight: "ibutton-padding-right"
+
+		// event handlers
+		,
+		init: null // callback that occurs when a iButton is initialized
+		,
+		change: null // callback that occurs when the button state is changed
+		,
+		click: null // callback that occurs when the button is clicked
+		,
+		disable: null // callback that occurs when the button is disabled/enabled
+		,
+		destroy: null // callback that occurs when the button is destroyed
+	},
+		ON = defaults.labelOn,
+		OFF = defaults.labelOff;
+
+})(jQuery);
+
+
 
 //jGrowl
 (function($) {
@@ -1731,7 +2023,7 @@ if(jQuery) (function($) {
 			}).parent();
 
 
-			/** Notification Actions **/
+			// Notification Actions
 			$(notification).bind("mouseover.jGrowl", function() {
 				$('div.jGrowl-notification', self.element).data("jGrowl.pause", true);
 			}).bind("mouseout.jGrowl", function() {

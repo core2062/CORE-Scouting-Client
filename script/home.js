@@ -15,7 +15,7 @@ function displayScoutID() {
 		var teamNumV = teamNum.value;
 
 		if (fNameV != '' && lNameV != '' && teamNumV != '') {
-			previewScoutID.value = caps(fNameV.toLowerCase()) + caps(lNameV.toLowerCase()) + "-" + teamNumV;
+			previewScoutID.value = fNameV.toLowerCase().titleCase() + lNameV.toLowerCase().titleCase() + "-" + teamNumV;
 		} else {
 			previewScoutID.value = '';
 		}
@@ -38,7 +38,7 @@ function checkSignup(filter) {
 	}
 }
 
-
+/* WILL USE THIS LATER
 //Password Meter
 PasswordMeter.prototype = ({
 	COMPLEXITY: {
@@ -783,12 +783,10 @@ function PasswordMeter() {
 			part1.checkPassword(this.SplitPassword.part1, false);
 			this.SplitPassword.part1Score = part1.Score.adjusted;
 
-/*
-			var part2 = new PasswordMeter();
-			this.SplitPassword.part2 = password.substr(this.SplitPassword.splitPosition);
-			part2.checkPassword(this.SplitPassword.part2, false);
-			this.SplitPassword.part2Score = part2.Score.adjusted;
-			*/
+			//var part2 = new PasswordMeter();
+			//this.SplitPassword.part2 = password.substr(this.SplitPassword.splitPosition);
+			//part2.checkPassword(this.SplitPassword.part2, false);
+			//this.SplitPassword.part2Score = part2.Score.adjusted;
 
 			// ok, the final score is composed of score one and score two
 			var old = this.Score.count;
@@ -798,22 +796,22 @@ function PasswordMeter() {
 				this.Score.count =
 				this.Score.count * this.SplitPassword.weightFull + this.SplitPassword.part1Score * this.SplitPassword.weight1;
 				// this.SplitPassword.part2Score * this.SplitPassword.weight2;
-/*
-				alert("Changed\n" +
-				password + ": " + old + "\n" +
-				this.SplitPassword.part1 + ": " + this.SplitPassword.part1Score + "\n" +
-				//this.SplitPassword.part2 + ": " + this.SplitPassword.part2Score + "\n" +
-				"New: " + this.Score.count
-				);*/
+
+				//alert("Changed\n" +
+				//password + ": " + old + "\n" +
+				//this.SplitPassword.part1 + ": " + this.SplitPassword.part1Score + "\n" +
+				////this.SplitPassword.part2 + ": " + this.SplitPassword.part2Score + "\n" +
+				//"New: " + this.Score.count
+				//);
 			} else {
 				this.SplitPassword.part1Score = this.Score.count;
 
-/*alert("Unchanged\n" +
-				password + ": " + old + "\n" +
-				this.SplitPassword.part1 + ": " + this.SplitPassword.part1Score + "\n" +
-				//this.SplitPassword.part2 + ": " + this.SplitPassword.part2Score + "\n" +
-				"New: " + this.Score.count
-				);*/
+				//alert("Unchanged\n" +
+				//password + ": " + old + "\n" +
+				//this.SplitPassword.part1 + ": " + this.SplitPassword.part1Score + "\n" +
+				////this.SplitPassword.part2 + ": " + this.SplitPassword.part2Score + "\n" +
+				//"New: " + this.Score.count
+				//);
 			}
 		} else {
 			this.SplitPassword.part1Score = this.Score.count;
@@ -839,3 +837,4 @@ function PasswordMeter() {
 		return this.Complexity.value;
 	};
 }
+*/
