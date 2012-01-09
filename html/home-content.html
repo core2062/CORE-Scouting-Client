@@ -34,7 +34,6 @@
 					<input type="text" maxlength=4 id="teamNum" value="" style="width:50px;" onkeypress="displayScoutID(); return limitInput(event, 'number')"/>
 				</li>
 
-
 				<li>
 					<label for="previewScoutID">ScoutID:</label>
 					<input type="text" id="previewScoutID" value="" readonly="readonly" title="you cannot change this"/>
@@ -44,6 +43,11 @@
 					<label for="teamNum">Password:</label>
 					<input type="text" id="teamNum" value="" onkeypress=""/>
 					<!-- TODO add hinting for strength of password-->
+				</li>
+
+				<li>
+					<label class="label" for="showPassword">Show Password:</label>
+					<input type="checkbox" id="showPassword" class="yesNo" />
 				</li>
 
 			</ul>

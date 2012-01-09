@@ -1533,7 +1533,7 @@ if (jQuery)(function($) {
 
 
 //Toggle (iButton)
-;(function($) {
+(function($) {
 	// set default options
 	$.iButton = {
 		version: "1.0.03",
@@ -1672,7 +1672,7 @@ if (jQuery)(function($) {
 
 		$input
 		// create the wrapper code
-		.wrap('<div class="' + $.trim(options.classContainer + ' ' + options.className) + '" />').after('<div class="' + options.classHandle + '"><div class="' + options.classHandleRight + '"><div class="' + options.classHandleMiddle + '" /></div></div>' + '<div class="' + options.classLabelOff + '"><span><label>' + options.labelOff + '</label></span></div>' + '<div class="' + options.classLabelOn + '"><span><label>' + options.labelOn + '</label></span></div>' + '<div class="' + options.classPaddingLeft + '"></div><div class="' + options.classPaddingRight + '"></div>');
+		.wrap('<div class="' + $.trim(options.classContainer + ' ' + options.className) + '" />').after('<div class="' + options.classHandle + '"></div>' + '<div class="' + options.classLabelOff + '"><span><label>' + options.labelOff + '</label></span></div>' + '<div class="' + options.classLabelOn + '"><span><label>' + options.labelOn + '</label></span></div>');
 
 		var $container = $input.parent(),
 			$handle = $input.siblings("." + options.classHandle),
@@ -1701,12 +1701,12 @@ if (jQuery)(function($) {
 			width.container = (Math.max(width.onspan, width.offspan) + width.handle + 20);
 			$container.css("width", width.container);
 			// adjust the off label to match the new container size
-			$offlabel.css("width", width.container - 5);
+			$offlabel.css("width", width.container);
 		} else {
 			width.container = $container.width();
 		}
 
-		var handleRight = width.container - width.handle - 6;
+		var handleRight = width.container - width.handle;
 
 		var positionHandle = function(animate) {
 			var checked = $input[0].checked,
@@ -1718,7 +1718,7 @@ if (jQuery)(function($) {
 					left: x
 				}, options.duration, options.easing);
 				$onlabel.stop().animate({
-					width: x + 4
+					width: x
 				}, options.duration, options.easing);
 				$onspan.stop().animate({
 					marginLeft: x - handleRight
@@ -1728,7 +1728,7 @@ if (jQuery)(function($) {
 				}, options.duration, options.easing);
 			} else {
 				$handle.css("left", x);
-				$onlabel.css("width", x + 4);
+				$onlabel.css("width", x);
 				$onspan.css("marginLeft", x - handleRight);
 				$offspan.css("marginRight", -x);
 			}
@@ -1774,10 +1774,9 @@ if (jQuery)(function($) {
 				var pct = Math.min(1, Math.max(0, (x - dragStart.offset) / handleRight));
 
 				$handle.css("left", pct * handleRight);
-				$onlabel.css("width", pct * handleRight + 4);
+				$onlabel.css("width", pct * handleRight);
 				$offspan.css("marginRight", -pct * handleRight);
 				$onspan.css("marginLeft", -(1 - pct) * handleRight);
-
 				return false;
 			});
 		}
@@ -1904,11 +1903,7 @@ if (jQuery)(function($) {
 		classLabelOn: "ibutton-label-on",
 		classLabelOff: "ibutton-label-off",
 		classHandle: "ibutton-handle",
-		classHandleMiddle: "ibutton-handle-middle",
-		classHandleRight: "ibutton-handle-right",
-		classHandleActive: "ibutton-active-handle",
-		classPaddingLeft: "ibutton-padding-left",
-		classPaddingRight: "ibutton-padding-right"
+		classHandleActive: "ibutton-active-handle"
 
 		// event handlers
 		,
@@ -1927,7 +1922,7 @@ if (jQuery)(function($) {
 
 })(jQuery);
 
-
+$(":checkbox").iButton();
 
 //jGrowl
 (function($) {
@@ -2125,15 +2120,9 @@ if (jQuery)(function($) {
 })(jQuery);
 
 
-// START AJAX processing
-
-
-
 //scoutid and pword should be stored in vars, not in form input
 
-
-
-//new AJAX
+//AJAX
 
 function post(filename, json) {
 	var ajax = $.ajax({
@@ -2155,7 +2144,6 @@ function post(filename, json) {
 	json = eval("(" + ajax.responseText + ")");
 	return json;
 }
-
 
 
 // TODO replace with something better, like downloadify or just a modal
@@ -2387,7 +2375,7 @@ break;
 
 
 // Accordion
-
+//not finished
 $('.accordion > p').click(function() {
 	console.log('bitches');
 	console.log($(this).next());
