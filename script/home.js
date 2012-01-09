@@ -3,6 +3,11 @@ $('input[title]').tipsy({
 	gravity: 'w'
 });
 
+$('.ibutton-container[title]').tipsy({
+	trigger: 'hover',
+	gravity: 'w'
+});
+
 var fName = document.getElementById('fName');
 var lName = document.getElementById('lName');
 var teamNum = document.getElementById('teamNum');
