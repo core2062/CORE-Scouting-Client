@@ -12,6 +12,8 @@ var fName = document.getElementById('fName');
 var lName = document.getElementById('lName');
 var teamNum = document.getElementById('teamNum');
 var previewScoutID = document.getElementById('previewScoutID');
+var signupPassword = document.getElementById('signupPassword');
+
 
 function displayScoutID() {
 	setTimeout(function(){

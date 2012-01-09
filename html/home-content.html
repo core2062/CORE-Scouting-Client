@@ -21,33 +21,34 @@
 			<ul class="signup">
 				<li>
 					<label for="fName">First Name:</label>
-					<input type="text" id="fName" value="" onkeypress="displayScoutID(); return limitInput(event, 'letter')"/>
+					<input type="text" id="fName" onkeypress="displayScoutID(); return limitInput(event, 'letter')"/>
 				</li>
 
 				<li>
 					<label for="lName">Last Name:</label>
-					<input type="text" id="lName" value="" onkeypress="displayScoutID(); return limitInput(event, 'letter')"/>
+					<input type="text" id="lName" onkeypress="displayScoutID(); return limitInput(event, 'letter')"/>
 				</li>
 
 				<li>
 					<label for="teamNum">Team Number:</label>
-					<input type="text" maxlength=4 id="teamNum" value="" style="width:50px;" onkeypress="displayScoutID(); return limitInput(event, 'number')"/>
+					<input type="text" maxlength=4 id="teamNum" style="width:50px;" onkeypress="displayScoutID(); return limitInput(event, 'number')"/>
 				</li>
 
 				<li>
 					<label for="previewScoutID">ScoutID:</label>
-					<input type="text" id="previewScoutID" value="" readonly="readonly" title="you cannot change this"/>
+					<input type="text" id="previewScoutID" readonly="readonly" title="you cannot change this"/>
 				</li>
 
 				<li>
-					<label for="teamNum">Password:</label>
-					<input type="text" id="teamNum" value="" onkeypress=""/>
+					<label for="signupPassword">Password:</label>
+					<input type="password" id="signupPassword" onkeypress=""/>
 					<!-- TODO add hinting for strength of password-->
 				</li>
 
 				<li>
 					<label class="label" for="showPassword">Show:</label>
-					<input type="checkbox" id="showPassword" title="show your password above" />
+					<input type="checkbox" id="showPassword" title="show your password above" onchange="if(this.checked == true){signupPassword.type = 'text'} else {signupPassword.type = 'password'}" />
+					<!-- TODO fix bug when ibutton fails to show correct value after page reload -->
 				</li>
 
 			</ul>
