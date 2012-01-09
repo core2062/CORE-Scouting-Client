@@ -646,9 +646,7 @@ function json2table (json) {
 				eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
 			this[binder](eventIn, enter)[binder](eventOut, leave);
 		}
-
 		return this;
-
 	};
 
 	$.fn.tipsy.defaults = {
@@ -717,7 +715,6 @@ function json2table (json) {
 			return dir.ns + (dir.ew ? dir.ew : '');
 		}
 	};
-
 })(jQuery);
 
 $('a[title]').tipsy();
@@ -1533,6 +1530,7 @@ if (jQuery)(function($) {
 
 
 //Toggle (iButton)
+//TODO make toggle change with l/r arrow keys when on keyboard focus
 (function($) {
 	// set default options
 	$.iButton = {
@@ -1670,9 +1668,7 @@ if (jQuery)(function($) {
 			if ($.isFunction(options.destroy)) options.destroy.apply(self, [$input, options]);
 		};
 
-		$input
-		// create the wrapper code
-		.wrap('<div class="' + $.trim(options.classContainer + ' ' + options.className) + '" />').after('<div class="' + options.classHandle + '"></div>' + '<div class="' + options.classLabelOff + '"><span><label>' + options.labelOff + '</label></span></div>' + '<div class="' + options.classLabelOn + '"><span><label>' + options.labelOn + '</label></span></div>');
+		$input.wrap('<div title="' + $input[0].title + '" class="' + $.trim(options.classContainer + ' ' + options.className) + '" />').after('<div class="' + options.classHandle + '"></div>' + '<div class="' + options.classLabelOff + '"><span><label>' + options.labelOff + '</label></span></div>' + '<div class="' + options.classLabelOn + '"><span><label>' + options.labelOn + '</label></span></div>');
 
 		var $container = $input.parent(),
 			$handle = $input.siblings("." + options.classHandle),
@@ -1718,7 +1714,7 @@ if (jQuery)(function($) {
 					left: x
 				}, options.duration, options.easing);
 				$onlabel.stop().animate({
-					width: x
+					width: x + 4
 				}, options.duration, options.easing);
 				$onspan.stop().animate({
 					marginLeft: x - handleRight
@@ -1728,7 +1724,7 @@ if (jQuery)(function($) {
 				}, options.duration, options.easing);
 			} else {
 				$handle.css("left", x);
-				$onlabel.css("width", x);
+				$onlabel.css("width", x + 4);
 				$onspan.css("marginLeft", x - handleRight);
 				$offspan.css("marginRight", -x);
 			}
@@ -1774,7 +1770,7 @@ if (jQuery)(function($) {
 				var pct = Math.min(1, Math.max(0, (x - dragStart.offset) / handleRight));
 
 				$handle.css("left", pct * handleRight);
-				$onlabel.css("width", pct * handleRight);
+				$onlabel.css("width", pct * handleRight + 4);//overcome 3px border radius
 				$offspan.css("marginRight", -pct * handleRight);
 				$onspan.css("marginLeft", -(1 - pct) * handleRight);
 				return false;
@@ -1818,7 +1814,6 @@ if (jQuery)(function($) {
 			if (changed) $input.trigger("change");
 			// if the value didn't change, just reset the handle
 			else positionHandle();
-
 			return false;
 		});
 
@@ -1879,9 +1874,9 @@ if (jQuery)(function($) {
 		,
 		easing: "swing" // the easing animation to use
 		,
-		labelOn: "ON" // the text to show when toggled on
+		labelOn: "YES" // the text to show when toggled on
 		,
-		labelOff: "OFF" // the text to show when toggled off
+		labelOff: "NO" // the text to show when toggled off
 		,
 		resizeHandle: "auto" // determines if handle should be resized
 		,
