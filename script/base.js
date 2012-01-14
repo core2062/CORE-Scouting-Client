@@ -82,22 +82,9 @@ $(document).ready(function() {
     }
 
     buildCache();
-
     nav(); //this will trigger login() if needed
-
-	window.pwordin = document.getElementById('pwordin');
-	window.pwordout = document.getElementById('pwordout');
-
-	window.boxwidth = 15; //chars
-
-	window.lastinfocus = '';
-	window.pword = '';
-
-	var testbox = document.getElementById('testbox');
-	window.charwidth = $(testbox).width();
-	testbox.style.display = 'none';
-
-	pwordin.style.width = charwidth*boxwidth + 10 + 'px';
+    
+    //add error message for old browsers
 });
 
 function buildCache() {
@@ -330,59 +317,6 @@ function getToken(password) { //merge function with login
 
     loginbutton.innerHTML = 'Login'; //TODO change to global userButton &  the logout icon
     window.location = '#Login';
-}
-
-function pwordchange(newpword, key) {
-	if (document.activeElement.id !== 'pwordin' && document.activeElement.id !== 'pwordout' && lastinfocus !== '') {
-		var infocus = lastinfocus; //if focus is out of inputs
-	} else {
-		var infocus = document.activeElement.id;
-		lastinfocus = infocus;
-	}
-
-	if(infocus == 'pwordin'){
-		if (key !== ''){
-			key = key.charCode? key.charCode : key.keyCode;
-			if (key == 8) { //backspace
-				if (newpword == '') {
-					pword = pword + newpword;
-					var length = pword.length;
-					pwordin.value = pword.charAt(length - 1);
-					pword = pword.substring(0, length - 1);
-					length = pword.length;
-				}
-				newpword = '';
-			} else if (key == 37){ //left arrow
-				pwordout.focus();
-			} else if(key == 13) { //enter key
-				//TODO make it process password first
-				modalclose();
-				LoginCheck();
-			}
-		}
-
-		pword = pword + newpword;
-		var length = pword.length;
-		pwordin.value = "";
-		pwordout.value = pword;
-
-	} else if (infocus == 'pwordout') {
-		if (newpword.substring(0, newpword.length - 1) == pword) {
-			pwordin.focus();
-		}
-		pword = newpword;
-		var length = pword.length;
-		pwordin.value = "";
-		pwordout.value = pword;
-	}
-
-	if(length < boxwidth) {
-		pwordin.style.width = charwidth*(boxwidth-length) + 'px';
-    	pwordout.style.width = charwidth*length  + 'px';
-	} else {
-		pwordin.style.width = charwidth + 'px';
-		pwordout.style.width = charwidth*(boxwidth-1) + 'px';
-	}
 }
 
 function logout() {

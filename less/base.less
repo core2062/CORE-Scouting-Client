@@ -937,46 +937,6 @@ p a {
 	}
 
 
-
-
-// Password Input
-
-	#pwordout {
-		border-left:0;
-		padding-right:0;
-		.border-radius-tr(0);
-		.border-radius-br(0);
-		.box-shadow(~"inset 6px 0 6px -6px #000, inset 0 -6px 6px -6px #000, inset 0 6px 6px -6px #000");
-	}
-
-	#pwordin {
-		border-right:0;
-		padding-left:0;
-		.border-radius-tl(0);
-		.border-radius-bl(0);
-		.box-shadow(~"inset -6px 0 6px -6px #000, inset 0 -6px 6px -6px #000, inset 0 6px 6px -6px #000");
-	}
-
-	li.pwordfocus #pwordout {
-		@pwordshadow1: ~`'inset 6px 0 6px -6px' + "@{d-blue}" + ', inset 0 -6px 6px -6px ' + "@{d-blue}" + ', inset 0 6px 6px -6px ' + "@{d-blue}"`;
-		.box-shadow(@pwordshadow1);
-	}
-
-	li.pwordfocus #pwordin {
-		@pwordshadow2: ~`'inset -6px 0 6px -6px' + "@{d-blue}" + ', inset 0 -6px 6px -6px ' + "@{d-blue}" + ', inset 0 6px 6px -6px ' + "@{d-blue}"`;
-		.box-shadow(@pwordshadow2);
-	}
-
-	#pwordout, #pwordin, #testbox {
-		font-size:15px; /* MUST be set to something */
-		font-family: monospace; /* MUST be a monospaced font */
-	}
-
-	#testbox {
-		visibility: hidden;
-	}
-
-
 // JGrowl
 	div.center div.jGrowl-notification, div.center div.jGrowl-closer {
 		margin-left:auto;
