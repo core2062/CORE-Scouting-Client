@@ -31,10 +31,10 @@
 
 <ul class="login-c">
 	<li><label for="scoutid">ScoutID:</label></li>
-	<li><input type="text" id="scoutid" value="" /></li>
+	<li><input type="text" id="scoutid" /></li>
 
 	<li><label for="pword">Password:</label></li>
-	<li><input type="password" onblur="pwordchange(this.value,'');$(this).parent().removeClass('pwordfocus');" onfocus="lastinfocus='pwordout';$(this).parent().addClass('pwordfocus');" onkeydown="pwordchange(this.value,'');" id="pwordout" value="" style="width:0;"><input type="text" onkeydown="pwordchange(this.value, event);" onblur="pwordchange(this.value,'');$(this).parent().removeClass('pwordfocus');" onfocus="lastinfocus='pwordin';$(this).parent().addClass('pwordfocus');" id="pwordin" value=""></li>
+	<li><input type="password" id="pword"></li>
 	<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
 	<!-- TODO add return home button to login modal -->
 </ul>

@@ -377,8 +377,6 @@ include 'php/jsminplus.php';
 			<div id="jGrowl-container" class="jGrowl bottom-right"></div>
 			<!--TODO fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
 			<!-- TODO create classes of jGrowl notifications to close selectively -->
-
-			<span id="testbox" style="float: left">x</span><!-- test width of char -->
 		</td>
 	</tr>
 	<!-- END Content -->
