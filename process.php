@@ -4,12 +4,11 @@ require_once('FirePHP/fb.php');
 ob_start();
 
 error_reporting( E_ALL );
-ini_set( 'display_errors', 1 );
+ini_set('display_errors',1);
 ?>
 
 <?php
 /*
-TODO move all scripts & static resources to cookie-less sub-domain
 
 This script handles:
 	validation for logged in users (based on tokens)
@@ -38,54 +37,59 @@ $starttime = (float)$sec + (float)$micro;
 
 //add back when database is secured: include 'vars.php'; //assigns variables for DB & other sensitive info
 
-$log=""; //start log
+$log = array(); //start log
 
-$m = new Mongo(); // connect
+
+//connect to mongoDB
+$m = new Mongo();
 $db = $m->selectDB("CSD");
 
+
+//get & validate input variables
+$vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
+
 //variables_order must contain "C" in php.ini
-$input['scoutid'] = $_COOKIE['scoutid'] or send_error("scoutid was not received","");
-$input['token'] = $_COOKIE['token'] or send_error("token was not received","");
-// TODO change to decoding  "user" object from data
-$vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
+$input['scoutid'] = $_COOKIE['scoutid'] or send_error("scoutid was not received");
+$input['token'] = $_COOKIE['token'] or send_error("token was not received");
 
 if ($input['scoutid'] == "") {
-	send_error("scoutid is blank","");
+	send_error("scoutid is blank");
 }
 if ($input['token'] == "") {
-	send_error("token is blank","");
+	send_error("token is blank");
 }
 
-$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");
-fb($user);
-$user = $user['retval'];
 
-if ($user['token'] !== $input['token']) {
-	//TODO make this send a logout function
-	send_error("token is incorrect","");
+//check user & assign user object
+$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");//return user object w/ no stats
+fb($user);//TODO remove before production
+$user = $user['retval'];//strip away extra stuff from mongoDB
+
+if ($user['token'] !== $input['token']) {//validate token
+	logout("token is incorrect, you have been logged out for security reasons");
+}
+if ($user['ip'] !== $vars['ip']) {//validate ip address
+	logout("ip is incorrect, you have been logged out for security reasons");
+}
+if ($user['permission'] == 0) {
+	send_error('your account is banned', 'banned account');
 }
 
-if ($user['ip'] !== $vars['ip']) {
-	//TODO make this send a logout function
-	send_error("ip is incorrect","");
-}
 
+//get request data from post
 $json = $_POST['data'];
 if ($json == '') {
-	send_error('no data sent','');
+	send_error('no data sent');
 }
 
-$input = array_merge(json_decode($json, true), $input);
+$input = array_merge(json_decode($json, true), $input);// add json request data to input object (for logging & organization)
 
-if ($user['permission'] == 0) {
-	send_error('Your Account Is Banned', ' | Banned Account');
-}
 
-// START request switch
+// request switch
 switch ($input['request']) {
 case "poll": //for match signup, mail poll, other?
 
-	send_error('this part is not finished','');
+	send_error('this part is not finished');
 
 	//get more parameters
 //	$checksignup=$_POST["s"]; // =1 for yes, =0 for no
@@ -125,15 +129,16 @@ case "input":
 break;
 case "mail":
 
-	send_error('this part is not finished','');	include 'php/mail.php';
+	send_error('this part is not finished');
+	include 'php/mail.php';
 
 break;
 case "query":
 	if ($user['permission'] < 3) {
-		send_error( 'Invalid Permissions','');
+		send_error('Invalid Permissions');
 	}
 
-	send_error('this part is not finished','');
+	send_error('this part is not finished');
 	include 'php/query.php';
 
 
@@ -143,37 +148,47 @@ case "scout-leader":
 		send_error('invalid permissions - scout-leader only','');
 	}
 
-	send_error('this part is not finished','');
+	send_error('this part is not finished');
 	include 'php/admin.php';
 
 break;
 case "admin":
 	if ($user['permission'] < 9) {
-		send_error('invalid permissions - admin only','');
+		send_error('invalid permissions - admin only');
 	}
 
-	send_error('this part is not finished','');
+	send_error('this part is not finished');
 	include 'php/admin.php';
 
 break;
 case "logout":
 
-	$db->execute("
-		db.user.update({'ip':'" . $user['scoutid'] . "'}, {'\$set':{'ip':'', 'token':''}});
-	"); // delete token & ip for active user
-
-	//return message: successful logout
+	logout();
 
 break;
 default:
-	send_error('invalid request type','');
+	send_error('invalid request type');
 }
-// END request switch
 
 
+//generic functions
+function logout($error_message = ''){//must be function to let it be called from other areas in script
+	$db->execute("
+		db.user.update({'ip':'" . $user['scoutid'] . "'}, {'\$set':{'ip':'', 'token':''}});
+	"); // delete token & ip for active user
+	
+	//TODO check for logout error?
+	
+	if($error_message != ''){//if no error message is specified then assume no error
+		send_reg('logout successful');
+	} else {
+		send_error($error_message);
+	}
+}
 
-// START return functions
-function send_error($error_text, $error) {
+
+// return functions
+function send_error($error_text, $error = ''){
 	global $db;
 	global $starttime;
 	global $log;
@@ -181,7 +196,7 @@ function send_error($error_text, $error) {
 	global $vars;
 	global $user;
 
-	if ($error == "") {$error = $error_text;}
+	if ($error == ""){$error = $error_text;}
 
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
@@ -209,14 +224,13 @@ function send_error($error_text, $error) {
 	die("{'error':'$error_text'}");
 }
 
-function send_reg() {
+function send_reg($return){
 	global $db;
 	global $starttime;
 	global $log;
 	global $input;
 	global $vars;
 	global $user;
-	global $return;
 
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;

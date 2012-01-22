@@ -8,31 +8,34 @@ ini_set( 'display_errors', 1 );
 ?>
 
 
-<!--
-    PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
-    JS reads hash & searches the page for the sub-page requested
-    if requested page is found, then that is presented, otherwise it is downloaded (from catche or from page.php)
-    page.php takes necessary components to build the page and sends it to JS via AJAX
--->
+<?php
+/*
+	PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
+	JS reads hash & searches the page for the sub-page requested
+	if requested page is found, then that is presented, otherwise it is downloaded (from catche or from page.php)
+	page.php takes necessary components to build the page and sends it to JS via AJAX
+	
 
-<!--
-    Offical Terms:
+    Official Terms:
 
     Site: index.php, which acts as the container for all pages
     Page: a set of sub-pages, and modals within the site (like input, home, or query)
     Subpage: a piece of a page, only one subpage is displayed at a time
     Modal: a dialog which gets overlaid on top of the site, some pages require specific modals, and these are sent with the page request
     Base Page: page components which are needed for more than 1 page, these are embedded on first page request
--->
+    
+	
+	Main TODOS:
+	
+	TODO make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
+	TODO add gzip to server
+	TODO make sure links on facebook contain a nice description of the site
+	TODO make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
+	TODO make onload scripts for each page
+	TODO make a small dropdown for the nav button that gives the page catagories
+	TODO move all js scripts & static resources to cookie-less sub-domain
+*/
 
-<!-- TODO make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628 -->
-<!-- TODO add gzip to server -->
-<!-- TODO make sure links on facebook contain a nice description of the site -->
-<!-- TODO make signup page hidden when logged in -->
-<!-- TODO make onload scripts for each page -->
-<!-- TODO make a small dropdown for the nav button that gives the page catagories -->
-
-<?php
 //start timer
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
