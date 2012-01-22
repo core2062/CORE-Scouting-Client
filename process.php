@@ -1,13 +1,4 @@
 <?php
- // remove this section before production
-require_once('FirePHP/fb.php');
-ob_start();
-
-error_reporting( E_ALL );
-ini_set('display_errors',1);
-?>
-
-<?php
 /*
 
 This script handles:
@@ -31,34 +22,23 @@ Permission Levels:
 	9 = admin : everything
 */
 
-//start timer
-list($micro, $sec) = explode(" ",microtime());
-$starttime = (float)$sec + (float)$micro;
+//set place & type (for logging)
+$place = 'process.php';
+$type = 'regular';
 
-//add back when database is secured: include 'vars.php'; //assigns variables for DB & other sensitive info
-
-$log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
-
-
-//connect to mongoDB
-$m = new Mongo();
-$db = $m->selectDB("CSD");
-
+require 'general.php';
 
 //get & validate input variables
-$vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
-
 //variables_order must contain "C" in php.ini
 $input['scoutid'] = $_COOKIE['scoutid'] or send_error("scoutid was not received");
 $input['token'] = $_COOKIE['token'] or send_error("token was not received");
 
 if ($input['scoutid'] == "") {
-	send_error("scoutid is blank");
+	logout("scoutid is blank");
 }
 if ($input['token'] == "") {
-	send_error("token is blank");
+	logout("token is blank");
 }
-
 
 //check user & assign user object
 $user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");//return user object w/ no stats
@@ -74,7 +54,6 @@ if ($user['ip'] !== $vars['ip']) {//validate ip address
 if ($user['permission'] == 0) {
 	send_error('your account is banned', 'banned account');
 }
-
 
 //get request data from post
 $json = $_POST['data'];
@@ -182,91 +161,7 @@ function logout($error_message = ''){//must be function to let it be called from
 	if($error_message != ''){//if no error message is specified then assume no error
 		send_reg('logout successful');
 	} else {
-		send_error($error_message,'','logout');
+		send_error($error_message,'','logout();');
 	}
-}
-
-
-// return functions
-function send_error($error_text, $error = '', $globalError = ''){
-	global $db;
-	global $starttime;
-	global $log;
-	global $input;
-	global $vars;
-	global $user;
-	
-	if($globalError != ''){//if a globalError is defined, record it
-		$log[] = array('globalError' => $globalError);
-	}
-
-	if ($error == ""){$error = $error_text;}
-
-	list($micro, $sec) = explode(" ",microtime());
-	$endtime = (float)$sec + (float)$micro;
-	$total_time = ($endtime - $starttime);
-
-	$log_input = json_encode($input);
-	$log_vars = json_encode($vars);
-	$log_log = json_encode($log);
-	$log_user = json_encode($user);
-
-	$insert = "{
-		type:'error',
-		errorcode:'$error',
-		place:'process.php',
-		time:'$starttime',
-		duration:'$total_time',
-		input:$log_input,
-		log:$log_log,
-		vars:$log_vars,
-		user:$log_user
-	}";
-	$db->execute("db.log.insert($insert)");
-
-	ob_clean (); //empty output buffer, error_text is only thing sent
-	
-	if($globalError != ''){
-		die("{'error':'$error_text'}");
-	} else {
-		die("{'error':'$error_text', 'globalError':$globalError}");
-	}
-	
-}
-
-function send_reg($return){
-	global $db;
-	global $starttime;
-	global $log;
-	global $input;
-	global $vars;
-	global $user;
-
-	list($micro, $sec) = explode(" ",microtime());
-	$endtime = (float)$sec + (float)$micro;
-	$total_time = ($endtime - $starttime);
-
-	$log_input = json_encode($input);
-	$log_vars = json_encode($vars);
-	$log_log = json_encode($log);
-	$log_user = json_encode($user);
-
-	$insert = "{
-		type:'regular',
-		return:'$return',
-		place:'process.php',
-		time:'$starttime',
-		duration:'$total_time',
-		input:$log_input,
-		log:$log_log,
-		vars:$log_vars,
-		user:$log_user
-	}";
-	$db->execute("db.log.insert($insert)");
-
-	$return = json_encode($return);
-	ob_clean (); //empty output buffer, return is only thing sent
-	die($return);
-
 }
 ?>
