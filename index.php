@@ -180,22 +180,28 @@ array(
 	"modals"=> array(
 		"navigation"=> array(
 			"full-name"=> "Navigation",
+            "description"=> "lorem",
 	        "login-required"=> false
         ),
         "login"=> array(
 			"full-name"=> "Login",
-            "login-required"=> false
+            "description"=> "lorem",
+            "login-required"=> false,
+            "script"=> "$('#scoutid').focus()",
         ),
         "contact"=> array(
 			"full-name"=> "Contact",
+            "description"=> "lorem",
             "login-required"=> false
         ),
         "credits"=> array(
 			"full-name"=> "Credits",
+            "description"=> "lorem",
             "login-required"=> false
         ),
         "account"=> array(
 			"full-name"=> "Edit Account",
+            "description"=> "lorem",
 	        "login-required"=> true
         )
     ),
@@ -426,7 +432,7 @@ include 'php/jsminplus.php';
 
 			<div id="modal-buttons">
 				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
-				<button type="button" style="display: none;" class="login-c" onclick="login();">Login</button>
+				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
 				<button type="button" style="display: none;" class="account-c" onclick="updatePrefs();">Save</button>

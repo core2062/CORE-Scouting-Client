@@ -37,7 +37,7 @@ $starttime = (float)$sec + (float)$micro;
 
 //add back when database is secured: include 'vars.php'; //assigns variables for DB & other sensitive info
 
-$log = array(); //start log
+$log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
 
 
 //connect to mongoDB
@@ -182,19 +182,23 @@ function logout($error_message = ''){//must be function to let it be called from
 	if($error_message != ''){//if no error message is specified then assume no error
 		send_reg('logout successful');
 	} else {
-		send_error($error_message);
+		send_error($error_message,'','logout');
 	}
 }
 
 
 // return functions
-function send_error($error_text, $error = ''){
+function send_error($error_text, $error = '', $globalError = ''){
 	global $db;
 	global $starttime;
 	global $log;
 	global $input;
 	global $vars;
 	global $user;
+	
+	if($globalError != ''){//if a globalError is defined, record it
+		$log[] = array('globalError' => $globalError);
+	}
 
 	if ($error == ""){$error = $error_text;}
 
@@ -221,7 +225,13 @@ function send_error($error_text, $error = ''){
 	$db->execute("db.log.insert($insert)");
 
 	ob_clean (); //empty output buffer, error_text is only thing sent
-	die("{'error':'$error_text'}");
+	
+	if($globalError != ''){
+		die("{'error':'$error_text'}");
+	} else {
+		die("{'error':'$error_text', 'globalError':$globalError}");
+	}
+	
 }
 
 function send_reg($return){
