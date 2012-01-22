@@ -61,7 +61,7 @@ $insert = "{
 }";
 $db->execute("db.log.insert($insert)");
 
-$user['message'] = 'login complete';
+$user['message'] = 'login complete';//put message in user variable (easiest way)
 
 ob_clean (); //empty output buffer
 die(json_encode($user));
