@@ -72,11 +72,15 @@ function fixFavicon() { //fixes favicon bug in firefox
 $(document).ready(function() {
 
     if (eatCookie('user') !== '') {
-        window.user = eval(eatCookie('user'));
+        window.user = eval('(' + eatCookie('user') + ')');
     } else {
-        window.user = {
-            "scoutid": "",
+        window.user = {//user object for user who isn't logged in (no cookie is stored for this user)
+            "scoutid": "Guest",
             "token": "",
+            "info":{
+				"fName": "Guest",
+				"lName": ""
+            },
             "prefs": {
             	"fade": true
             }
@@ -84,7 +88,7 @@ $(document).ready(function() {
     }
 
     buildCache();
-    nav(); //this will trigger login() if needed
+    nav();
     
     //add error message for old browsers
 });
@@ -115,13 +119,14 @@ window.onpopstate = function(event) {
 
 function nav() {
 	/*
-	 * Navigation Function
-	 * this function handles all page transitions and applies all page specific options
-	 * page specific options and data needed for displaying pages is stored in the JSON object 'pages'
+	Navigation Function:
+		this function handles all page transitions and applies all page specific options
+		page specific options and data needed for displaying pages is stored in the JSON object 'pages'
+		open login modal if needed for page
 	*/
 
 	if (location.hash.substring(1) == "") {
-		location.hash = '#front-page';
+		location.hash = '#front-page';//default page
 		return;
 	}
 
@@ -159,7 +164,7 @@ function nav() {
     }
 
     if (current.index === '') { //page cannot be found, select default page
-        window.location = '#front-page';
+        window.location = '#front-page';//default page
         return;
     }
 
@@ -239,8 +244,26 @@ function nav() {
 			}
         }
     }
+    
+    if(pages[current.index][current.type][current.subpage]['login-required'] == true){
+	    if (eatCookie('user') == '') {
+	    	//loginbutton.innerHTML = 'Login'; 
+			window.location = '#login';
+	    }
+		/*
+		else:
+			assume logged in, if token is wrong error will be returned by process later
+			other wise there would be too many login checks
+			on error returned from process.php, token is removed
+		*/
+    }
+    
+    if(typeof pages[current.index][current.type][current.subpage]['script'] !== undefined){
+    	eval(pages[current.index][current.type][current.subpage]['script']);
+    }
 }
 
+//site functions
 function modalclose() {
     window.location = '#' + current.lastSub;
 }
@@ -265,46 +288,42 @@ function eatCookie(name) {
     }
     return cookieValue;
 }
+
 //TODO change login button to global user-button (id = userButton)
 //made as button set, name in one part (opens edit-account modal)
 //other part has logout (icon & tipsy)
 
 function loginCheck() {
-    if (eatCookie('scoutid') !== '' && eatCookie('token') !== '') {
-        //assume logged in, if token is wrong error will be returned by process later
-        //other wise there would be too many login checks
-        //on error returned from process.php, token is removed
-        return;
-    }
+	/*
+	this function handles:
+		switch to login modal if user object is not defined in cookie (logout removes this)
+	*/
+	
+    
 
-
-    //is login stuff filled out
-    //then attempt login
-
-    //does page require login
-    //then open login modal & say page requires login
-
-    scoutidinput = document.getElementById('scoutid');
-    pwordinput = document.getElementById('pword');
-    loginbutton = document.getElementById('login-button');
-
-    window.scoutid = scoutidinput.value;
-    pword = pwordinput.value;
 }
 
-function getToken(password) { //merge function with login
-    scoutidinput = document.getElementById('scoutid');
-    pwordinput = document.getElementById('pword');
+function getToken(password) {
+	/*
+	this function handles:
+		getting token & user object from login
+		calling login.php
+		
+	must be separate from other functions so it can be called directly from login modal
+	*/
+    scoutidInput = document.getElementById('scoutid');
+    pwordInput = document.getElementById('pword');
+	
     loginbutton = document.getElementById('login-button'); //TODO change to global userButton
 
-    user.scoutid = scoutidinput.value; //put in user object
-    pword = pwordinput.value; //not global, pword stays in function and is deleted at return
+    user.scoutid = scoutidInput.value; //put in user object (scoutid in user object != logged in)
+    pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
 
-    scoutidinput.value = ''; //remove them from inputs
-    pwordinput.value = '';
+    scoutidInput.value = ''; //remove them from inputs
+    pwordInput.value = '';
 
     if (user.scoutid == '') {
-        $('#jGrowl-container').jGrowl('ScoutID is blank', {
+        $('#jGrowl-container').jGrowl('scoutID is blank', {
             theme: 'error'
         });
     } else if (pword == '') {
@@ -315,43 +334,58 @@ function getToken(password) { //merge function with login
 
         var json = post('login.php', '{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
 
-        if (json.token) {
-            user.token = json.token;
-            user.prefs = json.prefs;
+        if (typeof json.token !== undefined) {
+        	//store stuff in temporary user object
+            user = json;
 
             bakeCookie('user', $.toJSON(user)); //store user object in cookie
 
             loginbutton.innerHTML = 'Logout';
-            //TODO change to set stuff for user-button
+            
+            //TODO change to set stuff for user-button & the logout icon
             //hide login button
             //show user button with name of scout in the inner html
-
+			
+			modalclose();
+			
             return;
-        } else if (json.error) {
+        } else if (json.error && typeof json.globalError === undefined) {
             $('#jGrowl-container').jGrowl('Login Failure: ' + json.error, {
                 theme: 'error'
             });
-        } else {
+        } else if (typeof json.globalError === undefined){
             $('#jGrowl-container').jGrowl('Login Failure: Server did not respond properly', {
                 theme: 'error'
             });
         }
     }
-
-    loginbutton.innerHTML = 'Login'; //TODO change to global userButton &  the logout icon
-    window.location = '#Login';
+	window.location = '#login';//will only be run at error with json.token due to above return
 }
 
 function logout() {
-    scoutid = '';
-    token = '';
-    loginbutton.innerHTML = 'Login';
-    loginCheck();
+	//must be separate from other functions so it can be called automatically during "logout" globalError or manually by user
+
+	window.user = {//reset to generic user object
+        "scoutid": "Guest",
+        "token": "",
+        "info":{
+			"fName": "Guest",
+			"lName": ""
+        },
+        "prefs": {
+        	"fade": true
+        }
+    };
+
+    bakeCookie('user', '');//remove user object cookie
+    
+    //set global userButton to correct display
+    
+	window.location = '#login';
 }
 
 
 //general functions
-
 String.prototype.titleCase = function () {
     return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
@@ -2085,6 +2119,12 @@ $(":checkbox").toggleSwitch();
 //AJAX
 
 function post(filename, json) {
+	/*
+	this function handles:
+		all interfacing w/ server via AJAX
+		
+	json.globalError: holds type of globalError (which determines action), error text is still in json.error
+	*/
 	var ajax = $.ajax({
 		type: "POST",
 		url: filename,
@@ -2109,6 +2149,9 @@ function post(filename, json) {
 			sticky: true,
 			theme: 'error'
 		});
+		if(json.globalError == 'logout'){//change to switch if I add more types of global errors
+			logout();//logout type global errors cause user to be logged out
+		}
 	}
 	
 	return json;//if nothing is returned assume error

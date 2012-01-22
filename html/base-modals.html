@@ -34,7 +34,7 @@
 	<li><input type="text" id="scoutid" /></li>
 
 	<li><label for="pword">Password:</label></li>
-	<li><input type="password" id="pword"></li>
+	<li><input type="password" id="pword" onkeypress="var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();"></li>
 	<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
 	<!-- TODO add return home button to login modal -->
 </ul>
