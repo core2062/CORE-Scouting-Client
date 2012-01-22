@@ -52,7 +52,7 @@ function send_error($error_text, $error = '', $script = ''){
 	global $place;
 	
 	if($script != ''){//if a script is defined, record it
-		$log[] = array('script' => $script);
+		$log[] = 'script defined: ' . $script;
 	}
 
 	if ($error == ""){$error = $error_text;}
