@@ -167,12 +167,22 @@ function nav() {
         window.location = '#front-page';//default page
         return;
     }
+	
+    //check if page has been downloaded yet (add functionality later)
 
     var fadetime = 500;
 
     if (prev.subpage == "") { // if this is the first page
         if (current.type == 'modals') {
+        	//fade in page
 			$('.front-page-c').fadeIn(fadetime / 4);
+			
+			//show navbar
+			//$(cache.nav).css('display','none'); - nothing is shown in the beginning
+			$('.home-n').css('display','inline');
+			$('#front-page-r').attr('checked', true);
+			
+			//set variables
             current.lastSub = 'front-page';
             prev.index = 2;
             prev.subpage = 'front-page';
@@ -184,14 +194,14 @@ function nav() {
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
-	if (current.type != 'modals'){//TODO maybe merge with page changers
-		$(cache.nav).css('display','none');
-		$('.' + pages[current.index].name + '-n').css('display','inline');
-	}
 
     //start page changers
     if (current.type == "subpages"){ //sub-pages
-        $('#' + current.subpage + '-r').attr('checked', true); //CONSIDER using [type="radio"]
+    	
+    	//change navbar (no fade)
+    	$(cache.nav).css('display','none');
+		$('.' + pages[current.index].name + '-n').css('display','inline');
+        $('#' + current.subpage + '-r').attr('checked', true);
 
         if (prev.type == 'subpages') { //sub-pages
         	if(user.prefs.fade == true){
@@ -244,20 +254,19 @@ function nav() {
 			}
         }
     }
-    
-    if(pages[current.index][current.type][current.subpage]['login-required'] == true){
-	    if (eatCookie('user') == '') {
-	    	//loginbutton.innerHTML = 'Login'; 
-			window.location = '#login';
-	    }
-		/*
-		else:
-			assume logged in, if token is wrong error will be returned by process later
-			other wise there would be too many login checks
-			on error returned from process.php, token is removed
-		*/
+	
+	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
+    	//loginbutton.innerHTML = 'Login'; 
+		window.location = '#login';
+		return;
     }
-    
+	/*
+	else:
+		assume logged in, if token is wrong error will be returned by process later
+		other wise there would be too many login checks
+		on error returned from process.php, token is removed
+	*/
+	
     if(typeof pages[current.index][current.type][current.subpage]['script'] !== undefined){
     	eval(pages[current.index][current.type][current.subpage]['script']);
     }
@@ -293,15 +302,6 @@ function eatCookie(name) {
 //made as button set, name in one part (opens edit-account modal)
 //other part has logout (icon & tipsy)
 
-function loginCheck() {
-	/*
-	this function handles:
-		switch to login modal if user object is not defined in cookie (logout removes this)
-	*/
-	
-    
-
-}
 
 function getToken(password) {
 	/*
@@ -327,7 +327,7 @@ function getToken(password) {
             theme: 'error'
         });
     } else if (pword == '') {
-        $('#jGrowl-container').jGrowl('Password is blank', {
+        $('#jGrowl-container').jGrowl('password is blank', {
             theme: 'error'
         });
     } else {
@@ -335,6 +335,8 @@ function getToken(password) {
         var json = post('login.php', '{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
 
         if (typeof json.token !== undefined) {
+        	console.log(json);
+        	
         	//store stuff in temporary user object
             user = json;
 
@@ -349,11 +351,11 @@ function getToken(password) {
 			modalclose();
 			
             return;
-        } else if (json.error && typeof json.globalError === undefined) {
+        } else if (typeof json.error !== undefined) {
             $('#jGrowl-container').jGrowl('Login Failure: ' + json.error, {
                 theme: 'error'
             });
-        } else if (typeof json.globalError === undefined){
+        } else {
             $('#jGrowl-container').jGrowl('Login Failure: Server did not respond properly', {
                 theme: 'error'
             });
@@ -2149,8 +2151,9 @@ function post(filename, json) {
 			sticky: true,
 			theme: 'error'
 		});
-		if(json.globalError == 'logout'){//change to switch if I add more types of global errors
-			logout();//logout type global errors cause user to be logged out
+		
+		if(typeof json.script !== undefined){
+			eval(json.script);
 		}
 	}
 	
