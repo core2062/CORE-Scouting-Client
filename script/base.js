@@ -64,6 +64,20 @@ var cache = {
     "modals": [],
 	"nav": []
 };
+
+var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
+    "scoutid": "Guest",
+    "token": "",
+    "info":{
+		"fName": "Guest",
+		"lName": ""
+    },
+    "prefs": {
+    	"fade": true,
+    	"verbose": true
+    }
+};
+
 function fixFavicon() { //fixes favicon bug in firefox
     $('#favicon').remove();
     $('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
@@ -74,17 +88,7 @@ $(document).ready(function() {
     if (eatCookie('user') !== '') {
         window.user = eval('(' + eatCookie('user') + ')');
     } else {
-        window.user = {//user object for user who isn't logged in (no cookie is stored for this user)
-            "scoutid": "Guest",
-            "token": "",
-            "info":{
-				"fName": "Guest",
-				"lName": ""
-            },
-            "prefs": {
-            	"fade": true
-            }
-        };
+        window.user = defaultUser;
     }
 
     buildCache();
@@ -169,6 +173,7 @@ function nav() {
     }
 	
     //check if page has been downloaded yet (add functionality later)
+    //download if it hasn't been
 
     var fadetime = 500;
 
@@ -255,6 +260,9 @@ function nav() {
         }
     }
 	
+	//FIXME movement from modal to subpage that requires login causes login modal w/ no subpage under it
+	
+	//FIXME the below code prevents the page below the login modal from showing
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
     	//loginbutton.innerHTML = 'Login'; 
 		window.location = '#login';
@@ -334,9 +342,7 @@ function getToken(password) {
 
         var json = post('login.php', '{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
 
-        if (typeof json.token !== undefined) {
-        	console.log(json);
-        	
+        if (json.token) {
         	//store stuff in temporary user object
             user = json;
 
@@ -351,39 +357,40 @@ function getToken(password) {
 			modalclose();
 			
             return;
-        } else if (typeof json.error !== undefined) {
-            $('#jGrowl-container').jGrowl('Login Failure: ' + json.error, {
-                theme: 'error'
-            });
-        } else {
-            $('#jGrowl-container').jGrowl('Login Failure: Server did not respond properly', {
+        } else if (json != false) {
+            $('#jGrowl-container').jGrowl('server did not respond properly', {
                 theme: 'error'
             });
         }
     }
-	window.location = '#login';//will only be run at error with json.token due to above return
+	window.location = '#login';//will only be run at error due to above return
 }
 
 function logout() {
-	//must be separate from other functions so it can be called automatically during "logout" globalError or manually by user
+	//must be separate from other functions so it can be called from script returned by post() or manually by user
 
-	window.user = {//reset to generic user object
-        "scoutid": "Guest",
-        "token": "",
-        "info":{
-			"fName": "Guest",
-			"lName": ""
-        },
-        "prefs": {
-        	"fade": true
-        }
-    };
+	window.user = defaultUser;//reset to generic user object
 
     bakeCookie('user', '');//remove user object cookie
     
     //set global userButton to correct display
     
-	window.location = '#login';
+	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
+    	//loginbutton.innerHTML = 'Login'; 
+		window.location = '#login';
+		return;
+    }
+	/*
+	else:
+		assume logged in, if token is wrong error will be returned by process later
+		other wise there would be too many login checks
+		on error returned from process.php, token is removed
+	*/
+}
+
+function updateUser(newObject){//newObject does not need to be a full user object
+	user = jQuery.extend(true, user, newObject);//CONSIDER using this in login so only non-default stuff needs to be sent
+	post('process.php', newObject);
 }
 
 
@@ -2145,16 +2152,22 @@ function post(filename, json) {
 	json = eval("(" + ajax.responseText + ")");
 	console.log(json);
 	
-	//check for global errors (like logout caused by incorrect token)
-	if(json.globalError){
-		$('#jGrowl-container').jGrowl('Error: ' + json.globalError, {
-			sticky: true,
+	if(json.error){
+		$('#jGrowl-container').jGrowl('error: ' + json.error, {
 			theme: 'error'
 		});
-		
-		if(typeof json.script !== undefined){
-			eval(json.script);
-		}
+		return false; //this means error
+	}
+	
+	if(json.script){
+		eval(json.script);
+	}
+	
+	if(json.message && user.prefs.verbose == true){
+		$('#jGrowl-container').jGrowl('success: ' + json.message, {
+			theme: 'message'
+		});
+		delete json.message;
 	}
 	
 	return json;//if nothing is returned assume error

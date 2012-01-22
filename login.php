@@ -38,7 +38,7 @@ $db->execute("
 "); //first zero out ip & token for users w/ same ip then set ip & token for user logging in
 
 
-unset($user['pword'], $user['ip'], $user['info']['zip'], $user['info']['browser']);//remove stuff I don't want sent to browser
+unset($user['pword'], $user['ip'], $user['email'], $user['info']['zip'], $user['info']['browser']);//remove stuff I don't want sent to browser
 
 //regular end - can't user send_reg()
 list($micro, $sec) = explode(" ",microtime());
@@ -60,6 +60,8 @@ $insert = "{
 	vars:$log_vars
 }";
 $db->execute("db.log.insert($insert)");
+
+$user['message'] = 'login complete';
 
 ob_clean (); //empty output buffer
 die(json_encode($user));
