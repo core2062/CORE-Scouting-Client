@@ -23,18 +23,30 @@ $permission = 1;//TODO make system to assign higher permissions automatically
 
 $db->execute("
     db.user.insert({
-        _id: '" . $scoutid . "',
-        name:'" . $name . "',
-        email: '" . $email . "',
-        permission:" . $permission . ",
-        pword:'" . $pword . "',
-        team:" . $team . "
+        _id: '$input['scoutid']',
+        name: '$input['fName']',
+        email: '$input['email']',
+        permission: $permission,
+        ip: '$vars['ip']',
+		prefs: {
+			fade: $input['prefs']['fade'],
+			verbose: $input['prefs']['verbose']
+		},
+		info: {
+			fName: '$input['info']['fName']',
+			lName: '$input['info']['lName']',
+			zip: $input['info']['zip'],
+			browser: '$input['info']['browser']'
+		},
+        pword: '$input['pword']',
+        team: $input['team'],
         stats:{
-                gender:'',
-                //other stuff
+	        gender:'$input['stats']['gender']'
         }
     });
 ");
+//token and logintime are assigned at 1st login
+
 
 //send confirmation email + instructions for training
 
