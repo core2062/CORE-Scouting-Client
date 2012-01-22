@@ -7,19 +7,33 @@
     ini_set( 'display_errors', 1 );
 ?>
 
-<!--TODO add openid based sign-up (perhaps a accordian to hold different sign-up methods) -->
 
 <?php
+/*
+TODO add openid based sign-up (perhaps a accordian to hold different sign-up methods)
+
+This script handles:
+	signup (because process.php requires token)
+*/
+
+
+
+
 //start timer
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//TODO fix logging & remove below at that time
-$log = '';
+//add back when database is secured: include 'vars.php'; //assigns variables for DB & other sensitive info
 
-$m = new Mongo(); // connect
+$log = array(); //start log
+
+
+//connect to mongoDB
+$m = new Mongo();
 $db = $m->selectDB("CSD");
 
+
+//get & validate input variables
 $input = $_POST['data'];
 $input = json_decode($input, true);
 
@@ -27,8 +41,9 @@ $vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip","");
 
 //check for same username
 //check for same email
-//check for short pword (also on client side)
-//check for invalid team, email, name...
+//check for invalid team, email, name... (also on client side)
+
+$permission = 1;
 
 $db->execute("
     db.user.insert({
@@ -45,9 +60,7 @@ $db->execute("
     });
 ");
 
-//send confirmation email
-
-
+//send confirmation email + instructions for training
 
 function send_error($error_text, $error) {
     global $db;
