@@ -260,12 +260,9 @@ function nav() {
         }
     }
 	
-	//FIXME movement from modal to subpage that requires login causes login modal w/ no subpage under it
-	
-	//FIXME the below code prevents the page below the login modal from showing
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
-    	//loginbutton.innerHTML = 'Login'; 
-		window.location = '#login';
+    	//loginbutton.innerHTML = 'Login';
+    	setTimeout("window.location = '#login'", fadetime + 1);
 		return;
     }
 	/*
@@ -281,7 +278,7 @@ function nav() {
 }
 
 //site functions
-function modalclose() {	
+function modalclose() {
     window.location = '#' + current.lastSub;
 }
 
