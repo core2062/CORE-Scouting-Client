@@ -31,10 +31,12 @@ if ($user['permission'] == 0) {
 	send_error("your account is banned");
 }
 
-$vars['token'] = uniqid("",true);
+$user['token'] = uniqid("",true);
+$vars['token'] = $user['token'];//for logging ... fix?
+
 $db->execute("
 	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'ip':'', 'token':''}});
-	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $vars['token'] . "', 'ip':'" . $vars['ip'] . "', 'logintime':'$starttime'}});
+	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $user['token'] . "', 'ip':'" . $vars['ip'] . "', 'logintime':'$starttime'}});
 "); //first zero out ip & token for users w/ same ip then set ip & token for user logging in
 
 

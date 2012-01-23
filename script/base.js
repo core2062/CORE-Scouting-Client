@@ -275,13 +275,13 @@ function nav() {
 		on error returned from process.php, token is removed
 	*/
 	
-    if(typeof pages[current.index][current.type][current.subpage]['script'] !== undefined){
-    	eval(pages[current.index][current.type][current.subpage]['script']);
+    if(typeof pages[current.index][current.type][current.subpage]['onOpen'] !== undefined){
+    	eval(pages[current.index][current.type][current.subpage]['onOpen']);
     }
 }
 
 //site functions
-function modalclose() {
+function modalclose() {	
     window.location = '#' + current.lastSub;
 }
 
@@ -366,7 +366,12 @@ function getToken(password) {
 	window.location = '#login';//will only be run at error due to above return
 }
 
-function logout() {
+function callLogout(){//tells server to logout & runs logout function
+	post('process.php','{"request":"logout"}');
+	logout();
+}
+
+function logout() {	//just removes the cookie & user object
 	//must be separate from other functions so it can be called from script returned by post() or manually by user
 
 	window.user = defaultUser;//reset to generic user object
@@ -2152,15 +2157,15 @@ function post(filename, json) {
 	json = eval("(" + ajax.responseText + ")");
 	console.log(json);
 	
+	if(json.script){//script must be run before error returns (like for logout function)
+		eval(json.script);
+	}
+	
 	if(json.error){
 		$('#jGrowl-container').jGrowl('error: ' + json.error, {
 			theme: 'error'
 		});
 		return false; //this means error
-	}
-	
-	if(json.script){
-		eval(json.script);
 	}
 	
 	if(json.message && user.prefs.verbose == true){
