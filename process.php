@@ -30,19 +30,18 @@ require 'general.php';
 
 //get & validate input variables
 //variables_order must contain "C" in php.ini
-$input['scoutid'] = $_COOKIE['scoutid'] or send_error("scoutid was not received");
-$input['token'] = $_COOKIE['token'] or send_error("token was not received");
+$input = $_COOKIE['user'] or logout("user object was not received");
+$input = json_decode($input, true);
 
-if ($input['scoutid'] == "") {
-	logout("scoutid is blank");
+if (empty($input['_id']) == true) {
+	send_error("scoutid was not receved",'','logout();');
 }
-if ($input['token'] == "") {
-	logout("token is blank");
+if (empty($input['token']) == true) {
+	logout("token was not receved");
 }
 
 //check user & assign user object
-$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");//return user object w/ no stats
-fb($user);//TODO remove before production
+$user = $db->execute("db.user.findOne({_id : '" . $input['_id'] . "'},{stats:0})");//return user object w/ no stats
 $user = $user['retval'];//strip away extra stuff from mongoDB
 
 if ($user['token'] !== $input['token']) {//validate token
@@ -56,13 +55,13 @@ if ($user['permission'] == 0) {
 }
 
 //get request data from post
-$json = $_POST['data'];
-if ($json == '') {
-	send_error('no data sent');
+$json = $_POST['data'] or send_error('no data sent');
+
+if (empty($json) == true || $json == "undefined") {//post can send the string undefined if given no data... really gay
+	send_error('no data received');
 }
 
 $input = array_merge(json_decode($json, true), $input);// add json request data to input object (for logging & organization)
-
 
 // request switch
 switch ($input['request']) {
@@ -152,13 +151,14 @@ default:
 
 //generic functions
 function logout($error_message = ''){//must be function to let it be called from other areas in script
-	$db->execute("
-		db.user.update({'ip':'" . $user['scoutid'] . "'}, {'\$set':{'ip':'', 'token':''}});
-	"); // delete token & ip for active user
+	global $db;
+	global $user;
+	
+	$db->execute("db.user.update({_id:'" . $user['_id'] . "'}, {'\$unset':{ip:1, token:1}});"); // delete token & ip for active user
 	
 	//TODO check for logout error?
 	
-	if($error_message != ''){//if no error message is specified then assume no error
+	if($error_message == ''){//if no error message is specified then assume no error
 		send_reg('logout successful');
 	} else {
 		send_error($error_message,'','logout();');

@@ -79,22 +79,24 @@ function send_error($error_text, $error = '', $script = ''){
 	}";
 	$db->execute("db.log.insert($insert)");
 
-	ob_clean (); //empty output buffer, error_text is only thing sent
+	//ob_clean (); //empty output buffer, error_text is only thing sent
 	
-	if($script != ''){
+	if($script == ''){
 		die("{'error':'$error_text'}");
 	} else {
 		die("{'error':'$error_text', 'script':'$script'}");
 	}
 }
 
-function send_reg($return){
+function send_reg($return = ''){
 	global $db;
 	global $starttime;
 	global $log;
 	global $input;
 	global $vars;
 	global $user;
+	global $type;
+	global $place;
 
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
@@ -119,7 +121,7 @@ function send_reg($return){
 	$db->execute("db.log.insert($insert)");
 
 	$return = json_encode($return);
-	ob_clean (); //empty output buffer, return is only thing sent
+	//ob_clean (); //empty output buffer, return is only thing sent
 	die($return);
 
 }

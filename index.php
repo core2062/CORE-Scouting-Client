@@ -187,7 +187,7 @@ array(
 			"full-name"=> "Login",
             "description"=> "lorem",
             "login-required"=> false,
-            "script"=> "$('#scoutid').focus()",
+            "onOpen"=> "$('#scoutid').focus()",
         ),
         "contact"=> array(
 			"full-name"=> "Contact",
