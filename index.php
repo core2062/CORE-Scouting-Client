@@ -436,6 +436,7 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
 				<button type="button" style="display: none;" class="account-c" onclick="updatePrefs();">Save</button>
+				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage();">Send</button>
 			</div>
 		</div>
 	</div>
