@@ -34,6 +34,64 @@ ini_set( 'display_errors', 1 );
 	TODO make onload scripts for each page
 	TODO make a small dropdown for the nav button that gives the page catagories
 	TODO move all js scripts & static resources to cookie-less sub-domain
+	TODO change table style back to table sorter style, then to aristo like
+	TODO make fonts store in catche
+	TODO make openid / login from other site
+	
+	wiki style editing
+	blue alliance like public side w/ only basic data (data gathering and analysis on member side)
+	allow attachment of videos to matches (low priority - much later)
+	
+	use scoutID to determine embedded pages (besides base) - based on most accessed or permissions
+	make jGrowl append to top of scrollable box
+	
+	track progress of AJAX download? - use green bar on progress bar to show download, or just for effect
+	catche AJAX content
+	store scouting data during error to a cookie - attempt to resubmit (ok if it's submitted twice) - delete cookie and display jGrowl when sent
+	
+	change popup to open link in new window or tab - opens a link to a page that retreves & displays data from the cookie and contians instructions on how to save and resubmit data - or modal
+	add offline scouting mode for competitions without internet access
+	
+	TODO on login, check if training was finished for that page
+	TODO fix font renedering across browsers - check support for @fontface
+	TODO make defult value for select boxes "" ?
+	
+	TODO use standard deviation on DB
+	TODO use php to get possible competition list
+	
+	CONSIDER use php to base64 images
+
+
+	TODO make a 404 page
+
+	make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time
+
+	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. only send data from the computer it was generated from or the database will reject it (IF TOKEN BASED LOGIN). If it is not possible to send it from this computer... contact me/send it to me.
+
+	check to see if save valuable scouting data jGrowl pops up for blank ScoutID or other errors
+
+	change popup thing with scouting data POST string to a modal (or even better: downloadify type thing)
+
+	add check to php: if data being entered is exactly the same (except for date) as another entry then allow it (or "overwrite" it) & move on
+
+	make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
+
+	make submit button disabled when form is blank
+
+	add styling for disabled button
+
+
+	if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
+
+	if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
+
+	above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a seperate entry, even if they are duplicates.
+	in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
+
+
+	make data sent by input page be in JSON
+
+	remove convert to table thing in process, instead send JSON to client, and on client side convert to table.
 */
 
 //start timer
@@ -192,7 +250,8 @@ array(
         "contact"=> array(
 			"full-name"=> "Contact",
             "description"=> "lorem",
-            "login-required"=> false
+            "login-required"=> false,
+            "onClose"=> "sendMessage()"
         ),
         "credits"=> array(
 			"full-name"=> "Credits",
@@ -202,7 +261,8 @@ array(
         "account"=> array(
 			"full-name"=> "Edit Account",
             "description"=> "lorem",
-	        "login-required"=> true
+	        "login-required"=> true,
+	        "onClose"=> "updateUser()"
         )
     ),
     "minWidth"=> "1150px",
@@ -435,8 +495,8 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
-				<button type="button" style="display: none;" class="account-c" onclick="updatePrefs();">Save</button>
-				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage();">Send</button>
+				<button type="button" style="display: none;" class="account-c" onclick="modalClose()">Save</button>
+				<button type="button" style="display: none;" class="contact-c" onclick="modalClose()">Send</button>
 			</div>
 		</div>
 	</div>
@@ -527,38 +587,3 @@ $db->execute("db.log.insert($insert)");
 ob_clean ();
 die($html);
 ?>
-
-
-
-
-
-<!-- TODO make a 404 page -->
-
-<!-- make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time -->
-
-message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. only send data from the computer it was generated from or the database will reject it (IF TOKEN BASED LOGIN). If it is not possible to send it from this computer... contact me/send it to me.
-
-check to see if save valuable scouting data jGrowl pops up for blank ScoutID or other errors
-
-change popup thing with scouting data POST string to a modal (or even better: downloadify type thing)
-
-add check to php: if data being entered is exactly the same (except for date) as another entry then allow it (or "overwrite" it) & move on
-
-make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
-
-make submit button disabled when form is blank
-
-add styling for disabled button
-
-
-if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
-
-if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
-
-above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a seperate entry, even if they are duplicates.
-in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
-
-
-make data sent by input page be in JSON
-
-remove convert to table thing in process, instead send JSON to client, and on client side convert to table.

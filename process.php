@@ -109,7 +109,9 @@ case "mail":
 
 	send_error('this part is not finished');
 	include 'php/mail.php';
-
+	
+	//encode chars to remove HTML or JS
+	
 break;
 case "query":
 	if ($user['permission'] < 3) {
