@@ -1,4 +1,6 @@
 <?php
+//CONSIDER adding a delay to prevent multiple attempts
+
 //set place & type (for logging)
 $place = 'login.php';
 $type = 'token-gen';

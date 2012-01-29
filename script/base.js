@@ -34,7 +34,10 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 })();
 */
 
-/* TODO float google +1 button left w/out 4px overhang  */
+//TODO float google +1 button left w/out 4px overhang
+//TODO make startup script to warn bad browsers
+//TODO add stuff to prefetch subpages???
+
 
 //set fieldset class on focus
 $("input, textarea").focus(function () {
@@ -84,9 +87,22 @@ function fixFavicon() { //fixes favicon bug in firefox
 }
 
 $(document).ready(function() {
+	
+	$('a[title]').tipsy();
+	$('label[title]').tipsy();
+	$('button[title]').tipsy();
+	$('input[title]').tipsy({
+		trigger: 'focus',
+		gravity: 'w'
+	});
+	$('.toggle-container[title]').tipsy({
+		trigger: 'hover',
+		gravity: 'w'
+	});
 
     if (eatCookie('user') !== '') {
         window.user = eval('(' + eatCookie('user') + ')');
+        updateUserBar();//userbar is setup for guest by default
     } else {
         window.user = defaultUser;
     }
@@ -261,7 +277,6 @@ function nav() {
     }
 	
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
-    	//loginbutton.innerHTML = 'Login';
     	setTimeout("window.location = '#login'", fadetime + 1);
 		return;
     }
@@ -279,6 +294,11 @@ function nav() {
 
 //site functions
 function modalclose() {
+    //CONSIDER expanding the bottom code to work on all page types
+    if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== undefined){
+        eval(pages[current.index]['modals'][current.subpage]['onClose']);
+    }
+
     window.location = '#' + current.lastSub;
 }
 
@@ -303,11 +323,6 @@ function eatCookie(name) {
     return cookieValue;
 }
 
-//TODO change login button to global user-button (id = userButton)
-//made as button set, name in one part (opens edit-account modal)
-//other part has logout (icon & tipsy)
-
-
 function getToken(password) {
 	/*
 	this function handles:
@@ -318,8 +333,6 @@ function getToken(password) {
 	*/
     scoutidInput = document.getElementById('scoutid');
     pwordInput = document.getElementById('pword');
-	
-    loginbutton = document.getElementById('login-button'); //TODO change to global userButton
 
     user.scoutid = scoutidInput.value; //put in user object (scoutid in user object != logged in)
     pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
@@ -336,7 +349,6 @@ function getToken(password) {
             theme: 'error'
         });
     } else {
-
         var json = post('login.php', '{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
 
         if (json.token) {
@@ -345,11 +357,7 @@ function getToken(password) {
 
             bakeCookie('user', $.toJSON(user)); //store user object in cookie
 
-            loginbutton.innerHTML = 'Logout';
-            
-            //TODO change to set stuff for user-button & the logout icon
-            //hide login button
-            //show user button with name of scout in the inner html
+            updateUserBar();
 			
 			modalclose();
 			
@@ -375,10 +383,10 @@ function logout() {	//just removes the cookie & user object
 
     bakeCookie('user', '');//remove user object cookie
     
-    //set global userButton to correct display
+    updateUserBar();
     
+    //duplicate funciton
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
-    	//loginbutton.innerHTML = 'Login'; 
 		window.location = '#login';
 		return;
     }
@@ -390,9 +398,32 @@ function logout() {	//just removes the cookie & user object
 	*/
 }
 
-function updateUser(newObject){//newObject does not need to be a full user object
-	user = jQuery.extend(true, user, newObject);//CONSIDER using this in login so only non-default stuff needs to be sent
-	post('process.php', newObject);
+function updateUserBar(){
+    var loginLabel = document.getElementById('login-r-label')
+
+    if(eatCookie('user') != ''){//logged in
+        $('#login').css('display','none');
+        $('#logout').css('display','inline');
+        loginLabel.setAttribute('original-title','Logout');
+        loginLabel.setAttribute('onclick',"callLogout()");
+    } else {//not logged in
+        $('#logout').css('display','none');
+        $('#login').css('display','inline');
+        loginLabel.setAttribute('original-title','Login');
+        loginLabel.setAttribute('onclick',"window.location = '#login'");
+    }
+
+    document.getElementById('scoutName').innerHTML = $.trim(user.info.fName + ' ' + user.info.lName);
+}
+
+var userUpdates = '';//
+
+function updateUser(){//newObject does not need to be a full user object
+    if(userUpdates != ''){
+        user = jQuery.extend(true, user, newObject);//CONSIDER using this in login so only non-default stuff needs to be sent
+        post('process.php', userUpdates);
+        userUpdates = '';
+    }
 }
 
 
@@ -719,16 +750,7 @@ function json2table (json) {
 	};
 })(jQuery);
 
-$('a[title]').tipsy();
-$('button[title]').tipsy();
-$('input[title]').tipsy({
-	trigger: 'focus',
-	gravity: 'w'
-});
-$('.toggle-container[title]').tipsy({
-	trigger: 'hover',
-	gravity: 'w'
-});
+
 
 
 //jQuery selectBox - https://github.com/claviska/jquery-selectBox

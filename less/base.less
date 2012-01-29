@@ -277,14 +277,14 @@ Language: LESS
 	
 	@legendHeight: 20px;
 	legend {
-		float:left;
 		font-size: 18px;
 		text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
 		.theme1();
 		margin-left: -10px;
-		margin-top: -@legendHeight;
+		margin-bottom: -@legendHeight;
 		padding:0 10px;
 		line-height: @legendHeight;
+		border-top: 1px solid #B6B6B6;
 	}
 
 	fieldset {
@@ -445,11 +445,7 @@ p a {
 		text-align: center;
 		overflow: visible;
 		height: 31px;
-
-		a {
-			height:100%;
-			display:block;
-		}
+		padding: 0 10px;
 
 		svg {
 			fill: @litetext;
