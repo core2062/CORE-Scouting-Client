@@ -234,6 +234,10 @@ Language: LESS
 	td {
 		vertical-align: top;
 		padding: 0;
+
+		&#sidebar {
+			width: 0;//pushes all sidebar boxes to the right
+		}
 	}
 
 	.head {
@@ -258,11 +262,22 @@ Language: LESS
 
 		&#navbar {
 			margin: 10px;
+			z-index: 1001;//CONSIDER shows navbar even when modal is open - not sure about this look
+			position: relative;
+
+			div {
+				margin-right: 170px;//move end of navbar away from logo
+			}
 		}
 
 		li {
 			margin:0;
 			display:inline; // for forms
+
+			.local {//position local buttons to right (seperate local and global)
+				float:right;
+				display:none;
+			}
 		}
 	}
 
