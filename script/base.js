@@ -310,7 +310,7 @@ function modalClose() {
     window.location = '#' + current.lastSub;
 }
 
-//Cookie Handeling Functions
+//Cookie Handling Functions
     function bakeCookie(name, value) {
         var expires = new Date();
         expires.setTime(expires.getTime() + (15552000000));
@@ -533,6 +533,8 @@ function WriteToWindow() {
     top.consoleRef.document.close()
 }
 */
+
+//Libraries
 
 //Tipsy
 (function($) {
@@ -1624,7 +1626,7 @@ if (jQuery)(function($) {
 })(jQuery);
 
 
-//Toggle
+//ToggleJS
 //TODO make toggle change with l/r arrow keys when on keyboard focus
 (function($) {
 	// set default options

@@ -2,7 +2,7 @@
 /*
 TODO add openid based sign-up (perhaps a accordian to hold different sign-up methods)
 
-This script handles:signup (because process.php requires token)
+This script handles: signup (because process.php requires token)
 */
 
 //set place & type (for logging)
@@ -19,18 +19,16 @@ $input = json_decode($input, true);
 //primary error correction is done client-side, error messages from this are not friendly
 
 //check for missing required data (for optional, assign default)
-if (empty($input['fName']) == false || empty($input['lName']) == false || empty($input['lName']) == false){
-	send_error('first name not sent');
+$required = array('fName', 'lName');
+
+$len = sizeof($required);
+for(var $i = 0; i < $len; $i++){
+    if (empty($input[$required[$i]]) == true){
+        send_error('something wasn\'t not sent');
+    }
 }
-if ($input['lName'] == ''){
-	send_error('last name not sent');
-}
-if ($input['email'] == ''){
-	send_error('first name not sent');
-}
-if ($input['email'] == ''){
-	send_error('first name not sent');
-}
+
+
 
 //check for same username
 //check for same email
@@ -39,7 +37,7 @@ if ($input['email'] == ''){
 $input['permission'] = 1;//TODO make system to assign higher permissions automatically
 
 $db->execute("
-    db.user.insert(" . json_encode($input) . ");
+	db.user.insert(" . json_encode($input) . ");
 ");
 
 //token and logintime are assigned at 1st login
