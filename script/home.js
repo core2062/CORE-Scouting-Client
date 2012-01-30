@@ -3,6 +3,7 @@ var lName = document.getElementById('lName');
 var teamNum = document.getElementById('teamNum');
 var previewScoutID = document.getElementById('previewScoutID');
 var signupPassword = document.getElementById('signupPassword');
+var email = document.getElementById('email');
 
 
 function displayScoutID() {
@@ -37,11 +38,14 @@ function checkSignup(filter) {
 }
 
 function postSignup(){
-	//put all info in user object
-	user.fName = fName.value;
-	user.lName = lName.value;
+	//put all info in user object, scoutid is made server-side
+	user.info.fName = fName.value;
+	user.info.lName = lName.value;
+	user.team = teamNum.value;
+	user.pword = signupPassword.value;
+	user.email = email.value;
 
 	bakeCookie('user', $.toJSON(user));
-
-	post('signup.php','');
+	post('signup.php','');//all data is in cookie
+	logout();//remove stuff from cookie & user object (in a standard way)
 }
