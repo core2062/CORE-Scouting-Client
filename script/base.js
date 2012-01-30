@@ -39,47 +39,55 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 //TODO add stuff to prefetch subpages???
 
 
-//set fieldset class on focus
-$("input, textarea").focus(function () {
-    $(this).parentsUntil($("form"), "fieldset").addClass('focus');
-});
+//Event Handlers
+    //set fieldset class on focus
+    $("input, textarea").focus(function () {
+        $(this).parentsUntil($("form"), "fieldset").addClass('focus');
+    });
 
-$("input, textarea").focusout(function () {
-    $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
-});
+    $("input, textarea").focusout(function () {
+        $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
+    });
+
+    // Accordion
+    //not finished
+    $('.accordion > p').click(function() {
+        console.log('bitches');
+        console.log($(this).next());
+    });
 
 // global vars
-var current = {
-    "index": "",
-    "type": "",
-    "lastSub": "",
-    "subpage": ""
-};
-var prev = {
-    "index": "",
-    "type": "",
-    "lastSub": "",
-    "subpage": ""
-};
+    var current = {
+        "index": "",
+        "type": "",
+        "lastSub": "",
+        "subpage": ""
+    };
+    var prev = {
+        "index": "",
+        "type": "",
+        "lastSub": "",
+        "subpage": ""
+    };
 
-var cache = {
-    "subpages": [],
-    "modals": [],
-	"nav": []
-};
+    var cache = {
+        "subpages": [],
+        "modals": [],
+    	"nav": []
+    };
 
-var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
-    "scoutid": "Guest",
-    "token": "",
-    "info":{
-		"fName": "Guest",
-		"lName": ""
-    },
-    "prefs": {
-    	"fade": true,
-    	"verbose": true
-    }
-};
+    var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
+        "scoutid": "Guest",
+        "token": "",
+        "info":{
+    		"fName": "Guest",
+    		"lName": ""
+        },
+        "prefs": {
+        	"fade": true,
+        	"verbose": true
+        }
+    };
 
 function fixFavicon() { //fixes favicon bug in firefox
     $('#favicon').remove();
@@ -302,26 +310,27 @@ function modalClose() {
     window.location = '#' + current.lastSub;
 }
 
-function bakeCookie(name, value) {
-    var expires = new Date();
-    expires.setTime(expires.getTime() + (15552000000));
-    document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
-}
-
-function eatCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1);
-        if (c.indexOf(nameEQ) == 0) {
-            var cookieValue = c.substring(nameEQ.length);
-            break;
-        } else
-        var cookieValue = "";
+//Cookie Handeling Functions
+    function bakeCookie(name, value) {
+        var expires = new Date();
+        expires.setTime(expires.getTime() + (15552000000));
+        document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
     }
-    return cookieValue;
-}
+
+    function eatCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1);
+            if (c.indexOf(nameEQ) == 0) {
+                var cookieValue = c.substring(nameEQ.length);
+                break;
+            } else
+            var cookieValue = "";
+        }
+        return cookieValue;
+    }
 
 function getToken(password) {
 	/*
@@ -388,17 +397,9 @@ function logout() {	//just removes the cookie & user object
     
     updateUserBar();
     
-    //duplicate funciton
-	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
+	if(pages[current.index][current.type][current.subpage]['login-required'] == true){
 		window.location = '#login';
-		return;
     }
-	/*
-	else:
-		assume logged in, if token is wrong error will be returned by process later
-		other wise there would be too many login checks
-		on error returned from process.php, token is removed
-	*/
 }
 
 function updateUserBar(){
@@ -433,7 +434,6 @@ function postUserUpdates(){
     }
     modalClose();
 }
-
 
 //general functions
 String.prototype.titleCase = function () {
@@ -476,6 +476,63 @@ function json2table (json) {
     table += '</tbody>';
     return table;
 }
+
+function post(filename, json) {
+    /*
+    this function handles:
+        all interfacing w/ server via AJAX
+        
+    json.globalError: holds type of globalError (which determines action), error text is still in json.error
+    */
+    var ajax = $.ajax({
+        type: "POST",
+        url: filename,
+        data: 'data=' + json,
+        async: false,
+        success: function() {
+
+        },
+        error: function() {
+            $('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {
+                sticky: true,
+                theme: 'error'
+            });
+        }
+    });
+    json = eval("(" + ajax.responseText + ")");
+    console.log(json);
+    
+    if(json.script){//script must be run before error returns (like for logout function)
+        eval(json.script);
+    }
+    
+    if(json.error){
+        $('#jGrowl-container').jGrowl('error: ' + json.error, {
+            theme: 'error'
+        });
+        return false; //this means error
+    }
+    
+    if(json.message && user.prefs.verbose == true){
+        $('#jGrowl-container').jGrowl('success: ' + json.message, {
+            theme: 'message'
+        });
+        delete json.message;
+    }
+    
+    return json;//if nothing is returned assume error
+}
+
+
+//TODO replace with something better, like downloadify or just a modal
+/*
+function WriteToWindow() {
+    top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
+    //TODO fix link to style sheet, or replace completely
+    top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
+    top.consoleRef.document.close()
+}
+*/
 
 //Tipsy
 (function($) {
@@ -2153,67 +2210,6 @@ $(":checkbox").toggleSwitch();
 })(jQuery);
 
 
-//scoutid and pword should be stored in vars, not in form input
-
-//AJAX
-
-function post(filename, json) {
-	/*
-	this function handles:
-		all interfacing w/ server via AJAX
-		
-	json.globalError: holds type of globalError (which determines action), error text is still in json.error
-	*/
-	var ajax = $.ajax({
-		type: "POST",
-		url: filename,
-		data: 'data=' + json,
-		async: false,
-		success: function() {
-
-		},
-		error: function() {
-			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {
-				sticky: true,
-				theme: 'error'
-			});
-		}
-	});
-	json = eval("(" + ajax.responseText + ")");
-	console.log(json);
-	
-	if(json.script){//script must be run before error returns (like for logout function)
-		eval(json.script);
-	}
-	
-	if(json.error){
-		$('#jGrowl-container').jGrowl('error: ' + json.error, {
-			theme: 'error'
-		});
-		return false; //this means error
-	}
-	
-	if(json.message && user.prefs.verbose == true){
-		$('#jGrowl-container').jGrowl('success: ' + json.message, {
-			theme: 'message'
-		});
-		delete json.message;
-	}
-	
-	return json;//if nothing is returned assume error
-}
-
-
-//TODO replace with something better, like downloadify or just a modal
-/*
-function WriteToWindow() {
-	top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
-	//TODO fix link to style sheet, or replace completely
-	top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
-	top.consoleRef.document.close()
-}
-*/
-
 // json2js
 (function($) {
 
@@ -2351,11 +2347,3 @@ function WriteToWindow() {
 	};
 
 })(jQuery);
-
-
-// Accordion
-//not finished
-$('.accordion > p').click(function() {
-	console.log('bitches');
-	console.log($(this).next());
-});

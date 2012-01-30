@@ -36,6 +36,12 @@ function checkSignup(filter) {
 	}
 }
 
-function sendSignup(){
-	
+function postSignup(){
+	//put all info in user object
+	user.fName = fName.value;
+	user.lName = lName.value;
+
+	bakeCookie('user', $.toJSON(user));
+
+	post('signup.php','');
 }

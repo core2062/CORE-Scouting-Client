@@ -12,13 +12,14 @@ $type = 'signup';
 require 'php/general.php';
 
 //get input variables
-$input = $_POST['data'];
+//variables_order must contain "C" in php.ini
+$input = $_COOKIE['user'] or logout("user object was not received");
 $input = json_decode($input, true);
 
 //primary error correction is done client-side, error messages from this are not friendly
 
 //check for missing required data (for optional, assign default)
-if (isset($input['fName']) == false || isset($input['lName']) == false || isset($input['lName']) == false){
+if (empty($input['fName']) == false || empty($input['lName']) == false || empty($input['lName']) == false){
 	send_error('first name not sent');
 }
 if ($input['lName'] == ''){
