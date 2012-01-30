@@ -74,11 +74,11 @@
 <ul class="account-c">
 	<li>
 		<label class="label" for="fadeEffects">Fade Effects:</label>
-		<input type="checkbox" id="fadeEffects" title="this controls the transitions between pages. disabling this might make the site run faster" />
+		<input type="checkbox" id="fadeEffects" onchange="updateUser('fade',this.checked)" title="this controls the transitions between pages. disabling this might make the site run faster" />
 	</li>
 
 	<li>
 		<label class="label" for="verboseMode">Verbose Mode:</label>
-		<input type="checkbox" id="verboseMode" title="this determines if non-crucial messages are displayed" />
+		<input type="checkbox" id="verboseMode" onchange="updateUser('verbose',this.checked)" title="this determines if non-crucial messages are displayed" />
 	</li>
 </ul>

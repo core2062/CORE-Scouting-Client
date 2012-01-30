@@ -419,14 +419,17 @@ function updateUserBar(){
     document.getElementById('scoutName').innerHTML = $.trim(user.info.fName + ' ' + user.info.lName);
 }
 
-var userUpdates = '';//
+function updateUser(key, value){//newObject does not need to be a full user object
+    //user = jQuery.extend(true, user, userUpdates);//CONSIDER using this in login so only non-default stuff needs to be sent
 
-function updateUser(){//newObject does not need to be a full user object
-    if(userUpdates != ''){
-        user = jQuery.extend(true, user, newObject);//CONSIDER using this in login so only non-default stuff needs to be sent
-        post('process.php', userUpdates);
-        userUpdates = '';
+    user.prefs[key] = value;
+    if(eatCookie('user') != ''){
+        bakeCookie('user', $.toJSON(user));
     }
+}
+
+function postUserUpdates(){
+    post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
 }
 
 
