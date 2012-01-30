@@ -2,7 +2,7 @@
 	<table>
 	<tbody>
 
-	<!-- TODO make sections collapsible - like tree or accordian -->
+	<!-- TODO make sections collapsible - like tree or accordion -->
 
 	<tr>
 		<td style="padding-right:80px;" class="accordion">
@@ -21,7 +21,7 @@
 			?>
 		</td>
 		<td style="width:100%;">
-			<p>the preview for the page goes here... it's activated onhover from the links on the left, and shows a thumbnail + discription for the page</p>
+			<p>the preview for the page goes here... it's activated on-hover from the links on the left, and shows a thumbnail + description for the page</p>
 		</td>
 	</tr>
 	</tbody>
@@ -53,10 +53,8 @@
 	</li>
 		<span id="ToScoutList" style="visibility:hidden;">
 			<li>
-				<label for="ToScout">Scout ID:</label>
-			</li>
-			<li>
-				<input id="ToScout" type="text" value="" style="width:120px;"/>
+				<label for="toScout">Scout ID:</label>
+				<input id="toScout" type="text" value="" style="width:120px"/>
 			</li>
 		</span>
 	<li>
@@ -75,7 +73,12 @@
 
 <ul class="account-c">
 	<li>
-		<label class="label" for="showPassword">Fade Effects:</label>
-		<input type="checkbox" title="for older computers, this might help the site run faster" />
+		<label class="label" for="fadeEffects">Fade Effects:</label>
+		<input type="checkbox" id="fadeEffects" title="this controls the transitions between pages. disabling this might make the site run faster" />
+	</li>
+
+	<li>
+		<label class="label" for="verboseMode">Verbose Mode:</label>
+		<input type="checkbox" id="verboseMode" title="this determines if non-crucial messages are displayed" />
 	</li>
 </ul>
