@@ -63,6 +63,7 @@ if (empty($json) == true || $json == "undefined") {//post can send the string un
 
 $input = array_merge(json_decode($json, true), $input);// add json request data to input object (for logging & organization)
 
+
 // request switch
 switch ($input['request']) {
 case "poll": //for match signup, mail poll, other?
@@ -150,7 +151,11 @@ case "logout":
 break;
 case "updateUser":
 	
+	//TODO expand to update stuff other than prefs too?
+	$db->execute("db.user.update({_id:'" . $user['_id'] . "'}, {'\$set':{prefs : " . json_encode($input['prefs']) . "}});");
+	//TODO check for error in prefs update?
 	
+	send_reg(array('message' => 'preferences updated successfully'));
 
 break;
 default:
