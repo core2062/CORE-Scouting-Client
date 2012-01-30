@@ -421,7 +421,7 @@ include 'php/jsminplus.php';
 				include('html/navbar.html');
 			?>
 
-			<hr style="margin:10px;" />
+			<hr style="margin:10px 145px 10px 10px" />
 
 		</td>
 	</tr>
