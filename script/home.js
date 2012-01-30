@@ -20,24 +20,29 @@ function displayScoutID() {
 	}, 1);//timeout used because key hasn't been pressed yet
 }
 
-function checkSignup(filter) {
+function checkSignup(filter) {//return true if ok, return false if bad
 	if (filter == 'fName' || filter == 'all') {
 
 
 		if (filter != all) {
-			return
+			return true;
 		};
 	}
 	if (filter == 'lName' || filter == 'all') {
 
 
 		if (filter != all) {
-			return
+			return true;
 		};
 	}
+	return true; //temp
 }
 
 function postSignup(){
+	if (checkSignup('all') == false){
+		return;//jGrowl messages & highlighting deal with bad inputs
+	}
+
 	//put all info in user object, scoutid is made server-side
 	user.info.fName = fName.value;
 	user.info.lName = lName.value;
