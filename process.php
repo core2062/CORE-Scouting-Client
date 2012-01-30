@@ -26,7 +26,7 @@ Permission Levels:
 $place = 'process.php';
 $type = 'regular';
 
-require 'general.php';
+require 'php/general.php';
 
 //get & validate input variables
 //variables_order must contain "C" in php.ini

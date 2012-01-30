@@ -5,7 +5,7 @@
 $place = 'login.php';
 $type = 'token-gen';
 
-require 'general.php';
+require 'php/general.php';
 
 $input = $_POST['data'];
 $input = json_decode($input, true);
