@@ -480,7 +480,7 @@ include 'php/jsminplus.php';
 			<div class="modal-titlebar">
 				<span id="modal-title">Title</span>
 
-				<a onclick="modalclose();" class="close"> <!--TODO remove the extra a tag ?-->
+				<a onclick="modalClose();" class="close"> <!--TODO remove the extra a tag ?-->
 					<span class="icon icon-closethick"></span>
 				</a>
 			</div>
@@ -490,7 +490,7 @@ include 'php/jsminplus.php';
 			?>
 
 			<div id="modal-buttons">
-				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
+				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalClose();">Close</button>
 				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
@@ -501,7 +501,7 @@ include 'php/jsminplus.php';
 	</div>
 </div>
 
-<div id="overlay" onclick="modalclose();"></div>
+<div id="overlay" onclick="modalClose();"></div>
 <!-- END Modals -->
 
 
