@@ -9,7 +9,7 @@ This script handles:signup (because process.php requires token)
 $place = 'signup.php';
 $type = 'signup';
 
-require 'general.php';
+require 'php/general.php';
 
 //get input variables
 $input = $_POST['data'];
