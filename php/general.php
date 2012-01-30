@@ -7,16 +7,6 @@
     ini_set( 'display_errors', 1 );
 ?>
 
-
-<?php
- // remove this section before production
-require_once('FirePHP/fb.php');
-ob_start();
-
-error_reporting( E_ALL );
-ini_set('display_errors',1);
-?>
-
 <?php
 /*
 TODO disable catching for this response

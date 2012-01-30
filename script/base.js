@@ -293,7 +293,7 @@ function nav() {
 }
 
 //site functions
-function modalclose() {
+function modalClose() {
     //CONSIDER expanding the bottom code to work on all page types
     if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== undefined){
         eval(pages[current.index]['modals'][current.subpage]['onClose']);
@@ -359,7 +359,7 @@ function getToken(password) {
 
             updateUserBar();
 			
-			modalclose();
+			modalClose();
 			
             return;
         } else if (json != false) {
@@ -421,7 +421,6 @@ function updateUserBar(){
 
 function updateUser(key, value){//newObject does not need to be a full user object
     //user = jQuery.extend(true, user, userUpdates);//CONSIDER using this in login so only non-default stuff needs to be sent
-
     user.prefs[key] = value;
     if(eatCookie('user') != ''){
         bakeCookie('user', $.toJSON(user));
@@ -429,7 +428,10 @@ function updateUser(key, value){//newObject does not need to be a full user obje
 }
 
 function postUserUpdates(){
-    post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
+    if(eatCookie('user') != ''){//only run if logged in
+        post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
+    }
+    modalClose();
 }
 
 
