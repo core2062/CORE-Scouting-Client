@@ -68,16 +68,17 @@ switch ($input['request']) {
 case "poll": //for match signup, mail poll, other?
 
 	send_error('this part is not finished');
+	/*
 
 	//get more parameters
-//	$checksignup=$_POST["s"]; // =1 for yes, =0 for no
-//	$competition=$_POST["c"];
-//	$matchnum=$_POST["m"];
+	$checksignup=$_POST["s"]; // =1 for yes, =0 for no
+	$competition=$_POST["c"];
+	$matchnum=$_POST["m"];
 
 	// clean parameters
-//	$checksignup = mysql_real_escape_string($checksignup);
-//	$competition = mysql_real_escape_string($competition);
-//	$matchnum = mysql_real_escape_string($matchnum);
+	$checksignup = mysql_real_escape_string($checksignup);
+	$competition = mysql_real_escape_string($competition);
+	$matchnum = mysql_real_escape_string($matchnum);
 
 
 	// BEGIN MESSAGE POLL
@@ -96,6 +97,8 @@ case "poll": //for match signup, mail poll, other?
 		//check if team leader
 		//check for who has signed up for match
 	}
+
+	*/
 
 break;
 case "input":
@@ -121,7 +124,6 @@ case "query":
 	send_error('this part is not finished');
 	include 'php/query.php';
 
-
 break;
 case "scout-leader":
 	if ($user['permission'] != 2 && $user['permission'] != 4) {
@@ -144,6 +146,11 @@ break;
 case "logout":
 
 	logout();
+
+break;
+case "updateUser":
+	
+	
 
 break;
 default:

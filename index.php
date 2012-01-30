@@ -260,8 +260,7 @@ array(
         "account"=> array(
 			"full-name"=> "Edit Account",
             "description"=> "lorem",
-	        "login-required"=> true,
-	        "onClose"=> "updateUser()"
+	        "login-required"=> true
         )
     ),
     "minWidth"=> "1150px",
@@ -269,6 +268,7 @@ array(
 )
 );
 //TODO move public to new page - out of member analysis?
+//TODO add code to set options in account modal to match prefs onOpen
 
 $len = count($pages);
 for($i=0; $i < $len; $i++){
@@ -494,7 +494,7 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
-				<button type="button" style="display: none;" class="account-c" onclick="modalClose()">Save</button>
+				<button type="button" style="display: none;" class="account-c" onclick="postUserUpdates()">Save</button>
 				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage()">Send</button>
 			</div>
 		</div>
