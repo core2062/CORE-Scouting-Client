@@ -1,103 +1,100 @@
 <!-- add background to navbar parts, like github? -->
 <ul id="navbar">
-	<div>
-		<li class="buttonset">
-			<?php
-				$len = count($pages);
-				for($i=0; $i<$len; $i++) {
-					echo '<span class="' . $pages[$i]['name'] . '-n" style="display: none;">';
-					$e = 0;
-					foreach($pages[$i]['subpages'] as $k => $v) {
-						echo "<input type=\"radio\" id=\"$k-r\" name=\"navbar\"/>";
-						if ($e == 0) {
-							echo "<label for=\"$k-r\" id=\"$k-l\" onclick=\"window.location = '#$k'\" class=\"first\" title=\"" . $pages[$i]['subpages'][$k]['full-name'] . "\">";
-							$e = 1;
-						} else {
-							echo "<label for=\"$k-r\" id=\"$k-l\" onclick=\"window.location = '#$k'\" title=\"" . $pages[$i]['subpages'][$k]['full-name'] . "\">";
-						}
-						echo ucwords(preg_replace('/\-/',' ',$k));
-						echo "</label> ";//for some reason there must be a space at the end of this
+	<li class="buttonset">
+		<?php
+			$len = count($pages);
+			for($i=0; $i<$len; $i++) {
+				echo '<span class="' . $pages[$i]['name'] . '-n" style="display: none;">';
+				$e = 0;
+				foreach($pages[$i]['subpages'] as $k => $v) {
+					echo "<input type=\"radio\" id=\"$k-r\" name=\"navbar\"/>";
+					if ($e == 0) {
+						echo "<label for=\"$k-r\" id=\"$k-l\" onclick=\"window.location = '#$k'\" class=\"first\" title=\"" . $pages[$i]['subpages'][$k]['full-name'] . "\">";
+						$e = 1;
+					} else {
+						echo "<label for=\"$k-r\" id=\"$k-l\" onclick=\"window.location = '#$k'\" title=\"" . $pages[$i]['subpages'][$k]['full-name'] . "\">";
 					}
-					echo "</span>";
+					echo ucwords(preg_replace('/\-/',' ',$k));
+					echo "</label> ";//for some reason there must be a space at the end of this
 				}
-			?>
-			<input type="radio" id="navigation-r" name="navbar" onclick="window.location = '#navigation'" />
-			<label for="navigation-r" class="last" title="Navigation">
-			   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28">
-				   <circle cx="2" cy="2" r="2"/>
-				   <circle cx="2" cy="10" r="2"/>
-				   <circle cx="2" cy="18" r="2"/>
-				   <circle cx="2" cy="26" r="2"/>
-				   <rect x="8" width="24" height="4"/>
-				   <rect x="8" y="8" width="24" height="4"/>
-				   <rect x="8" y="16" width="24" height="4"/>
-				   <rect x="8" y="24" width="24" height="4"/>
-			   </svg>
-			</label>
-		</li>
-		<li class="buttonset">
-			<input type="radio" id="account-r" name="navbar" onclick="window.location = '#account'"/>
-			<label class="first" for="account-r" name="navbar" title="Account Settings" id="scoutName">Guest</label>
+				echo "</span>";
+			}
+		?>
+		<input type="radio" id="navigation-r" name="navbar" onclick="window.location = '#navigation'" />
+		<label for="navigation-r" class="last" title="Navigation">
+		   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28">
+			   <circle cx="2" cy="2" r="2"/>
+			   <circle cx="2" cy="10" r="2"/>
+			   <circle cx="2" cy="18" r="2"/>
+			   <circle cx="2" cy="26" r="2"/>
+			   <rect x="8" width="24" height="4"/>
+			   <rect x="8" y="8" width="24" height="4"/>
+			   <rect x="8" y="16" width="24" height="4"/>
+			   <rect x="8" y="24" width="24" height="4"/>
+		   </svg>
+		</label>
+	</li>
+	<li class="buttonset">
+		<input type="radio" id="account-r" name="navbar" onclick="window.location = '#account'"/>
+		<label class="first" for="account-r" name="navbar" title="Account Settings" id="scoutName">Guest</label>
 
-			<input type="radio" id="login-r" name="navbar"/>
-			<label for="login-r" id="login-r-label" title="Login" name="navbar" onclick="window.location = '#login'">
-				<svg id="login" version="1.1" xmlns="http://www.w3.org/2000/svg">
-					<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
-					<path d="m0,9.9h7.07l-2.83,2.83h4.24l4.24-4.24-4.24-4.24h-4.24l2.83,2.83h-7.07v2.83z"/>
-				</svg>
-				<svg id="logout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="display:none">
-					<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
-					<path d="m12.7,9.9-7.07,0,2.83,2.83-4.24,0l-4.22-4.22,4.24-4.23h4.24l-2.83,2.83h7.07v2.83z"/>
-				</svg>
-			</label>
-
-			<input type="radio" name="navbar" />
-			<label class="last" title="Training">Training</label>
-		</li>
-		<!-- contact button is temporarly removed... will work on it later
-		<li>
-			<button type="button" title="Contact" onclick="window.location = '#contact'">
-				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 24">
-					<path d="M0,0v24h32V0H0z M24.859,4l-7.445,7.445c-0.781,0.781-2.047,0.781-2.828,0L7.141,4H24.859z M4,20V6.516l7.758,7.758c1.172,1.172,2.703,1.758,4.242,1.758s3.07-0.586,4.242-1.758L28,6.516V20H4z"/>
-				</svg>
-			</button>
-		</li>
-		-->
-		<li>
-			<!-- TODO disable submit button when pressed, until form change (check with error check function) -->
-			<button type="button" title="Submit" onclick="inputSubmit()" class="input-n">
-				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
-					<path d="M24,4c-0.38,0-0.74,0.062-1.1,0.11-1-2.5-4-4.1-7-4.1s-5.6,1.7-6.9,4.1c-0.4,0-0.7-0.1-1.1-0.1-4.4,0-8,3.6-8,8s3.6,8,8,8h16c4.4,0,8-3.6,8-8s-4-8-8-8zm0,12h-16c-2.2,0-4-1.8-4-4s1.9-3.9,4-3.9c0,0.9,0.2,1.8,0.5,2.9l3.7-1.4v-1.6c0-2.2,1.8-4,4-4,1.3,0,2.5,0.64,3.2,1.6-2,1.5-3,3.8-3,6.4h4c0-2.2,1.8-4,4-4s4,1.8,4,4-2,4-4,4z"/>
-					<polygon points="18,26,22,26,16,20,10,26,14,26,14,32,18,32"/>
-				</svg>
-			</button>
-		</li>
-		<li>
-			<button type="button" onclick="clearinputs();" class="input-n">Clear Inputs</button>
-			<!-- CONSIDER remove clear inputs, it's kinda dangerous and won't be used much (it's done automatically) -->
-		</li>
-		<li>
-			<button type="button" onclick="" class="signup-c local" title="submit signup form">Submit</button>
-		</li>
-	</div>
-	<li>
-		<a href="#home" id="logo" title="CORE 2062 Scouting Database">
-			<svg width="136" height="56" xmlns="http://www.w3.org/2000/svg">
-				<path d="m14.42159,14.36a19.4,19.3 0 0 00,27.26993"/>
-				<path d="m28.1,3a25.1,25 0 0 0-25.1,25"/>
-				<path d="m28.1,53a25.1,25 0 0 025.1,-25"/>
-				<path d="m41.84949,14.36a19.4,19.3 0 0 10,27.26993"/>
-				<path d="m14.42159,28a13.7,13.6 0 0 013.7,13.6"/>
-				<path d="m28.1,14.36a13.7,13.6 0 0 113.7,13.6"/>
-				<path d="m22.4,33.7a8,8 0 0 011.4,0"/>
-				<path d="m22.4,22.3a8,8 0 0 111.4,0"/>
-				<path d="m28.1,25.7a2.3,2.27 0 0 0-2.3,2.27"/>
-				<path d="m30.4,28a2.3,2.27 0 0 1-2.3,2.27"/>
-
-				<path d="m75.79254,22h-11.66v11.8h11.66v-4l4.34342,0.896v2.2c0,1.7 -0.32375,2.9 -1,3.48c-0.60325,0.6 -1.9,0.914 -3.65974,0.914h-11.16018c-1.80976,0 -3,-0.305 -3.67985,-0.914c-0.60325,-0.6 -1,-1.8 -1,-3.48v-9.8c0,-1.69 0.3,-2.84 1,-3.46c0.6,-0.6 1.9,-1 3.67985,-1h11.16018c1.8,0 3.02632,0.311 3.65974,1c0.6485,0.6 1,1.8 1,3.46v1.8l-4.34342,0.686v-3.5" id="c"/>
-				<path d="m101,22h-12.26615v4h11.66c1.82987,0 3,0.311 3.6899,1c0.6485,0.6 1,1.77 1,3.46v2.55c0,1.7 -0.32374,2.84 -1,3.46c-0.6,0.6 -1.87,1 -3.7,1h-11.56235c-1.82986,0 -3,-0.31 -3.7,-1c-0.6,-0.6 -1,-1.78 -1,-3.46v-0.51l3.8,-0.791v2.2h13.2v-4.2h-11.66c-1.8,0 -3,-0.31 -3.7,-1c-0.6,-0.6 -1,-1.78 -1,-3.46v-2.06c0,-1.69 0.3,-2.84 1,-3.46c0.6,-0.6 1.9,-1 3.7,-1h10.65748c1.75948,0 3,0.3 3.61952,0.896c0.70379,0.6 1,1.66 1,3.2v0.387l-3.83,0.896v-2.1" id="s"/>
-				<path d="m114.6,33.8h5.6c3,0 5.1,-0.463 6.36432,-1.39c1.24673,-0.926 1.9,-2.45 1.9,-4.6c0,-1.9 -0.5188,-3.33 -1.5584,-4.3c-1.0356,-0.984 -2.57388,-1.48 -4.59478,-1.48h-7.70154v11.8m-4.34341,3.5v-18.6h12c3.42848,0 6.06269,0.797 7.90261,2.39c1.84998,1.6 2.77496,3.85 2.77496,6.8c0,1.73 -0.35895,3.3 -1.07581,4.7c-0.7038,1.37999 -1.72931,2.5 -3,3.3c-0.8,0.5 -1.82986,0.873 -3,1.11c-1.2,0.223 -2.7448,0.334 -4.63499,0.334h-10.9" id="d"/>
+		<input type="radio" id="login-r" name="navbar"/>
+		<label for="login-r" id="login-r-label" title="Login" name="navbar" onclick="window.location = '#login'">
+			<svg id="login" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
+				<path d="m0,9.9h7.07l-2.83,2.83h4.24l4.24-4.24-4.24-4.24h-4.24l2.83,2.83h-7.07v2.83z"/>
 			</svg>
-		</a>
+			<svg id="logout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="display:none">
+				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
+				<path d="m12.7,9.9-7.07,0,2.83,2.83-4.24,0l-4.22-4.22,4.24-4.23h4.24l-2.83,2.83h7.07v2.83z"/>
+			</svg>
+		</label>
+
+		<input type="radio" name="navbar" />
+		<label class="last" title="Training">Training</label>
+	</li>
+	<!-- contact button is temporarly removed... will work on it later
+	<li>
+		<button type="button" title="Contact" onclick="window.location = '#contact'">
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 24">
+				<path d="M0,0v24h32V0H0z M24.859,4l-7.445,7.445c-0.781,0.781-2.047,0.781-2.828,0L7.141,4H24.859z M4,20V6.516l7.758,7.758c1.172,1.172,2.703,1.758,4.242,1.758s3.07-0.586,4.242-1.758L28,6.516V20H4z"/>
+			</svg>
+		</button>
+	</li>
+	-->
+	<li>
+		<!-- TODO disable submit button when pressed, until form change (check with error check function) -->
+		<button type="button" title="Submit" onclick="inputSubmit()" class="input-n">
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+				<path d="M24,4c-0.38,0-0.74,0.062-1.1,0.11-1-2.5-4-4.1-7-4.1s-5.6,1.7-6.9,4.1c-0.4,0-0.7-0.1-1.1-0.1-4.4,0-8,3.6-8,8s3.6,8,8,8h16c4.4,0,8-3.6,8-8s-4-8-8-8zm0,12h-16c-2.2,0-4-1.8-4-4s1.9-3.9,4-3.9c0,0.9,0.2,1.8,0.5,2.9l3.7-1.4v-1.6c0-2.2,1.8-4,4-4,1.3,0,2.5,0.64,3.2,1.6-2,1.5-3,3.8-3,6.4h4c0-2.2,1.8-4,4-4s4,1.8,4,4-2,4-4,4z"/>
+				<polygon points="18,26,22,26,16,20,10,26,14,26,14,32,18,32"/>
+			</svg>
+		</button>
+	</li>
+	<li>
+		<button type="button" onclick="clearinputs();" class="input-n">Clear Inputs</button>
+		<!-- CONSIDER remove clear inputs, it's kinda dangerous and won't be used much (it's done automatically) -->
+	</li>
+	<li>
+		<button type="button" onclick="" class="signup-c local" title="submit signup form">Submit</button>
 	</li>
 </ul>
+
+<a href="#home" id="logo" title="CORE 2062 Scouting Database">
+	<svg width="136" height="56" xmlns="http://www.w3.org/2000/svg">
+		<path d="m14.42159,14.36a19.4,19.3 0 0 00,27.26993"/>
+		<path d="m28.1,3a25.1,25 0 0 0-25.1,25"/>
+		<path d="m28.1,53a25.1,25 0 0 025.1,-25"/>
+		<path d="m41.84949,14.36a19.4,19.3 0 0 10,27.26993"/>
+		<path d="m14.42159,28a13.7,13.6 0 0 013.7,13.6"/>
+		<path d="m28.1,14.36a13.7,13.6 0 0 113.7,13.6"/>
+		<path d="m22.4,33.7a8,8 0 0 011.4,0"/>
+		<path d="m22.4,22.3a8,8 0 0 111.4,0"/>
+		<path d="m28.1,25.7a2.3,2.27 0 0 0-2.3,2.27"/>
+		<path d="m30.4,28a2.3,2.27 0 0 1-2.3,2.27"/>
+
+		<path d="m75.79254,22h-11.66v11.8h11.66v-4l4.34342,0.896v2.2c0,1.7 -0.32375,2.9 -1,3.48c-0.60325,0.6 -1.9,0.914 -3.65974,0.914h-11.16018c-1.80976,0 -3,-0.305 -3.67985,-0.914c-0.60325,-0.6 -1,-1.8 -1,-3.48v-9.8c0,-1.69 0.3,-2.84 1,-3.46c0.6,-0.6 1.9,-1 3.67985,-1h11.16018c1.8,0 3.02632,0.311 3.65974,1c0.6485,0.6 1,1.8 1,3.46v1.8l-4.34342,0.686v-3.5" id="c"/>
+		<path d="m101,22h-12.26615v4h11.66c1.82987,0 3,0.311 3.6899,1c0.6485,0.6 1,1.77 1,3.46v2.55c0,1.7 -0.32374,2.84 -1,3.46c-0.6,0.6 -1.87,1 -3.7,1h-11.56235c-1.82986,0 -3,-0.31 -3.7,-1c-0.6,-0.6 -1,-1.78 -1,-3.46v-0.51l3.8,-0.791v2.2h13.2v-4.2h-11.66c-1.8,0 -3,-0.31 -3.7,-1c-0.6,-0.6 -1,-1.78 -1,-3.46v-2.06c0,-1.69 0.3,-2.84 1,-3.46c0.6,-0.6 1.9,-1 3.7,-1h10.65748c1.75948,0 3,0.3 3.61952,0.896c0.70379,0.6 1,1.66 1,3.2v0.387l-3.83,0.896v-2.1" id="s"/>
+		<path d="m114.6,33.8h5.6c3,0 5.1,-0.463 6.36432,-1.39c1.24673,-0.926 1.9,-2.45 1.9,-4.6c0,-1.9 -0.5188,-3.33 -1.5584,-4.3c-1.0356,-0.984 -2.57388,-1.48 -4.59478,-1.48h-7.70154v11.8m-4.34341,3.5v-18.6h12c3.42848,0 6.06269,0.797 7.90261,2.39c1.84998,1.6 2.77496,3.85 2.77496,6.8c0,1.73 -0.35895,3.3 -1.07581,4.7c-0.7038,1.37999 -1.72931,2.5 -3,3.3c-0.8,0.5 -1.82986,0.873 -3,1.11c-1.2,0.223 -2.7448,0.334 -4.63499,0.334h-10.9" id="d"/>
+	</svg>
+</a>
