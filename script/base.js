@@ -2200,15 +2200,14 @@ function post(filename, json) {
 
 
 //TODO replace with something better, like downloadify or just a modal
-
+/*
 function WriteToWindow() {
 	top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
 	//TODO fix link to style sheet, or replace completely
 	top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
 	top.consoleRef.document.close()
 }
-
-
+*/
 
 // json2js
 (function($) {

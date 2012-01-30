@@ -4,184 +4,186 @@ Language: LESS
 */
 
 //Colors
-@litetext: #4F4F4F; //gray, used for buttons & modals
+	@litetext: #4F4F4F; //gray, used for buttons & modals
 
-@regcolor: #d1d1d1; //gray
-@l-regcolor: lighten(@regcolor, 15%);
-@d-regcolor: darken(@regcolor, 15%);
+	@regcolor: #d1d1d1; //gray
+	@l-regcolor: lighten(@regcolor, 15%);
+	@d-regcolor: darken(@regcolor, 15%);
 
-@activecolor: #FF5C00; //orange
-@l-activecolor: lighten(@activecolor, 15%);
-@d-activecolor: darken(@activecolor, 15%);
+	@activecolor: #FF5C00; //orange
+	@l-activecolor: lighten(@activecolor, 15%);
+	@d-activecolor: darken(@activecolor, 15%);
 
-@errorcolor: #ff0000; //red
-@l-errorcolor: lighten(@errorcolor, 15%);
-@d-errorcolor: darken(@errorcolor, 15%);
+	@errorcolor: #ff0000; //red
+	@l-errorcolor: lighten(@errorcolor, 15%);
+	@d-errorcolor: darken(@errorcolor, 15%);
 
-@page_bgcolor: #adadad;
-@form_bgcolor: #fff; //#f4f4f4
+	@page_bgcolor: #adadad;
+	@form_bgcolor: #fff; //#f4f4f4
 
-@blue: #1054AA; //used for guider headers
-@d-blue: darken(saturate(@blue, 10%),15%);
+	@blue: #1054AA; //used for guider headers
+	@d-blue: darken(saturate(@blue, 10%),15%);
 
-@d-black: #000;
-@black: lighten(@d-black, 15%);
-@l-black: lighten(@d-black, 30%);
+	@d-black: #000;
+	@black: lighten(@d-black, 15%);
+	@l-black: lighten(@d-black, 30%);
 
-@l-white: #fff;
-@white: darken(@l-white, 15%);
-@d-white: darken(@l-white, 30%);
+	@l-white: #fff;
+	@white: darken(@l-white, 15%);
+	@d-white: darken(@l-white, 30%);
+
 
 // Images
-/* TODO embed images */
-@plushelp: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAgCAYAAADJ2fKUAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJCwQdAJZZZ/wAAAHPSURBVDjL7ZO/ixNBFMc/byaeP3I3iHDIrcihlc39AVYeNjaCoKXNYWObysLOStBKsLC7XhHBwk6sxdarrUwM5yns3sYkZudrkYmsMUfW3i8Ms+9957vvvXlvDCDPux54CFwHTvEnInAAPA8hewxgSbQD7LIcN0LIXrtkbKX9PbC+YJWJvwTQSsYzYA/wIWRfZ7/N8+4q8KCWsvud3iLkefcW8AQ4l1wfgDshZB/tCMFL4GYy+8B9YDeETPX05nEl7a+AnRCyvE4eJdpO3Od5wUJRnnc3gM1UbwD2l4qADnCv1lg/f8AtEPkl/ELn99r3Af/xjxgM9q8dHvbelmW/Iw3bS69ckgNdkLgqaSvG0ckmfUrCKe9ci6YiAMxMjSbCzKKZjZL5E46N/xrYouhtOmcnJKIkqqqKwJkUcbUsv10sil4hyXvviTFOWsCjGLUOVIC89xZjPJ9E28DGNCIuxuiB0oqi9wU4C8zyN0mzeqzmn3HDFnAXWEtvB2DinLssqeOcvZH0oqriyDln05JtvLC5Zdm/XRQ9lWX/qaTjjZor6XQy2zBYa9SnWh1q+nIxs1lUayySFAGZ2WQ8HjabCOf8JzPembG3stL+MX/mF9ggxYnbLvIlAAAAAElFTkSuQmCC);
-@select: url(data:image/gif;base64,R0lGODlhBQAJAIABAP///wAAACH5BAEKAAEALAAAAAAFAAkAAAIMTGAHuJ0PU1sKGVsAADs=);
-@progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
-@background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
-@stripe: url(img/ie/stripe.png);
-@close-icon: url(img/icon_sprite.png);
-@arrow: url(img/arrow.gif);
+	/* TODO embed images */
+	@plushelp: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAgCAYAAADJ2fKUAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJCwQdAJZZZ/wAAAHPSURBVDjL7ZO/ixNBFMc/byaeP3I3iHDIrcihlc39AVYeNjaCoKXNYWObysLOStBKsLC7XhHBwk6sxdarrUwM5yns3sYkZudrkYmsMUfW3i8Ms+9957vvvXlvDCDPux54CFwHTvEnInAAPA8hewxgSbQD7LIcN0LIXrtkbKX9PbC+YJWJvwTQSsYzYA/wIWRfZ7/N8+4q8KCWsvud3iLkefcW8AQ4l1wfgDshZB/tCMFL4GYy+8B9YDeETPX05nEl7a+AnRCyvE4eJdpO3Od5wUJRnnc3gM1UbwD2l4qADnCv1lg/f8AtEPkl/ELn99r3Af/xjxgM9q8dHvbelmW/Iw3bS69ckgNdkLgqaSvG0ckmfUrCKe9ci6YiAMxMjSbCzKKZjZL5E46N/xrYouhtOmcnJKIkqqqKwJkUcbUsv10sil4hyXvviTFOWsCjGLUOVIC89xZjPJ9E28DGNCIuxuiB0oqi9wU4C8zyN0mzeqzmn3HDFnAXWEtvB2DinLssqeOcvZH0oqriyDln05JtvLC5Zdm/XRQ9lWX/qaTjjZor6XQy2zBYa9SnWh1q+nIxs1lUayySFAGZ2WQ8HjabCOf8JzPembG3stL+MX/mF9ggxYnbLvIlAAAAAElFTkSuQmCC);
+	@select: url(data:image/gif;base64,R0lGODlhBQAJAIABAP///wAAACH5BAEKAAEALAAAAAAFAAkAAAIMTGAHuJ0PU1sKGVsAADs=);
+	@progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
+	@background-dots: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=);
+	@stripe: url(img/ie/stripe.png);
+	@close-icon: url(img/icon_sprite.png);
+	@arrow: url(img/arrow.gif);
 
-@plus-icon: url(img/icon/plus.svg);
-@help-icon: url(img/icon/help.svg);
+	@plus-icon: url(img/icon/plus.svg);
+	@help-icon: url(img/icon/help.svg);
 
-@ts-bg: url(img/ie/bg.gif);
-@ts-asc: url(img/ie/asc.gif);
-@ts-desc: url(img/ie/desc.gif);
+	@ts-bg: url(img/ie/bg.gif);
+	@ts-asc: url(img/ie/asc.gif);
+	@ts-desc: url(img/ie/desc.gif);
+
 
 // Parametric Mixins
-.border-radius (@radius) {
-	-webkit-border-radius: @radius;
-	-moz-border-radius: @radius;
-	border-radius: @radius;
-}
+	.border-radius (@radius) {
+		-webkit-border-radius: @radius;
+		-moz-border-radius: @radius;
+		border-radius: @radius;
+	}
 
-.border-radius-tl (@radius) {
-	-webkit-border-top-left-radius: @radius;
-	-moz-border-radius-topleft: @radius;
-	border-top-left-radius: @radius;
-}
+	.border-radius-tl (@radius) {
+		-webkit-border-top-left-radius: @radius;
+		-moz-border-radius-topleft: @radius;
+		border-top-left-radius: @radius;
+	}
 
-.border-radius-bl (@radius) {
-	-webkit-border-bottom-left-radius: @radius;
-	-moz-border-radius-bottomleft: @radius;
-	border-bottom-left-radius: @radius;
-}
+	.border-radius-bl (@radius) {
+		-webkit-border-bottom-left-radius: @radius;
+		-moz-border-radius-bottomleft: @radius;
+		border-bottom-left-radius: @radius;
+	}
 
-.border-radius-tr (@radius) {
-	-webkit-border-top-right-radius: @radius;
-	-moz-border-radius-topright: @radius;
-	border-top-right-radius: @radius;
-}
+	.border-radius-tr (@radius) {
+		-webkit-border-top-right-radius: @radius;
+		-moz-border-radius-topright: @radius;
+		border-top-right-radius: @radius;
+	}
 
-.border-radius-br (@radius) {
-	-webkit-border-bottom-right-radius: @radius;
-	-moz-border-radius-bottomright: @radius;
-	border-bottom-right-radius: @radius;
-}
+	.border-radius-br (@radius) {
+		-webkit-border-bottom-right-radius: @radius;
+		-moz-border-radius-bottomright: @radius;
+		border-bottom-right-radius: @radius;
+	}
 
-.box-shadow (@shadow) {
-	-moz-box-shadow: @shadow;
-	-webkit-box-shadow: @shadow;
-	box-shadow: @shadow;
-}
+	.box-shadow (@shadow) {
+		-moz-box-shadow: @shadow;
+		-webkit-box-shadow: @shadow;
+		box-shadow: @shadow;
+	}
 
-.advanced-gradent (@gradent1, @gradent2) {
-	background-image: -webkit-linear-gradient(top, @gradent1, @gradent2);
-	background-image: -moz-linear-gradient(top, @gradent1, @gradent2);
-	background-image: -ms-linear-gradient(top, @gradent1 @gradent2);
-	background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{gradent1}), to(@{gradent2})";
-	background-image: -o-linear-gradient(top, @gradent1, @gradent2);
-	background-image: linear-gradient(top, @gradent1, @gradent2);
-}
+	.advanced-gradent (@gradent1, @gradent2) {
+		background-image: -webkit-linear-gradient(top, @gradent1, @gradent2);
+		background-image: -moz-linear-gradient(top, @gradent1, @gradent2);
+		background-image: -ms-linear-gradient(top, @gradent1 @gradent2);
+		background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{gradent1}), to(@{gradent2})";
+		background-image: -o-linear-gradient(top, @gradent1, @gradent2);
+		background-image: linear-gradient(top, @gradent1, @gradent2);
+	}
 
-.img-gradent (@img, @color) {
-	@l-color: lighten(@color, 15%);
-	@d-color: darken(@color, 15%);
-	background-image: @img, -webkit-linear-gradient(top, @l-color, @d-color);
-	background-image: @img, -moz-linear-gradient(top, @l-color, @d-color);
-	background-image: @img, -ms-linear-gradient(top, @l-color @d-color);
-	background-image: @img, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{l-color}), to(@{d-color})";
-	background-image: @img, -o-linear-gradient(top, @l-color, @d-color);
-	background-image: @img, linear-gradient(top, @l-color, @d-color);
-}
+	.img-gradent (@img, @color) {
+		@l-color: lighten(@color, 15%);
+		@d-color: darken(@color, 15%);
+		background-image: @img, -webkit-linear-gradient(top, @l-color, @d-color);
+		background-image: @img, -moz-linear-gradient(top, @l-color, @d-color);
+		background-image: @img, -ms-linear-gradient(top, @l-color @d-color);
+		background-image: @img, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{l-color}), to(@{d-color})";
+		background-image: @img, -o-linear-gradient(top, @l-color, @d-color);
+		background-image: @img, linear-gradient(top, @l-color, @d-color);
+	}
 
-.inv-img-gradent (@img, @color) {
-	@l-color: lighten(@color, 15%);
-	@d-color: darken(@color, 15%);
-	background-image: @img, -webkit-linear-gradient(top, @d-color, @l-color);
-	background-image: @img, -moz-linear-gradient(top, @d-color, @l-color);
-	background-image: @img, -ms-linear-gradient(top, @d-color @l-color);
-	background-image: @img, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{d-color}), to(@{l-color})";
-	background-image: @img, -o-linear-gradient(top, @d-color, @l-color);
-	background-image: @img, linear-gradient(top, @d-color, @l-color);
-}
+	.inv-img-gradent (@img, @color) {
+		@l-color: lighten(@color, 15%);
+		@d-color: darken(@color, 15%);
+		background-image: @img, -webkit-linear-gradient(top, @d-color, @l-color);
+		background-image: @img, -moz-linear-gradient(top, @d-color, @l-color);
+		background-image: @img, -ms-linear-gradient(top, @d-color @l-color);
+		background-image: @img, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{d-color}), to(@{l-color})";
+		background-image: @img, -o-linear-gradient(top, @d-color, @l-color);
+		background-image: @img, linear-gradient(top, @d-color, @l-color);
+	}
 
-.reg-gradent (@color) {
-	@l-color: lighten(@color, 15%);
-	@d-color: darken(@color, 15%);
-	background-image: -webkit-linear-gradient(top, @l-color, @d-color);
-	background-image: -moz-linear-gradient(top, @l-color, @d-color);
-	background-image: -ms-linear-gradient(top, @l-color @d-color);
-	background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{l-color}), to(@{d-color})";
-	background-image: -o-linear-gradient(top, @l-color, @d-color);
-	background-image: linear-gradient(top, @l-color, @d-color);
-}
+	.reg-gradent (@color) {
+		@l-color: lighten(@color, 15%);
+		@d-color: darken(@color, 15%);
+		background-image: -webkit-linear-gradient(top, @l-color, @d-color);
+		background-image: -moz-linear-gradient(top, @l-color, @d-color);
+		background-image: -ms-linear-gradient(top, @l-color @d-color);
+		background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{l-color}), to(@{d-color})";
+		background-image: -o-linear-gradient(top, @l-color, @d-color);
+		background-image: linear-gradient(top, @l-color, @d-color);
+	}
 
-.inv-gradent (@color) {
-	@l-color: lighten(@color, 15%);
-	@d-color: darken(@color, 15%);
-	background-image: -webkit-linear-gradient(top, @d-color, @l-color);
-	background-image: -moz-linear-gradient(top, @d-color, @l-color);
-	background-image: -ms-linear-gradient(top, @d-color @l-color);
-	background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{d-color}), to(@{l-color})";
-	background-image: -o-linear-gradient(top, @d-color, @l-color);
-	background-image: linear-gradient(top, @d-color, @l-color);
-}
+	.inv-gradent (@color) {
+		@l-color: lighten(@color, 15%);
+		@d-color: darken(@color, 15%);
+		background-image: -webkit-linear-gradient(top, @d-color, @l-color);
+		background-image: -moz-linear-gradient(top, @d-color, @l-color);
+		background-image: -ms-linear-gradient(top, @d-color @l-color);
+		background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{d-color}), to(@{l-color})";
+		background-image: -o-linear-gradient(top, @d-color, @l-color);
+		background-image: linear-gradient(top, @d-color, @l-color);
+	}
 
-.opacity (@opacity) {
-	@opacity_percent: @opacity * 100;
-	-moz-opacity: @opacity;
-	filter:alpha(opacity=@opacity_percent);
-	opacity: @opacity;
-}
+	.opacity (@opacity) {
+		@opacity_percent: @opacity * 100;
+		-moz-opacity: @opacity;
+		filter:alpha(opacity=@opacity_percent);
+		opacity: @opacity;
+	}
 
-.transition (@time) {
-	-webkit-transition: all @time ease-out;  /* Saf3.2+, Chrome */
-	-moz-transition: all @time ease-out;  /* FF4+ */
-	-ms-transition: all @time ease-out;  /* IE10? */
-	-o-transition: all @time ease-out;  /* Opera 10.5+ */
-	transition: all @time ease-out;
-}
+	.transition (@time) {
+		-webkit-transition: all @time ease-out;  /* Saf3.2+, Chrome */
+		-moz-transition: all @time ease-out;  /* FF4+ */
+		-ms-transition: all @time ease-out;  /* IE10? */
+		-o-transition: all @time ease-out;  /* Opera 10.5+ */
+		transition: all @time ease-out;
+	}
+
 
 // Mixins
+	.theme1 () { //used on buttons & legends
+		color: @litetext;
+		background: #ededed;
+		.reg-gradent(@regcolor);
+		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+		font-size: 14px;
+		font-weight:700;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+	}
 
-.theme1 () { //used on buttons & legends
-	color: @litetext;
-	background: #ededed;
-	.reg-gradent(@regcolor);
-	.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
-	font-size: 14px;
-	font-weight:700;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-}
 
 // Fonts
-@font-face {
-    font-family: 'BankGothicMdBTMedium';
-    src: url('font/bank-gothic-medium-bt.ttf');
-}
+	@font-face {
+	    font-family: 'BankGothicMdBTMedium';
+	    src: url('font/bank-gothic-medium-bt.ttf');
+	}
 
-@font-face {
-    font-family: 'BankSans';
-    src: url('font/bank-sans.ttf');
-}
+	@font-face {
+	    font-family: 'BankSans';
+	    src: url('font/bank-sans.ttf');
+	}
 
-@font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
+	@font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
 
 
 // Logo
-
 	#c, #s, #d {
 		stroke: none !important;
 		fill: #000 !important;
@@ -189,8 +191,8 @@ Language: LESS
 
 	a#logo {
 		position: absolute;
-		right:0;
-		top:0;
+		right: 20px;
+		top: 10px;
 
 		path {
 			stroke: #000;
@@ -212,7 +214,6 @@ Language: LESS
 
 
 // Layout
-
 	body, html, table {
 		height: 100%;
 		margin: 0;
@@ -249,8 +250,7 @@ Language: LESS
 	}
 
 
-// Forms
-
+// General
 	p {
 		display:inline;
 		margin:2px;
@@ -264,10 +264,7 @@ Language: LESS
 			margin: 10px;
 			z-index: 1001;//CONSIDER shows navbar even when modal is open - not sure about this look
 			position: relative;
-
-			div {
-				margin-right: 170px;//move end of navbar away from logo
-			}
+			margin-right: 170px;//move end of navbar away from logo
 		}
 
 		li {
@@ -392,43 +389,41 @@ Language: LESS
 
 
 // Links
+	p a {
+	    .border-radius(0.25em);
+		border: 1px solid transparent;
+	    color: #336699;
+	    margin: 0 -0.2em;
+	    padding: 0.1em;
+		text-decoration:none;
+		border-bottom:1px dotted #336699; 
 
-p a {
-    .border-radius(0.25em);
-	border: 1px solid transparent;
-    color: #336699;
-    margin: 0 -0.2em;
-    padding: 0.1em;
-	text-decoration:none;
-	border-bottom:1px dotted #336699; 
+		&:hover {
+			background: #3399CC;
+			border: 1px solid #B6B6B6;
+			text-decoration: none;
+			background: #ededed;
+			.reg-gradent(@regcolor);
+			.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+			text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+			color: #313131;
+		}
 
-	&:hover {
-		background: #3399CC;
-		border: 1px solid #B6B6B6;
-		text-decoration: none;
-		background: #ededed;
-		.reg-gradent(@regcolor);
-		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-		color: #313131;
+		&:active {
+			background: #3399CC;
+			border: 1px solid #7096ab;
+			text-decoration: none;
+			text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+			color: #1c4257;
+			background: #ededed;
+			.advanced-gradent(#b9e0f5, #92bdd6);
+			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+		}
 	}
 
-	&:active {
-		background: #3399CC;
-		border: 1px solid #7096ab;
-		text-decoration: none;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-		color: #1c4257;
-		background: #ededed;
-		.advanced-gradent(#b9e0f5, #92bdd6);
-		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-	}
-}
 
-
-// Buttons
-
+// Buttons and Button Sets
 	button {
 		.border-radius(3px);
 		height: 32px; //fixes weird button height diff
@@ -439,9 +434,6 @@ p a {
 			padding: 4px;
 		}
 	}
-
-
-// Buttons and Button Sets
 
 	button, .buttonset label {
 		outline: none;
@@ -488,10 +480,6 @@ p a {
 		.advanced-gradent(#b9e0f5, #92bdd6);
 		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 	}
-
-
-
-// Button Sets
 
 	.buttonset {
 		margin-right: 7px;
@@ -635,8 +623,7 @@ p a {
 	}
 
 
-
-//Jquery Select Box
+// Jquery Select Box
 	/* Dropdown control */
 	.selectBox-dropdown {
 		min-width: 75px;
@@ -993,6 +980,7 @@ p a {
 
 		div.jGrowl-notification {
 			min-height: 10px;
+			min-width: 175px;
 			margin-left: 10px;
 			margin-right: 10px;
 
@@ -1036,10 +1024,8 @@ p a {
 	}
 
 
-
 // Tipsy
-/* TODO change tipsy style add fade in...*/
-
+	/* TODO change tipsy style add fade in...*/
 	.tipsy {
 		font-family: 'BankSans';
 		font-size: 10px;
