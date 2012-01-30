@@ -161,7 +161,8 @@ function logout($error_message = ''){//must be function to let it be called from
 	//TODO check for logout error?
 	
 	if($error_message == ''){//if no error message is specified then assume no error
-		send_reg('logout successful');
+		$return['message'] = 'logout successful';
+		send_reg($return);
 	} else {
 		send_error($error_message,'','logout();');
 	}

@@ -16,7 +16,7 @@ function displayScoutID() {
 		} else {
 			previewScoutID.value = '';
 		}
-	}, 100);//timeout used because key hasn't been pressed yet
+	}, 1);//timeout used because key hasn't been pressed yet
 }
 
 function checkSignup(filter) {
@@ -29,8 +29,13 @@ function checkSignup(filter) {
 	}
 	if (filter == 'lName' || filter == 'all') {
 
+
 		if (filter != all) {
 			return
 		};
 	}
+}
+
+function sendSignup(){
+	
 }

@@ -79,6 +79,7 @@ function send_error($error_text, $error = '', $script = ''){
 	}";
 	$db->execute("db.log.insert($insert)");
 
+	//TODO enable below before production
 	//ob_clean (); //empty output buffer, error_text is only thing sent
 	
 	if($script == ''){
@@ -121,8 +122,9 @@ function send_reg($return = ''){
 	$db->execute("db.log.insert($insert)");
 
 	$return = json_encode($return);
+
+	//TODO enable below before production
 	//ob_clean (); //empty output buffer, return is only thing sent
 	die($return);
-
 }
 ?>

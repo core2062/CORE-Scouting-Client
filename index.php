@@ -250,8 +250,7 @@ array(
         "contact"=> array(
 			"full-name"=> "Contact",
             "description"=> "lorem",
-            "login-required"=> false,
-            "onClose"=> "sendMessage()"
+            "login-required"=> false
         ),
         "credits"=> array(
 			"full-name"=> "Credits",
@@ -486,9 +485,9 @@ include 'php/jsminplus.php';
 				</a>
 			</div>
 
-				<?php
-					embed('html/', '-modals.html');
-				?>
+			<?php
+				embed('html/', '-modals.html');
+			?>
 
 			<div id="modal-buttons">
 				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalclose();">Close</button>
@@ -496,7 +495,7 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
 				<button type="button" style="display: none;" class="account-c" onclick="modalClose()">Save</button>
-				<button type="button" style="display: none;" class="contact-c" onclick="modalClose()">Send</button>
+				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage()">Send</button>
 			</div>
 		</div>
 	</div>
