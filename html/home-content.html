@@ -55,7 +55,7 @@
 				<br/>
 				<li>
 					<label for="email">Email:</label>
-					<input type="text" id="email"/>
+					<input type="text" id="email" onkeypress="var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) sendSignup();"/>
 				</li>
 				
 			</ul>
