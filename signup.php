@@ -20,24 +20,29 @@ $input = json_decode($input, true);
 
 //check for missing required data (for optional, assign default)
 
-//array_keys()    array array_keys ( array $input [, mixed $search_value [, bool $strict = false ]] )
-//array_merge_recursive()     array array_merge_recursive ( array $array1 [, array $... ] )
-
+//build list of required inputs
 $objects = array('info', 'account');
+$required = array();//intalize empty
 
-$required = array(
-	array('info', 'fName'),
-	array('info', 'lName'),
-	array('info', 'email')
-);
-
+$len = sizeof($objects);
+for($i = 0; $i < $len; $i++){
+	$e = array_keys($userObject[$objects[$i]]);
+	$len2 = sizeof($e);
+	for($f = 0; $f < $len2; $f++){
+		$e[$f] = array($objects[$i], $e[$f]);
+	}
+	$required = array_merge($required, $e);
+}
+	fb($required);
+	fb($input);
+//check everything that's required
 $len = sizeof($required);
-for(var $i = 0; i < $len; $i++){
-	if (empty($input[ $required[$i][1] ][ $required[$i][2] ]) == true){
-		send_error($required[$i] . ' wasn\'t not sent');
+for($i = 0; $i < $len; $i++){
+	if (empty($input[ $required[$i][0] ][ $required[$i][1] ]) == true){
+		send_error($required[$i][1] . ' wasn\'t not sent');
 	}
 }
-
+die();
 
 
 //check for same username
@@ -51,42 +56,4 @@ $db->execute("
 ");
 
 //send confirmation email + instructions for training
-
-/*
-
-The User Object (full example)
-{
-	"_id": "SeanLang-2062",
-	"permission": 9,
-	"token": "4f1c860728df71.38499022",
-
-	"info": {//send
-		"fName": "Sean",
-		"lName": "Lang",
-		"team": 2062
-	},
-
-	"prefs": {//send, optional info
-		"fade": true,
-		"verbose": true
-	},
-
-	"account": {//not sent, required info
-		"pword": "superpass",
-		"email": "slang800@gmail.com"
-	},
-
-	"stats": {//not sent, created by server side
-		"ip": "127.0.0.1",
-		"logintime": "1327269383.167"
-	}
-	
-	"opt": {//not sent, optional info
-		"zip": 53072,
-		"browser": "Firefox",
-		"gender": "m"
-	},
-}
-
-*/
 ?>

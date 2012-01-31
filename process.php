@@ -41,13 +41,13 @@ if (empty($input['token']) == true) {
 }
 
 //check user & assign user object
-$user = $db->execute("db.user.findOne({_id : '" . $input['_id'] . "'},{stats:0})");//return user object w/ no stats
+$user = $db->execute("db.user.findOne({_id : '" . $input['_id'] . "'})");//return user object
 $user = $user['retval'];//strip away extra stuff from mongoDB
 
 if ($user['token'] !== $input['token']) {//validate token
 	logout("token is incorrect, you have been logged out for security reasons");
 }
-if ($user['ip'] !== $vars['ip']) {//validate ip address
+if ($user['stats']['ip'] !== $vars['ip']) {//validate ip address
 	logout("ip is incorrect, you have been logged out for security reasons");
 }
 if ($user['permission'] == 0) {

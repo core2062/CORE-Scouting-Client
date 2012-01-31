@@ -10,14 +10,14 @@ require 'php/general.php';
 $input = $_POST['data'];
 $input = json_decode($input, true);
 
-if ($input['scoutid'] == "") {
+if ($input['_id'] == "") {
 	send_error("scoutid is blank");
 }
 if ($input['pword'] == "") {
 	send_error("password is blank");
 }
 
-$user = $db->execute("db.user.findOne({_id : '" . $input['scoutid'] . "'},{stats:0})");
+$user = $db->execute("db.user.findOne({_id : '" . $input['_id'] . "'},{stats:0})");
 
 if ($user['retval'] == '') {
 	send_error("scoutID is incorrect");
@@ -25,7 +25,7 @@ if ($user['retval'] == '') {
 
 $user = $user['retval'];
 
-if ($user['pword'] !== $input['pword']) {
+if ($user['account']['pword'] !== $input['pword']) {
 	send_error("password is incorrect");
 }
 
@@ -37,12 +37,12 @@ $user['token'] = uniqid("",true);
 $vars['token'] = $user['token'];//for logging ... fix?
 
 $db->execute("
-	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'ip':'', 'token':''}});
-	db.user.update({_id : '" . $input['scoutid'] . "'}, {'\$set':{'token':'" . $user['token'] . "', 'ip':'" . $vars['ip'] . "', 'logintime':'$starttime'}});
+	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'stats':'', 'token':''}});
+	db.user.update({_id : '" . $input['_id'] . "'}, {'\$set':{'token':'" . $user['token'] . "', 'stats':{'ip':'" . $vars['ip'] . "', 'logintime':'" . $starttime . "'}}});
 "); //first zero out ip & token for users w/ same ip then set ip & token for user logging in
 
 
-unset($user['pword'], $user['ip'], $user['email'], $user['info']['zip'], $user['info']['browser']);//remove stuff I don't want sent to browser
+unset($user['account'], $user['stats'], $user['opt']);//remove stuff I don't want sent to browser
 
 //regular end - can't user send_reg()
 list($micro, $sec) = explode(" ",microtime());

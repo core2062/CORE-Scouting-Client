@@ -77,11 +77,13 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
     };
 
     var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
-        "scoutid": "Guest",
+        "_id": "Guest",
+        "permission": 1,
         "token": "",
         "info":{
     		"fName": "Guest",
-    		"lName": ""
+    		"lName": "",
+            "team": 0
         },
         "prefs": {
         	"fade": true,
@@ -343,13 +345,13 @@ function getToken(password) {
     scoutidInput = document.getElementById('scoutid');
     pwordInput = document.getElementById('pword');
 
-    user.scoutid = scoutidInput.value; //put in user object (scoutid in user object != logged in)
+    user._id = scoutidInput.value; //put in user object (scoutid in user object != logged in)
     pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
 
     scoutidInput.value = ''; //remove them from inputs
     pwordInput.value = '';
 
-    if (user.scoutid == '') {
+    if (user._id == '') {
         $('#jGrowl-container').jGrowl('scoutID is blank', {
             theme: 'error'
         });
@@ -358,7 +360,7 @@ function getToken(password) {
             theme: 'error'
         });
     } else {
-        var json = post('login.php', '{"scoutid":"' + user.scoutid + '","pword":"' + pword + '"}');
+        var json = post('login.php', '{"_id":"' + user._id + '","pword":"' + pword + '"}');
 
         if (json.token) {
         	//store stuff in temporary user object

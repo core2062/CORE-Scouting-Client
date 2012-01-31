@@ -66,7 +66,7 @@ ini_set( 'display_errors', 1 );
 
 	make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time
 
-	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. only send data from the computer it was generated from or the database will reject it (IF TOKEN BASED LOGIN). If it is not possible to send it from this computer... contact me/send it to me.
+	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. If it is not possible to send it from this computer... contact me/send it to me.
 
 	check to see if save valuable scouting data jGrowl pops up for blank ScoutID or other errors
 

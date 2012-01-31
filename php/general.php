@@ -21,6 +21,39 @@ $starttime = (float)$sec + (float)$micro;
 
 $log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
 
+//The User Object (full example)
+$userObject = array(
+	"_id"=> "SeanLang-2062",
+	"permission"=> 9,
+	"token"=> "4f1c860728df71.38499022",
+
+	"info"=> array(//send
+		"fName"=> "Sean",
+		"lName"=> "Lang",
+		"team"=> 2062
+	),
+
+	"prefs"=> array(//send, optional info
+		"fade"=> true,
+		"verbose"=> true
+	),
+
+	"account"=> array(//not sent, required info
+		"pword"=> "superpass",
+		"email"=> "slang800@gmail.com"
+	),
+
+	"stats"=> array(//not sent, created by server side
+		"ip"=> "127.0.0.1",
+		"logintime"=> "1327269383.167"
+	),
+	
+	"opt"=> array(//not sent, optional info
+		"zip"=> 53072,
+		"browser"=> "Firefox",
+		"gender"=> "m"
+	)
+);
 
 //connect to mongoDB
 $m = new Mongo();

@@ -24,31 +24,35 @@ function checkSignup(filter) {//return true if ok, return false if bad
 	if (filter == 'fName' || filter == 'all') {
 
 
-		if (filter != all) {
+		if (filter != 'all') {
 			return true;
 		};
 	}
 	if (filter == 'lName' || filter == 'all') {
 
 
-		if (filter != all) {
+		if (filter != 'all') {
 			return true;
 		};
 	}
 	return true; //temp
 }
 
-function postSignup(){
+function postSignup(){//this function will interfere with logged in users... signup must not be visible if logged in
 	if (checkSignup('all') == false){
 		return;//jGrowl messages & highlighting deal with bad inputs
 	}
 
 	//put all info in user object, scoutid is made server-side
-	user.info.fName = fName.value;
-	user.info.lName = lName.value;
-	user.team = teamNum.value;
-	user.pword = signupPassword.value;
-	user.email = email.value;
+	user.account = {
+		"fName": fName.value,
+		"lName": lName.value,
+		"team": teamNum.value
+	};
+	user.account = {
+		"pword": signupPassword.value,
+		"email": email.value
+	};
 
 	bakeCookie('user', $.toJSON(user));
 	post('signup.php','');//all data is in cookie
