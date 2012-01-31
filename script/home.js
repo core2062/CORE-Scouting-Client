@@ -44,7 +44,7 @@ function postSignup(){//this function will interfere with logged in users... sig
 	}
 
 	//put all info in user object, scoutid is made server-side
-	user.account = {
+	user.info = {
 		"fName": fName.value,
 		"lName": lName.value,
 		"team": teamNum.value

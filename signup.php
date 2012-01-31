@@ -16,7 +16,6 @@ require 'php/general.php';
 $input = $_COOKIE['user'] or logout("user object was not received");
 $input = json_decode($input, true);
 
-//primary error correction is done client-side, error messages from this are not friendly
 
 //check for missing required data (for optional, assign default)
 
@@ -33,8 +32,7 @@ for($i = 0; $i < $len; $i++){
 	}
 	$required = array_merge($required, $e);
 }
-	fb($required);
-	fb($input);
+
 //check everything that's required
 $len = sizeof($required);
 for($i = 0; $i < $len; $i++){
@@ -42,18 +40,83 @@ for($i = 0; $i < $len; $i++){
 		send_error($required[$i][1] . ' wasn\'t not sent');
 	}
 }
-die();
+
+//transfer all stuff into a new object to prevent storing any extra values & do default check
+$input = array(
+	'permission' => 1, // TODO make system to assign higher permissions automatically
+
+	"info"=> array(
+		"fName"=> $input['info']['fName'],
+		"lName"=> $input['info']['lName'],
+		"team"=> (int)$input['info']['team']
+	),
+
+	"prefs"=> array(
+		"fade"=> checkDefault($input['prefs']['fade'], true),
+		"verbose"=> checkDefault($input['prefs']['verbose'], true)
+	),
+
+	"account"=> array(
+		"pword"=> $input['account']['pword'],
+		"email"=> $input['account']['email']
+	),
+	
+	"opt"=> array(
+		"zip"=> checkDefault($input['opt']['zip'], ''),
+		"browser"=> checkDefault($input['opt']['browser'], ''),
+		"gender"=> checkDefault($input['opt']['gender'], '')
+	)
+);
+fb($input);
 
 
-//check for same username
-//check for same email
-//check for invalid team, email, name... (also on client side)
+$array = str_split($input['info']['fName']);
+foreach($array as $char) {
+	if(!preg_match("/[a-z]/i", $char)) send_error('first name is invalid. this must contain only english letters');
+}
 
-$input['permission'] = 1;//TODO make system to assign higher permissions automatically
+$array = str_split($input['info']['lName']);
+foreach($array as $char) {
+	if(!preg_match("/[a-z]/i", $char)) send_error('last name is invalid. this must contain only english letters');
+}
 
-$db->execute("
-	db.user.insert(" . json_encode($input) . ");
-");
+
+if(!is_int($input['info']['team']) || $input['info']['team'] > 9999 || $input['info']['team'] < 1){
+	send_error('team number is invalid');
+}
+
+
+$input['_id'] = $input['info']['fName'] . $input['info']['lName'] . '-' . $input['info']['team'];//make _id
+
+$i = $db->user->findOne(array("_id" => $input['_id']), array("_id" => 1));//check for a duplicate _id
+if(!empty($i)){
+	//TODO make a system to deal with this & probably assign usernames better
+	send_error('username already taken');
+}
+
+
+if(strlen($input['account']['pword']) < 5){
+	send_error('seriously, a ' . strlen($input['account']['pword']) . ' character password, this could be cracked in under an hour. try something more secure');
+}
+
+
+if(!(filter_var($input['account']['email'], FILTER_VALIDATE_EMAIL))){
+	send_error('this email is not valid');
+}
+//TODO check for duplicate email????
+
+
+$db->user->insert($input);//finally add user
 
 //send confirmation email + instructions for training
+
+
+//general functions
+function checkDefault($value, $default){
+	if(empty($value) == false){
+		return $value;
+	} else {
+		return $default;
+	}
+}
 ?>
