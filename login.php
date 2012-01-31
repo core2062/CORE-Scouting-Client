@@ -37,8 +37,8 @@ $user['token'] = uniqid("",true);
 $vars['token'] = $user['token'];//for logging ... fix?
 
 $db->execute("
-	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$set':{'stats':'', 'token':''}});
-	db.user.update({_id : '" . $input['_id'] . "'}, {'\$set':{'token':'" . $user['token'] . "', 'stats':{'ip':'" . $vars['ip'] . "', 'logintime':'" . $starttime . "'}}});
+	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$unset':{'stats.ip':1, 'token':1}});
+	db.user.update({_id :'" . $input['_id'] . "'}, {'\$set':{'token':'" . $user['token'] . "', 'stats':{'ip':'" . $vars['ip'] . "', 'logintime':'" . $starttime . "'}}});
 "); //first zero out ip & token for users w/ same ip then set ip & token for user logging in
 
 
