@@ -88,7 +88,15 @@ if(!is_int($input['info']['team']) || $input['info']['team'] > 9999 || $input['i
 
 $input['_id'] = $input['info']['fName'] . $input['info']['lName'] . '-' . $input['info']['team'];//make _id
 
-$i = $db->user->findOne(array("_id" => $input['_id']), array("_id" => 1));//check for a duplicate _id
+$i = $db->user->findOne(
+	array(
+		'_id' => $input['_id']
+	),
+	array(
+		"_id" => 1
+	)
+);//check for a duplicate _id
+
 if(!empty($i)){
 	//TODO make a system to deal with this & probably assign usernames better
 	send_error('username already taken');
@@ -110,6 +118,7 @@ $db->user->insert($input);//finally add user
 
 //send confirmation email + instructions for training
 
+send_reg();
 
 //general functions
 function checkDefault($value, $default){

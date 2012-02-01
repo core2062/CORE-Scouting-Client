@@ -17,13 +17,20 @@ if ($input['pword'] == "") {
 	send_error("password is blank");
 }
 
-$user = $db->execute("db.user.findOne({_id : '" . $input['_id'] . "'},{stats:0})");
+$user = $db->user->findOne(
+	array(
+		'_id' => $input['_id']
+	),
+	array(
+		'stats' => 0
+	)
+);
 
-if ($user['retval'] == '') {
+fb($user);
+
+if($user == ''){
 	send_error("scoutID is incorrect");
 }
-
-$user = $user['retval'];
 
 if ($user['account']['pword'] !== $input['pword']) {
 	send_error("password is incorrect");
@@ -36,10 +43,32 @@ if ($user['permission'] == 0) {
 $user['token'] = uniqid("",true);
 $vars['token'] = $user['token'];//for logging ... fix?
 
-$db->execute("
-	db.user.update({'ip':'" . $vars['ip'] . "'}, {'\$unset':{'stats.ip':1, 'token':1}});
-	db.user.update({_id :'" . $input['_id'] . "'}, {'\$set':{'token':'" . $user['token'] . "', 'stats':{'ip':'" . $vars['ip'] . "', 'logintime':'" . $starttime . "'}}});
-"); //first zero out ip & token for users w/ same ip then set ip & token for user logging in
+$db->user->update(
+	array(
+		'ip' => $vars['ip']
+	),
+	array(
+		'$unset'=> array(
+			'stats.ip' => 1,
+			'token' => 1
+		)
+	)
+);//zero out ip & token for users w/ same ip
+
+$db->user->update(
+	array(
+		'_id' => $input['_id']
+	),
+	array(
+		'$set' => array(
+			'token' => $user['token'],
+			'stats' => array(
+				'ip' => $vars['ip'],
+				'logintime' => $starttime
+			)
+		)
+	)
+);//set ip & token for user logging in
 
 
 unset($user['account'], $user['stats'], $user['opt']);//remove stuff I don't want sent to browser
@@ -49,21 +78,17 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-//add log_ prefix to be able to use origionals in end function
-$log_input = json_encode($input);
-$log_vars = json_encode($vars);
-$log_log = json_encode($log);
-
-$insert = "{
-	type:'token-gen',
-	place:'login.php',
-	time:'$starttime',
-	duration:'$total_time',
-	input:$log_input,
-	log:$log_log,
-	vars:$log_vars
-}";
-$db->execute("db.log.insert($insert)");
+$db->log->insert(
+	array(
+		'type' => 'token-gen',
+		'place' => 'login.php',
+		'time' => $starttime,
+		'duration' => $total_time,
+		'input' => $input,
+		'log' => $log,
+		'vars' => $vars
+	)
+);
 
 $user['message'] = 'login complete';//put message in user variable (easiest way)
 

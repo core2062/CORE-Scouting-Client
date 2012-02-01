@@ -41,8 +41,11 @@ if (empty($input['token']) == true) {
 }
 
 //check user & assign user object
-$user = $db->execute("db.user.findOne({_id : '" . $input['_id'] . "'})");//return user object
-$user = $user['retval'];//strip away extra stuff from mongoDB
+$user = $db->user->findOne(
+	array(
+		'_id' => $input['_id']
+	)
+);//return user object
 
 if ($user['token'] !== $input['token']) {//validate token
 	logout("token is incorrect, you have been logged out for security reasons");
@@ -152,7 +155,16 @@ break;
 case "updateUser":
 	
 	//TODO expand to update stuff other than prefs too?
-	$db->execute("db.user.update({_id:'" . $user['_id'] . "'}, {'\$set':{prefs : " . json_encode($input['prefs']) . "}});");
+	$db->user->update(
+		array(
+			'_id:' => $user['_id']
+		),
+		array(
+			'$set' => array(
+				'prefs' => $input['prefs']
+			)
+		)
+	);
 	//TODO check for error in prefs update?
 	
 	send_reg(array('message' => 'preferences updated successfully'));
@@ -168,7 +180,17 @@ function logout($error_message = ''){//must be function to let it be called from
 	global $db;
 	global $user;
 	
-	$db->execute("db.user.update({_id:'" . $user['_id'] . "'}, {'\$unset':{ip:1, token:1}});"); // delete token & ip for active user
+	$db->user->update(
+		array(
+			'_id:' => $user['_id']
+		),
+		array(
+			'$unset' => array(
+				'ip' => 1,
+				'token' => 1
+			)
+		)
+	); // delete token & ip for active user
 	
 	//TODO check for logout error?
 	
