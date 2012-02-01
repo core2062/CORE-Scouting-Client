@@ -368,18 +368,16 @@ if (file_exists($filename) == true){
 		$endtime = (float)$sec + (float)$micro;
 		$total_time = ($endtime - $starttime);
 
-		$log_input = json_encode($input);
-
-		$insert = "{
-			type:'page-cache',
-			place:'index.php',
-			time:'$starttime',
-			duration:'$total_time',
-			filename:'$filename',
-			input:$log_input
-		}";
-
-		$db->execute("db.log.insert($insert)");
+		$db->log->insert(
+			array(
+				'type' => 'page-cache',
+				'place' => 'index.php',
+				'time' => $starttime,
+				'duration' => $total_time,
+				'filename' => $filename,
+				'input' => $input
+			)
+		);
 
 		ob_clean (); //empty output buffer
 		die($html);
@@ -569,19 +567,17 @@ list($micro, $sec) = explode(" ",microtime());
 $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
-$log_input = json_encode($input);
-
-$insert = "{
-	type:'page-gen',
-	place:'index.php',
-	time:'$starttime',
-	duration:'$total_time',
-	filename:'$filename',
-	dev:'$dev',
-	input:$log_input
-}";
-
-$db->execute("db.log.insert($insert)");
+$db->log->insert(
+	array(
+		'type' => 'page-gen',
+		'place' => 'index.php',
+		'time' => $starttime,
+		'duration' => $total_time,
+		'filename' => $filename,
+		'dev' => $dev,
+		'input' => $input
+	)
+);
 
 ob_clean ();
 die($html);
