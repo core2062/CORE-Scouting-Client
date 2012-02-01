@@ -84,26 +84,22 @@ function send_error($error_text, $error = '', $script = ''){
 	$endtime = (float)$sec + (float)$micro;
 	$total_time = ($endtime - $starttime);
 
-	$log_input = json_encode($input);
-	$log_vars = json_encode($vars);
-	$log_log = json_encode($log);
-	$log_user = json_encode($user);
-
-	$insert = "{
-		type:'error',
-		errorcode:'$error',
-		place:'$place',
-		time:'$starttime',
-		duration:'$total_time',
-		input:$log_input,
-		log:$log_log,
-		vars:$log_vars,
-		user:$log_user
-	}";
-	$db->execute("db.log.insert($insert)");
+	$db->log->insert(
+		array(
+			'type' => 'error',
+			'errorcode' => $error,
+			'place' => $place,
+			'time' => $starttime,
+			'duration' => $total_time,
+			'input' => $input,
+			'log' => $log,
+			'vars' => $vars,
+			'user' => $user
+		)
+	);
 
 	//TODO enable below before production
-	//ob_clean (); //empty output buffer, error_text is only thing sent
+	ob_clean (); //empty output buffer, error_text is only thing sent
 	
 	if($script == ''){
 		die("{'error':'$error_text'}");
@@ -126,28 +122,23 @@ function send_reg($return = ''){
 	$endtime = (float)$sec + (float)$micro;
 	$total_time = ($endtime - $starttime);
 
-	$log_input = json_encode($input);
-	$log_vars = json_encode($vars);
-	$log_log = json_encode($log);
-	$log_user = json_encode($user);
-
-	$insert = "{
-		type:'$type',
-		return:'$return',
-		place:'$place',
-		time:'$starttime',
-		duration:'$total_time',
-		input:$log_input,
-		log:$log_log,
-		vars:$log_vars,
-		user:$log_user
-	}";
-	$db->execute("db.log.insert($insert)");
+	$db->log->insert(
+		array(
+			'type' => $type,
+			'return' => $return,
+			'place' => $place,
+			'time' => $starttime,
+			'duration' => $total_time,
+			'input' => $input,
+			'log' => $log,
+			'vars' => $vars,
+			'user' => $user
+		)
+	);
 
 	$return = json_encode($return);
 
-	//TODO enable below before production
-	//ob_clean (); //empty output buffer, return is only thing sent
+	ob_clean (); //empty output buffer, return is only thing sent
 	die($return);
 }
 ?>
