@@ -49,6 +49,11 @@ function highlight(condition, element){
 	element.style
 }
 */
+function pulse(elementID, setting){//setting is bool, true=pulse & false=stop
+	startTime = new Date();
+	pulseCallBack = setInterval(,100);
+}
+
 function postSignup(){//this function will interfere with logged in users... signup must not be visible if logged in
 	if (checkSignup('all') == false){
 		return;//jGrowl messages & highlighting deal with bad inputs
