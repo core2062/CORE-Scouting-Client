@@ -2214,7 +2214,7 @@ $(":checkbox").toggleSwitch();
 	})(jQuery);
 
 
-// json2js
+//json2js
 	(function($) {
 
 		var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,

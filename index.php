@@ -98,177 +98,14 @@ ini_set( 'display_errors', 1 );
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-$pages = array(
-array(
-    "name"=> "home",
-	"embedded"=> true,
-	"full-name"=> "Home",
-    "description"=> "lorem",
-    "subpages"=> array(
-        "front-page"=> array(
-			"full-name"=> "Front Page",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "synopsis"=> array(
-			"full-name"=> "Synopsis",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "tour"=> array(
-			"full-name"=> "Guided Tour",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "signup"=> array(
-			"full-name"=> "Signup",
-            "description"=> "lorem",
-            "login-required"=> false
-        )
-    ),
-    "modals"=> array(),
-    "minWidth"=> "1150px",
-    "progressbar"=> "none"
-), array(
-    "name"=> "input",
-	"embedded"=> true,
-	"full-name"=> "Input",
-    "description"=> "lorem",
-    "subpages"=> array(
-        "robot"=> array(
-			"full-name"=> "Robot Scouting",
-            "description"=> "lorem",
-            "login-required"=> true
-        ),
-        "human"=> array(
-			"full-name"=> "Human Scouting",
-            "description"=> "lorem",
-            "login-required"=> true
-        ),
-        "pit"=> array(
-			"full-name"=> "Pit Scouting",
-            "description"=> "lorem",
-            "login-required"=> true
-        )
-    ),
-    "modals"=> array(),
-    "minWidth"=> "1150px",
-    "progressbar"=> "block"
-), array(
-    "name"=> "analysis",
-	"embedded"=> false,
-	"full-name"=> "Analysis",
-    "description"=> "lorem",
-    "subpages"=> array(
-        "public"=> array(
-			"full-name"=> "Public Analysis",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "member"=> array(
-			"full-name"=> "Member Analysis",
-            "description"=> "lorem",
-            "login-required"=> true
-        ),
-        "data-liberation"=> array(
-			"full-name"=> "Data Liberation",
-            "description"=> "lorem",
-            "login-required"=> true
-        )
-    ),
-    "modals"=> array(),
-    "minWidth"=> "1150px",
-    "progressbar"=> "none"
-), array(
-    "name"=> "team-leader",
-	"embedded"=> false,
-	"full-name"=> "Team Leader",
-    "description"=> "lorem",
-    "subpages"=> array(
-        "manage"=> array(
-			"full-name"=> "Manage Scouting",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "contribution"=> array(
-			"full-name"=> "View Contribution",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "team"=> array(
-			"full-name"=> "View Team Members",
-            "description"=> "lorem",
-            "login-required"=> false
-        )
-    ),
-    "modals"=> array(),
-    "minWidth"=> "1150px",
-    "progressbar"=> "none"
-), array(
-    "name"=> "help",
-	"embedded"=> false,
-	"full-name"=> "Help",
-    "description"=> "lorem",
-    "subpages"=> array(
-        "training"=> array(
-			"full-name"=> "Manage Training",
-            "description"=> "lorem",
-            "login-required"=> true
-        ),
-        "documentation"=> array(
-			"full-name"=> "Documentation",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "forum"=> array(
-			"full-name"=> "Forum",
-            "description"=> "lorem",
-            "login-required"=> true
-        )
-    ),
-    "modals"=> array(),
-    "minWidth"=> "1150px",
-    "progressbar"=> "none"
-), array(
-	"name"=> "base",
-	"embedded"=> true,
-	"full-name"=> "Other",
-	"description"=> "",
-	"subpages"=> array(),
-	"modals"=> array(
-		"navigation"=> array(
-			"full-name"=> "Navigation",
-            "description"=> "lorem",
-	        "login-required"=> false
-        ),
-        "login"=> array(
-			"full-name"=> "Login",
-            "description"=> "lorem",
-            "login-required"=> false,
-            "onOpen"=> "$('#scoutid').focus()",
-        ),
-        "contact"=> array(
-			"full-name"=> "Contact",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "credits"=> array(
-			"full-name"=> "Credits",
-            "description"=> "lorem",
-            "login-required"=> false
-        ),
-        "account"=> array(
-			"full-name"=> "Edit Account",
-            "description"=> "lorem",
-	        "login-required"=> true
-        )
-    ),
-    "minWidth"=> "1150px",
-    "progressbar"=> "none"
-)
-);
+$m = new Mongo(); // connect
+$db = $m->selectDB("CSD");
+
 //TODO move public to new page - out of member analysis?
 //TODO add code to set options in account modal to match prefs onOpen
+
+$pages = $db->siteMap->findOne();
+unset($pages['_id']);//remove id
 
 $len = count($pages);
 for($i=0; $i < $len; $i++){
@@ -284,8 +121,7 @@ $embeddedLen = count($embedded);
 
 
 
-$m = new Mongo(); // connect
-$db = $m->selectDB("CSD");
+
 
 if (isset($_GET['dev'])) {
 	$dev = true;
