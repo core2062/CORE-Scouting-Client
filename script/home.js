@@ -23,21 +23,32 @@ function displayScoutID() {
 function checkSignup(filter) {//return true if ok, return false if bad
 	if (filter == 'fName' || filter == 'all') {
 
+		highlight('error', fName);
 
-		if (filter != 'all') {
-			return true;
-		};
+		if (filter != 'all') return true;
 	}
 	if (filter == 'lName' || filter == 'all') {
 
 
-		if (filter != 'all') {
-			return true;
-		};
+		if (filter != 'all') return true;
 	}
 	return true; //temp
 }
-
+/*
+function highlight(condition, element){
+	//pulse, clear, error, correct
+	if(condition == 'clear'){
+		element.style. 
+	} else if(condition == 'error') {
+		
+	} else if(condition == 'correct') {
+		
+	} else if(condition == 'pulse') {
+		
+	}
+	element.style
+}
+*/
 function postSignup(){//this function will interfere with logged in users... signup must not be visible if logged in
 	if (checkSignup('all') == false){
 		return;//jGrowl messages & highlighting deal with bad inputs

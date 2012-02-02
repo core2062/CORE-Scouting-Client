@@ -40,60 +40,60 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 
 
 //Event Handlers
-    //set fieldset class on focus
-    $("input, textarea").focus(function () {
-        $(this).parentsUntil($("form"), "fieldset").addClass('focus');
-    });
+	//set fieldset class on focus
+	$("input, textarea").focus(function () {
+		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
+	});
 
-    $("input, textarea").focusout(function () {
-        $(this).parentsUntil($("form"), "fieldset").removeClass('focus');
-    });
+	$("input, textarea").focusout(function () {
+		$(this).parentsUntil($("form"), "fieldset").removeClass('focus');
+	});
 
-    // Accordion
-    //not finished
-    $('.accordion > p').click(function() {
-        console.log('bitches');
-        console.log($(this).next());
-    });
+	// Accordion
+	//not finished
+	$('.accordion > p').click(function() {
+		console.log('bitches');
+		console.log($(this).next());
+	});
 
 // global vars
-    var current = {
-        "index": "",
-        "type": "",
-        "lastSub": "",
-        "subpage": ""
-    };
-    var prev = {
-        "index": "",
-        "type": "",
-        "lastSub": "",
-        "subpage": ""
-    };
+	var current = {
+		"index": "",
+		"type": "",
+		"lastSub": "",
+		"subpage": ""
+	};
+	var prev = {
+		"index": "",
+		"type": "",
+		"lastSub": "",
+		"subpage": ""
+	};
 
-    var cache = {
-        "subpages": [],
-        "modals": [],
-    	"nav": []
-    };
+	var cache = {
+		"subpages": [],
+		"modals": [],
+		"nav": []
+	};
 
-    var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
-        "_id": "Guest",
-        "permission": 1,
-        "token": "",
-        "info":{
-    		"fName": "Guest",
-    		"lName": "",
-            "team": 0
-        },
-        "prefs": {
-        	"fade": true,
-        	"verbose": true
-        }
-    };
+	var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
+		"_id": "Guest",
+		"permission": 1,
+		"token": "",
+		"info":{
+			"fName": "Guest",
+			"lName": "",
+			"team": 0
+		},
+		"prefs": {
+			"fade": true,
+			"verbose": true
+		}
+	};
 
 function fixFavicon() { //fixes favicon bug in firefox
-    $('#favicon').remove();
-    $('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
+	$('#favicon').remove();
+	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
 
 $(document).ready(function() {
@@ -110,41 +110,41 @@ $(document).ready(function() {
 		gravity: 'w'
 	});
 
-    if (eatCookie('user') !== '') {
-        window.user = eval('(' + eatCookie('user') + ')');
-        updateUserBar();//userbar is setup for guest by default
-    } else {
-        window.user = defaultUser;
-    }
+	if (eatCookie('user') !== '') {
+		window.user = eval('(' + eatCookie('user') + ')');
+		updateUserBar();//userbar is setup for guest by default
+	} else {
+		window.user = defaultUser;
+	}
 
-    buildCache();
-    nav();
-    
-    //add error message for old browsers
+	buildCache();
+	nav();
+	
+	//add error message for old browsers
 });
 
 function buildCache() {
-    var len = pages.length;
+	var len = pages.length;
 
-    for (var i = 0; i < len; i++) {
+	for (var i = 0; i < len; i++) {
 		cache.nav.push(pages[i].name);
-        for (var e in pages[i].subpages) {
-            cache.subpages.push(e);
-        }
+		for (var e in pages[i].subpages) {
+			cache.subpages.push(e);
+		}
 		for (var e in pages[i].modals) {
-            cache.modals.push(e);
-        }
-    }
-    cache.subpages = '.' + cache.subpages.join("-c, .") + '-c';
+			cache.modals.push(e);
+		}
+	}
+	cache.subpages = '.' + cache.subpages.join("-c, .") + '-c';
 	cache.modals = '.' + cache.modals.join("-c, .") + '-c';
 	cache.nav = '.' + cache.nav.join("-n, .") + '-n';
 }
 
 window.onpopstate = function(event) {
-    // if nav() is failing, check browser support for this
-    console.log(event);
-    fixFavicon(); //remove this?????
-    nav();
+	// if nav() is failing, check browser support for this
+	console.log(event);
+	fixFavicon(); //remove this?????
+	nav();
 }
 
 function nav() {
@@ -160,52 +160,52 @@ function nav() {
 		return;
 	}
 
-    prev.index = current.index;
-    prev.type = current.type;
-    prev.lastSub = current.lastSub;
-    prev.subpage = current.subpage;
+	prev.index = current.index;
+	prev.type = current.type;
+	prev.lastSub = current.lastSub;
+	prev.subpage = current.subpage;
 
-    if (current.subpage == location.hash.substring(1) && current.subpage != "") {
-        return;
-    }
+	if (current.subpage == location.hash.substring(1) && current.subpage != "") {
+		return;
+	}
 
-    current.subpage = location.hash.substring(1).toLowerCase();
+	current.subpage = location.hash.substring(1).toLowerCase();
 
-    current.index = '';
+	current.index = '';
 
-    var len = pages.length;
-    for (var i = 0; i < len; i++) { //TODO add catching?
-        if (typeof pages[i].subpages[current.subpage] !== 'undefined') {
-            current.index = i;
-            current.type = 'subpages';
-            current.lastSub = current.subpage;
-            break;
-        }
-    }
+	var len = pages.length;
+	for (var i = 0; i < len; i++) { //TODO add catching?
+		if (typeof pages[i].subpages[current.subpage] !== 'undefined') {
+			current.index = i;
+			current.type = 'subpages';
+			current.lastSub = current.subpage;
+			break;
+		}
+	}
 
-    if (current.index === '') { // TODO merge with subpage search ?
-        for (var i = 0; i < len; i++) {
-            if (typeof pages[i].modals[current.subpage] !== 'undefined') {
-                current.index = i;
-                current.type = 'modals';
-                break;
-            }
-        }
-    }
+	if (current.index === '') { // TODO merge with subpage search ?
+		for (var i = 0; i < len; i++) {
+			if (typeof pages[i].modals[current.subpage] !== 'undefined') {
+				current.index = i;
+				current.type = 'modals';
+				break;
+			}
+		}
+	}
 
-    if (current.index === '') { //page cannot be found, select default page
-        window.location = '#front-page';//default page
-        return;
-    }
+	if (current.index === '') { //page cannot be found, select default page
+		window.location = '#front-page';//default page
+		return;
+	}
 	
-    //check if page has been downloaded yet (add functionality later)
-    //download if it hasn't been
+	//check if page has been downloaded yet (add functionality later)
+	//download if it hasn't been
 
-    var fadetime = 500;
+	var fadetime = 500;
 
-    if (prev.subpage == "") { // if this is the first page
-        if (current.type == 'modals') {
-        	//fade in page
+	if (prev.subpage == "") { // if this is the first page
+		if (current.type == 'modals') {
+			//fade in page
 			$('.front-page-c').fadeIn(fadetime / 4);
 			
 			//show navbar
@@ -214,82 +214,82 @@ function nav() {
 			$('#front-page-r').attr('checked', true);
 			
 			//set variables
-            current.lastSub = 'front-page';
-            prev.index = 2;
-            prev.subpage = 'front-page';
-        }
-        prev.type = "subpages";
-    }
+			current.lastSub = 'front-page';
+			prev.index = 2;
+			prev.subpage = 'front-page';
+		}
+		prev.type = "subpages";
+	}
 
-    document.title = pages[current.index]['full-name'].replace(/\-/,' ').titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
+	document.title = pages[current.index]['full-name'].replace(/\-/,' ').titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
 	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
 
-    //start page changers
-    if (current.type == "subpages"){ //sub-pages
-    	
-    	//change navbar (no fade)
-    	$(cache.nav).css('display','none');
+	//start page changers
+	if (current.type == "subpages"){ //sub-pages
+		
+		//change navbar (no fade)
+		$(cache.nav).css('display','none');
 		$('.' + pages[current.index].name + '-n').css('display','inline');
-        $('#' + current.subpage + '-r').attr('checked', true);
+		$('#' + current.subpage + '-r').attr('checked', true);
 
-        if (prev.type == 'subpages') { //sub-pages
-        	if(user.prefs.fade == true){
-        		$(cache.subpages).fadeOut(fadetime).promise().done(function() {
-                	$('.' + current.subpage + '-c').fadeIn(fadetime);
-            	});
-        	} else {
+		if (prev.type == 'subpages') { //sub-pages
+			if(user.prefs.fade == true){
+				$(cache.subpages).fadeOut(fadetime).promise().done(function() {
+					$('.' + current.subpage + '-c').fadeIn(fadetime);
+				});
+			} else {
 				$(cache.subpages).css('display','none');
 				$('.' + current.subpage + '-c').css('display','inline');
-        	}
-        } else { //modals
-            if (prev.lastSub == current.subpage) { //don't fade out sub-page if is is already under the modal
-                if(user.prefs.fade == true){
-                	$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
-                } else {
+			}
+		} else { //modals
+			if (prev.lastSub == current.subpage) { //don't fade out sub-page if is is already under the modal
+				if(user.prefs.fade == true){
+					$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
+				} else {
 					$('#overlay, #modal-container, ' + cache.modals).css('display','none');
 				}
-            } else {
-            	if(user.prefs.fade == true){
-            		$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function() {
-            			$('.' + current.subpage + '-c').fadeIn(fadetime);
-	                });
-            	} else {
+			} else {
+				if(user.prefs.fade == true){
+					$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function() {
+						$('.' + current.subpage + '-c').fadeIn(fadetime);
+					});
+				} else {
 					$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).css('display','none');
 					$('.' + current.subpage + '-c').css('display','inline');
-            	}
-            }
-        }
-    } else { //modal
-        document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
+				}
+			}
+		}
+	} else { //modal
+		document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
 
-        if (prev.type == 'subpages'){ //subpages
-        	if(user.prefs.fade == true){
-            	$(cache['modals']).hide().promise().done(function() {
-	                $('#overlay').fadeIn(40);
-	                $('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
-	            });
-            } else {
+		if (prev.type == 'subpages'){ //subpages
+			if(user.prefs.fade == true){
+				$(cache['modals']).hide().promise().done(function() {
+					$('#overlay').fadeIn(40);
+					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
+				});
+			} else {
 				$(cache['modals']).css('display','none');
 				$('#overlay, .' + current.subpage + '-c, #modal-container').css('display','block');
 			}
-        } else { //modals
-        	if(user.prefs.fade == true){
-            	$(cache.modals).fadeOut(fadetime).promise().done(function() {
-	                $('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
-	            });
-            } else {
+		} else { //modals
+			if(user.prefs.fade == true){
+				$(cache.modals).fadeOut(fadetime).promise().done(function() {
+					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
+				});
+			} else {
 				$(cache.modals).css('display','none');
 				$('.' + current.subpage + '-c, #modal-container').css('display','inline');
 			}
-        }
-    }
+		}
+	}
 	
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
-    	setTimeout("window.location = '#login'", fadetime + 1);
+		setTimeout("window.location = '#login'", fadetime + 1);
 		return;
-    }
+	}
 	/*
 	else:
 		assume logged in, if token is wrong error will be returned by process later
@@ -297,42 +297,42 @@ function nav() {
 		on error returned from process.php, token is removed
 	*/
 	
-    if(typeof pages[current.index][current.type][current.subpage]['onOpen'] !== undefined){
-    	eval(pages[current.index][current.type][current.subpage]['onOpen']);
-    }
+	if(typeof pages[current.index][current.type][current.subpage]['onOpen'] !== undefined){
+		eval(pages[current.index][current.type][current.subpage]['onOpen']);
+	}
 }
 
 //site functions
 function modalClose() {
-    //CONSIDER expanding the bottom code to work on all page types
-    if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== undefined){
-        eval(pages[current.index]['modals'][current.subpage]['onClose']);
-    }
+	//CONSIDER expanding the bottom code to work on all page types
+	if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== undefined){
+		eval(pages[current.index]['modals'][current.subpage]['onClose']);
+	}
 
-    window.location = '#' + current.lastSub;
+	window.location = '#' + current.lastSub;
 }
 
 //Cookie Handling Functions
-    function bakeCookie(name, value) {
-        var expires = new Date();
-        expires.setTime(expires.getTime() + (15552000000));
-        document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
-    }
+	function bakeCookie(name, value) {
+		var expires = new Date();
+		expires.setTime(expires.getTime() + (15552000000));
+		document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
+	}
 
-    function eatCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1);
-            if (c.indexOf(nameEQ) == 0) {
-                var cookieValue = c.substring(nameEQ.length);
-                break;
-            } else
-            var cookieValue = "";
-        }
-        return cookieValue;
-    }
+	function eatCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for (var i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') c = c.substring(1);
+			if (c.indexOf(nameEQ) == 0) {
+				var cookieValue = c.substring(nameEQ.length);
+				break;
+			} else
+			var cookieValue = "";
+		}
+		return cookieValue;
+	}
 
 function getToken(password) {
 	/*
@@ -342,51 +342,51 @@ function getToken(password) {
 		
 	must be separate from other functions so it can be called directly from login modal
 	*/
-    scoutidInput = document.getElementById('scoutid');
-    pwordInput = document.getElementById('pword');
+	scoutidInput = document.getElementById('scoutid');
+	pwordInput = document.getElementById('pword');
 
-    user._id = scoutidInput.value; //put in user object (scoutid in user object != logged in)
-    pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
+	user._id = scoutidInput.value; //put in user object (scoutid in user object != logged in)
+	pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
 
-    scoutidInput.value = ''; //remove them from inputs
-    pwordInput.value = '';
+	scoutidInput.value = ''; //remove them from inputs
+	pwordInput.value = '';
 
-    if (user._id == '') {
-        $('#jGrowl-container').jGrowl('scoutID is blank', {
-            theme: 'error'
-        });
-    } else if (pword == '') {
-        $('#jGrowl-container').jGrowl('password is blank', {
-            theme: 'error'
-        });
-    } else {
-        var json = post('login.php', '{"_id":"' + user._id + '","pword":"' + pword + '"}');
+	if (user._id == '') {
+		$('#jGrowl-container').jGrowl('scoutID is blank', {
+			theme: 'error'
+		});
+	} else if (pword == '') {
+		$('#jGrowl-container').jGrowl('password is blank', {
+			theme: 'error'
+		});
+	} else {
+		var json = post('login.php', '{"_id":"' + user._id + '","pword":"' + pword + '"}');
 
-        if (json.token) {
-        	//store stuff in temporary user object
-            user = json;
+		if (json.token) {
+			//store stuff in temporary user object
+			user = json;
 
-            bakeCookie('user', $.toJSON(user)); //store user object in cookie
+			bakeCookie('user', $.toJSON(user)); //store user object in cookie
 
-            updateUserBar();
+			updateUserBar();
 			
 			modalClose();
 			
-            return;
-        } else if (json != false) {
-            $('#jGrowl-container').jGrowl('server did not respond properly', {
-                theme: 'error'
-            });
-        }
-    }
+			return;
+		} else if (json != false) {
+			$('#jGrowl-container').jGrowl('server did not respond properly', {
+				theme: 'error'
+			});
+		}
+	}
 	window.location = '#login';//will only be run at error due to above return
 }
 
 function callLogout(){//tells server to logout & runs logout function
 	post('process.php','{"request":"logout"}');
-    //recheck current page in navbar, radio button hasn't been set yet so timeout is needed
-    setTimeout("$('#' + current.subpage + '-r').attr('checked', true)",1);
-    console.log(current.subpage);
+	//recheck current page in navbar, radio button hasn't been set yet so timeout is needed
+	setTimeout("$('#' + current.subpage + '-r').attr('checked', true)",1);
+	console.log(current.subpage);
 	logout();
 }
 
@@ -395,429 +395,429 @@ function logout() {	//just removes the cookie & user object
 
 	window.user = defaultUser;//reset to generic user object
 
-    bakeCookie('user', '');//remove user object cookie
-    
-    updateUserBar();
-    
+	bakeCookie('user', '');//remove user object cookie
+	
+	updateUserBar();
+	
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true){
 		window.location = '#login';
-    }
+	}
 }
 
 function updateUserBar(){
-    var loginLabel = document.getElementById('login-r-label')
+	var loginLabel = document.getElementById('login-r-label')
 
-    if(eatCookie('user') != ''){//logged in
-        $('#login').css('display','none');
-        $('#logout').css('display','inline');
-        loginLabel.setAttribute('original-title','Logout');
-        loginLabel.setAttribute('onclick',"callLogout()");
-    } else {//not logged in
-        $('#logout').css('display','none');
-        $('#login').css('display','inline');
-        loginLabel.setAttribute('original-title','Login');
-        loginLabel.setAttribute('onclick',"window.location = '#login'");
-    }
+	if(eatCookie('user') != ''){//logged in
+		$('#login').css('display','none');
+		$('#logout').css('display','inline');
+		loginLabel.setAttribute('original-title','Logout');
+		loginLabel.setAttribute('onclick',"callLogout()");
+	} else {//not logged in
+		$('#logout').css('display','none');
+		$('#login').css('display','inline');
+		loginLabel.setAttribute('original-title','Login');
+		loginLabel.setAttribute('onclick',"window.location = '#login'");
+	}
 
-    document.getElementById('scoutName').innerHTML = $.trim(user.info.fName + ' ' + user.info.lName);
+	document.getElementById('scoutName').innerHTML = $.trim(user.info.fName + ' ' + user.info.lName);
 }
 
 function updateUser(key, value){//newObject does not need to be a full user object
-    //user = jQuery.extend(true, user, userUpdates);//CONSIDER using this in login so only non-default stuff needs to be sent
-    user.prefs[key] = value;
-    if(eatCookie('user') != ''){
-        bakeCookie('user', $.toJSON(user));
-    }
+	//user = jQuery.extend(true, user, userUpdates);//CONSIDER using this in login so only non-default stuff needs to be sent
+	user.prefs[key] = value;
+	if(eatCookie('user') != ''){
+		bakeCookie('user', $.toJSON(user));
+	}
 }
 
 function postUserUpdates(){
-    if(eatCookie('user') != ''){//only run if logged in
-        post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
-    }
-    modalClose();
+	if(eatCookie('user') != ''){//only run if logged in
+		post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
+	}
+	modalClose();
 }
 
 //general functions
 String.prototype.titleCase = function () {
-    return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
 function limitInput(e, limit) { //used for limiting form input
-    var unicode = e.charCode ? e.charCode : e.keyCode
-    if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { //if the key isn't the backspace key or tab or l/r arrow
-        if ((unicode < 48 || unicode > 57) && limit == 'number') { //if not a number
-            return false //disable key press
-        }
+	var unicode = e.charCode ? e.charCode : e.keyCode
+	if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { //if the key isn't the backspace key or tab or l/r arrow
+		if ((unicode < 48 || unicode > 57) && limit == 'number') { //if not a number
+			return false //disable key press
+		}
 
 		if ((unicode < 65 || unicode > 90) && (unicode < 97 || unicode > 122) && limit == 'letter') { //if not a letter
-            return false //disable key press
-        }
-    }
+			return false //disable key press
+		}
+	}
 }
 
 function json2table (json) {
-    var table = '<thead><tr>';
-    var len = json.length;
-    var len2 = json[0].length;
+	var table = '<thead><tr>';
+	var len = json.length;
+	var len2 = json[0].length;
 
-    for (e=0; e<len2; e++){
-        table += '<td>' + json[0][e] + '</td>';
-    }
+	for (e=0; e<len2; e++){
+		table += '<td>' + json[0][e] + '</td>';
+	}
 
-    table += '</tr></thead><tbody>';
+	table += '</tr></thead><tbody>';
 
-    len = json.length;
-    for (i=1; i<len; i++){
-        table += '<tr>';
-        len2 = json[i].length;
-        for (e=0; e<len2; e++){
-            table += '<td>' + json[i][e] + '</td>';
-        }
-        table += '</tr>';
-    }
-    table += '</tbody>';
-    return table;
+	len = json.length;
+	for (i=1; i<len; i++){
+		table += '<tr>';
+		len2 = json[i].length;
+		for (e=0; e<len2; e++){
+			table += '<td>' + json[i][e] + '</td>';
+		}
+		table += '</tr>';
+	}
+	table += '</tbody>';
+	return table;
 }
 
 function post(filename, json) {
-    /*
-    this function handles:
-        all interfacing w/ server via AJAX
-        
-    json.globalError: holds type of globalError (which determines action), error text is still in json.error
-    */
-    var ajax = $.ajax({
-        type: "POST",
-        url: filename,
-        data: 'data=' + json,
-        async: false,
-        success: function() {
+	/*
+	this function handles:
+		all interfacing w/ server via AJAX
+		
+	json.globalError: holds type of globalError (which determines action), error text is still in json.error
+	*/
+	var ajax = $.ajax({
+		type: "POST",
+		url: filename,
+		data: 'data=' + json,
+		async: false,
+		success: function() {
 
-        },
-        error: function() {
-            $('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {
-                sticky: true,
-                theme: 'error'
-            });
-        }
-    });
-    json = eval("(" + ajax.responseText + ")");
-    console.log(json);
-    
-    if(json.script){//script must be run before error returns (like for logout function)
-        eval(json.script);
-    }
-    
-    if(json.error){
-        $('#jGrowl-container').jGrowl('error: ' + json.error, {
-            theme: 'error'
-        });
-        return false; //this means error
-    }
-    
-    if(json.message && user.prefs.verbose == true){
-        $('#jGrowl-container').jGrowl('success: ' + json.message, {
-            theme: 'message'
-        });
-        delete json.message;
-    }
-    
-    return json;//if nothing is returned assume error
+		},
+		error: function() {
+			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {
+				sticky: true,
+				theme: 'error'
+			});
+		}
+	});
+	json = eval("(" + ajax.responseText + ")");
+	console.log(json);
+	
+	if(json.script){//script must be run before error returns (like for logout function)
+		eval(json.script);
+	}
+	
+	if(json.error){
+		$('#jGrowl-container').jGrowl('error: ' + json.error, {
+			theme: 'error'
+		});
+		return false; //this means error
+	}
+	
+	if(json.message && user.prefs.verbose == true){
+		$('#jGrowl-container').jGrowl('success: ' + json.message, {
+			theme: 'message'
+		});
+		delete json.message;
+	}
+	
+	return json;//if nothing is returned assume error
 }
 
 
 //TODO replace with something better, like downloadify or just a modal
 /*
 function WriteToWindow() {
-    top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
-    //TODO fix link to style sheet, or replace completely
-    top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
-    top.consoleRef.document.close()
+	top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
+	//TODO fix link to style sheet, or replace completely
+	top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
+	top.consoleRef.document.close()
 }
 */
 
 //Libraries
 
 //Tipsy
-    (function($) {
+	(function($) {
 
-        function maybeCall(thing, ctx) {
-            return (typeof thing == 'function') ? (thing.call(ctx)) : thing;
-        };
+		function maybeCall(thing, ctx) {
+			return (typeof thing == 'function') ? (thing.call(ctx)) : thing;
+		};
 
-        function Tipsy(element, options) {
-            this.$element = $(element);
-            this.options = options;
-            this.enabled = true;
-            this.fixTitle();
-        };
+		function Tipsy(element, options) {
+			this.$element = $(element);
+			this.options = options;
+			this.enabled = true;
+			this.fixTitle();
+		};
 
-        Tipsy.prototype = {
-            show: function() {
-                var title = this.getTitle();
-                if (title && this.enabled) {
-                    var $tip = this.tip();
+		Tipsy.prototype = {
+			show: function() {
+				var title = this.getTitle();
+				if (title && this.enabled) {
+					var $tip = this.tip();
 
-                    $tip.find('.tipsy-inner')[this.options.html ? 'html' : 'text'](title);
-                    $tip[0].className = 'tipsy'; // reset classname in case of dynamic gravity
-                    $tip.remove().css({
-                        top: 0,
-                        left: 0,
-                        visibility: 'hidden',
-                        display: 'block'
-                    }).prependTo(document.body);
+					$tip.find('.tipsy-inner')[this.options.html ? 'html' : 'text'](title);
+					$tip[0].className = 'tipsy'; // reset classname in case of dynamic gravity
+					$tip.remove().css({
+						top: 0,
+						left: 0,
+						visibility: 'hidden',
+						display: 'block'
+					}).prependTo(document.body);
 
-                    var pos = $.extend({}, this.$element.offset(), {
-                        width: this.$element[0].offsetWidth,
-                        height: this.$element[0].offsetHeight
-                    });
+					var pos = $.extend({}, this.$element.offset(), {
+						width: this.$element[0].offsetWidth,
+						height: this.$element[0].offsetHeight
+					});
 
-                    var actualWidth = $tip[0].offsetWidth,
-                        actualHeight = $tip[0].offsetHeight,
-                        gravity = maybeCall(this.options.gravity, this.$element[0]);
+					var actualWidth = $tip[0].offsetWidth,
+						actualHeight = $tip[0].offsetHeight,
+						gravity = maybeCall(this.options.gravity, this.$element[0]);
 
-                    var tp;
-                    switch (gravity.charAt(0)) {
-                    case 'n':
-                        tp = {
-                            top: pos.top + pos.height + this.options.offset,
-                            left: pos.left + pos.width / 2 - actualWidth / 2
-                        };
-                        break;
-                    case 's':
-                        tp = {
-                            top: pos.top - actualHeight - this.options.offset,
-                            left: pos.left + pos.width / 2 - actualWidth / 2
-                        };
-                        break;
-                    case 'e':
-                        tp = {
-                            top: pos.top + pos.height / 2 - actualHeight / 2,
-                            left: pos.left - actualWidth - this.options.offset
-                        };
-                        break;
-                    case 'w':
-                        tp = {
-                            top: pos.top + pos.height / 2 - actualHeight / 2,
-                            left: pos.left + pos.width + this.options.offset
-                        };
-                        break;
-                    }
+					var tp;
+					switch (gravity.charAt(0)) {
+					case 'n':
+						tp = {
+							top: pos.top + pos.height + this.options.offset,
+							left: pos.left + pos.width / 2 - actualWidth / 2
+						};
+						break;
+					case 's':
+						tp = {
+							top: pos.top - actualHeight - this.options.offset,
+							left: pos.left + pos.width / 2 - actualWidth / 2
+						};
+						break;
+					case 'e':
+						tp = {
+							top: pos.top + pos.height / 2 - actualHeight / 2,
+							left: pos.left - actualWidth - this.options.offset
+						};
+						break;
+					case 'w':
+						tp = {
+							top: pos.top + pos.height / 2 - actualHeight / 2,
+							left: pos.left + pos.width + this.options.offset
+						};
+						break;
+					}
 
-                    if (gravity.length == 2) {
-                        if (gravity.charAt(1) == 'w') {
-                            tp.left = pos.left + pos.width / 2 - 15;
-                        } else {
-                            tp.left = pos.left + pos.width / 2 - actualWidth + 15;
-                    	}
-    				}
+					if (gravity.length == 2) {
+						if (gravity.charAt(1) == 'w') {
+							tp.left = pos.left + pos.width / 2 - 15;
+						} else {
+							tp.left = pos.left + pos.width / 2 - actualWidth + 15;
+						}
+					}
 
-    				$tip.css(tp).addClass('tipsy-' + gravity);
-    				$tip.find('.tipsy-arrow')[0].className = 'tipsy-arrow tipsy-arrow-' + gravity.charAt(0);
-    				if (this.options.className) {
-    					$tip.addClass(maybeCall(this.options.className, this.$element[0]));
-    				}
+					$tip.css(tp).addClass('tipsy-' + gravity);
+					$tip.find('.tipsy-arrow')[0].className = 'tipsy-arrow tipsy-arrow-' + gravity.charAt(0);
+					if (this.options.className) {
+						$tip.addClass(maybeCall(this.options.className, this.$element[0]));
+					}
 
-    				if (this.options.fade) {
-    					$tip.stop().css({
-    						opacity: 0,
-    						display: 'block',
-    						visibility: 'visible'
-    					}).animate({
-    						opacity: this.options.opacity
-    					}, this.options.fadeInTime);
-    				} else {
-    					$tip.css({
-    						visibility: 'visible',
-    						opacity: this.options.opacity
-    					});
-    				}
-    			}
-    		},
+					if (this.options.fade) {
+						$tip.stop().css({
+							opacity: 0,
+							display: 'block',
+							visibility: 'visible'
+						}).animate({
+							opacity: this.options.opacity
+						}, this.options.fadeInTime);
+					} else {
+						$tip.css({
+							visibility: 'visible',
+							opacity: this.options.opacity
+						});
+					}
+				}
+			},
 
-    		hide: function() {
-    			if (this.options.fade) {
-    				this.tip().stop().fadeOut(this.options.fadeOutTime, function() {
-    					$(this).remove();
-    				});
-    			} else {
-    				this.tip().remove();
-    			}
-    		},
+			hide: function() {
+				if (this.options.fade) {
+					this.tip().stop().fadeOut(this.options.fadeOutTime, function() {
+						$(this).remove();
+					});
+				} else {
+					this.tip().remove();
+				}
+			},
 
-    		fixTitle: function() {
-    			var $e = this.$element;
-    			if ($e.attr('title') || typeof($e.attr('original-title')) != 'string') {
-    				$e.attr('original-title', $e.attr('title') || '').removeAttr('title');
-    			}
-    		},
+			fixTitle: function() {
+				var $e = this.$element;
+				if ($e.attr('title') || typeof($e.attr('original-title')) != 'string') {
+					$e.attr('original-title', $e.attr('title') || '').removeAttr('title');
+				}
+			},
 
-    		getTitle: function() {
-    			var title, $e = this.$element,
-    				o = this.options;
-    			this.fixTitle();
-    			var title, o = this.options;
-    			if (typeof o.title == 'string') {
-    				title = $e.attr(o.title == 'title' ? 'original-title' : o.title);
-    			} else if (typeof o.title == 'function') {
-    				title = o.title.call($e[0]);
-    			}
-    			title = ('' + title).replace(/(^\s*|\s*$)/, "");
-    			return title || o.fallback;
-    		},
+			getTitle: function() {
+				var title, $e = this.$element,
+					o = this.options;
+				this.fixTitle();
+				var title, o = this.options;
+				if (typeof o.title == 'string') {
+					title = $e.attr(o.title == 'title' ? 'original-title' : o.title);
+				} else if (typeof o.title == 'function') {
+					title = o.title.call($e[0]);
+				}
+				title = ('' + title).replace(/(^\s*|\s*$)/, "");
+				return title || o.fallback;
+			},
 
-    		tip: function() {
-    			if (!this.$tip) {
-    				this.$tip = $('<div class="tipsy"></div>').html('<div class="tipsy-arrow"></div><div class="tipsy-inner"></div>');
-    			}
-    			return this.$tip;
-    		},
+			tip: function() {
+				if (!this.$tip) {
+					this.$tip = $('<div class="tipsy"></div>').html('<div class="tipsy-arrow"></div><div class="tipsy-inner"></div>');
+				}
+				return this.$tip;
+			},
 
-    		validate: function() {
-    			if (!this.$element[0].parentNode) {
-    				this.hide();
-    				this.$element = null;
-    				this.options = null;
-    			}
-    		},
+			validate: function() {
+				if (!this.$element[0].parentNode) {
+					this.hide();
+					this.$element = null;
+					this.options = null;
+				}
+			},
 
-    		enable: function() {
-    			this.enabled = true;
-    		},
-    		disable: function() {
-    			this.enabled = false;
-    		},
-    		toggleEnabled: function() {
-    			this.enabled = !this.enabled;
-    		}
-    	};
+			enable: function() {
+				this.enabled = true;
+			},
+			disable: function() {
+				this.enabled = false;
+			},
+			toggleEnabled: function() {
+				this.enabled = !this.enabled;
+			}
+		};
 
-    	$.fn.tipsy = function(options) {
+		$.fn.tipsy = function(options) {
 
-    		if (options === true) {
-    			return this.data('tipsy');
-    		} else if (typeof options == 'string') {
-    			var tipsy = this.data('tipsy');
-    			if (tipsy) tipsy[options]();
-    			return this;
-    		}
+			if (options === true) {
+				return this.data('tipsy');
+			} else if (typeof options == 'string') {
+				var tipsy = this.data('tipsy');
+				if (tipsy) tipsy[options]();
+				return this;
+			}
 
-    		options = $.extend({}, $.fn.tipsy.defaults, options);
+			options = $.extend({}, $.fn.tipsy.defaults, options);
 
-    		function get(ele) {
-    			var tipsy = $.data(ele, 'tipsy');
-    			if (!tipsy) {
-    				tipsy = new Tipsy(ele, $.fn.tipsy.elementOptions(ele, options));
-    				$.data(ele, 'tipsy', tipsy);
-    			}
-    			return tipsy;
-    		}
+			function get(ele) {
+				var tipsy = $.data(ele, 'tipsy');
+				if (!tipsy) {
+					tipsy = new Tipsy(ele, $.fn.tipsy.elementOptions(ele, options));
+					$.data(ele, 'tipsy', tipsy);
+				}
+				return tipsy;
+			}
 
-    		function enter() {
-    			var tipsy = get(this);
-    			tipsy.hoverState = 'in';
-    			if (options.delayIn == 0) {
-    				tipsy.show();
-    			} else {
-    				tipsy.fixTitle();
-    				setTimeout(function() {
-    					if (tipsy.hoverState == 'in') tipsy.show();
-    				}, options.delayIn);
-    			}
-    		};
+			function enter() {
+				var tipsy = get(this);
+				tipsy.hoverState = 'in';
+				if (options.delayIn == 0) {
+					tipsy.show();
+				} else {
+					tipsy.fixTitle();
+					setTimeout(function() {
+						if (tipsy.hoverState == 'in') tipsy.show();
+					}, options.delayIn);
+				}
+			};
 
-    		function leave() {
-    			var tipsy = get(this);
-    			tipsy.hoverState = 'out';
-    			if (options.delayOut == 0) {
-    				tipsy.hide();
-    			} else {
-    				setTimeout(function() {
-    					if (tipsy.hoverState == 'out') tipsy.hide();
-    				}, options.delayOut);
-    			}
-    		};
+			function leave() {
+				var tipsy = get(this);
+				tipsy.hoverState = 'out';
+				if (options.delayOut == 0) {
+					tipsy.hide();
+				} else {
+					setTimeout(function() {
+						if (tipsy.hoverState == 'out') tipsy.hide();
+					}, options.delayOut);
+				}
+			};
 
-    		if (!options.live) this.each(function() {
-    			get(this);
-    		});
+			if (!options.live) this.each(function() {
+				get(this);
+			});
 
-    		if (options.trigger != 'manual') {
-    			var binder = options.live ? 'live' : 'bind',
-    				eventIn = options.trigger == 'hover' ? 'mouseenter' : 'focus',
-    				eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
-    			this[binder](eventIn, enter)[binder](eventOut, leave);
-    		}
-    		return this;
-    	};
+			if (options.trigger != 'manual') {
+				var binder = options.live ? 'live' : 'bind',
+					eventIn = options.trigger == 'hover' ? 'mouseenter' : 'focus',
+					eventOut = options.trigger == 'hover' ? 'mouseleave' : 'blur';
+				this[binder](eventIn, enter)[binder](eventOut, leave);
+			}
+			return this;
+		};
 
-    	$.fn.tipsy.defaults = {
-    		className: null,
-    		delayIn: 0,
-    		delayOut: 0,
-    		fade: true,
-    		fadeInTime: 500,
-    		fadeOutTime: 100,
-    		fallback: '',
-    		gravity: 'n',
-    		html: false,
-    		live: false,
-    		offset: 0,
-    		opacity: 0.8,
-    		title: 'title',
-    		trigger: 'hover'
-    	};
+		$.fn.tipsy.defaults = {
+			className: null,
+			delayIn: 0,
+			delayOut: 0,
+			fade: true,
+			fadeInTime: 500,
+			fadeOutTime: 100,
+			fallback: '',
+			gravity: 'n',
+			html: false,
+			live: false,
+			offset: 0,
+			opacity: 0.8,
+			title: 'title',
+			trigger: 'hover'
+		};
 
-    	// Overwrite this method to provide options on a per-element basis.
-    	// For example, you could store the gravity in a 'tipsy-gravity' attribute:
-    	// return $.extend({}, options, {gravity: $(ele).attr('tipsy-gravity') || 'n' });
-    	// (remember - do not modify 'options' in place!)
-    	$.fn.tipsy.elementOptions = function(ele, options) {
-    		return $.metadata ? $.extend({}, options, $(ele).metadata()) : options;
-    	};
+		// Overwrite this method to provide options on a per-element basis.
+		// For example, you could store the gravity in a 'tipsy-gravity' attribute:
+		// return $.extend({}, options, {gravity: $(ele).attr('tipsy-gravity') || 'n' });
+		// (remember - do not modify 'options' in place!)
+		$.fn.tipsy.elementOptions = function(ele, options) {
+			return $.metadata ? $.extend({}, options, $(ele).metadata()) : options;
+		};
 
-    	$.fn.tipsy.autoNS = function() {
-    		return $(this).offset().top > ($(document).scrollTop() + $(window).height() / 2) ? 's' : 'n';
-    	};
+		$.fn.tipsy.autoNS = function() {
+			return $(this).offset().top > ($(document).scrollTop() + $(window).height() / 2) ? 's' : 'n';
+		};
 
-    	$.fn.tipsy.autoWE = function() {
-    		return $(this).offset().left > ($(document).scrollLeft() + $(window).width() / 2) ? 'e' : 'w';
-    	};
+		$.fn.tipsy.autoWE = function() {
+			return $(this).offset().left > ($(document).scrollLeft() + $(window).width() / 2) ? 'e' : 'w';
+		};
 
-    	/**
-    	 * yields a closure of the supplied parameters, producing a function that takes
-    	 * no arguments and is suitable for use as an autogravity function like so:
-    	 *
-    	 * @param margin (int) - distance from the viewable region edge that an
-    	 *		element should be before setting its tooltip's gravity to be away
-    	 *		from that edge.
-    	 * @param prefer (string, e.g. 'n', 'sw', 'w') - the direction to prefer
-    	 *		if there are no viewable region edges effecting the tooltip's
-    	 *		gravity. It will try to vary from this minimally, for example,
-    	 *		if 'sw' is preferred and an element is near the right viewable
-    	 *		region edge, but not the top edge, it will set the gravity for
-    	 *		that element's tooltip to be 'se', preserving the southern
-    	 *		component.
-    	 */
-    	$.fn.tipsy.autoBounds = function(margin, prefer) {
-    		return function() {
-    			var dir = {
-    				ns: prefer[0],
-    				ew: (prefer.length > 1 ? prefer[1] : false)
-    			},
-    				boundTop = $(document).scrollTop() + margin,
-    				boundLeft = $(document).scrollLeft() + margin,
-    				$this = $(this);
+		/**
+		 * yields a closure of the supplied parameters, producing a function that takes
+		 * no arguments and is suitable for use as an autogravity function like so:
+		 *
+		 * @param margin (int) - distance from the viewable region edge that an
+		 *		element should be before setting its tooltip's gravity to be away
+		 *		from that edge.
+		 * @param prefer (string, e.g. 'n', 'sw', 'w') - the direction to prefer
+		 *		if there are no viewable region edges effecting the tooltip's
+		 *		gravity. It will try to vary from this minimally, for example,
+		 *		if 'sw' is preferred and an element is near the right viewable
+		 *		region edge, but not the top edge, it will set the gravity for
+		 *		that element's tooltip to be 'se', preserving the southern
+		 *		component.
+		 */
+		$.fn.tipsy.autoBounds = function(margin, prefer) {
+			return function() {
+				var dir = {
+					ns: prefer[0],
+					ew: (prefer.length > 1 ? prefer[1] : false)
+				},
+					boundTop = $(document).scrollTop() + margin,
+					boundLeft = $(document).scrollLeft() + margin,
+					$this = $(this);
 
-    			if ($this.offset().top < boundTop) dir.ns = 'n';
-    			if ($this.offset().left < boundLeft) dir.ew = 'w';
-    			if ($(window).width() + $(document).scrollLeft() - $this.offset().left < margin) dir.ew = 'e';
-    			if ($(window).height() + $(document).scrollTop() - $this.offset().top < margin) dir.ns = 's';
+				if ($this.offset().top < boundTop) dir.ns = 'n';
+				if ($this.offset().left < boundLeft) dir.ew = 'w';
+				if ($(window).width() + $(document).scrollLeft() - $this.offset().left < margin) dir.ew = 'e';
+				if ($(window).height() + $(document).scrollTop() - $this.offset().top < margin) dir.ns = 's';
 
-    			return dir.ns + (dir.ew ? dir.ew : '');
-    		}
-    	};
-    })(jQuery);
+				return dir.ns + (dir.ew ? dir.ew : '');
+			}
+		};
+	})(jQuery);
 
 
 //jQuery selectBox - https://github.com/claviska/jquery-selectBox
@@ -2351,3 +2351,370 @@ $(":checkbox").toggleSwitch();
 		};
 
 	})(jQuery);
+
+//color.js - https://github.com/harthur/color
+	var convert = require("color-convert"),
+	string = require("color-string");
+
+	module.exports = function(cssString) {
+		return new Color(cssString);
+	};
+
+	var Color = function(cssString) {
+		this.values = {
+			rgb: [0, 0, 0],
+			hsl: [0, 0, 0],
+			hsv: [0, 0, 0],
+			cmyk: [0, 0, 0, 0],
+			alpha: 1
+		} 
+
+		// parse Color() argument
+		if (typeof cssString == "string") {
+			var vals = string.getRgba(cssString);
+			if (vals) {  
+				this.setValues("rgb", vals);
+			}
+			else if(vals = string.getHsla(cssString)) {
+				this.setValues("hsl", vals);
+			}
+		}
+		else if (typeof cssString == "object") {
+			var vals = cssString;
+			if(vals["r"] !== undefined || vals["red"] !== undefined) {
+				this.setValues("rgb", vals)
+			}
+			else if(vals["l"] !== undefined || vals["lightness"] !== undefined) {
+				this.setValues("hsl", vals)
+			}
+			else if(vals["v"] !== undefined || vals["value"] !== undefined) {
+				this.setValues("hsv", vals)
+			}
+			else if(vals["c"] !== undefined || vals["cyan"] !== undefined) {
+				this.setValues("cmyk", vals)
+			}
+		}
+	}
+
+	Color.prototype = {
+		rgb: function (vals) {
+			return this.setSpace("rgb", arguments);
+		},
+		hsl: function(vals) {
+			return this.setSpace("hsl", arguments);
+		},
+		hsv: function(vals) {
+			return this.setSpace("hsv", arguments);
+		},
+		cmyk: function(vals) {
+			return this.setSpace("cmyk", arguments);
+		},
+
+		rgbArray: function() {
+			return this.values.rgb;
+		},
+		hslArray: function() {
+			return this.values.hsl;
+		},
+		hsvArray: function() {
+			return this.values.hsv;
+		},
+		cmykArray: function() {
+			return this.values.cmyk;
+		},
+		rgbaArray: function() {
+			var rgb = this.values.rgb;
+			rgb.push(this.values.alpha);
+			return rgb;
+		},
+		hslaArray: function() {
+			var hsl = this.values.hsl;
+			hsl.push(this.values.alpha);
+			return hsl;
+		},
+
+		alpha: function(val) {
+			if (val === undefined) {
+				return this.values.alpha;
+			}
+			this.setValues("alpha", val);
+			return this;
+		},
+
+		red: function(val) {
+			return this.setChannel("rgb", 0, val);
+		},
+		green: function(val) {
+			return this.setChannel("rgb", 1, val);
+		},      
+		blue: function(val) {
+			return this.setChannel("rgb", 2, val);
+		},
+		hue: function(val) {
+			return this.setChannel("hsl", 0, val);
+		},
+		saturation: function(val) {
+			return this.setChannel("hsl", 1, val);
+		},
+		lightness: function(val) {
+			return this.setChannel("hsl", 2, val);
+		},
+		saturationv: function(val) {
+			return this.setChannel("hsv", 1, val);
+		},
+		value: function(val) {
+			return this.setChannel("hsv", 2, val);
+		},
+		cyan: function(val) {
+			return this.setChannel("cmyk", 0, val);
+		},
+		magenta: function(val) {
+			return this.setChannel("cmyk", 1, val);
+		},
+		yellow: function(val) {
+			return this.setChannel("cmyk", 2, val);
+		},
+		black: function(val) {
+			return this.setChannel("cmyk", 3, val);
+		},
+
+		hexString: function() {
+			return string.hexString(this.values.rgb);
+		},
+		rgbString: function() {
+			return string.rgbString(this.values.rgb, this.values.alpha);
+		},
+		rgbaString: function() {
+			return string.rgbaString(this.values.rgb, this.values.alpha);
+		},
+		percentString: function() {
+			return string.percentString(this.values.rgb, this.values.alpha);
+		},
+		hslString: function() {
+			return string.hslString(this.values.hsl, this.values.alpha); 
+		},
+		hslaString: function() {
+			return string.hslaString(this.values.hsl, this.values.alpha);
+		},
+		keyword: function() {
+			return string.keyword(this.values.rgb, this.values.alpha);
+		},
+
+		luminosity: function() {
+			// http://www.w3.org/TR/WCAG20/#relativeluminancedef
+			var rgb = this.values.rgb;
+			for (var i = 0; i < rgb.length; i++) {
+				var chan = rgb[i] / 255;
+				rgb[i] = (chan <= 0.03928) ? chan / 12.92
+				: Math.pow(((chan + 0.055) / 1.055), 2.4)
+			}
+			return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+		},
+
+		contrast: function(color2) {
+			// http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+			var lum1 = this.luminosity();
+			var lum2 = color2.luminosity();
+			if (lum1 > lum2) {
+				return (lum1 + 0.05) / (lum2 + 0.05)
+			};
+			return (lum2 + 0.05) / (lum1 + 0.05);
+		},
+
+		dark: function() {
+			// YIQ equation from http://24ways.org/2010/calculating-color-contrast
+			var rgb = this.values.rgb,
+			yiq = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+			return yiq < 128;
+		},
+
+		light: function() {
+			return !this.dark();
+		},
+
+		negate: function() {
+			var rgb = []
+			for (var i = 0; i < 3; i++) {
+				rgb[i] = 255 - this.values.rgb[i];
+			}
+			this.setValues("rgb", rgb);
+			return this;
+		},
+
+		lighten: function(ratio) {
+			this.values.hsl[2] += this.values.hsl[2] * ratio;
+			this.setValues("hsl", this.values.hsl);
+			return this;
+		},
+
+		darken: function(ratio) {
+			this.values.hsl[2] -= this.values.hsl[2] * ratio;
+			this.setValues("hsl", this.values.hsl);
+			return this;         
+		},
+
+		saturate: function(ratio) {
+			this.values.hsl[1] += this.values.hsl[1] * ratio;
+			this.setValues("hsl", this.values.hsl);
+			return this;
+		},
+
+		desaturate: function(ratio) {
+			this.values.hsl[1] -= this.values.hsl[1] * ratio;
+			this.setValues("hsl", this.values.hsl);
+			return this;         
+		},    
+
+		greyscale: function() {
+			var rgb = this.values.rgb;
+			// http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+			var val = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11;
+			this.setValues("rgb", [val, val, val]);
+			return this;
+		},
+
+		clearer: function(ratio) {
+			this.setValues("alpha", this.values.alpha - (this.values.alpha * ratio));
+			return this;
+		},
+
+		opaquer: function(ratio) {
+			this.setValues("alpha", this.values.alpha + (this.values.alpha * ratio));
+			return this;
+		},
+
+		rotate: function(degrees) {
+			var hue = this.values.hsl[0];
+			hue = (hue + degrees) % 360;
+			hue = hue < 0 ? 360 + hue : hue;
+			this.values.hsl[0] = hue;
+			this.setValues("hsl", this.values.hsl);
+			return this;
+		},
+
+		mix: function(color2, weight) {
+			weight = 1 - (weight || 0.5);
+
+			// algorithm from Sass's mix(). Ratio of first color in mix is
+			// determined by the alphas of both colors and the weight
+			var t1 = weight * 2 - 1,
+			d = this.alpha() - color2.alpha();
+
+			var weight1 = (((t1 * d == -1) ? t1 : (t1 + d) / (1 + t1 * d)) + 1) / 2;
+			var weight2 = 1 - weight1;
+
+			var rgb = this.rgbArray();
+			var rgb2 = color2.rgbArray();
+
+			for (var i = 0; i < rgb.length; i++) {
+				rgb[i] = rgb[i] * weight1 + rgb2[i] * weight2;
+			}
+			this.setValues("rgb", rgb);
+
+			var alpha = this.alpha() * weight + color2.alpha() * (1 - weight);
+			this.setValues("alpha", alpha);
+
+			return this;
+		},
+
+		toJSON: function() {
+			return this.rgb();
+		}
+	}
+
+
+	Color.prototype.getValues = function(space) {
+		var vals = {};
+		for (var i = 0; i < space.length; i++) {
+			vals[space[i]] = this.values[space][i];
+		}
+		if (this.values.alpha != 1) {
+			vals["a"] = this.values.alpha;
+		}
+		// {r: 255, g: 255, b: 255, a: 0.4}
+		return vals;
+	}
+
+	Color.prototype.setValues = function(space, vals) {
+		var spaces = {
+			"rgb": ["red", "green", "blue"],
+			"hsl": ["hue", "saturation", "lightness"],
+			"hsv": ["hue", "saturation", "value"],
+			"cmyk": ["cyan", "magenta", "yellow", "black"]
+		};
+
+		var maxes = {
+			"rgb": [255, 255, 255],
+			"hsl": [360, 100, 100],
+			"hsv": [360, 100, 100],
+			"cmyk": [100, 100, 100, 100],
+		};
+
+		var alpha = 1;
+		if (space == "alpha") {
+			alpha = vals;
+		}
+		else if (vals.length) {
+			// [10, 10, 10]
+			this.values[space] = vals.slice(0, space.length);
+			alpha = vals[space.length];
+		}
+		else if (vals[space[0]] !== undefined) {
+			// {r: 10, g: 10, b: 10}
+			for (var i = 0; i < space.length; i++) {
+				this.values[space][i] = vals[space[i]];
+			}
+			alpha = vals.a;
+		}
+		else if (vals[spaces[space][0]] !== undefined) {
+			// {red: 10, green: 10, blue: 10}
+			var chans = spaces[space];
+			for (var i = 0; i < space.length; i++) {
+				this.values[space][i] = vals[chans[i]];
+			}
+			alpha = vals.alpha;
+		}
+		this.values.alpha = Math.max(0, Math.min(1, alpha || this.values.alpha));
+		if (space == "alpha") {
+			return;
+		}
+
+		// convert to all the other color spaces
+		for (var sname in spaces) {
+			if (sname != space) {
+				this.values[sname] = convert[space][sname](this.values[space])
+			}
+
+			// cap values
+			for (var i = 0; i < sname.length; i++) {
+				var capped = Math.max(0, Math.min(maxes[sname][i], this.values[sname][i]));
+				this.values[sname][i] = Math.round(capped);
+			}
+		}
+		return true;
+	}
+
+	Color.prototype.setSpace = function(space, args) {
+		var vals = args[0];
+		if (vals === undefined) {
+			// color.rgb()
+			return this.getValues(space);
+		}
+		// color.rgb(10, 10, 10)
+		if (typeof vals == "number") {
+			vals = Array.prototype.slice.call(args);        
+		}
+		this.setValues(space, vals);
+		return this;
+	}
+
+	Color.prototype.setChannel = function(space, index, val) {
+		if (val === undefined) {
+			// color.red()
+			return this.values[space][index];
+		}
+		// color.red(100)
+		this.values[space][index] = val;
+		this.setValues(space, this.values[space]);
+		return this;     
+	}
