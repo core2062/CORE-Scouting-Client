@@ -30,24 +30,26 @@ require 'php/general.php';
 
 //get & validate input variables
 //variables_order must contain "C" in php.ini
-$input = $_COOKIE['user'] or logout("user object was not received");
-$input = json_decode($input, true);
+$input['user'] = $_COOKIE['user'] or logout("user object was not received");
+$input['user'] = json_decode($input['user'], true);
 
-if (empty($input['_id']) == true) {
-	send_error("scoutid was not receved",'','logout();');
+fb($input);
+
+if (empty($input['user']['_id']) == true) {
+	send_error("scoutid was not receved",'','logout();');//cannot run logout() w/out scoutid
 }
-if (empty($input['token']) == true) {
+if (empty($input['user']['token']) == true) {
 	logout("token was not receved");
 }
 
 //check user & assign user object
 $user = $db->user->findOne(
 	array(
-		'_id' => $input['_id']
+		'_id' => $input['user']['_id']
 	)
-);//return user object
+);
 
-if ($user['token'] !== $input['token']) {//validate token
+if ($user['token'] !== $input['user']['token']) {//validate token
 	logout("token is incorrect, you have been logged out for security reasons");
 }
 if ($user['stats']['ip'] !== $vars['ip']) {//validate ip address
@@ -60,11 +62,11 @@ if ($user['permission'] == 0) {
 //get request data from post
 $json = $_POST['data'] or send_error('no data sent');
 
-if (empty($json) == true || $json == "undefined") {//post can send the string undefined if given no data... really gay
+if (empty($json) == true) {//post can send the string undefined if given no data... really gay
 	send_error('no data received');
 }
 
-$input = array_merge(json_decode($json, true), $input);// add json request data to input object (for logging & organization)
+$input = array_merge(json_decode($json, true), $input);
 
 
 // request switch
@@ -154,6 +156,8 @@ case "logout":
 break;
 case "updateUser":
 	
+	fb($input['user']['prefs']);
+
 	//TODO expand to update stuff other than prefs too?
 	$db->user->update(
 		array(
@@ -161,7 +165,7 @@ case "updateUser":
 		),
 		array(
 			'$set' => array(
-				'prefs' => $input['prefs']
+				'prefs' => $input['user']['prefs']
 			)
 		)
 	);
