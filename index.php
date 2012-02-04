@@ -7,7 +7,6 @@ error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 ?>
 
-
 <?php
 /*
 	PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
@@ -66,7 +65,7 @@ ini_set( 'display_errors', 1 );
 
 	make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time
 
-	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or misformatted data. If it is not possible to send it from this computer... contact me/send it to me.
+	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or mis-formatted data. If it is not possible to send it from this computer... contact me/send it to me.
 
 	check to see if save valuable scouting data jGrowl pops up for blank ScoutID or other errors
 
@@ -85,13 +84,20 @@ ini_set( 'display_errors', 1 );
 
 	if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
 
-	above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a seperate entry, even if they are duplicates.
+	above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a separate entry, even if they are duplicates.
 	in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
 
 
 	make data sent by input page be in JSON
 
 	remove convert to table thing in process, instead send JSON to client, and on client side convert to table.
+
+	//scouting 
+	pickup balls from wall or bridge
+	printout sheet - summary of alliance competing against
+		log of important events (like robot dieing during match)
+
+	scouting as full alliance
 */
 
 //start timer
@@ -106,7 +112,7 @@ $db = $m->selectDB("CSD");
 
 $pages = $db->siteMap->findOne();
 unset($pages['_id']);//remove id
-
+fb($pages);
 $len = count($pages);
 for($i=0; $i < $len; $i++){
 	if($pages[$i]['embedded'] == true) {
@@ -328,7 +334,7 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
-				<button type="button" style="display: none;" class="account-c" onclick="postUserUpdates()">Save</button>
+				<button type="button" style="display: none;" class="account-c" onclick="modalClose()">Save</button>
 				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage()">Send</button>
 			</div>
 		</div>
