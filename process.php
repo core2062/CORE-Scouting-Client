@@ -155,13 +155,11 @@ case "logout":
 
 break;
 case "updateUser":
-	
-	fb($input['user']['prefs']);
 
 	//TODO expand to update stuff other than prefs too?
 	$db->user->update(
 		array(
-			'_id:' => $user['_id']
+			'_id' => $user['_id']
 		),
 		array(
 			'$set' => array(
@@ -170,7 +168,7 @@ case "updateUser":
 		)
 	);
 	//TODO check for error in prefs update?
-	
+
 	send_reg(array('message' => 'preferences updated successfully'));
 
 break;

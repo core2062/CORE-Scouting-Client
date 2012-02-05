@@ -48,15 +48,23 @@ function highlight(condition, element){
 	}
 	element.style
 }
-
-function pulse(elementID, setting){//setting is bool, true=pulse & false=stop
-	startTime = new Date();
-	pulseCallBack = setInterval(function(){
-		Math.cos((Date() - startTime)/1000)*0.5+0.5
-
-	},100);
-}
 */
+function pulse(elementID){//setting is bool, true=pulse & false=stop ---- , setting
+	startTime = new Date();
+	pulseElement = document.getElementById(elementID);
+
+	pulseCallBack = setInterval(function(){
+		var opacity = Math.round(Math.cos((new Date() - startTime)/500)*10)*0.05+0.5;
+		var spread = opacity*2+1;
+		opacity = opacity*0.9 + 0.1;
+		pulseElement.style.boxShadow = '0 0 ' + spread + 'px ' + spread + 'px rgba(51,102,255,' + opacity + ')';
+		console.log(spread + ' and ' + opacity);
+	},200);
+	//avg:17.205ms min:5.531ms max:53.15ms avg:	6.19ms
+	//avg:14.489ms min:3.41ms max:59.435ms avg:	6.356ms
+	//avg: 6.346ms
+}
+
 function postSignup(){//this function will interfere with logged in users... signup must not be visible if logged in
 	if (checkSignup('all') == false){
 		return;//jGrowl messages & highlighting deal with bad inputs
