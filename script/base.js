@@ -440,6 +440,7 @@ function postUserUpdates(){
 		post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
 	}
 	modalClose(false);
+	//TODO add checking to see if user object is different
 }
 
 //general functions
