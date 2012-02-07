@@ -34,7 +34,9 @@ Language: LESS
 
 
 // Images
-	/* TODO: embed images */
+	// TODO: embed images in LESS
+	// TODO: add IE (aka: shit-browser) compatible images (non-embedded) to a ie stylesheet
+
 	@select: url(data:image/gif;base64,R0lGODlhBQAJAIABAP///wAAACH5BAEKAAEALAAAAAAFAAkAAAIMTGAHuJ0PU1sKGVsAADs=);
 
 	@progressbar: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==);
@@ -51,8 +53,9 @@ Language: LESS
 
 	@helpIcon: url(img/icon/help.svg);
 
-	//data:image/svg+xml;base64,
 	@clearInputIcon: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDQ4IDQ4Ij48cGF0aCBzdHlsZT0iZmlsbDojMzMzMzMzOyIgZD0iTTE0LjMxOCwxMS44NzdMMi4xOTMsMjMuOTk4bDEyLjEyNSwxMi4xMjVoMzEuNDg2bDAuMDAyLTI0LjI0NkgxNC4zMTh6IE00My4wODIsMzMuNEgxNS40NDVsLTkuNC05LjQwMWw5LjQtOS40aDI3LjY0TDQzLDMzLjR6Ii8+PHBvbHlnb24gc3R5bGU9ImZpbGw6IzMzMzMzMzsiIHBvaW50cz0iMjguMjA3LDI5Ljc3NCAzMi4wNTUsMjUuOTI3IDM1LjkwMiwyOS43NzQgMzcuODI2LDI3Ljg1IDMzLjk3OSwyNCAzNy44MjYsMjAuMTU0IDM1LjkwMiwxOC4yMjggMzIuMDU1LDIyLjA3NiAyOC4yMDcsMTguMjI3IDI2LjI4MSwyMC4xNTIgMzAuMTI5LDI0IDI2LjI4MSwyNy44NSIvPg0KPC9zdmc+);
+
+	//TODO: add a red background to @clearInputIcon
 
 	/* source of @clearInputIcon
 		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 48 48">
@@ -402,6 +405,7 @@ Language: LESS
 
 //Clear Input Icon
 	.clearIcon span {
+		.opacity(0.7);
 		background-image: @clearInputIcon;
 		height: 25px;
 		width: 25px;
@@ -411,6 +415,10 @@ Language: LESS
 		position: relative;
 		right: 35px;
 		top: -1px;
+
+		&:hover {
+			.opacity(1);
+		}
 	}
 
 
