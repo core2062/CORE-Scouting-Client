@@ -31,10 +31,10 @@ ini_set( 'display_errors', 1 );
 	TODO make sure links on facebook contain a nice description of the site
 	TODO make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
 	TODO make onload scripts for each page
-	TODO make a small dropdown for the nav button that gives the page catagories
+	TODO make a small dropdown for the nav button that gives the page categories
 	TODO move all js scripts & static resources to cookie-less sub-domain
 	TODO change table style back to table sorter style, then to aristo like
-	TODO make fonts store in catche
+	TODO make fonts store in cache
 	TODO make openid / login from other site
 	
 	wiki style editing
@@ -48,12 +48,12 @@ ini_set( 'display_errors', 1 );
 	catche AJAX content
 	store scouting data during error to a cookie - attempt to resubmit (ok if it's submitted twice) - delete cookie and display jGrowl when sent
 	
-	change popup to open link in new window or tab - opens a link to a page that retreves & displays data from the cookie and contians instructions on how to save and resubmit data - or modal
+	change popup to open link in new window or tab - opens a link to a page that retrieves & displays data from the cookie and contains instructions on how to save and resubmit data - or modal
 	add offline scouting mode for competitions without internet access
 	
 	TODO on login, check if training was finished for that page
-	TODO fix font renedering across browsers - check support for @fontface
-	TODO make defult value for select boxes "" ?
+	TODO fix font rendering across browsers - check support for @fontface
+	TODO make default value for select boxes "" ?
 	
 	TODO use standard deviation on DB
 	TODO use php to get possible competition list
@@ -283,7 +283,7 @@ include 'php/jsminplus.php';
 			?>
 
 			<div id="jGrowl-container" class="jGrowl bottom-right"></div>
-			<!--TODO fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanisim to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
+			<!--TODO fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
 			<!-- TODO create classes of jGrowl notifications to close selectively -->
 		</td>
 	</tr>

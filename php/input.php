@@ -1,7 +1,7 @@
 <?php
 /*
 Requires:
-	inputType - robot, human, pit...
+	inputType - robot, alliance, pit...
 */
 
 if(empty($input['inputType']) == true){
@@ -15,8 +15,8 @@ $insert['meta'] = array(
 	'type' => $input['inputType']
 );
 
-//for robot & human
-if($input['inputType'] == 'robot' || $input['inputType'] == 'human'){
+//for robot & alliance
+if($input['inputType'] == 'robot' || $input['inputType'] == 'alliance'){
 	$insert['match']
 }
 
@@ -27,7 +27,7 @@ case "robot":
 	//if error count is too high then set use = false
 	
 break;
-case "human":
+case "alliance":
 	
 	//validation of all data... log invalid data & change errorCount based on it
 	//if error count is too high then set use = false
