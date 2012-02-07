@@ -1,6 +1,6 @@
 <?php
 /*
-TODO add openid based sign-up (perhaps a accordian to hold different sign-up methods)
+TODO: add openid based sign-up (perhaps a accordian to hold different sign-up methods)
 
 This script handles: signup (because process.php requires token)
 */
@@ -43,7 +43,7 @@ for($i = 0; $i < $len; $i++){
 
 //transfer all stuff into a new object to prevent storing any extra values & do default check
 $input = array(
-	'permission' => 1, // TODO make system to assign higher permissions automatically
+	'permission' => 1, // TODO: make system to assign higher permissions automatically
 
 	"info"=> array(
 		"fName"=> $input['info']['fName'],
@@ -98,7 +98,7 @@ $i = $db->user->findOne(
 );//check for a duplicate _id
 
 if(!empty($i)){
-	//TODO make a system to deal with this & probably assign usernames better
+	//TODO: make a system to deal with this & probably assign usernames better
 	send_error('username already taken');
 }
 
@@ -111,7 +111,7 @@ if(strlen($input['account']['pword']) < 5){
 if(!(filter_var($input['account']['email'], FILTER_VALIDATE_EMAIL))){
 	send_error('this email is not valid');
 }
-//TODO check for duplicate email????
+//TODO: check for duplicate email????
 
 
 $db->user->insert($input);//finally add user

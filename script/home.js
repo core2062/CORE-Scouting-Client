@@ -65,7 +65,7 @@ function highlight(condition, element){
 */
 var pulseCallBack = {};
 function pulse(elementID, setting){//setting is bool, true=pulse & false=stop
-	//this will only work on one element at a time because pulseElement & startTime will get changed TODO fix this
+	//this will only work on one element at a time because pulseElement & startTime will get changed TODO: fix this
 	pulseElement = document.getElementById(elementID);
 	if(setting == true){
 		startTime = new Date();
