@@ -376,7 +376,6 @@ Language: LESS
 
 
 // Icons
-
 	.icon { /*TODO fix this bad looking css */
 		display: inline;
 		overflow: hidden;
@@ -384,7 +383,23 @@ Language: LESS
 		vertical-align: middle;
 		font-size: 22px;
 		font-weight: 200;
+	}
 
+//Clear Input Icon
+	span.clearIcon {
+		position: relative;
+	}
+	span.clearIcon svg {
+		position: absolute;
+		display: block;
+		top: -3px;
+		right: 10px;
+		width: 25px;
+		height: 25px;
+		cursor: pointer;
+	}
+	span.clearIcon input {
+		padding-right: 16px;
 	}
 
 

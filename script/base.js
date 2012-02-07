@@ -39,10 +39,16 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 //TODO add stuff to prefetch subpages???
 
 
-//Event Handlers
+//UI Event Handlers
 	//set fieldset class on focus
 	$("input, textarea").focus(function () {
 		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
+	});
+
+	$("span.clearIcon svg").focus(function () {
+		var input = this.previousSibling;
+		input.value = '';
+		input.focus();
 	});
 
 	$("input, textarea").focusout(function () {

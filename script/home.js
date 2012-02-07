@@ -23,16 +23,32 @@ function displayScoutID() {
 function checkSignup(filter) {//return true if ok, return false if bad
 	if (filter == 'fName' || filter == 'all') {
 
-		highlight('error', fName);
+		if(fName.value == ''){
+			highlight('error', fName);
+			return false;
+		} else {
+			highlight('correct', fName);
 
-		if (filter != 'all') return true;
+			if (filter != 'all'){
+				return true;
+			}
+		}
 	}
 	if (filter == 'lName' || filter == 'all') {
 
+		if(lName.value == ''){
+			highlight('error', lName);
+			return false;
+		} else {
+			highlight('correct', lName);
 
-		if (filter != 'all') return true;
+			if (filter != 'all'){
+				return true;
+			}
+		}
+
 	}
-	return true; //temp
+	return true;
 }
 /*
 function highlight(condition, element){
@@ -41,28 +57,30 @@ function highlight(condition, element){
 		element.style. 
 	} else if(condition == 'error') {
 		
-	} else if(condition == 'correct') {
-		
-	} else if(condition == 'pulse') {
+	} else {
 		
 	}
 	element.style
 }
 */
-function pulse(elementID){//setting is bool, true=pulse & false=stop ---- , setting
-	startTime = new Date();
+var pulseCallBack = {};
+function pulse(elementID, setting){//setting is bool, true=pulse & false=stop
+	//this will only work on one element at a time because pulseElement & startTime will get changed TODO fix this
 	pulseElement = document.getElementById(elementID);
-
-	pulseCallBack = setInterval(function(){
-		var opacity = Math.round(Math.cos((new Date() - startTime)/500)*10)*0.05+0.5;
-		var spread = opacity*2+1;
-		opacity = opacity*0.9 + 0.1;
-		pulseElement.style.boxShadow = '0 0 ' + spread + 'px ' + spread + 'px rgba(51,102,255,' + opacity + ')';
-		console.log(spread + ' and ' + opacity);
-	},200);
-	//avg:17.205ms min:5.531ms max:53.15ms avg:	6.19ms
-	//avg:14.489ms min:3.41ms max:59.435ms avg:	6.356ms
-	//avg: 6.346ms
+	if(setting == true){
+		startTime = new Date();
+		
+		pulseCallBack[elementID] = setInterval(function(){
+			var opacity = Math.round(Math.sin((new Date() - startTime)/500)*10)*0.05+0.5;
+			var spread = opacity*2+1;
+			opacity = opacity*0.9 + 0.1;
+			pulseElement.style.boxShadow = '0 0 ' + spread + 'px ' + spread + 'px rgba(51,102,255,' + opacity + ')';
+			console.log(spread + ' and ' + opacity);
+		},200);
+	} else if(pulseCallBack[elementID]) {
+		clearInterval(pulseCallBack[elementID]);
+		pulseElement.style.boxShadow = '';
+	}
 }
 
 function postSignup(){//this function will interfere with logged in users... signup must not be visible if logged in
