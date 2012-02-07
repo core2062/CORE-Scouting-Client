@@ -30,14 +30,11 @@
 
 <ul class="login-c">
 	<li><label for="scoutid">ScoutID:</label></li>
-	<li><input type="text" id="scoutid" /></li>
+	<li class="clearIcon"><input type="text" id="scoutid"/><span></span></li>
 
 	<li><label for="pword">Password:</label></li>
-	<li><input type="password" id="pword" onkeypress="var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();"></li>
-	<!-- TODO beforeClose run login function & if not logged in send message saying you aren't logged in -->
-	<!-- TODO add return home button to login modal -->
+	<li class="clearIcon"><input type="password" id="pword" onkeypress="var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();"><span></span></li>
 </ul>
-
 
 <ul class="contact-c">
 	<li>
