@@ -45,22 +45,26 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
 	});
 
+	$("input, textarea").focusout(function () {
+		$(this).parentsUntil($("form"), "fieldset").removeClass('focus');
+	});
+
+
+	//script for clear input icon
 	$(".clearIcon span").click(function () {
 		var input = this.previousSibling;
 		input.value = '';
 		input.focus();
 	});
 
-	$("input, textarea").focusout(function () {
-		$(this).parentsUntil($("form"), "fieldset").removeClass('focus');
-	});
 
 	// Accordion
-	//not finished
+	//TODO: finish Accordion for nav modal
 	$('.accordion > p').click(function() {
 		console.log('bitches');
 		console.log($(this).next());
 	});
+
 
 // global vars
 	var current = {
@@ -97,7 +101,7 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 		}
 	};
 
-function fixFavicon() { //fixes favicon bug in firefox
+function fixFavicon() { //fixes favicon bug in firefox -- remove in future
 	$('#favicon').remove();
 	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
@@ -149,7 +153,7 @@ function buildCache() {
 window.onpopstate = function(event) {
 	// if nav() is failing, check browser support for this
 	console.log(event);
-	fixFavicon(); //remove this?????
+	fixFavicon(); //remove this in future
 	nav();
 }
 
@@ -293,7 +297,8 @@ function nav() {
 	}
 	
 	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
-		setTimeout("window.location = '#login'", fadetime + 1);
+		//TODO: figure out a way to do this without a timeout & without screwing up the page below
+		setTimeout("window.location = '#login'", fadetime*2);
 		return;
 	}
 	/*
@@ -310,7 +315,7 @@ function nav() {
 
 //site functions
 function modalClose(runScript) {//if runScript is defined then the script won't be run (define as false)
-	//CONSIDER expanding the bottom code to work on all page types
+	//TODO: expanding the bottom code to work on all page types
 	if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== 'undefined' && typeof(runScript) === 'undefined'){
 		eval(pages[current.index]['modals'][current.subpage]['onClose']);
 	}
@@ -392,7 +397,6 @@ function callLogout(){//tells server to logout & runs logout function
 	post('process.php','{"request":"logout"}');
 	//recheck current page in navbar, radio button hasn't been set yet so timeout is needed
 	setTimeout("$('#' + current.subpage + '-r').attr('checked', true)",1);
-	console.log(current.subpage);
 	logout();
 }
 
@@ -441,12 +445,11 @@ function updateUser(key, value){//newObject does not need to be a full user obje
 }
 
 function postUserUpdates(){
-	console.log('running postUserUpdates');
 	if(eatCookie('user') != ''){//only run if logged in
 		post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
 	}
 	modalClose(false);
-	//TODO: add checking to see if user object is different
+	//TODO: add checking in postUserUpdates() to see if user object is different
 }
 
 //general functions
@@ -514,7 +517,7 @@ function post(filename, json) {
 		}
 	});
 	json = eval("(" + ajax.responseText + ")");
-	console.log(json);
+	console.log(json);//TODO: remove before production
 	
 	if(json.script){//script must be run before error returns (like for logout function)
 		eval(json.script);

@@ -155,8 +155,8 @@ case "logout":
 
 break;
 case "updateUser":
-
-	//TODO: expand to update stuff other than prefs too?
+	
+	//TODO: if moved to cookie-less sub-domain, make partial pref update (not sending all prefs, because not all have not changed)
 	$db->user->update(
 		array(
 			'_id' => $user['_id']
