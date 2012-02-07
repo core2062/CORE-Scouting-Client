@@ -9,7 +9,7 @@
 
 <?php
 /*
-TODO disable catching for this response
+TODO: disable catching for this response
 This script handles: general functions needed for all scripts
 */
 
@@ -98,7 +98,7 @@ function send_error($error_text, $error = '', $script = ''){
 		)
 	);
 
-	//TODO enable below before production
+	//TODO: enable below before production
 	ob_clean (); //empty output buffer, error_text is only thing sent
 	
 	if($script == ''){

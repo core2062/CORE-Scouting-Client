@@ -156,7 +156,7 @@ case "logout":
 break;
 case "updateUser":
 
-	//TODO expand to update stuff other than prefs too?
+	//TODO: expand to update stuff other than prefs too?
 	$db->user->update(
 		array(
 			'_id' => $user['_id']
@@ -167,7 +167,7 @@ case "updateUser":
 			)
 		)
 	);
-	//TODO check for error in prefs update?
+	//TODO: check for error in prefs update?
 
 	send_reg(array('message' => 'preferences updated successfully'));
 
@@ -194,7 +194,7 @@ function logout($error_message = ''){//must be function to let it be called from
 		)
 	); // delete token & ip for active user
 	
-	//TODO check for logout error?
+	//TODO: check for logout error?
 	
 	if($error_message == ''){//if no error message is specified then assume no error
 		send_reg(array('message' => 'logout successful'));

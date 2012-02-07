@@ -24,18 +24,18 @@ ini_set( 'display_errors', 1 );
     Base Page: page components which are needed for more than 1 page, these are embedded on first page request
     
 	
-	Main TODOS:
+	Main TODO:S:
 	
-	TODO make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
-	TODO add gzip to server
-	TODO make sure links on facebook contain a nice description of the site
-	TODO make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
-	TODO make onload scripts for each page
-	TODO make a small dropdown for the nav button that gives the page categories
-	TODO move all js scripts & static resources to cookie-less sub-domain
-	TODO change table style back to table sorter style, then to aristo like
-	TODO make fonts store in cache
-	TODO make openid / login from other site
+	TODO: make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
+	TODO: add gzip to server
+	TODO: make sure links on facebook contain a nice description of the site
+	TODO: make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
+	TODO: make onload scripts for each page
+	TODO: make a small dropdown for the nav button that gives the page categories
+	TODO: move all js scripts & static resources to cookie-less sub-domain
+	TODO: change table style back to table sorter style, then to aristo like
+	TODO: make fonts store in cache
+	TODO: make openid / login from other site
 	
 	wiki style editing
 	blue alliance like public side w/ only basic data (data gathering and analysis on member side)
@@ -51,17 +51,17 @@ ini_set( 'display_errors', 1 );
 	change popup to open link in new window or tab - opens a link to a page that retrieves & displays data from the cookie and contains instructions on how to save and resubmit data - or modal
 	add offline scouting mode for competitions without internet access
 	
-	TODO on login, check if training was finished for that page
-	TODO fix font rendering across browsers - check support for @fontface
-	TODO make default value for select boxes "" ?
+	TODO: on login, check if training was finished for that page
+	TODO: fix font rendering across browsers - check support for @fontface
+	TODO: make default value for select boxes "" ?
 	
-	TODO use standard deviation on DB
-	TODO use php to get possible competition list
+	TODO: use standard deviation on DB
+	TODO: use php to get possible competition list
 	
 	CONSIDER use php to base64 images
 
 
-	TODO make a 404 page
+	TODO: make a 404 page
 
 	make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time
 
@@ -107,8 +107,8 @@ $starttime = (float)$sec + (float)$micro;
 $m = new Mongo(); // connect
 $db = $m->selectDB("CSD");
 
-//TODO move public to new page - out of member analysis?
-//TODO add code to set options in account modal to match prefs onOpen
+//TODO: move public to new page - out of member analysis?
+//TODO: add code to set options in account modal to match prefs onOpen
 
 $pages = $db->siteMap->findOne();
 unset($pages['_id']);//remove id
@@ -135,15 +135,15 @@ if (isset($_GET['dev'])) {
 } else {
 	$dev = false;
 }
-//TODO require authentication to use dev, or just remove before production
+//TODO: require authentication to use dev, or just remove before production
 
 if (isset($_COOKIE['scoutid'])) {
 	$input['scoutid'] = $_COOKIE['scoutid'];
 }
 $input['ip'] = $_SERVER['REMOTE_ADDR'];
 
-//TODO add code to check id sent with cookie to determine if admin page can be sent with request
-//TODO maybe add some logging here
+//TODO: add code to check id sent with cookie to determine if admin page can be sent with request
+//TODO: maybe add some logging here
 
 
 
@@ -230,7 +230,7 @@ include 'php/jsminplus.php';
 ?>
 
 <!DOCTYPE html>
-<html> <!--TODO add  manifest="manifest.mf" + make file-->
+<html> <!--TODO: add  manifest="manifest.mf" + make file-->
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 <title>Input</title>
@@ -241,12 +241,12 @@ include 'php/jsminplus.php';
 <style>
 	<?php
 		embed('css/', '.css');
-		//TODO add in csstidy + fix gradient support
+		//TODO: add in csstidy + fix gradient support
 	?>
 </style>
 </head>
 <body id="body">
-<!--TODO add tags for bookmarks and/or for search engines -->
+<!--TODO: add tags for bookmarks and/or for search engines -->
 
 
 <!-- START Layout -->
@@ -283,8 +283,8 @@ include 'php/jsminplus.php';
 			?>
 
 			<div id="jGrowl-container" class="jGrowl bottom-right"></div>
-			<!--TODO fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
-			<!-- TODO create classes of jGrowl notifications to close selectively -->
+			<!--TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
+			<!-- TODO: create classes of jGrowl notifications to close selectively -->
 		</td>
 	</tr>
 	<!-- END Content -->
@@ -295,7 +295,7 @@ include 'php/jsminplus.php';
 
 			<!-- Google +1 Button -->
 			<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
-			<!-- TODO make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
+			<!-- TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
 
 			<div id="progressbar">
 				<div id="progressbar-value"></div>
@@ -320,7 +320,7 @@ include 'php/jsminplus.php';
 			<div class="modal-titlebar">
 				<span id="modal-title">Title</span>
 
-				<a onclick="modalClose();" class="close"> <!--TODO remove the extra a tag ?-->
+				<a onclick="modalClose();" class="close"> <!--TODO: remove the extra a tag ?-->
 					<span class="icon icon-closethick"></span>
 				</a>
 			</div>
@@ -333,7 +333,7 @@ include 'php/jsminplus.php';
 				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalClose();">Close</button>
 				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
 				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
-				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO make help button work -->
+				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO: make help button work -->
 				<button type="button" style="display: none;" class="account-c" onclick="modalClose()">Save</button>
 				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage()">Send</button>
 			</div>
@@ -345,7 +345,7 @@ include 'php/jsminplus.php';
 <!-- END Modals -->
 
 
-<!--TODO embed jquery, fix issues w/ being in same file -->
+<!--TODO: embed jquery, fix issues w/ being in same file -->
 <script type="text/javascript" src="script/jquery.js"></script>
 <script type="text/javascript">
 
@@ -372,7 +372,7 @@ if ($dev == false) {
 	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
 	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags
 
-	//TODO fix the last command
+	//TODO: fix the last command
 }
 
 //remove extra stuff from $pages
@@ -396,7 +396,7 @@ if ($dev == false){
 $html = $html . $javascript . '</script></body></html>';
 
 //optimize css
-//TODO base64 images w/ php ?
+//TODO: base64 images w/ php ?
 
 $html = trim($html);
 
