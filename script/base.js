@@ -34,9 +34,9 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 })();
 */
 
-//TODO float google +1 button left w/out 4px overhang
-//TODO make startup script to warn bad browsers
-//TODO add stuff to prefetch subpages???
+//TODO: float google +1 button left w/out 4px overhang
+//TODO: make startup script to warn bad browsers
+//TODO: add stuff to prefetch subpages???
 
 
 //UI Event Handlers
@@ -45,7 +45,7 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
 	});
 
-	$("span.clearIcon svg").focus(function () {
+	$(".clearIcon span").click(function () {
 		var input = this.previousSibling;
 		input.value = '';
 		input.focus();
@@ -180,7 +180,7 @@ function nav() {
 	current.index = '';
 
 	var len = pages.length;
-	for (var i = 0; i < len; i++) { //TODO add catching?
+	for (var i = 0; i < len; i++) { //TODO: add catching?
 		if (typeof pages[i].subpages[current.subpage] !== 'undefined') {
 			current.index = i;
 			current.type = 'subpages';
@@ -189,7 +189,7 @@ function nav() {
 		}
 	}
 
-	if (current.index === '') { // TODO merge with subpage search ?
+	if (current.index === '') { // TODO: merge with subpage search ?
 		for (var i = 0; i < len; i++) {
 			if (typeof pages[i].modals[current.subpage] !== 'undefined') {
 				current.index = i;
@@ -446,7 +446,7 @@ function postUserUpdates(){
 		post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
 	}
 	modalClose(false);
-	//TODO add checking to see if user object is different
+	//TODO: add checking to see if user object is different
 }
 
 //general functions
@@ -538,11 +538,11 @@ function post(filename, json) {
 }
 
 
-//TODO replace with something better, like downloadify or just a modal
+//TODO: replace with something better, like downloadify or just a modal
 /*
 function WriteToWindow() {
 	top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
-	//TODO fix link to style sheet, or replace completely
+	//TODO: fix link to style sheet, or replace completely
 	top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
 	top.consoleRef.document.close()
 }
@@ -1641,7 +1641,7 @@ function WriteToWindow() {
 
 
 //ToggleJS
-	//TODO make toggle change with l/r arrow keys when on keyboard focus
+	//TODO: make toggle change with l/r arrow keys when on keyboard focus
 	(function($) {
 		// set default options
 		$.toggleSwitch = {
