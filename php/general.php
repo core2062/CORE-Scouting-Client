@@ -8,20 +8,25 @@
 ?>
 
 <?php
-/*
-TODO: disable catching for this response
-This script handles: general functions needed for all scripts
-*/
+//This script handles: general functions needed for almost all scripts
 
 //start timer
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//add back when database is secured: include 'vars.php';  - assigns variables for DB & other sensitive info
+//add back when database is secured: include 'vars.php';  - assigns variables for DB & other sensitive info (not put on github)
+
+//connect to mongoDB
+$m = new Mongo();
+$db = $m->selectDB("CSD");
+
+//get basic variables
+$vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
 
 $log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
 
-//The User Object (full example)
+
+//The User Object (full example) -- referenced used in login script, and maybe others too later
 $userObject = array(
 	"_id"=> "SeanLang-2062",
 	"permission"=> 9,
@@ -45,7 +50,7 @@ $userObject = array(
 
 	"stats"=> array(//not sent, created by server side
 		"ip"=> "127.0.0.1",
-		"logintime"=> "1327269383.167"
+		"logintime"=> 1327269383.167
 	),
 	
 	"opt"=> array(//not sent, optional info
@@ -54,15 +59,6 @@ $userObject = array(
 		"gender"=> "m"
 	)
 );
-
-//connect to mongoDB
-$m = new Mongo();
-$db = $m->selectDB("CSD");
-
-
-//get basic variables
-$vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
-
 
 //global return functions
 function send_error($error_text, $error = '', $script = ''){
@@ -79,6 +75,8 @@ function send_error($error_text, $error = '', $script = ''){
 	}
 
 	if ($error == ""){$error = $error_text;}
+
+	$log[] = ob_get_contents();
 
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
@@ -98,8 +96,7 @@ function send_error($error_text, $error = '', $script = ''){
 		)
 	);
 
-	//TODO: enable below before production
-	ob_clean (); //empty output buffer, error_text is only thing sent
+	ob_clean (); //empty output buffer, stuff below is only thing sent
 	
 	if($script == ''){
 		die("{'error':'$error_text'}");
@@ -117,6 +114,8 @@ function send_reg($return = ''){
 	global $user;
 	global $type;
 	global $place;
+
+	$log[] = ob_get_contents();
 
 	list($micro, $sec) = explode(" ",microtime());
 	$endtime = (float)$sec + (float)$micro;
@@ -138,7 +137,7 @@ function send_reg($return = ''){
 
 	$return = json_encode($return);
 
-	ob_clean (); //empty output buffer, return is only thing sent
+	ob_clean (); //empty output buffer, stuff below is only thing sent
 	die($return);
 }
 ?>

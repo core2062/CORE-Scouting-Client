@@ -36,6 +36,7 @@ ini_set( 'display_errors', 1 );
 	TODO: change table style back to table sorter style, then to aristo like
 	TODO: make fonts store in cache
 	TODO: make openid / login from other site
+	//TODO: move public to new page - out of member analysis?
 	
 	wiki style editing
 	blue alliance like public side w/ only basic data (data gathering and analysis on member side)
@@ -53,13 +54,9 @@ ini_set( 'display_errors', 1 );
 	
 	TODO: on login, check if training was finished for that page
 	TODO: fix font rendering across browsers - check support for @fontface
-	TODO: make default value for select boxes "" ?
 	
 	TODO: use standard deviation on DB
 	TODO: use php to get possible competition list
-	
-	CONSIDER use php to base64 images
-
 
 	TODO: make a 404 page
 
@@ -79,6 +76,7 @@ ini_set( 'display_errors', 1 );
 
 	add styling for disabled button
 
+	TODO: provide link to github on site???
 
 	if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
 
@@ -86,11 +84,6 @@ ini_set( 'display_errors', 1 );
 
 	above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a separate entry, even if they are duplicates.
 	in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
-
-
-	make data sent by input page be in JSON
-
-	remove convert to table thing in process, instead send JSON to client, and on client side convert to table.
 
 	//scouting 
 	pickup balls from wall or bridge
@@ -100,15 +93,36 @@ ini_set( 'display_errors', 1 );
 	scouting as full alliance
 */
 
-//start timer
-list($micro, $sec) = explode(" ",microtime());
-$starttime = (float)$sec + (float)$micro;
+$place = 'index.php';
+$type = 'page-gen';//changed if page is loaded from cache
 
-$m = new Mongo(); // connect
-$db = $m->selectDB("CSD");
+require 'php/general.php';
 
-//TODO: move public to new page - out of member analysis?
-//TODO: add code to set options in account modal to match prefs onOpen
+
+//Options
+	
+	//defaults
+	$disableCache = false;
+	$dev = false;
+
+	//check if dev mode is set (dev mode disables obfustication/minification & caching)
+	if (isset($_GET['dev'])) {
+		$dev = true;
+		$disableCache = true;
+		//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
+		fb('dev mode enabled');
+	}
+
+	if(empty($_COOKIE['user']) == false){
+		//variables_order must contain "C" in php.ini
+		$input['user'] = json_decode($_COOKIE['user'], true);
+		fb('user detected');
+
+
+		fb('admin page loaded');
+
+		$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
+	}
 
 $pages = $db->siteMap->findOne();
 unset($pages['_id']);//remove id
@@ -125,58 +139,36 @@ fb($embedded);
 sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 $embeddedLen = count($embedded);
 
-
-
-
-
-if (isset($_GET['dev'])) {
-	$dev = true;
-	fb('dev mode enabled');
-} else {
-	$dev = false;
-}
-//TODO: require authentication to use dev, or just remove before production
-
-if (isset($_COOKIE['scoutid'])) {
-	$input['scoutid'] = $_COOKIE['scoutid'];
-}
-$input['ip'] = $_SERVER['REMOTE_ADDR'];
-
-//TODO: add code to check id sent with cookie to determine if admin page can be sent with request
-//TODO: maybe add some logging here
-
-
-
 $filename = $embedded[0];
 for ($i = 1; $i < $embeddedLen; ++$i) {
 	$filename .= "," . $embedded[$i];
 }
 $filename = 'cache/' . $filename . '-index';
+$log[] = "filename = " . $filename;
 
-if (file_exists($filename) == true){
-	$htmlparts[0] = 'navbar';
-	$htmlparts[1] = 'content';
-	$htmlparts[2] = 'sidebar';
-	$htmlparts[3] = 'modals';
+if (file_exists($filename) == true && $disableCache == false){//also, check if cache has been disabled
 
-	$parts_length = count($htmlparts);
+	//code to get cached file and send it
+	if (cache_check() === true) {
+		$html = file_get_contents($filename);
+		fb('cached');
 
-	$cache_date = filemtime($filename);
+		$type = 'page-cache';
+		send_reg($html);
+	}
 
-	//check if files have been modified
+	//function to check if files have been modified
 	function cache_check() {
 		global $embeddedLen;
-		global $htmlparts;
-		global $parts_length;
-		global $cache_date;
 		global $embedded;
-		global $dev;
 
-		if ($dev == true){
-			return false;
-		}
+		$cache_date = filemtime($filename);
 
+		//sadly, navbar does not use the same naming scheme as the rest of the files (check separately)
 		if (filemtime('html/navbar.html') > $cache_date) {return false;}
+
+		$htmlparts = array('navbar', 'content', 'sidebar', 'modals');
+		$parts_length = count($htmlparts);
 
 		for ($i = 0; $i < $embeddedLen; ++$i) {
 			$file = 'css/' . $embedded[$i] . '.css';
@@ -199,30 +191,6 @@ if (file_exists($filename) == true){
 			}
 		}
 		return true;
-	}
-
-	//code to get cached file and send it
-	if (cache_check() === true) {
-		$html = file_get_contents($filename);
-		fb('cached');
-
-		list($micro, $sec) = explode(" ",microtime());
-		$endtime = (float)$sec + (float)$micro;
-		$total_time = ($endtime - $starttime);
-
-		$db->log->insert(
-			array(
-				'type' => 'page-cache',
-				'place' => 'index.php',
-				'time' => $starttime,
-				'duration' => $total_time,
-				'filename' => $filename,
-				'input' => $input
-			)
-		);
-
-		ob_clean (); //empty output buffer
-		die($html);
 	}
 }
 
@@ -366,13 +334,12 @@ function embed($folder, $extension) {
 }
 
 $html = ob_get_contents();
+ob_clean ();//fix to prevent send_reg from putting the entire page in the log
 
 if ($dev == false) {
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
-	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags
-
-	//TODO: fix the last command
+	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags (this causes some weird issues)
 }
 
 //remove extra stuff from $pages
@@ -396,31 +363,16 @@ if ($dev == false){
 $html = $html . $javascript . '</script></body></html>';
 
 //optimize css
-//TODO: base64 images w/ php ?
+//TODO: use php to base64 images
 
 $html = trim($html);
 
-//cache data to temporary file
-$fp = fopen($filename, "w+");
-fwrite($fp, $html);
-fclose($fp);
+//cache data to temporary file (unless it is disabled)
+if($disableCache == false){
+	$fp = fopen($filename, "w+");
+	fwrite($fp, $html);
+	fclose($fp);
+}
 
-list($micro, $sec) = explode(" ",microtime());
-$endtime = (float)$sec + (float)$micro;
-$total_time = ($endtime - $starttime);
-
-$db->log->insert(
-	array(
-		'type' => 'page-gen',
-		'place' => 'index.php',
-		'time' => $starttime,
-		'duration' => $total_time,
-		'filename' => $filename,
-		'dev' => $dev,
-		'input' => $input
-	)
-);
-
-ob_clean ();
-die($html);
+send_reg($html);
 ?>
