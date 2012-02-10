@@ -113,6 +113,9 @@ require 'php/general.php';
 	function checkForUser(){
 		global $db;
 		global $vars;
+		global $pages;
+		global $user;
+		global $log;
 
 		if(empty($_COOKIE['user']) == false){
 			//variables_order must contain "C" in php.ini
@@ -140,9 +143,9 @@ require 'php/general.php';
 			}
 
 			//embed admin page if admin
-			if($user['permission'] >= 9){
+			if($user['permission'] = 9){
 				$pages[1]['embedded'] = true;//show admin page
-				$pages[1]['hidden'] = true;
+				$pages[1]['hidden'] = false;
 				$log[] = "admin page loaded";
 				fb("admin page loaded");
 				$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
