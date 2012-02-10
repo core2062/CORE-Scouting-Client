@@ -33,8 +33,6 @@ require 'php/general.php';
 $input['user'] = $_COOKIE['user'] or logout("user object was not received");
 $input['user'] = json_decode($input['user'], true);
 
-fb($input);
-
 if (empty($input['user']['_id']) == true) {
 	send_error("scoutid was not receved",'','logout();');//cannot run logout() w/out scoutid
 }

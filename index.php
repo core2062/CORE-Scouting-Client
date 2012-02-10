@@ -1,13 +1,4 @@
 <?php
- // remove this section before production
-require_once('FirePHP/fb.php');
-ob_start();
-
-error_reporting( E_ALL );
-ini_set( 'display_errors', 1 );
-?>
-
-<?php
 /*
 	PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
 	JS reads hash & searches the page for the sub-page requested
@@ -27,6 +18,7 @@ ini_set( 'display_errors', 1 );
 	Main TODO
 	
 	TODO: make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
+	TODO: make a IE compatiable stylesheet
 	TODO: add gzip to server
 	TODO: make sure links on facebook contain a nice description of the site
 	TODO: make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
@@ -36,7 +28,7 @@ ini_set( 'display_errors', 1 );
 	TODO: change table style back to table sorter style, then to aristo like
 	TODO: make fonts store in cache
 	TODO: make openid / login from other site
-	//TODO: move public to new page - out of member analysis?
+	TODO: move public to new page - out of member analysis?
 	
 	wiki style editing
 	blue alliance like public side w/ only basic data (data gathering and analysis on member side)
@@ -95,6 +87,7 @@ ini_set( 'display_errors', 1 );
 
 $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
+$version = 'alpha';
 
 require 'php/general.php';
 
@@ -103,64 +96,84 @@ require 'php/general.php';
 	
 	//defaults
 	$disableCache = false;
-	$dev = false;
+	$input['devMode'] = false;
 
 	//check if dev mode is set (dev mode disables obfustication/minification & caching)
 	if (isset($_GET['dev'])) {
-		$dev = true;
+		$input['devMode'] = true;
 		$disableCache = true;
 		//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
 		fb('dev mode enabled');
 	}
 
+function checkForUser(){
 	if(empty($_COOKIE['user']) == false){
 		//variables_order must contain "C" in php.ini
 		$input['user'] = json_decode($_COOKIE['user'], true);
 		fb('user detected');
 
+		if (empty($input['user']['_id']) == true) {
+			send_error("scoutid was not receved",'','logout();');//cannot run logout() w/out scoutid
+		}
+		if (empty($input['user']['token']) == true) {
+			logout("token was not receved");
+		}
 
-		fb('admin page loaded');
+		//check user & assign user object
+		$user = $db->user->findOne(
+			array(
+				'_id' => $input['user']['_id']
+			)
+		);
+
+		if ($user['token'] !== $input['user']['token']) {//validate token
+			logout("token is incorrect, you have been logged out for security reasons");
+		}
+		if ($user['stats']['ip'] !== $vars['ip']) {//validate ip address
+			logout("ip is incorrect, you have been logged out for security reasons");
+		}
+		if ($user['permission'] == 0) {
+			send_error('your account is banned', 'banned account');
+		}
+
+
+		$log[] = "admin page loaded";
 
 		$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
 	}
+}
+checkForUser();
 
-$pages = $db->siteMap->findOne();
-unset($pages['_id']);//remove id
-fb($pages);
-$len = count($pages);
-for($i=0; $i < $len; $i++){
-	if($pages[$i]['embedded'] == true) {
-		$embedded[] = $pages[$i]['name'];
+
+//get sitemap set vars for embedded pages & filename
+	$pages = $db->siteMap->findOne();
+	unset($pages['_id']);//remove id
+	fb($pages);
+	$len = count($pages);
+	for($i=0; $i < $len; $i++){
+		if($pages[$i]['embedded'] == true) {
+			$embedded[] = $pages[$i]['name'];
+		}
 	}
-}
 
-fb($embedded);
+	sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
+	$embeddedLen = count($embedded);
 
-sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
-$embeddedLen = count($embedded);
+	$filename = $embedded[0];
+	for ($i = 1; $i < $embeddedLen; ++$i) {
+		$filename .= "," . $embedded[$i];
+	}
+	$filename = 'cache/' . $filename . '-index';
+	$log[] = "filename = " . $filename;
 
-$filename = $embedded[0];
-for ($i = 1; $i < $embeddedLen; ++$i) {
-	$filename .= "," . $embedded[$i];
-}
-$filename = 'cache/' . $filename . '-index';
-$log[] = "filename = " . $filename;
 
 if (file_exists($filename) == true && $disableCache == false){//also, check if cache has been disabled
 
-	//code to get cached file and send it
-	if (cache_check() === true) {
-		$html = file_get_contents($filename);
-		fb('cached');
-
-		$type = 'page-cache';
-		send_reg($html);
-	}
-
 	//function to check if files have been modified
-	function cache_check() {
+	function cacheCheck() {
 		global $embeddedLen;
 		global $embedded;
+		global $filename;
 
 		$cache_date = filemtime($filename);
 
@@ -191,6 +204,15 @@ if (file_exists($filename) == true && $disableCache == false){//also, check if c
 			}
 		}
 		return true;
+	}
+
+	//code to get cached file and send it
+	if (cacheCheck() === true) {
+		$html = file_get_contents($filename);
+		fb('cached');
+
+		$type = 'page-cache';
+		send_reg($html, false, false);
 	}
 }
 
@@ -271,7 +293,7 @@ include 'php/jsminplus.php';
 			</div>
 
 			<div style="left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center;">
-				<p>CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;2011 - version: alpha</p>
+				<p>CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;<?php echo date('Y');?> - version: <?php echo $version;?></p>
 			</div>
 		</td>
 	</tr>
@@ -336,7 +358,7 @@ function embed($folder, $extension) {
 $html = ob_get_contents();
 ob_clean ();//fix to prevent send_reg from putting the entire page in the log
 
-if ($dev == false) {
+if ($input['devMode'] == false) {
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
 	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags (this causes some weird issues)
@@ -356,13 +378,13 @@ for ($i = 0; $i < $embeddedLen; ++$i) {
 		$javascript .= file_get_contents($file);
 	}
 }
-if ($dev == false){
+if ($input['devMode'] == false){
 	$javascript = JSMinPlus::minify($javascript);
 }
 
 $html = $html . $javascript . '</script></body></html>';
 
-//optimize css
+//optimize css here
 //TODO: use php to base64 images
 
 $html = trim($html);
@@ -374,5 +396,5 @@ if($disableCache == false){
 	fclose($fp);
 }
 
-send_reg($html);
+send_reg($html, false, false);
 ?>
