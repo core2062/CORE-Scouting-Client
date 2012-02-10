@@ -91,14 +91,18 @@ $version = 'alpha';
 
 require 'php/general.php';
 
+//get sitemap
+	$pages = $db->siteMap->findOne();
+	unset($pages['_id']);//remove id
+	fb($pages);
 
-//Options
-	
+
+//options
 	//defaults
 	$disableCache = false;
 	$input['devMode'] = false;
 
-	//check if dev mode is set (dev mode disables obfustication/minification & caching)
+	//check if dev mode is set (dev mode disables obfuscation / minification & caching)
 	if (isset($_GET['dev'])) {
 		$input['devMode'] = true;
 		$disableCache = true;
@@ -106,55 +110,59 @@ require 'php/general.php';
 		fb('dev mode enabled');
 	}
 
-function checkForUser(){
-	if(empty($_COOKIE['user']) == false){
-		//variables_order must contain "C" in php.ini
-		$input['user'] = json_decode($_COOKIE['user'], true);
-		fb('user detected');
+	function checkForUser(){
+		global $db;
+		global $vars;
 
-		if (empty($input['user']['_id']) == true) {
-			send_error("scoutid was not receved",'','logout();');//cannot run logout() w/out scoutid
+		if(empty($_COOKIE['user']) == false){
+			//variables_order must contain "C" in php.ini
+			$input['user'] = json_decode($_COOKIE['user'], true);
+			fb('user detected');
+
+			//if user object is wrong, return & move on with guest-level functionality
+
+			if(empty($input['user']['_id']) == true || empty($input['user']['token']) == true) {
+				$log[] = "checkForUser failed while getting basic parameters";
+				return;
+			}
+
+			//check user & assign user object
+			$user = $db->user->findOne(
+				array(
+					'_id' => $input['user']['_id']
+				)
+			);
+
+			if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $input['user']['token']) {//validate user object
+				$log[] = "checkForUser() failed on user object validation";
+				unset($user);
+				return;
+			}
+
+			//embed admin page if admin
+			if($user['permission'] >= 9){
+				$pages[1]['embedded'] = true;//show admin page
+				$pages[1]['hidden'] = true;
+				$log[] = "admin page loaded";
+				fb("admin page loaded");
+				$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
+			}
 		}
-		if (empty($input['user']['token']) == true) {
-			logout("token was not receved");
-		}
-
-		//check user & assign user object
-		$user = $db->user->findOne(
-			array(
-				'_id' => $input['user']['_id']
-			)
-		);
-
-		if ($user['token'] !== $input['user']['token']) {//validate token
-			logout("token is incorrect, you have been logged out for security reasons");
-		}
-		if ($user['stats']['ip'] !== $vars['ip']) {//validate ip address
-			logout("ip is incorrect, you have been logged out for security reasons");
-		}
-		if ($user['permission'] == 0) {
-			send_error('your account is banned', 'banned account');
-		}
-
-
-		$log[] = "admin page loaded";
-
-		$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
 	}
-}
-checkForUser();
+	checkForUser();
 
 
-//get sitemap set vars for embedded pages & filename
-	$pages = $db->siteMap->findOne();
-	unset($pages['_id']);//remove id
-	fb($pages);
+//set vars for embedded pages & filename
 	$len = count($pages);
 	for($i=0; $i < $len; $i++){
-		if($pages[$i]['embedded'] == true) {
+		if($pages[$i]['hidden'] == true){
+			unset($pages[$i]);
+		} elseif($pages[$i]['embedded'] == true) {
 			$embedded[] = $pages[$i]['name'];
 		}
 	}
+
+	$pages = array_values($pages);//reindex from unsetting
 
 	sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 	$embeddedLen = count($embedded);
