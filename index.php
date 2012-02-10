@@ -381,7 +381,7 @@ for($i=0; $i < $len; $i++){
 	unset($pages[$i]['embedded']);
 }
 
-$javascript = 'var pages = ' . json_encode($pages); //or put jquery in at this point: file_get_contents('script/jquery.js')
+$javascript = 'var pages = ' . json_encode($pages) . ';'; //or put jquery in at this point: file_get_contents('script/jquery.js')
 for ($i = 0; $i < $embeddedLen; ++$i) {
 	$file = 'script/' . $embedded[$i] . '.js';
 

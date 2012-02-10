@@ -17,6 +17,7 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid of each team
+	fb($input);
 
 	//find out how many teams were returned (to determine # of pages) - use same content as sessionID getter
 	preg_match('/All Areas\s+\((....|...|..|.) found,/', $contents, $matches);
@@ -40,7 +41,7 @@ case "getTeams": //gets the number & tpid of each team
 	//process the pages using a regex, to get the tpid (used by FIRST to identify teams) for each team in that year's competition
 	function processTeamEntry($input){//add each team to DB
 		global $db;
-		$db->dataMiner->insert(
+		$db->team->insert(
 			array(
 				"_id" => (int)$input[2],
 				"meta" => array(
@@ -52,6 +53,8 @@ case "getTeams": //gets the number & tpid of each team
 
 	$regex = '/<a href="\?page=team_details&tpid=(.....)&amp;-session=myarea:'. $sessionID . '"><b>(....|...|..|.)<\/b><\/a>/';
 	preg_replace_callback($regex, "processTeamEntry", $contents);
+
+	send_reg(array('message' => 'finished getting the number and tpid of each team'));
 	
 break;
 case "getTeamProfiles": //get profiles of each team. requires a tpid for each team
