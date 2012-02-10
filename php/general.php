@@ -105,7 +105,7 @@ function send_error($error_text, $error = '', $script = ''){
 	}
 }
 
-function send_reg($return = ''){
+function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	global $db;
 	global $starttime;
 	global $log;
@@ -124,7 +124,7 @@ function send_reg($return = ''){
 	$db->log->insert(
 		array(
 			'type' => $type,
-			'return' => $return,
+			'return' => $logReturn ? $return : "",
 			'place' => $place,
 			'time' => $starttime,
 			'duration' => $total_time,
@@ -135,8 +135,10 @@ function send_reg($return = ''){
 		)
 	);
 
-	$return = json_encode($return);
-
+	if($enableEncode == true){//option required for index.php (sends entire page as return)
+		$return = json_encode($return);
+	}
+	
 	ob_clean (); //empty output buffer, stuff below is only thing sent
 	die($return);
 }
