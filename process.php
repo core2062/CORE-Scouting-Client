@@ -106,8 +106,7 @@ case "poll": //for match signup, mail poll, other?
 
 break;
 case "input":
-	//user is not banned based on above check
-	//therefore user has needed permissions
+	//user is not banned based on above check, therefore user has needed permissions
 
 	include 'php/input.php';
 
@@ -143,7 +142,6 @@ case "admin":
 		send_error('invalid permissions - admin only');
 	}
 
-	send_error('this part is not finished');
 	include 'php/admin.php';
 
 break;
