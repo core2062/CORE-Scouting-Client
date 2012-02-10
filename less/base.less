@@ -222,7 +222,7 @@ Language: LESS
 
 // Reset
 
-	label, button, legend, a#logo, .ibutton-container {
+	label, button, legend, a#logo, .toggle-container {
 		-webkit-user-select: none;
 		-khtml-user-select: none;
 		-moz-user-select: none;
@@ -242,7 +242,8 @@ Language: LESS
 		background-image: @background-dots;
 		font-family: @font-list;
 		margin:0 8px 0 8px;
-		min-width: 1150px;
+		min-width: 1150px; //TODO: change this value manually;
+		position: relative; //used to fix issue with logo display... test this
 	}
 
 	#layout {

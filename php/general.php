@@ -1,10 +1,10 @@
 <?php
-    // remove this section before production
-    require_once('FirePHP/fb.php');
-    ob_start();
+	// remove this section before production
+	require_once('FirePHP/fb.php');
+	ob_start();
 
-    error_reporting( E_ALL );
-    ini_set( 'display_errors', 1 );
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', 1 );
 ?>
 
 <?php
