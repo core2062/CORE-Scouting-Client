@@ -24,7 +24,7 @@ ini_set( 'display_errors', 1 );
     Base Page: page components which are needed for more than 1 page, these are embedded on first page request
     
 	
-	Main TODO:S:
+	Main TODO
 	
 	TODO: make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
 	TODO: add gzip to server
