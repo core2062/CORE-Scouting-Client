@@ -4,5 +4,16 @@
 'Reset'
 -->
 <ul class="mongo-c" style="display:none;">
-	
+	<li>
+		<fieldset>
+			<legend>Data Feed</legend>
+			<ul>
+				<li>
+					<label>Update:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<button type="button" title="get the TPID and team number for each team" onclick="getTeams()">Get Teams</button>
+					<button type="button" title="get the profiles of all teams (relies on TPIDs)" onclick="getTeamProfiles()">Get Team Profiles</button>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
 </ul>
