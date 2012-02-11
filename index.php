@@ -91,12 +91,12 @@ $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
-require 'php/general.php';
+require_once 'php/general.php';
 
 //get site-map
 	$pages = $db->siteMap->findOne();
 	unset($pages['_id']);//remove id
-	log($pages, true);
+	logger($pages, true);
 
 
 //options
@@ -109,7 +109,7 @@ require 'php/general.php';
 		$input['devMode'] = true;
 		$disableCache = true;
 		//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
-		log('dev mode enabled');
+		logger('dev mode enabled');
 	}
 
 	function checkForUser(){
@@ -120,12 +120,12 @@ require 'php/general.php';
 
 		if(empty($_COOKIE['user']) == false){
 			//variables_order must contain "C" in php.ini
-			$input['user'] = json_decode($_COOKIE['user'], true) or return;
+			$input['user'] = json_decode($_COOKIE['user'], true);
 
 			//if user object is wrong, return & move on with guest-level functionality
 
 			if(empty($input['user']['_id']) == true || empty($input['user']['token']) == true) {
-				log("checkForUser failed while getting basic parameters");
+				logger("checkForUser failed while getting basic parameters");
 				return;
 			}
 
@@ -137,7 +137,7 @@ require 'php/general.php';
 			);
 
 			if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $input['user']['token']) {//validate user object
-				log("checkForUser failed on user object validation");
+				logger("checkForUser failed on user object validation");
 				unset($user);
 				return;
 			}
@@ -146,7 +146,7 @@ require 'php/general.php';
 			if($user['permission'] = 9){
 				$pages[1]['embedded'] = true;//show admin page
 				$pages[1]['hidden'] = false;
-				log("admin page loaded");
+				logger("admin page loaded");
 				$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
 			}
 		}
@@ -174,7 +174,7 @@ require 'php/general.php';
 		$filename .= "," . $embedded[$i];
 	}
 	$filename = 'cache/' . $filename . '-index';
-	log("filename = " . $filename);
+	logger("filename = " . $filename);
 
 
 if (file_exists($filename) == true && $disableCache == false){//also, check if cache has been disabled
