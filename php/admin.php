@@ -58,19 +58,48 @@ case "getTeams": //gets the number & tpid of each team
 	
 break;
 case "getTeamProfiles": //get profiles of each team. requires a tpid for each team
-	
-	$stuff = $db->dataMiner->find();
-	$stuff = iterator_to_array($stuff);
-	fb($stuff);
-	/*
-	foreach($stuff as $key) {
-		echo json_decode($key[0]);
+
+	$cursor = $db->team->find();//->sort(array("_id" => 1))
+
+	foreach($cursor as $obj){
+		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
+		$contents = file_get_contents($url, false);
+
+		$contents = preg_replace('/(?:valign="top"|nowrap|bgcolor="#FFFFFF"|width="80%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
+		$contents = preg_replace('/\s+/', ' ',$contents); //removes 
+
+		preg_match("//", $contents, $teamName);
+		//TODO: add in regex for all other things need to get
+		/*    <td(?:[^>]*)?>(?:([^<>]*)|<br />)*</td>   */
+
+		fb($contents);
+
+		die();
+
+		$db->team->update(
+			array(
+				"_id" => $obj['_id']
+			),
+			array(
+				'$set' => array(
+					'info' => array(
+						"name" => $teamName[1],
+						"site" => $teamSite[1],
+						"nickname" => $teamNickname[1],
+						"motto" => $teamMotto[1],
+						"rookieYear" => $teamRookieYear[1],
+						"location" => $teamLocation[1]
+					),
+					$events
+				)
+			)
+		);
 	}
-	*/
-	
+
+	send_reg(array('message' => 'finished getting team profiles'));
 break;
 default:
-	send_error('invalid inputType','');
+	send_error('invalid subRequest');
 }
 
 

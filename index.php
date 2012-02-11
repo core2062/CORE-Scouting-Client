@@ -4,6 +4,8 @@
 	JS reads hash & searches the page for the sub-page requested
 	if requested page is found, then that is presented, otherwise it is downloaded (from catche or from page.php)
 	page.php takes necessary components to build the page and sends it to JS via AJAX
+
+	all scripts in top directory are to be requested by browser directly, scripts in php directory are referenced by other scripts & cannot be requested by browser
 	
 
     Official Terms:
@@ -18,12 +20,12 @@
 	Main TODO
 	
 	TODO: make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
-	TODO: make a IE compatiable stylesheet
+	TODO: make a IE compatible style sheet
 	TODO: add gzip to server
 	TODO: make sure links on facebook contain a nice description of the site
 	TODO: make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
 	TODO: make onload scripts for each page
-	TODO: make a small dropdown for the nav button that gives the page categories
+	TODO: make a small drop-down for the nav button that gives the page categories
 	TODO: move all js scripts & static resources to cookie-less sub-domain
 	TODO: change table style back to table sorter style, then to aristo like
 	TODO: make fonts store in cache
@@ -38,7 +40,7 @@
 	make jGrowl append to top of scrollable box
 	
 	track progress of AJAX download? - use green bar on progress bar to show download, or just for effect
-	catche AJAX content
+	cache AJAX content
 	store scouting data during error to a cookie - attempt to resubmit (ok if it's submitted twice) - delete cookie and display jGrowl when sent
 	
 	change popup to open link in new window or tab - opens a link to a page that retrieves & displays data from the cookie and contains instructions on how to save and resubmit data - or modal
@@ -91,10 +93,10 @@ $version = 'alpha';
 
 require 'php/general.php';
 
-//get sitemap
+//get site-map
 	$pages = $db->siteMap->findOne();
 	unset($pages['_id']);//remove id
-	fb($pages);
+	log($pages, true);
 
 
 //options
@@ -107,7 +109,7 @@ require 'php/general.php';
 		$input['devMode'] = true;
 		$disableCache = true;
 		//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
-		fb('dev mode enabled');
+		log('dev mode enabled');
 	}
 
 	function checkForUser(){
@@ -115,17 +117,15 @@ require 'php/general.php';
 		global $vars;
 		global $pages;
 		global $user;
-		global $log;
 
 		if(empty($_COOKIE['user']) == false){
 			//variables_order must contain "C" in php.ini
-			$input['user'] = json_decode($_COOKIE['user'], true);
-			fb('user detected');
+			$input['user'] = json_decode($_COOKIE['user'], true) or return;
 
 			//if user object is wrong, return & move on with guest-level functionality
 
 			if(empty($input['user']['_id']) == true || empty($input['user']['token']) == true) {
-				$log[] = "checkForUser failed while getting basic parameters";
+				log("checkForUser failed while getting basic parameters");
 				return;
 			}
 
@@ -137,7 +137,7 @@ require 'php/general.php';
 			);
 
 			if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $input['user']['token']) {//validate user object
-				$log[] = "checkForUser() failed on user object validation";
+				log("checkForUser failed on user object validation");
 				unset($user);
 				return;
 			}
@@ -146,8 +146,7 @@ require 'php/general.php';
 			if($user['permission'] = 9){
 				$pages[1]['embedded'] = true;//show admin page
 				$pages[1]['hidden'] = false;
-				$log[] = "admin page loaded";
-				fb("admin page loaded");
+				log("admin page loaded");
 				$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
 			}
 		}
@@ -175,7 +174,7 @@ require 'php/general.php';
 		$filename .= "," . $embedded[$i];
 	}
 	$filename = 'cache/' . $filename . '-index';
-	$log[] = "filename = " . $filename;
+	log("filename = " . $filename);
 
 
 if (file_exists($filename) == true && $disableCache == false){//also, check if cache has been disabled
