@@ -23,9 +23,6 @@ $db = $m->selectDB("CSD");
 //get basic variables
 $vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
 
-$log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
-
-
 //The User Object (full example) -- referenced used in login script, and maybe others too later
 $userObject = array(
 	"_id"=> "SeanLang-2062",
@@ -60,6 +57,22 @@ $userObject = array(
 	)
 );
 
+//logging function
+$log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
+
+function log($message, $fbDisplay = false){
+	global $log;
+	global $starttime
+
+	list($micro, $sec) = explode(" ",microtime());
+
+	$log[] = array($message, (float)$sec + (float)$micro - $starttime);
+
+	if($fbDisplay == true){
+		fb($message);
+	}
+}
+
 //global return functions
 function send_error($error_text, $error = '', $script = ''){
 	global $db;
@@ -76,11 +89,7 @@ function send_error($error_text, $error = '', $script = ''){
 
 	if ($error == ""){$error = $error_text;}
 
-	$log[] = ob_get_contents();
-
-	list($micro, $sec) = explode(" ",microtime());
-	$endtime = (float)$sec + (float)$micro;
-	$total_time = ($endtime - $starttime);
+	log(ob_get_contents());
 
 	$db->log->insert(
 		array(
@@ -88,7 +97,6 @@ function send_error($error_text, $error = '', $script = ''){
 			'errorcode' => $error,
 			'place' => $place,
 			'time' => $starttime,
-			'duration' => $total_time,
 			'input' => $input,
 			'log' => $log,
 			'vars' => $vars,
@@ -115,11 +123,7 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	global $type;
 	global $place;
 
-	$log[] = ob_get_contents();
-
-	list($micro, $sec) = explode(" ",microtime());
-	$endtime = (float)$sec + (float)$micro;
-	$total_time = ($endtime - $starttime);
+	log(ob_get_contents());
 
 	$db->log->insert(
 		array(
@@ -127,7 +131,6 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 			'return' => $logReturn ? $return : "",
 			'place' => $place,
 			'time' => $starttime,
-			'duration' => $total_time,
 			'input' => $input,
 			'log' => $log,
 			'vars' => $vars,
