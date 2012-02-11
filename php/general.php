@@ -60,9 +60,9 @@ $userObject = array(
 //logging function
 $log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
 
-function log($message, $fbDisplay = false){
+function logger($message, $fbDisplay = false){
 	global $log;
-	global $starttime
+	global $starttime;
 
 	list($micro, $sec) = explode(" ",microtime());
 
@@ -89,7 +89,7 @@ function send_error($error_text, $error = '', $script = ''){
 
 	if ($error == ""){$error = $error_text;}
 
-	log(ob_get_contents());
+	logger(ob_get_contents());
 
 	$db->log->insert(
 		array(
@@ -123,7 +123,7 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	global $type;
 	global $place;
 
-	log(ob_get_contents());
+	logger(ob_get_contents());
 
 	$db->log->insert(
 		array(
