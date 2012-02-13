@@ -96,7 +96,7 @@ require_once 'php/general.php';
 //get site-map
 	$pages = $db->siteMap->findOne();
 	unset($pages['_id']);//remove id
-	logger($pages, true);
+	fb($pages);
 
 
 //options
