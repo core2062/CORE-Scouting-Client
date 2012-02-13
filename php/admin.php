@@ -59,20 +59,33 @@ case "getTeams": //gets the number & tpid of each team
 break;
 case "getTeamProfiles": //get profiles of each team. requires a tpid for each team
 
-	$cursor = $db->team->find();//->sort(array("_id" => 1))
+	$cursor = $db->team->find()->sort(array("_id" => 1));
 
 	foreach($cursor as $obj){
 		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
 		$contents = file_get_contents($url, false);
 
-		$contents = preg_replace('/(?:valign="top"|nowrap|bgcolor="#FFFFFF"|width="80%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
+		$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
 		$contents = preg_replace('/\s+/', ' ',$contents); //removes 
 
-		preg_match("//", $contents, $teamName);
+		preg_match("/<td >Team Name<\/td> <td>([^<>]*)<\/td>/", $contents, $teamName);
+		preg_match("/<td >Team Location<\/td> <td>([^<>]*)<\/td>/", $contents, $teamLocation);
+		preg_match("/<td >Rookie Season<\/td> <td>(....)<\/td>/", $contents, $teamRookieYear);
+		preg_match("/<td >Team Nickname<\/td> <td>([^<>]*)<\/td>/", $contents, $teamNickname);
+		preg_match("/<td >Team Motto<\/td> <td>([^<>]*)<\/td>/", $contents, $teamMotto);
+		preg_match("/<td >Team Website<\/td> <td><a(?:[^>]*)?>([^<>]*)<\/a><\/td>/", $contents, $teamSite);
+		
+		fb($teamName[1]);
+		fb($teamLocation[1]);
+		fb($teamRookieYear[1]);
+		fb($teamNickname[1]);
+		fb($teamMotto[1]);
+		fb($teamSite[1]);
+
 		//TODO: add in regex for all other things need to get
 		/*    <td(?:[^>]*)?>(?:([^<>]*)|<br />)*</td>   */
 
-		fb($contents);
+		//fb($contents);
 
 		die();
 
