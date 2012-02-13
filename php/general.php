@@ -6,7 +6,6 @@
 	error_reporting( E_ALL );
 	ini_set( 'display_errors', 1 );
 ?>
-
 <?php
 //This script handles: general functions needed for almost all scripts
 

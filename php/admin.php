@@ -12,12 +12,12 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 	$contents = file_get_contents($url, false);
 	preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
 	$sessionID = $matches[1];
+	logger("got session key");
 }
 
 
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid of each team
-	fb($input);
 
 	//find out how many teams were returned (to determine # of pages) - use same content as sessionID getter
 	preg_match('/All Areas\s+\((....|...|..|.) found,/', $contents, $matches);
@@ -41,12 +41,16 @@ case "getTeams": //gets the number & tpid of each team
 	//process the pages using a regex, to get the tpid (used by FIRST to identify teams) for each team in that year's competition
 	function processTeamEntry($input){//add each team to DB
 		global $db;
-		$db->team->insert(
+
+		//TODO: fix this update thing!!!!!!!!!!!!!!!
+
+		$db->team->update(
 			array(
 				"_id" => (int)$input[2],
 				"meta" => array(
 					"tpid" => (int)$input[1]
-				)
+				),
+				true
 			)
 		);
 	}
@@ -65,7 +69,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
 		$contents = file_get_contents($url, false);
 
-		$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
+		$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..(?:.)?%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
 		$contents = preg_replace('/\s+/', ' ',$contents); //removes 
 
 		preg_match("/<td >Team Name<\/td> <td>([^<>]*)<\/td>/", $contents, $teamName);
@@ -87,7 +91,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 		//fb($contents);
 
-		die();
+		
 
 		$db->team->update(
 			array(
@@ -107,6 +111,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 				)
 			)
 		);
+
+		die();
 	}
 
 	send_reg(array('message' => 'finished getting team profiles'));
