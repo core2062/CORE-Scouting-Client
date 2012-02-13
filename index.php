@@ -344,11 +344,7 @@ include 'php/jsminplus.php';
 <div id="overlay" onclick="modalClose();"></div>
 <!-- END Modals -->
 
-
-<!--TODO: embed jquery, fix issues w/ being in same file -->
-<script type="text/javascript" src="script/jquery.js"></script>
 <script type="text/javascript">
-
 <?php
 
 function embed($folder, $extension) {
@@ -366,7 +362,7 @@ function embed($folder, $extension) {
 }
 
 $html = ob_get_contents();
-ob_clean ();//fix to prevent send_reg from putting the entire page in the log
+ob_clean();//fix to prevent send_reg from putting the entire page in the log
 
 if ($input['devMode'] == false) {
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
@@ -380,7 +376,10 @@ for($i=0; $i < $len; $i++){
 	unset($pages[$i]['embedded']);
 }
 
-$javascript = 'var pages = ' . json_encode($pages) . ';'; //or put jquery in at this point: file_get_contents('script/jquery.js')
+$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
+
+$javascript .= file_get_contents("script/libraries.js");
+
 for ($i = 0; $i < $embeddedLen; ++$i) {
 	$file = 'script/' . $embedded[$i] . '.js';
 
@@ -388,11 +387,12 @@ for ($i = 0; $i < $embeddedLen; ++$i) {
 		$javascript .= file_get_contents($file);
 	}
 }
+
 if ($input['devMode'] == false){
 	$javascript = JSMinPlus::minify($javascript);
 }
 
-$html = $html . $javascript . '</script></body></html>';
+$html .= $javascript . '</script></body></html>';
 
 //optimize css here
 //TODO: use php to base64 images
