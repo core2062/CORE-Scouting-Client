@@ -78,19 +78,16 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		preg_match("/<td >Team Nickname<\/td> <td>([^<>]*)<\/td>/", $contents, $teamNickname);
 		preg_match("/<td >Team Motto<\/td> <td>([^<>]*)<\/td>/", $contents, $teamMotto);
 		preg_match("/<td >Team Website<\/td> <td><a(?:[^>]*)?>([^<>]*)<\/a><\/td>/", $contents, $teamSite);
-		
+/*
 		fb($teamName[1]);
 		fb($teamLocation[1]);
 		fb($teamRookieYear[1]);
 		fb($teamNickname[1]);
 		fb($teamMotto[1]);
 		fb($teamSite[1]);
-
-		//TODO: add in regex for all other things need to get
+*/
+		//TODO: add in regex for getting seasons
 		/*    <td(?:[^>]*)?>(?:([^<>]*)|<br />)*</td>   */
-
-		//fb($contents);
-
 		
 
 		$db->team->update(

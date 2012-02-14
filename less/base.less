@@ -393,17 +393,6 @@ Language: LESS
 		.box-shadow (inset 0 0 4px @d-blue);
 	}
 
-
-// Icons
-	.icon { /*TODO: fix this bad looking css */
-		display: inline;
-		overflow: hidden;
-		background-repeat: no-repeat;
-		vertical-align: middle;
-		font-size: 22px;
-		font-weight: 200;
-	}
-
 //Clear Input Icon
 	.clearIcon span {
 		.opacity(0.7);
@@ -465,8 +454,15 @@ Language: LESS
 		padding: 0 1em;
 
 		&.icon {
-			height: 28px;
+			height: 26px;
 			padding: 4px;
+			display: inline;
+			overflow: hidden;
+			background-repeat: no-repeat;
+			vertical-align: middle;
+			font-size: 22px;
+			font-weight: 200;
+			line-height: 20px;
 		}
 	}
 

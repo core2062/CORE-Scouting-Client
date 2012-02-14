@@ -17,8 +17,8 @@
     Base Page: page components which are needed for more than 1 page, these are embedded on first page request
     
 	
-	Main TODO
-	
+	--- Main TODO ---
+
 	TODO: make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
 	TODO: make a IE compatible style sheet
 	TODO: add gzip to server
@@ -31,6 +31,13 @@
 	TODO: make fonts store in cache
 	TODO: make openid / login from other site
 	TODO: move public to new page - out of member analysis?
+	TODO: on login, check if training was finished for that page
+	TODO: fix font rendering across browsers - check support for @fontface
+	TODO: use standard deviation on DB
+	TODO: use php to get possible competition list
+	TODO: make a 404 page
+	TODO: provide link to github on site???
+	TODO: add tracking for progress of AJAX download - use green bar on progress bar to show download
 	
 	wiki style editing
 	blue alliance like public side w/ only basic data (data gathering and analysis on member side)
@@ -39,21 +46,12 @@
 	use scoutID to determine embedded pages (besides base) - based on most accessed or permissions
 	make jGrowl append to top of scrollable box
 	
-	track progress of AJAX download? - use green bar on progress bar to show download, or just for effect
 	cache AJAX content
 	store scouting data during error to a cookie - attempt to resubmit (ok if it's submitted twice) - delete cookie and display jGrowl when sent
 	
 	change popup to open link in new window or tab - opens a link to a page that retrieves & displays data from the cookie and contains instructions on how to save and resubmit data - or modal
 	add offline scouting mode for competitions without internet access
 	
-	TODO: on login, check if training was finished for that page
-	TODO: fix font rendering across browsers - check support for @fontface
-	
-	TODO: use standard deviation on DB
-	TODO: use php to get possible competition list
-
-	TODO: make a 404 page
-
 	make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time
 
 	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or mis-formatted data. If it is not possible to send it from this computer... contact me/send it to me.
@@ -69,8 +67,6 @@
 	make submit button disabled when form is blank
 
 	add styling for disabled button
-
-	TODO: provide link to github on site???
 
 	if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
 
@@ -92,6 +88,8 @@ $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
 require_once 'php/general.php';
+
+//TODO: get referrer info & log it
 
 //get site-map
 	$pages = $db->siteMap->findOne();
