@@ -1,21 +1,48 @@
 <!-- TODO make list of field sets sortable? -->
 <!-- make content scroll when its height exceeds height of sidebar? -->
 
-<!-- START Regular -->
+<!-- Regular -->
 <ul class="robot-c" style="display:none;">
+
+<!--
+color: red or blue
+match number
+team number
+scout name - (provided by scout-id)
+red card - yes or no (default to no)
+yellow cards - number
+fouls - number
+technical foul - number
+disabled - e-stop - yes / no(default to no)
+crosses bump - number of times (or simplify to yes / no) - (note any difficulties in comments)
+crosses bridge - number of times (or simplify to yes / no) - (note any difficulties in comments)
+ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter
+ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score))
+hybrid period - inactive, autonomous, kinect & what is hybrid period strategy & how effective... any scored?
+end game - human player successful?, balance successful or attempted
+additional comments - if robot gets damaged tell how
+driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank
+strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation *
+
+-->
+<!-- TODO: make + button increment && - button decrement -->
 
 	<li>
 		<fieldset style="min-width:610px;">
 			<legend>Penalties</legend>
 			<ul>
 				<li>
-					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<label for="RCard">Red Cards:</label>
+					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
+					<button onclick="return false;" class="icon help">?</button>
 					<input type="text" id="RCard" value="" onchange="" />
 				</li>
 				
 				<li>
-					<label for="YCard">Yellow Cards:<span id="plus" onclick="increase('YCard');return false;"></span><span id="help" onclick="return false;"></span></label>
-					<input type="text" id="YCard" value="" />
+					<label for="yCard">Yellow Cards:</label>
+					<button onclick="increase('yCard');return false;" class="icon plus">+</button>
+					<button onclick="return false;" class="icon help">?</button>
+					<input type="text" id="yCard" value="" />
 				</li>
 			</ul>
 		</fieldset>
@@ -23,10 +50,12 @@
 	
 	<li> <!-- remove/replace with real field -->
 		<fieldset>
-			<legend>feildset</legend>
+			<legend>field set</legend>
 			<ul>
 				<li>
-					<label for="RCard">Example:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<label for="RCard">Example:</label>
+					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
+					<button onclick="return false;" class="icon help">?</button>
 					<input type="text" id="RCard" value="" onchange="" />
 				</li>
 			</ul>
@@ -34,10 +63,9 @@
 	</li>
 
 </ul>
-<!-- END Regular -->
 
 
-<!-- START Alliance -->
+<!-- Alliance -->
 <ul class="alliance-c" style="display:none;">
 
 	<li> <!-- remove/replace with real field -->
@@ -45,7 +73,9 @@
 			<legend>Alliance</legend>
 			<ul>
 				<li>
-					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<label for="RCard">Red Cards:</label>
+					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
+					<button onclick="return false;" class="icon help">?</button>
 					<input type="text" id="RCard" value="" onchange="" />
 				</li>
 			</ul>
@@ -53,10 +83,9 @@
 	</li>
 
 </ul>
-<!-- END Alliance -->
 
 
-<!-- START Pit -->
+<!-- Pit -->
 <ul class="pit-c" style="display:none;">
 
 	<li> <!-- remove/replace with real field -->
@@ -64,7 +93,9 @@
 			<legend>Pit</legend>
 			<ul>
 				<li>
-					<label for="RCard">Red Cards:<span id="plus" onclick="increase('RCard');return false;"></span><span id="help" onclick="return false;"></span></label>
+					<label for="RCard">Red Cards:</label>
+					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
+					<button onclick="return false;" class="icon help">?</button>
 					<input type="text" id="RCard" value="" onchange="" />
 				</li>
 			</ul>
@@ -72,10 +103,9 @@
 	</li>
 
 </ul>
-<!-- END Pit -->
 
 
-<!-- START Mutual -->
+<!-- Mutual -->
 <ul class="robot-c alliance-c" style="display:none;">
 
 	<li>
@@ -83,7 +113,9 @@
 			<legend>Alliance</legend>
 			<ul>
 				<li>
-					<label for="AllianceColor">Color:<span id="help" onclick="return false;"></span></label>
+					<label for="AllianceColor">Color:</label>
+					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
+					<button onclick="return false;" class="icon help">?</button>
 					<select size="1" id="AllianceColor">
 						<option value="r">Red</option>
 						<option value="b">Blue</option>
@@ -108,7 +140,7 @@
 			<ul>
 				<li>
 					<label for="TeamNum">Team Number:</label>
-					<button onclick="" class="icon help">?</button>
+					<button onclick="" class="icon">?</button>
 					<input type="text" id="TeamNum"/>
 				</li>
 			</ul>
@@ -128,4 +160,3 @@
 	</li>
 
 </ul>
-<!-- END Mutual -->

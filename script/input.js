@@ -2,15 +2,24 @@
 var errornum = 0; //# of inputs with errors
 var inputnum = 0; //# of inputs filled
 
+/*
+document.getElementById('TeamNum');
+document.getElementById('AllianceScore');
+document.getElementById('RCard');
+document.getElementById('YCard');
+document.getElementById('Comments');
+*/
+
 function increase(elementid){
-var startvalue = document.getElementById(elementid).value;
+var element = document.getElementById(elementid);
+var startvalue = element.value;
 	if (isNaN(startvalue) == true || startvalue == '') {
 		startvalue = 1;
 	}
 	else {
-		startvalue = parseFloat(document.getElementById(elementid).value) + 1;
+		startvalue = parseFloat(element.value) + 1;
 	}
-document.getElementById(elementid).value = startvalue;
+element.value = startvalue;
 }
 
 function errorcheck(){

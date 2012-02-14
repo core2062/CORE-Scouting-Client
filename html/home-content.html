@@ -44,13 +44,13 @@
 				<li>
 					<label for="signupPassword">Password:</label>
 					<input type="password" id="signupPassword" onkeypress=""/>
-					<!-- TODO add hinting for strength of password-->
+					<!-- TODO: add hinting for strength of password-->
 				</li>
 
 				<li>
 					<label class="label" for="showPassword">Show:</label>
-					<input type="checkbox" id="showPassword" title="show your password above" onchange="if(this.checked == true){signupPassword.type = 'text'} else {signupPassword.type = 'password'}" />
-					<!-- TODO fix bug when ibutton fails to show correct value after page reload -->
+					<input type="checkbox" id="showPassword" data-labelOn="Yes" data-labelOff="No" title="show your password above" onchange="if(this.checked == true){signupPassword.type = 'text'} else {signupPassword.type = 'password'}" />
+					<!-- TODO: fix bug when ibutton fails to show correct value after page reload -->
 				</li>
 				<br/>
 				<li>
