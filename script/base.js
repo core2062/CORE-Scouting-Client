@@ -550,3 +550,28 @@ function WriteToWindow() {
 	top.consoleRef.document.close()
 }
 */
+
+function colorBackground(){
+	var i = Math.round(new Date() - startTime2)/(5000/seizureMode) ;
+	var phase = 0.75;
+	center = 128;
+	width = 127;
+	frequency = Math.PI*2;
+	red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
+	green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
+	blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
+	bodyElement.style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+}
+
+function rainbow(seizureMode){
+	if(! seizureMode){
+		window.seizureMode = 1;
+	} else {
+		window.seizureMode = 10;
+	}
+	console.log(seizureMode);
+
+	window.bodyElement = document.getElementById('body');
+	window.startTime2 = new Date();
+	setInterval("colorBackground()",150);
+}
