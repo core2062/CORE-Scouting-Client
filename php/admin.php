@@ -46,12 +46,15 @@ case "getTeams": //gets the number & tpid of each team
 
 		$db->team->update(
 			array(
+				"_id" => (int)$input[2]
+			),
+			array(
 				"_id" => (int)$input[2],
 				"meta" => array(
 					"tpid" => (int)$input[1]
-				),
-				true
-			)
+				)
+			),
+			true
 		);
 	}
 
@@ -106,7 +109,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 					),
 					$events
 				)
-			)
+			),
+			true
 		);
 
 		die();

@@ -22,6 +22,8 @@ if($input['inputType'] == 'robot' || $input['inputType'] == 'alliance'){
 
 switch ($input['inputType']) {
 case "robot":
+
+	
 	
 	//validation of all data... log invalid data & change errorCount based on it
 	//if error count is too high then set use = false
