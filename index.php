@@ -89,7 +89,7 @@ $version = 'alpha';
 
 require_once 'php/general.php';
 
-//TODO: get referrer info & log it
+logger("referrer: " . $_SERVER["HTTP_REFERER"]);
 
 //get site-map
 	$pages = $db->siteMap->findOne();
