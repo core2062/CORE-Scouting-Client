@@ -89,7 +89,7 @@ $version = 'alpha';
 
 require_once 'php/general.php';
 
-logger("referrer: " . $_SERVER["HTTP_REFERER"]);
+empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
 //get site-map
 	$pages = $db->siteMap->findOne();

@@ -68,6 +68,26 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 	$cursor = $db->team->find()->sort(array("_id" => 1));
 
+	function processEvent($input){//add each team to DB
+		global $db;
+		global $obj;
+
+		//TODO: fix this update thing!!!!!!!!!!!!!!!
+
+		$db->team->update(
+			array(
+				"_id" => $obj['_id']
+			),
+			array(
+				"_id" => (int)$input[2],
+				"meta" => array(
+					"tpid" => (int)$input[1]
+				)
+			),
+			true
+		);
+	}
+
 	foreach($cursor as $obj){
 		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
 		$contents = file_get_contents($url, false);
@@ -75,24 +95,18 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..(?:.)?%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
 		$contents = preg_replace('/\s+/', ' ',$contents); //removes 
 
-		preg_match("/<td >Team Name<\/td> <td>([^<>]*)<\/td>/", $contents, $teamName);
-		preg_match("/<td >Team Location<\/td> <td>([^<>]*)<\/td>/", $contents, $teamLocation);
-		preg_match("/<td >Rookie Season<\/td> <td>(....)<\/td>/", $contents, $teamRookieYear);
-		preg_match("/<td >Team Nickname<\/td> <td>([^<>]*)<\/td>/", $contents, $teamNickname);
-		preg_match("/<td >Team Motto<\/td> <td>([^<>]*)<\/td>/", $contents, $teamMotto);
-		preg_match("/<td >Team Website<\/td> <td><a(?:[^>]*)?>([^<>]*)<\/a><\/td>/", $contents, $teamSite);
-/*
-		fb($teamName[1]);
-		fb($teamLocation[1]);
-		fb($teamRookieYear[1]);
-		fb($teamNickname[1]);
-		fb($teamMotto[1]);
-		fb($teamSite[1]);
-*/
+		preg_match("/<td >Team Name<\/td> <td>([^<>]*)<\/td>/", $contents, $team['name']);
+		preg_match("/<td >Team Location<\/td> <td>([^<>]*)<\/td>/", $contents, $team['location']);
+		preg_match("/<td >Rookie Season<\/td> <td>(....)<\/td>/", $contents, $team['rookieYear']);
+		preg_match("/<td >Team Nickname<\/td> <td>([^<>]*)<\/td>/", $contents, $team['nickname']);
+		preg_match("/<td >Team Motto<\/td> <td>([^<>]*)<\/td>/", $contents, $team['motto']);
+		preg_match("/<td >Team Website<\/td> <td><a(?:[^>]*)?>([^<>]*)<\/a><\/td>/", $contents, $team['site']);
+
 		//TODO: add in regex for getting seasons
 		/*    <td(?:[^>]*)?>(?:([^<>]*)|<br />)*</td>   */
 		
 
+		//TODO: change to using a single object that gets inserted
 		$db->team->update(
 			array(
 				"_id" => $obj['_id']
@@ -100,18 +114,20 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 			array(
 				'$set' => array(
 					'info' => array(
-						"name" => $teamName[1],
-						"site" => $teamSite[1],
-						"nickname" => $teamNickname[1],
-						"motto" => $teamMotto[1],
-						"rookieYear" => $teamRookieYear[1],
-						"location" => $teamLocation[1]
-					),
-					$events
+						"name" => $team['name'][1],
+						"location" => $team['location'][1],
+						"rookieYear" => (int)$team['rookieYear'][1],
+						"nickname" => $team['nickname'][1],
+						"motto" => $team['motto'][1],
+						"site" => $team['site'][1]
+					)
 				)
 			),
 			true
 		);
+
+		preg_replace_callback("/<tr > <td >([^<>]*)</td> <td >([^<>]*)<\/td> <td >(?:([^<>]*)|<br \/>|<(?:\/)?i>)*<\/td> <\/tr>/", "processEvent", $contents);
+		/*      <tr > <td >([^<>]*)</td> <td >([^<>]*)</td> <td >(?:([^<>]*)|<br />|<(?:/)?i>)*</td> </tr>      */
 
 		die();
 	}
