@@ -42,7 +42,7 @@ case "getTeams": //gets the number & tpid of each team
 	function processTeamEntry($input){//add each team to DB
 		global $db;
 
-		//TODO: fix this update thing!!!!!!!!!!!!!!!
+		//TODO: test this update command
 
 		$db->team->update(
 			array(
@@ -56,6 +56,7 @@ case "getTeams": //gets the number & tpid of each team
 			),
 			true
 		);
+		return "";//is this needed or assumed????? & in below
 	}
 
 	$regex = '/<a href="\?page=team_details&tpid=(.....)&amp;-session=myarea:'. $sessionID . '"><b>(....|...|..|.)<\/b><\/a>/';
@@ -71,8 +72,11 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 	function processEvent($input){//add each team to DB
 		global $db;
 		global $obj;
-
-		//TODO: fix this update thing!!!!!!!!!!!!!!!
+		//unset($input[0]);
+		fb($input);
+/*
+		//TODO: finish processing awards from each competition
+		//use $push in mongoDB
 
 		$db->team->update(
 			array(
@@ -85,7 +89,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 				)
 			),
 			true
-		);
+		);        */
+		return "";
 	}
 
 	foreach($cursor as $obj){
@@ -101,12 +106,9 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		preg_match("/<td >Team Nickname<\/td> <td>([^<>]*)<\/td>/", $contents, $team['nickname']);
 		preg_match("/<td >Team Motto<\/td> <td>([^<>]*)<\/td>/", $contents, $team['motto']);
 		preg_match("/<td >Team Website<\/td> <td><a(?:[^>]*)?>([^<>]*)<\/a><\/td>/", $contents, $team['site']);
-
-		//TODO: add in regex for getting seasons
-		/*    <td(?:[^>]*)?>(?:([^<>]*)|<br />)*</td>   */
 		
 
-		//TODO: change to using a single object that gets inserted
+		//TODO: change to using a single object that gets inserted - low priority
 		$db->team->update(
 			array(
 				"_id" => $obj['_id']
@@ -126,13 +128,19 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 			true
 		);
 
-		preg_replace_callback("/<tr > <td >([^<>]*)</td> <td >([^<>]*)<\/td> <td >(?:([^<>]*)|<br \/>|<(?:\/)?i>)*<\/td> <\/tr>/", "processEvent", $contents);
+		preg_replace_callback("/<tr > <td >([^<>]*)<\/td> <td >([^<>]*)<\/td> <td >((?:[^<>]*|<br \/>|<(?:\/)?i>)*)<\/td> <\/tr>/", "processEvent", $contents);
 		/*      <tr > <td >([^<>]*)</td> <td >([^<>]*)</td> <td >(?:([^<>]*)|<br />|<(?:/)?i>)*</td> </tr>      */
 
 		die();
 	}
 
 	send_reg(array('message' => 'finished getting team profiles'));
+break;
+case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
+
+break;
+case "updateEvents": //update scores/schedule of current or recent events
+
 break;
 default:
 	send_error('invalid subRequest');

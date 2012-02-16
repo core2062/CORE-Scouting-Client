@@ -1,6 +1,11 @@
 /*
 Designer: Sean Lang
 Language: LESS
+
+Notes:
+	/\*([^\/\*\n]*)\*/
+	//$1
+/*
 */
 
 // Colors
@@ -167,10 +172,10 @@ Language: LESS
 	}
 
 	.transition (@time) {
-		-webkit-transition: all @time ease-out;  /* Saf3.2+, Chrome */
-		-moz-transition: all @time ease-out;  /* FF4+ */
-		-ms-transition: all @time ease-out;  /* IE10? */
-		-o-transition: all @time ease-out;  /* Opera 10.5+ */
+		-webkit-transition: all @time ease-out;  // Saf3.2+, Chrome 
+		-moz-transition: all @time ease-out;  // FF4+ 
+		-ms-transition: all @time ease-out;  // IE10? 
+		-o-transition: all @time ease-out;  // Opera 10.5+ 
 		transition: all @time ease-out;
 	}
 
@@ -228,6 +233,10 @@ Language: LESS
 		-moz-user-select: none;
 		-o-user-select: none;
 		user-select: none;
+	}
+
+	a {
+		outline: 0;
 	}
 
 
@@ -341,7 +350,7 @@ Language: LESS
 		}
 
 		&.focus legend {
-			/*TODO: fix below*/
+			//TODO: fix below
 			color: #1c4257;
 			border-color: #7096ab;
 			background-color: #ededed;
@@ -359,6 +368,9 @@ Language: LESS
 		margin-left:20px;
 	}
 
+	#inputSidebar label{
+		margin-left: 0;
+	}
 
 	input, select, textarea, button {
 		font-family: @font-list;
@@ -369,10 +381,11 @@ Language: LESS
 		border:none;
 		background-repeat: repeat;
 		background-image: @stripe;
-		.box-shadow(inset 0 0 6px #000000);
+		.box-shadow(inset 0 0 6px #000);
 		width:150px;
 		height:23px;
 		padding:2px 5px 1px 5px;
+		margin: 5px 0;
 		vertical-align:middle;
 		font-family: @font-list;
 		font-size: 15px;
@@ -389,7 +402,7 @@ Language: LESS
 		resize: none;
 	}
 
-	input:focus, textarea:focus { /*TODO: extend blue shadow to select box / any other inputs */
+	input:focus, textarea:focus { // TODO: extend blue shadow to select box & any other inputs
 		.box-shadow (inset 0 0 4px @d-blue);
 	}
 
@@ -413,38 +426,38 @@ Language: LESS
 
 
 // Links
-	p a {
-	    .border-radius(0.25em);
-		border: 1px solid transparent;
-	    color: #336699;
-	    margin: 0 -0.2em;
-	    padding: 0.1em;
-		text-decoration:none;
-		border-bottom:1px dotted #336699; 
-
-		&:hover {
-			background: #3399CC;
-			border: 1px solid #B6B6B6;
+	p{
+		a {
+			.border-radius(0.25em);
+			border: 1px solid transparent;
+			color: #336699;
+			margin: 0 -0.2em;
+			padding: 0.1em;
 			text-decoration: none;
-			background: #ededed;
-			.reg-gradent(@regcolor);
-			.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
-			text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
-			color: #313131;
-		}
+			border-bottom: 1px dotted #336699; 
 
-		&:active {
-			background: #3399CC;
-			border: 1px solid #7096ab;
-			text-decoration: none;
-			text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-			color: #1c4257;
-			background: #ededed;
-			.advanced-gradent(#b9e0f5, #92bdd6);
-			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+			&:hover, &:active {
+				background: #3399CC;
+				border: 1px solid #B6B6B6;
+				text-decoration: none;
+				background: #ededed;
+				text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+				.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+			}
+
+			&:hover {
+				.reg-gradent(@regcolor);
+				.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+				color: #313131;
+			}
+
+			&:active {
+				border-color: #7096ab;
+				.advanced-gradent(#b9e0f5, #92bdd6);
+				color: #1c4257;
+			}
 		}
-	}
+	} 
 
 
 // Buttons and Button Sets
@@ -658,13 +671,13 @@ Language: LESS
 	}
 
 
-// Jquery Select Box
-	/* Dropdown control */
+// jQuery Select Box
+	// Dropdown control
 	.selectBox-dropdown {
 		min-width: 75px;
 		position: relative;
 		border: solid 1px #BBB;
-		line-height: 1.5;
+		//line-height: 1.5;
 		text-decoration: none;
 		color: #000;
 		outline: none;
@@ -703,18 +716,18 @@ Language: LESS
 		border-left: solid 1px #BBB;
 	}
 
-	/* Dropdown menu */
+	// Dropdown menu 
 	.selectBox-dropdown-menu {
 		position: absolute;
 		z-index: 500;
 		max-height: 200px;
-		border: solid 1px #BBB; /* should be the same border width as .selectBox-dropdown */
+		border: solid 1px #BBB; // should be the same border width as .selectBox-dropdown 
 		background: #FFF;
 		.box-shadow(0 2px 6px rgba(0, 0, 0, .2));
 		overflow: auto;
 	}
 
-	/* Inline control */
+	// Inline control 
 	.selectBox-inline {
 		min-width: 75px;
 		outline: none;
@@ -729,7 +742,7 @@ Language: LESS
 		}
 	}
 
-	/* Options */
+	// Options 
 	.selectBox-options, .selectBox-options li, .selectBox-options li a {
 		list-style: none;
 		display: block;
@@ -790,7 +803,6 @@ Language: LESS
 
 
 // Progressbar
-
 	#progressbar {
 		display: none;
 		z-index: 2;
@@ -834,7 +846,6 @@ Language: LESS
 
 
 // Modals
-
 	.modal-aligner {
 		position: absolute;
 		top:0;
@@ -888,7 +899,7 @@ Language: LESS
 				margin: 1px;
 				background: @close-icon 0 -16px no-repeat;
 
-				&.icon { /*TODO: fix all this css*/
+				&.icon { //TODO: fix all this css
 					display:inline-block;
 					color: inherit;
 					line-height: 36px;
@@ -945,7 +956,6 @@ Language: LESS
 
 
 // Nav Modal
-
 	div.navigation-c table {
 		padding: .5em 1em;
 
@@ -965,7 +975,7 @@ Language: LESS
 				}
 
 				a:hover {
-					/* TODO: fix below, it could look better*/
+					// TODO: fix below, it could look better
 					color:white;
 					background-color: @litetext;
 				}
@@ -1051,7 +1061,7 @@ Language: LESS
 		background-color:#000066 !important;
 	}
 
-	// Hide jGrowl when printing
+	// Hide jGrowl if page is printed
 	@media print {
 		div.jGrowl {
 			display:none;
@@ -1060,7 +1070,6 @@ Language: LESS
 
 
 // Tipsy
-	/* TODO: change tipsy style add fade in...*/
 	.tipsy {
 		font-family: 'BankSans';
 		font-size: 10px;
