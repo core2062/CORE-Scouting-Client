@@ -15,73 +15,102 @@ yellow cards - number
 fouls - number
 technical foul - number
 disabled - e-stop - yes / no(default to no)
-crosses bump - number of times (or simplify to yes / no) - (note any difficulties in comments)
-crosses bridge - number of times (or simplify to yes / no) - (note any difficulties in comments)
-ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter
-ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score))
-hybrid period - inactive, autonomous, kinect & what is hybrid period strategy & how effective... any scored?
-end game - human player successful?, balance successful or attempted
-additional comments - if robot gets damaged tell how
-driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank
-strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation *
+
+
+hybrid period
+	inactive, autonomous, kinect & what is hybrid period strategy & how effective... any scored?
+
+teleop
+	driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank
+	
+	strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation *
+	
+	ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter
+	
+	ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score))
+
+	crosses bump - number of times (or simplify to yes / no) - (note any difficulties in comments)
+	
+	crosses bridge - number of times (or simplify to yes / no) - (note any difficulties in comments)
+
+end game
+	human player successful?, balance successful or attempted
+
+other
+	additional comments - if robot gets damaged tell how
 
 -->
 <!-- TODO: make + button increment && - button decrement -->
 
 	<li>
-		<fieldset style="min-width:610px;">
+		<fieldset style="min-width:300px;">
 			<legend>Penalties</legend>
 			<ul>
 				<li>
-					<label for="RCard">Red Cards:</label>
-					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
-					<button onclick="return false;" class="icon help">?</button>
-					<input type="text" id="RCard" value="" onchange="" />
+					<label for="disabled">Disabled:</label>
+					<input type="checkbox" title="if robot was disabled with the e-stop" data-labelOn="Yes" data-labelOff="No"/>
 				</li>
-				
 				<li>
-					<label for="yCard">Yellow Cards:</label>
-					<button onclick="increase('yCard');return false;" class="icon plus">+</button>
-					<button onclick="return false;" class="icon help">?</button>
-					<input type="text" id="yCard" value="" />
+					<label for="redCard">Red Card:</label>
+					<input type="checkbox" data-labelOn="Yes" data-labelOff="No"/>
 				</li>
-			</ul>
-		</fieldset>
-	</li>
-	
-	<li> <!-- remove/replace with real field -->
-		<fieldset>
-			<legend>field set</legend>
-			<ul>
 				<li>
-					<label for="RCard">Example:</label>
-					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
-					<button onclick="return false;" class="icon help">?</button>
-					<input type="text" id="RCard" value="" onchange="" />
+					<label for="yellowCard">Yellow Cards:</label>
+					<button onclick="increase('yellowCard');return false;" class="icon plus">+</button>
+					<input type="text" id="yellowCard" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 			</ul>
 		</fieldset>
 	</li>
 
-</ul>
+	<li>
+		<fieldset style="min-width:300px;">
+			<legend>Fouls</legend>
+			<ul>
+				<li>
+					<label for="foul">Fouls:</label>
+					<button onclick="increase('foul');return false;" class="icon plus">+</button>
+					<input type="text" id="foul" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+				</li>
+				<li>
+					<label for="techFoul">Technical Fouls:</label>
+					<button onclick="increase('techFoul');return false;" class="icon plus">+</button>
+					<input type="text" id="techFoul" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+
+	<li>
+		<fieldset style="min-width:300px;">
+			<legend>Hybrid Peroid</legend>
+			<ul>
+
+			</ul>
+		</fieldset>
+	</li>
+
+	<li>
+		<fieldset style="min-width:300px;">
+			<legend>Teleop</legend>
+			<ul>
+				<!--TODO: make multi select work w/out shift key being held & add code to disable specific options depending on what is selected - probably use "on change" -->
+			</ul>
+		</fieldset>
+	</li>
+
+	<li>
+		<fieldset style="min-width:300px;">
+			<legend>End Game</legend>
+			<ul>
+
+			</ul>
+		</fieldset>
+	</li>
 
 
 <!-- Alliance -->
 <ul class="alliance-c" style="display:none;">
-
-	<li> <!-- remove/replace with real field -->
-		<fieldset>
-			<legend>Alliance</legend>
-			<ul>
-				<li>
-					<label for="RCard">Red Cards:</label>
-					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
-					<button onclick="return false;" class="icon help">?</button>
-					<input type="text" id="RCard" value="" onchange="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
 
 </ul>
 
@@ -89,55 +118,9 @@ strategy info - non-op (no move), no show (didn't show up), barely operational (
 <!-- Pit -->
 <ul class="pit-c" style="display:none;">
 
-	<li> <!-- remove/replace with real field -->
-		<fieldset>
-			<legend>Pit</legend>
-			<ul>
-				<li>
-					<label for="RCard">Red Cards:</label>
-					<button onclick="increase('RCard');return false;" class="icon plus">+</button>
-					<button onclick="return false;" class="icon help">?</button>
-					<input type="text" id="RCard" value="" onchange="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-</ul>
-
-
-<!-- Mutual -->
-<ul class="robot-c alliance-c" style="display:none;">
-
-	<li>
-		<fieldset>
-			<legend>Alliance</legend>
-			<ul>
-				<li>
-					<label for="AllianceScore">Score:</label>
-					<input type="text" id="AllianceScore" value="" />
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
 </ul>
 
 <ul class="robot-c alliance-c pit-c" style="display:none;">
-
-	<li>
-		<fieldset>
-		<legend>Insert Name Here</legend>
-			<ul>
-				<li>
-					<label for="TeamNum">Team Number:</label>
-					<button onclick="" class="icon">?</button>
-					<input type="text" id="TeamNum"/>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-	
 	<li>
 		<fieldset>
 		<legend>Other</legend>
@@ -149,5 +132,4 @@ strategy info - non-op (no move), no show (didn't show up), barely operational (
 			</ul>
 		</fieldset>
 	</li>
-
 </ul>
