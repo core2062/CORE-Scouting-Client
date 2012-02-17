@@ -40,7 +40,7 @@ other
 	additional comments - if robot gets damaged tell how
 
 -->
-<!-- TODO: make + button increment && - button decrement -->
+
 
 	<li>
 		<fieldset style="min-width:300px;">
@@ -94,41 +94,48 @@ other
 		<fieldset style="min-width:300px;">
 			<legend>Teleop</legend>
 			<ul>
+				<!-- TODO: make + button on keyboard increment && - button on keyboard decrement -->
 				<!--TODO: make multi select work w/out shift key being held & add code to disable specific options depending on what is selected - probably use "on change" -->
 				<!--TODO: fix look of selectbox (change color to not black - w/ text & image) -->
+				<!--TODO: fix color of toggle control & maybe add texture like google has & change height to be correct-->
+				<!--TODO: fix issue with feildset in chrome -->
+				<!--TODO: add shadow to selectbox -->
+				<!--TODO: make sure highlight color can be changed -->
+				<!--TODO: add color picker, or at least color input to account settings page-->
+				<!--TODO: combine + button into input (for style)?-->
 			</ul>
 		</fieldset>
 	</li>
 
 	<li>
-		<fieldset style="min-width:300px;">
+		<fieldset style="min-width:300px">
 			<legend>End Game</legend>
 			<ul>
 
 			</ul>
 		</fieldset>
 	</li>
-
+</ul>
 
 <!-- Alliance -->
-<ul class="alliance-c" style="display:none;">
+<ul class="alliance-c" style="display:none">
 
 </ul>
 
 
 <!-- Pit -->
-<ul class="pit-c" style="display:none;">
+<ul class="pit-c" style="display:none">
 
 </ul>
 
-<ul class="robot-c alliance-c pit-c" style="display:none;">
+<ul class="alliance-c robot-c pit-c" style="display:none">
 	<li>
 		<fieldset>
-		<legend>Other</legend>
+			<legend>Other</legend>
 			<ul>
 				<li>
-					<label for="Comments">Relevant Comments:</label>
-					<textarea style="width: 200px; height: 50px;" id="Comments"></textarea>
+					<label for="comments">Relevant Comments:</label>
+					<textarea style="width: 200px; height: 50px;" id="comments"></textarea>
 				</li>
 			</ul>
 		</fieldset>
