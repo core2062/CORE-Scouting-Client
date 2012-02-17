@@ -38,6 +38,14 @@
 	TODO: make a 404 page
 	TODO: provide link to github on site???
 	TODO: add tracking for progress of AJAX download - use green bar on progress bar to show download
+
+	TODO: make + button on keyboard increment && - button on keyboard decrement
+	TODO: make multi select work w/out shift key being held & add code to disable specific options depending on what is selected - probably use "on change" 
+	TODO: fix color of toggle control & maybe add texture like google has
+	TODO: add shadow to selectbox
+	TODO: make sure highlight color can be changed
+	TODO: add color picker, or at least color input to account settings page
+	TODO: combine + button into input (for style)?
 	
 	wiki style editing
 	blue alliance like public side w/ only basic data (data gathering and analysis on member side)

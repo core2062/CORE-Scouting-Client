@@ -3,50 +3,6 @@
 
 <!-- Regular -->
 <ul class="robot-c" style="display:none;">
-
-<!--
-
-color: red or blue
-match number
-team number
-scout name - (provided by scout-id)
-red card - yes or no (default to no)
-yellow cards - number
-fouls - number
-technical foul - number
-disabled - e-stop - yes / no(default to no)
-
-
-hybrid period
-	inactive, autonomous, kinect
-
-	what is hybrid period strategy
-
-	how effective... any scored?
-
-teleop
-	driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank
-	
-	strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation *
-	
-	ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter
-	
-	ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score))
-
-	crosses bump - number of times (or simplify to yes / no) - (note any difficulties in comments)
-	
-	crosses bridge - number of times (or simplify to yes / no) - (note any difficulties in comments)
-
-end game
-	human player successful
-	balance successful or attempted
-
-other
-	additional comments - if robot gets damaged tell how
-
--->
-
-
 	<li>
 		<fieldset style="min-width:300px;">
 			<legend>Penalties</legend>
@@ -88,29 +44,37 @@ other
 
 	<li>
 		<fieldset style="min-width:300px;">
-			<legend>Hybrid Peroid</legend>
+			<legend>Hybrid Period</legend>
 			<ul>
+				<!-- inactive, autonomous, kinect -->
 
+				<!-- what is hybrid period strategy -->
+
+				<!-- how effective... any scored? -->
 			</ul>
 		</fieldset>
 	</li>
 
 	<li>
 		<fieldset style="min-width:300px;">
-			<legend>Teleop</legend>
+			<legend>Teleop Period</legend>
 			<ul>
+				<!-- driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank -->
+
+				<!-- strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation * -->
+
+				<!-- ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter -->
+
+				<!-- ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score)) -->
+
 				<li>
-					<label for="redCard">Red Card:</label>
-					<input type="checkbox" data-labelOn="Yes" data-labelOff="No"/>
+					<label for="bridge">Crosses Bridge:</label>
+					<input type="checkbox" id="bridge" title="note any difficulties in comments" data-labelOn="Yes" data-labelOff="No"/>
 				</li>
-				<!-- TODO: make + button on keyboard increment && - button on keyboard decrement -->
-				<!--TODO: make multi select work w/out shift key being held & add code to disable specific options depending on what is selected - probably use "on change" -->
-				<!--TODO: fix color of toggle control & maybe add texture like google has & change height to be correct-->
-				<!--TODO: fix issue with feildset in chrome -->
-				<!--TODO: add shadow to selectbox -->
-				<!--TODO: make sure highlight color can be changed -->
-				<!--TODO: add color picker, or at least color input to account settings page-->
-				<!--TODO: combine + button into input (for style)?-->
+				<li>
+					<label for="bump">Crosses Bump:</label>
+					<input type="checkbox" id="bump" title="note any difficulties in comments" data-labelOn="Yes" data-labelOff="No"/>
+				</li>
 			</ul>
 		</fieldset>
 	</li>
@@ -120,13 +84,15 @@ other
 			<legend>End Game</legend>
 			<ul>
 				<li>
-					<label for="balence">Balence:</label>
+					<label for="balence">Balance:</label>
 					<select size="1" id="balence">
 						<option value="no attempt">No Attempt</option>
-						<option value="sucessful">Sucessful</option>
 						<option value="attempted">Attempted</option>
+						<option value="sucessful">Successful</option>
 					</select>
 				</li>
+				<!-- human player successful -->
+				<!-- balance successful or attempted -->
 			</ul>
 		</fieldset>
 	</li>
@@ -140,17 +106,30 @@ other
 
 <!-- Pit -->
 <ul class="pit-c" style="display:none">
-
+	<li>
+		<fieldset style="min-width:300px;">
+			<legend>Robot Design</legend>
+			<ul>
+				<li>
+					<label for="drive">Drive:</label>
+					<select size="1" id="drive">
+						<option value="mecanum">Mecanum</option>
+						<option value="sucessful">add value here</option>
+					</select>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
 </ul>
 
 <ul class="alliance-c robot-c pit-c" style="display:none">
 	<li>
 		<fieldset>
-			<legend>Other</legend>
+			<legend>Relevant Comments</legend>
 			<ul>
 				<li>
-					<label for="comments">Relevant Comments:</label>
-					<textarea style="width: 200px; height: 50px;" id="comments"></textarea>
+					<textarea style="min-width:400px; min-height:40px;" id="comments" title="use line breaks (enter key) to seperate comments"></textarea>
+					<!-- additional comments - if robot gets damaged tell how -->
 				</li>
 			</ul>
 		</fieldset>
