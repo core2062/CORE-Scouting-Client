@@ -18,7 +18,11 @@ disabled - e-stop - yes / no(default to no)
 
 
 hybrid period
-	inactive, autonomous, kinect & what is hybrid period strategy & how effective... any scored?
+	inactive, autonomous, kinect
+
+	what is hybrid period strategy
+
+	how effective... any scored?
 
 teleop
 	driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank
@@ -34,7 +38,8 @@ teleop
 	crosses bridge - number of times (or simplify to yes / no) - (note any difficulties in comments)
 
 end game
-	human player successful?, balance successful or attempted
+	human player successful
+	balance successful or attempted
 
 other
 	additional comments - if robot gets damaged tell how
@@ -94,9 +99,12 @@ other
 		<fieldset style="min-width:300px;">
 			<legend>Teleop</legend>
 			<ul>
+				<li>
+					<label for="redCard">Red Card:</label>
+					<input type="checkbox" data-labelOn="Yes" data-labelOff="No"/>
+				</li>
 				<!-- TODO: make + button on keyboard increment && - button on keyboard decrement -->
 				<!--TODO: make multi select work w/out shift key being held & add code to disable specific options depending on what is selected - probably use "on change" -->
-				<!--TODO: fix look of selectbox (change color to not black - w/ text & image) -->
 				<!--TODO: fix color of toggle control & maybe add texture like google has & change height to be correct-->
 				<!--TODO: fix issue with feildset in chrome -->
 				<!--TODO: add shadow to selectbox -->
@@ -111,7 +119,14 @@ other
 		<fieldset style="min-width:300px">
 			<legend>End Game</legend>
 			<ul>
-
+				<li>
+					<label for="balence">Balence:</label>
+					<select size="1" id="balence">
+						<option value="no attempt">No Attempt</option>
+						<option value="sucessful">Sucessful</option>
+						<option value="attempted">Attempted</option>
+					</select>
+				</li>
 			</ul>
 		</fieldset>
 	</li>
