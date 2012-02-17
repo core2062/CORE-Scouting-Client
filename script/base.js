@@ -108,9 +108,7 @@ function fixFavicon() { //fixes favicon bug in firefox -- remove in future
 
 $(document).ready(function() {
 	
-	$('a[title]').tipsy();
-	$('label[title]').tipsy();
-	$('button[title]').tipsy();
+	$('a[title], label[title], button[title], textarea[title]').tipsy();
 	$('input[title]').tipsy({
 		trigger: 'focus',
 		gravity: 'w'
