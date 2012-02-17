@@ -1550,7 +1550,7 @@
 			div.innerHTML = "";
 			div.style.width = div.style.paddingLeft = "1px";
 			jQuery.boxModel = support.boxModel = div.offsetWidth === 2;
-/*
+
 			if ( typeof div.style.zoom !== "undefined" ) {
 				// Check if natively block-level elements act like inline-block
 				// elements when setting their display to 'inline' and giving
@@ -1566,7 +1566,7 @@
 				div.innerHTML = "<div style='width:4px;'></div>";
 				support.shrinkWrapBlocks = ( div.offsetWidth !== 2 );
 			}
-*/
+
 			div.style.cssText = ptlm + vb;
 			div.innerHTML = html;
 
@@ -6667,7 +6667,7 @@
 			}
 		};
 	}
-/*
+
 	jQuery(function() {
 		// This hook cannot be added until DOM ready because the support test
 		// for it is not run until after DOM ready
@@ -6689,7 +6689,7 @@
 			};
 		}
 	});
-*/
+
 	if ( document.defaultView && document.defaultView.getComputedStyle ) {
 		getComputedStyle = function( elem, name ) {
 			var ret, defaultView, computedStyle;
