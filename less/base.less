@@ -9,15 +9,15 @@ Notes:
 */
 
 // Colors
-	@litetext: #4F4F4F; //gray, used for buttons & modals
+	@liteText: #4F4F4F; //gray, used for buttons & modals
 
-	@regcolor: #d1d1d1; //gray
-	@l-regcolor: lighten(@regcolor, 15%);
-	@d-regcolor: darken(@regcolor, 15%);
+	@regColor: #d1d1d1; //gray
+	@l-regcolor: lighten(@regColor, 15%);
+	@d-regcolor: darken(@regColor, 15%);
 
-	@activecolor: #FF5C00; //orange
-	@l-activecolor: lighten(@activecolor, 15%);
-	@d-activecolor: darken(@activecolor, 15%);
+	@highlightColor: rgb(165, 206, 229); //orange = #FF5C00
+	@l-highlightColor: lighten(@highlightColor, 15%);
+	@d-highlightColor: darken(@highlightColor, 15%);
 
 	@errorcolor: #ff0000; //red
 	@l-errorcolor: lighten(@errorcolor, 15%);
@@ -37,6 +37,9 @@ Notes:
 	@white: darken(@l-white, 15%);
 	@d-white: darken(@l-white, 30%);
 
+// Vars
+	@lineHeight: 23px;
+	@buttonHeight: 32px;
 
 // Images
 	// TODO: embed images in LESS
@@ -172,35 +175,44 @@ Notes:
 	}
 
 	.transition (@time) {
-		-webkit-transition: all @time ease-out;  // Saf3.2+, Chrome 
-		-moz-transition: all @time ease-out;  // FF4+ 
-		-ms-transition: all @time ease-out;  // IE10? 
-		-o-transition: all @time ease-out;  // Opera 10.5+ 
-		transition: all @time ease-out;
+		-webkit-transition: all @time ease-out; // Saf3.2+, Chrome 
+		-moz-transition: all @time ease-out; // FF4+ 
+		-ms-transition: all @time ease-out; // IE10? 
+		-o-transition: all @time ease-out; // Opera 10.5+ 
+		transition: all @time ease-out; // WC3
 	}
 
 
 // Mixins
-	.theme1 () { //used on buttons & legends
-		color: @litetext;
-		background: #ededed;
-		.reg-gradent(@regcolor);
+	.background(){ //used on buttons & legends
+		background-color: @regColor;//fallback
+		.reg-gradent(@regColor);
 		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
+	}
+
+	.backgroundHighlight(){ //used on buttons & legends
+		background-color: @highlightColor;
+		.reg-gradent(@highlightColor);
+		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+	}
+
+	.text(){
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 		font-size: 14px;
 		font-weight:700;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+		color: @liteText;
 	}
 
 
 // Fonts
 	@font-face {
-	    font-family: 'BankGothicMdBTMedium';
-	    src: url('font/bank-gothic-medium-bt.ttf');
+		font-family: 'BankGothicMdBTMedium';
+		src: url('font/bank-gothic-medium-bt.ttf');
 	}
 
 	@font-face {
-	    font-family: 'BankSans';
-	    src: url('font/bank-sans.ttf');
+		font-family: 'BankSans';
+		src: url('font/bank-sans.ttf');
 	}
 
 	@font-list: "BankGothicMdBTMedium", "bankgothic lt bt";
@@ -226,7 +238,6 @@ Notes:
 
 
 // Reset
-
 	label, button, legend, a#logo, .toggle-container {
 		-webkit-user-select: none;
 		-khtml-user-select: none;
@@ -314,7 +325,8 @@ Notes:
 	legend {
 		font-size: 18px;
 		text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
-		.theme1();
+		.background();
+		.text();
 		margin-left: -10px;
 		margin-bottom: -@legendHeight;
 		padding:0 10px;
@@ -336,8 +348,8 @@ Notes:
 		> p {
 			position: absolute;
 			right: 15px;
-		    font-size: 11px;
-		    margin-top: -@legendHeight + 4;
+			font-size: 11px;
+			margin-top: -@legendHeight + 4;
 		}
 		
 		ul {
@@ -350,12 +362,9 @@ Notes:
 		}
 
 		&.focus legend {
-			//TODO: fix below
 			color: #1c4257;
 			border-color: #7096ab;
-			background-color: #ededed;
-			.advanced-gradent(#b9e0f5, #92bdd6);
-			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+			.backgroundHighlight()
 		}
 	}
 
@@ -383,7 +392,7 @@ Notes:
 		background-image: @stripe;
 		.box-shadow(inset 0 0 6px #000);
 		width:150px;
-		height:23px;
+		height:@lineHeight;
 		padding:2px 5px 1px 5px;
 		margin: 5px 0;
 		vertical-align:middle;
@@ -437,7 +446,6 @@ Notes:
 			border-bottom: 1px dotted #336699; 
 
 			&:hover, &:active {
-				background: #3399CC;
 				border: 1px solid #B6B6B6;
 				text-decoration: none;
 				background: #ededed;
@@ -446,7 +454,7 @@ Notes:
 			}
 
 			&:hover {
-				.reg-gradent(@regcolor);
+				.reg-gradent(@regColor);
 				.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset);
 				color: #313131;
 			}
@@ -461,33 +469,12 @@ Notes:
 
 
 // Buttons and Button Sets
-	button {
-		.border-radius(3px);
-		height: 32px; //fixes weird button height diff
-		padding: 0 1em;
-
-		&.icon {
-			height: 26px;
-			padding: 4px;
-			display: inline;
-			overflow: hidden;
-			background-repeat: no-repeat;
-			vertical-align: middle;
-			font-size: 22px;
-			font-weight: 200;
-			line-height: 20px;
-			&.plus {//because I don't want to screw around with the actual glyph for the plus character
-				font-weight: bold;
-				font-size: 17px;
-			}
-		}
-	}
-
 	button, .buttonset label {
 		outline: none;
 		//TODO: add transitions
 		border: 1px solid #B6B6B6;
-		.theme1();
+		.background();
+		.text();
 		display: inline-block;
 		position: relative;
 		margin-right: .1em;
@@ -495,11 +482,11 @@ Notes:
 		cursor: pointer;
 		text-align: center;
 		overflow: visible;
-		height: 31px;
+		height: @buttonHeight;
 		padding: 0 10px;
 
 		svg {
-			fill: @litetext;
+			fill: @liteText;
 			vertical-align: middle;
 			width: 17px;
 			height: 17px;
@@ -508,6 +495,7 @@ Notes:
 		&:hover {
 			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
 			color: #313131;
+
 			svg {
 				fill: #313131;
 			}
@@ -520,13 +508,33 @@ Notes:
 		}
 	}
 
+	button {
+		.border-radius(3px);
+		height: @buttonHeight + 2px; //+2 accounts for 1px border on each side
+		padding: 0 1em;
+
+		&.icon {
+			height: 26px;
+			padding: 4px;
+			display: inline;
+			overflow: hidden;
+			background-repeat: no-repeat;
+			vertical-align: middle;
+			font-size: 22px;
+			font-weight: 200;
+			line-height: 20px;
+
+			&.plus {//because I don't want to screw around with the actual glyph for the plus character
+				font-weight: bold;
+				font-size: 17px;
+			}
+		}
+	}
 
 	button:active, .buttonset input[type="radio"]:checked + label {
 		color: #1c4257;
 		border-color: #7096ab;
-		background-color: #ededed;
-		.advanced-gradent(#b9e0f5, #92bdd6);
-		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset');
+		.backgroundHighlight();
 	}
 
 	.buttonset {
@@ -534,15 +542,15 @@ Notes:
 		display: inline;
 
 		input[type="radio"] {
-		    display:none;
-		    left: ~'-1e+8px';
-		    position: absolute;
+			display:none;
+			left: ~'-1e+8px';
+			position: absolute;
 		}
 
 		label {
 			margin-left: -3px;
 			margin-right: -3px;
-			line-height: 31px; //aligns text to center
+			line-height: @buttonHeight; //aligns text to center
 
 			&.first {
 				.border-radius-bl (3px);
@@ -568,14 +576,7 @@ Notes:
 	.toggle-container {
 		display: inline-block;
 		vertical-align: middle;
-		
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-o-user-select: none;
-		user-select: none;
-	  
-		height: 23px;
+		height: @lineHeight + 3px;//compensates for something - TODO: fix css (@lineheight) for buttons
 		position: relative;
 		cursor: pointer;
 		overflow: hidden;
@@ -596,25 +597,25 @@ Notes:
 			margin-left: auto;//reset
 			cursor: inherit;
 			font-size: 1em !important;
-			line-height: 23px;
+			line-height: @lineHeight;
 		}
 	}
 	
 	.toggle-container, .toggle-handle {
-	  .border-radius(3px);
+		.border-radius(3px);
 	}
 	
 	// create an outline when button gets focus via keyboard
 	.toggle-focus {
-	  label {
-	    // we must use border, since outline doesn't work in IE
-	    border: 1px dotted #666 !important;
-	  }
-	
-	  div.toggle-label-on span label {
-	    // use white for more contrast
-	    border-color: #fff !important;
-	  }
+		label {
+			// we must use border, since outline doesn't work in IE
+			border: 1px dotted #666 !important;
+		}
+
+		div.toggle-label-on span label {
+			// use white for more contrast
+			border-color: #fff !important;
+		}
 	}
 
 	.toggle-handle {
@@ -623,22 +624,23 @@ Notes:
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 0;.advanced-gradent(#d8d8d8, #f6f6f6);
+		width: 0;
+		.advanced-gradent(#d8d8d8, #f6f6f6);
 		.box-shadow(0 0 2px #000 inset);
-		z-index: 2;//set default width based on ON/OFF labels
-		width: 33px;
+		z-index: 2;
+		width: 33px;//set default width based on ON/OFF labels
 		height: 100%;
 	}
 	
 	div.toggle-label-on, div.toggle-label-off {
 		white-space: nowrap;
-		font-size: 17px;
 		line-height: 17px;
 		font-weight: bold;
-		text-transform: uppercase;
+		//text-transform: uppercase;
+		font-size: 16px;
 		cursor: inherit;
 		display: block;
-		height: 23px;
+		height: @lineHeight;
 		position: absolute;
 		width: auto;
 		top: 0;
@@ -672,48 +674,47 @@ Notes:
 
 
 // jQuery Select Box
-	// Dropdown control
-	.selectBox-dropdown {
-		min-width: 75px;
-		position: relative;
-		border: solid 1px #BBB;
-		//line-height: 1.5;
-		text-decoration: none;
-		color: #000;
-		outline: none;
-		vertical-align: middle;
-		background: #F2F2F2;
-		.advanced-gradent(#F8F8F8, #E1E1E1);
-		.box-shadow(0 1px 0 rgba(255, 255, 255, .75));
-		.border-radius(4px);
-		display: inline-block;
-		cursor: default;
-	}
-
 	.selectBox-dropdown:focus, .selectBox-dropdown:focus .selectBox-arrow {
 		border-color: #666;
 	}
 
-	.selectBox-dropdown.selectBox-menuShowing {
-		.border-radius-bl(0);
-		.border-radius-br(0);
-	}
-
-	.selectBox-dropdown .selectBox-label {
-		padding: 2px 8px;
+	.selectBox-dropdown {
+		.background();
+		min-width: 75px;
+		position: relative;
+		border: solid 1px #BBB;
+		text-decoration: none;
+		color: #000;
+		outline: none;
+		vertical-align: middle;
+		.border-radius(4px);
 		display: inline-block;
-		white-space: nowrap;
-		overflow: hidden;
-	}
+		cursor: default;
 
-	.selectBox-dropdown .selectBox-arrow {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 23px;
-		height: 100%;
-		background: @arrow 50% center no-repeat;
-		border-left: solid 1px #BBB;
+		&.selectBox-menuShowing {
+			.border-radius-bl(0);
+			.border-radius-br(0);
+		}
+
+		.selectBox-label {
+			line-height: @lineHeight;
+			overflow: hidden;
+			padding: 0 6px;
+			vertical-align: middle;
+			white-space: nowrap;
+			color: #5B5B5B;
+		}
+
+		.selectBox-arrow {
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 100%;
+			background: @arrow 50% center no-repeat;
+			border-left: solid 1px #BBB;
+			width: 18px;
+			.opacity(0.6);
+		}
 	}
 
 	// Dropdown menu 
@@ -770,7 +771,7 @@ Notes:
 		}
 
 		&.selectBox-selected a {
-			background-color: #C8DEF4;
+			background-color: @highlightColor;
 		}
 	}
 
@@ -789,7 +790,7 @@ Notes:
 	}
 
 	.selectBox-dropdown.selectBox-disabled .selectBox-arrow {
-		.opacity(.5);
+		.opacity(0.5);
 		border-color: #666;
 	}
 
@@ -824,8 +825,8 @@ Notes:
 	}
 
 	#progressbar-value {
-		.img-gradent(@progressbar, @activecolor);
-		border: 1px solid @d-activecolor;
+		.img-gradent(@progressbar, @highlightColor);
+		border: 1px solid @d-highlightColor;
 	}
 
 	#errorbar-value {
@@ -868,7 +869,7 @@ Notes:
 		border: none;
 		border-bottom: 1px solid #979797;
 		.border-radius (0);
-		color: @litetext;
+		color: @liteText;
 		font-weight:700;
 		background: #ededed;
 		.advanced-gradent(#ededed, #c4c4c4);
@@ -877,10 +878,11 @@ Notes:
 			margin: .1em 16px .2em 0;
 			font-size: 14px;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-
+			/* done with js to support multiple words
 			&:first-letter {
 				text-transform: uppercase;
 			}
+			*/
 		}
 
 		.close {
@@ -914,9 +916,9 @@ Notes:
 
 	#modal-container {
 		visibility: visible;
-	    background: @form_bgcolor;
-	    border: 1px solid #B6B6B6;
-	    color: @litetext;
+		background: @form_bgcolor;
+		border: 1px solid #B6B6B6;
+		color: @liteText;
 		.border-radius (3px);
 		position: relative;
 		z-index: 1001;
@@ -971,13 +973,13 @@ Notes:
 				white-space:nowrap;
 
 				a {
-					color: @litetext;
+					color: @liteText;
 				}
 
 				a:hover {
 					// TODO: fix below, it could look better
 					color:white;
-					background-color: @litetext;
+					background-color: @liteText;
 				}
 			}
 		}
