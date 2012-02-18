@@ -9617,11 +9617,6 @@
 
 	}).call(this);
 
-	/*
-	Chosen source: generate output using 'cake build'
-	Copyright (c) 2011 by Harvest
-	*/
-
 	(function() {
 		var AbstractChosen, root;
 
@@ -9655,7 +9650,7 @@
 				this.result_highlighted = null;
 				this.result_single_selected = null;
 				this.allow_single_deselect = (this.options.allow_single_deselect != null) && (this.form_field.options[0] != null) && this.form_field.options[0].text === "" ? this.options.allow_single_deselect : false;
-				this.disable_search_threshold = this.options.disable_search_threshold || 0;
+				this.disable_search_threshold = this.options.disable_search_threshold || 3;
 				this.choices = 0;
 				return this.results_none_found = this.options.no_results_text || "No results match";
 			};
@@ -9742,8 +9737,8 @@
 						if (this.results_showing) return this.result_select(evt);
 						break;
 						case 27:
-						if (this.results_showing) this.results_hide();
-						return true;
+							if (this.results_showing) this.results_hide();
+							return true;
 						case 9:
 						case 38:
 						case 40:
@@ -9777,11 +9772,6 @@
 			root.AbstractChosen = AbstractChosen;
 
 		}).call(this);
-
-		/*
-		Chosen source: generate output using 'cake build'
-		Copyright (c) 2011 by Harvest
-		*/
 
 		(function() {
 			var $, Chosen, get_side_border_padding, root,
