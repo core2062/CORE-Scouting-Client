@@ -84,10 +84,11 @@ function pulse(elementID, setting){//setting is bool, true=pulse & false=stop
 }
 
 function postSignup(){//this function will interfere with logged in users... signup must not be visible if logged in
+/*
 	if (checkSignup('all') == false){
 		return;//jGrowl messages & highlighting deal with bad inputs
 	}
-
+*/
 	//put all info in user object, scoutid is made server-side
 	user.info = {
 		"fName": fName.value,
