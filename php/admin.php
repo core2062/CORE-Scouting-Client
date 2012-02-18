@@ -130,6 +130,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 	}
 
 	foreach($cursor as $obj){
+		logger('getting team:' . $obj['_id']);
+
 		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
 		$contents = file_get_contents($url, false);
 
@@ -158,8 +160,6 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		$team['nickname'] = utf8_encode(html_entity_decode($team['nickname']));
 		$team['motto'] = utf8_encode(html_entity_decode($team['motto']));
 
-		fb($team);
-
 		$db->team->update(
 			array(
 				"_id" => $obj['_id']
@@ -173,9 +173,6 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		);
 
 		preg_replace_callback("/<tr > <td >([^<>]*)<\/td> <td >([^<>]*)<\/td> <td >((?:[^<>]*|<br \/>|<(?:\/)?i>)*)<\/td> <\/tr>/", "processEvent", $contents);
-		/*      <tr > <td >([^<>]*)</td> <td >([^<>]*)</td> <td >(?:([^<>]*)|<br />|<(?:/)?i>)*</td> </tr>      */
-
-		die();
 	}
 
 
