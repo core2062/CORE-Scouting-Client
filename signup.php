@@ -21,7 +21,7 @@ $input = json_decode($input, true);
 
 //build list of required inputs
 $objects = array('info', 'account');
-$required = array();//intalize empty
+$required = array();//initialize empty
 
 $len = sizeof($objects);
 for($i = 0; $i < $len; $i++){
@@ -67,8 +67,6 @@ $input = array(
 		"gender"=> checkDefault($input['opt']['gender'], '')
 	)
 );
-fb($input);
-
 
 $array = str_split($input['info']['fName']);
 foreach($array as $char) {
@@ -118,7 +116,7 @@ $db->user->insert($input);//finally add user
 
 //send confirmation email + instructions for training
 
-send_reg();
+send_reg(array('message' => 'signup completed'));
 
 //general functions
 function checkDefault($value, $default){
