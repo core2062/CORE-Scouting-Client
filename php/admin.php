@@ -72,7 +72,15 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 	function processEvent($input){//add each team to DB
 		global $db;
 		global $obj;
-		//unset($input[0]);
+		unset($input[0]);
+		array_values ($input);//reset keys in array
+
+		//decode html characters
+		$len = count($input);
+		for ($i=1; $i < $len; $i++) {// first value is year of competition -- no special characters
+			$input[$i] = html_entity_decode($input[$i]);
+		}
+
 		fb($input);
 /*
 		//TODO: finish processing awards from each competition
@@ -89,7 +97,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 				)
 			),
 			true
-		);        */
+		);
+*/
 		return "";
 	}
 
@@ -107,22 +116,28 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		preg_match("/<td >Team Motto<\/td> <td>([^<>]*)<\/td>/", $contents, $team['motto']);
 		preg_match("/<td >Team Website<\/td> <td><a(?:[^>]*)?>([^<>]*)<\/a><\/td>/", $contents, $team['site']);
 		
-
 		//TODO: change to using a single object that gets inserted - low priority
+
+		//all those pregs had 1 backreferance, this moves the matchs to proper place in array
+		//also decode them
+		foreach ($team as $key => $value) {
+			$team[$key] = $team[$key][1];
+		}
+
+		settype($team['rookieYear'], "integer");
+
+		$team['name'] = html_entity_decode($team['name']);
+		$team['location'] = html_entity_decode($team['location']);
+		$team['nickname'] = html_entity_decode($team['nickname']);
+		$team['motto'] = html_entity_decode($team['motto']);
+
 		$db->team->update(
 			array(
 				"_id" => $obj['_id']
 			),
 			array(
 				'$set' => array(
-					'info' => array(
-						"name" => $team['name'][1],
-						"location" => $team['location'][1],
-						"rookieYear" => (int)$team['rookieYear'][1],
-						"nickname" => $team['nickname'][1],
-						"motto" => $team['motto'][1],
-						"site" => $team['site'][1]
-					)
+					'info' => $team
 				)
 			),
 			true
