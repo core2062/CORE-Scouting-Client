@@ -68,6 +68,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 	$cursor = $db->team->find()->sort(array("_id" => 1));
 
+	//define the function - actually get used at end of team-get 
 	function processEvent($input){//add each team to DB
 		global $db;
 		global $obj;
@@ -98,12 +99,15 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 		$input['awards'] = array_values($input['awards']);//reset keys in array
 
-		$input[1] = str_replace($input[0] . ' ', '', $input[1]);
+		$input[1] = str_replace($input[0] . ' ', '', $input[1]);//remove year prefix
+
+		//TODO: make year be integer
 
 		//finally add to DB
+		//TODO: find faster way to do this (w/out copying and re-adding)
 		$events = $db->team->find(
 			array(
-				"_id" => $obj['_id']
+				'_id' => $obj['_id']
 			),
 			array(
 				'events' => 1
@@ -111,8 +115,9 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		);
 
 		$events = iterator_to_array($events);
+		$events = $events[$obj['_id']]['events'];//really only need this part
 
-		$events[1]['events'][$input[0]][$input[1]]['awards'] = $input['awards'];
+		$events[$input[0]][$input[1]]['awards'] = $input['awards'];
 
 		$db->team->update(
 			array(
@@ -120,7 +125,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 			),
 			array(
 				'$set' => array(
-					"events" => $events[1]['events']
+					"events" => $events
 				)
 			),
 			true
@@ -147,13 +152,13 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		
 		//TODO: change to using a single object that gets inserted - low priority
 
-		//all those pregs had 1 backreferance, this moves the matchs to proper place in array
+		//all those pregs had 1 backreferance, this moves the matches to proper place in array
 		//also decode them
 		foreach ($team as $key => $value) {
 			$team[$key] = $team[$key][1];
 		}
 
-		settype($team['rookieYear'], "integer");
+		settype($team['rookieYear'], "int");
 
 		$team['name'] = utf8_encode(html_entity_decode($team['name']));
 		$team['location'] = utf8_encode(html_entity_decode($team['location']));
@@ -174,8 +179,6 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 		preg_replace_callback("/<tr > <td >([^<>]*)<\/td> <td >([^<>]*)<\/td> <td >((?:[^<>]*|<br \/>|<(?:\/)?i>)*)<\/td> <\/tr>/", "processEvent", $contents);
 	}
-
-
 
 	send_reg(array('message' => 'finished getting team profiles'));
 break;
