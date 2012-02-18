@@ -118,8 +118,6 @@ $(document).ready(function() {
 		gravity: 'w'
 	});
 
-	$("select").selectBox();
-
 	if (eatCookie('user') !== '') {
 		window.user = eval('(' + eatCookie('user') + ')');
 		updateUserBar();//userbar is setup for guest by default
