@@ -1,13 +1,3 @@
-/*
-Designer: Sean Lang
-Language: LESS
-
-Notes:
-	/\*([^\/\*\n]*)\*/
-	//$1
-/*
-*/
-
 @import "libraries.less";
 
 // Logo
@@ -490,10 +480,7 @@ Notes:
 			position: absolute;
 			top: 29px;
 			left: 0;
-			-webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
-			-moz-box-shadow : 0 4px 5px rgba(0,0,0,.15);
-			-o-box-shadow : 0 4px 5px rgba(0,0,0,.15);
-			box-shadow : 0 4px 5px rgba(0,0,0,.15);
+			.box-shadow(0 4px 5px rgba(0,0,0,.15));
 			z-index: 999;
 		}
 	}
@@ -502,22 +489,19 @@ Notes:
 
 		.chzn-single {
 			.background();
-			-webkit-border-radius: 5px;
-			-moz-border-radius : 5px;
-			border-radius : 5px;
+			.text();
+			.border-radius(5px);
 			-moz-background-clip : padding;
 			-webkit-background-clip: padding-box;
 			background-clip : padding-box;
 			border: 1px solid #aaaaaa;
-			-webkit-box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
-			-moz-box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
-			box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+			.box-shadow('0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1)');
 			display: block;
 			overflow: hidden;
 			white-space: nowrap;
 			position: relative;
-			height: @lineHeight + 3px;
-			line-height: @lineHeight + 3px;
+			height: @lineHeight;
+			line-height: @lineHeight;
 			padding: 0 0 0 8px;
 			color: #444444;
 			text-decoration: none;
@@ -589,9 +573,7 @@ Notes:
 		}
 
 		.chzn-drop {
-			-webkit-border-radius: 0 0 4px 4px;
-			-moz-border-radius : 0 0 4px 4px;
-			border-radius : 0 0 4px 4px;
+			.border-radius(0 0 4px 4px);
 			-moz-background-clip : padding;
 			-webkit-background-clip: padding-box;
 			background-clip : padding-box;
@@ -643,10 +625,7 @@ Notes:
 					padding: 5px;
 					margin: 1px 0;
 					outline: 0;
-					-webkit-box-shadow: none;
-					-moz-box-shadow : none;
-					-o-box-shadow : none;
-					box-shadow : none;
+					.box-shadow(none);
 				}
 
 				.default {
@@ -655,23 +634,12 @@ Notes:
 			}
 
 			.search-choice {
-				-webkit-border-radius: 3px;
-				-moz-border-radius : 3px;
-				border-radius : 3px;
+				.border-radius(3px);
 				-moz-background-clip : padding;
 				-webkit-background-clip: padding-box;
 				background-clip : padding-box;
-				background-color: #e4e4e4;
-				//filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#eeeeee', GradientType=0 );
-				background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
-				background-image: -webkit-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-				background-image: -moz-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-				background-image: -o-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-				background-image: -ms-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-				background-image: linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-				-webkit-box-shadow: 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
-				-moz-box-shadow : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
-				box-shadow : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
+				.background();
+				.box-shadow('0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05)');
 				color: #333;
 				border: 1px solid #aaaaaa;
 				line-height: 13px;
@@ -688,7 +656,7 @@ Notes:
 					width: 12px;
 					height: 13px;
 					font-size: 1px;
-					background: url(chosen-sprite.png) right top no-repeat;
+					background: url('img/chosen-sprite.png') right top no-repeat;
 
 					&:hover {
 						background-position: right -11px;
@@ -745,6 +713,7 @@ Notes:
 			}
 
 			.highlighted {
+				//TODO: normalize LESS for highlighted option in select
 				background-color: #3875d7;
 				//filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3875d7', endColorstr='#2a62bc', GradientType=0 );
 				background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #3875d7), color-stop(90%, #2a62bc));
@@ -809,19 +778,13 @@ Notes:
 	.chzn-container-active {
 		
 		.chzn-single {
-			-webkit-box-shadow: 0 0 5px rgba(0,0,0,.3);
-			-moz-box-shadow : 0 0 5px rgba(0,0,0,.3);
-			-o-box-shadow : 0 0 5px rgba(0,0,0,.3);
-			box-shadow : 0 0 5px rgba(0,0,0,.3);
+			.box-shadow(0 0 5px rgba(0,0,0,.3));
 			border: 1px solid #5897fb;
 		}
 
 		.chzn-single-with-drop {
 			border: 1px solid #aaa;
-			-webkit-box-shadow: 0 1px 0 #fff inset;
-			-moz-box-shadow : 0 1px 0 #fff inset;
-			-o-box-shadow : 0 1px 0 #fff inset;
-			box-shadow : 0 1px 0 #fff inset;
+			.box-shadow(0 1px 0 #fff inset);
 			background-color: #eee;
 			//filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#ffffff', GradientType=0 );
 			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #eeeeee), color-stop(80%, #ffffff));
@@ -830,12 +793,8 @@ Notes:
 			background-image: -o-linear-gradient(top, #eeeeee 20%, #ffffff 80%);
 			background-image: -ms-linear-gradient(top, #eeeeee 20%, #ffffff 80%);
 			background-image: linear-gradient(top, #eeeeee 20%, #ffffff 80%);
-			-webkit-border-bottom-left-radius : 0;
-			-webkit-border-bottom-right-radius: 0;
-			-moz-border-radius-bottomleft : 0;
-			-moz-border-radius-bottomright: 0;
-			border-bottom-left-radius : 0;
-			border-bottom-right-radius: 0;
+			.border-radius-bl(0);
+			.border-radius-br(0);
 
 			div {
 				background: transparent;
@@ -848,10 +807,7 @@ Notes:
 		}
 
 		.chzn-choices {
-			-webkit-box-shadow: 0 0 5px rgba(0,0,0,.3);
-			-moz-box-shadow : 0 0 5px rgba(0,0,0,.3);
-			-o-box-shadow : 0 0 5px rgba(0,0,0,.3);
-			box-shadow : 0 0 5px rgba(0,0,0,.3);
+			.box-shadow(0 0 5px rgba(0,0,0,.3));
 			border: 1px solid #5897fb;
 
 			.search-field input {
@@ -879,14 +835,18 @@ Notes:
 		text-align: right;
 
 		.chzn-single {
-			padding: 0 8px 0 0; overflow: visible;
+			padding: 0 8px 0 0;
+			overflow: visible;
 
 			span {
-				margin-left: 26px; margin-right: 0; direction: rtl;
+				margin-left: 26px;
+				margin-right: 0;
+				direction: rtl;
 			}
 
 			div {
-				left: 3px; right: auto;
+				left: 3px;
+				right: auto;
 			}
 
 			abbr {
@@ -906,10 +866,12 @@ Notes:
 			}
 
 			.search-choice {
-				padding: 3px 5px 3px 19px; margin: 3px 5px 3px 0;
+				padding: 3px 5px 3px 19px;
+				margin: 3px 5px 3px 0;
 	
 				.search-choice-close {
-					left: 4px; right: auto; background-position: right top;
+					left: 4px; right: auto;
+					background-position: right top;
 				}
 			}
 
@@ -917,11 +879,13 @@ Notes:
 
 
 		&.chzn-container-single .chzn-results {
-			margin: 0 0 4px 4px; padding: 0 4px 0 0;
+			margin: 0 0 4px 4px;
+			padding: 0 4px 0 0;
 		}
 
 		.chzn-results .group-option {
-			padding-left: 0; padding-right: 15px;
+			padding-left: 0;
+			padding-right: 15px;
 		}
 
 		&.chzn-container-active .chzn-single-with-drop div {
@@ -1007,7 +971,7 @@ Notes:
 		position: relative;
 		border: none;
 		border-bottom: 1px solid #979797;
-		.border-radius (0);
+		.border-radius(0);
 		color: @liteText;
 		font-weight:700;
 		background: #ededed;
