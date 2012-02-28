@@ -66,7 +66,6 @@ if (empty($json) == true) {//post can send the string undefined if given no data
 
 $input = array_merge(json_decode($json, true), $input);
 
-
 // request switch
 switch ($input['request']) {
 case "poll": //for match signup, mail poll, other?

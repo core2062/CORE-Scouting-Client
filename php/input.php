@@ -12,21 +12,50 @@ if(empty($input['inputType']) == true){
 $insert['meta'] = array(
 	'scoutid' => $user['_id'],
 	'time' => $starttime,
-	'type' => $input['inputType']
+	'type' => $input['inputType'],
+	'use' => true //default
 );
+
+fb($input['data']);
+fb($insert);
 
 //for robot & alliance
 if($input['inputType'] == 'robot' || $input['inputType'] == 'alliance'){
-	$insert['match']
+	if(empty($input['data']['matchNum'])){
+		send_error("match number was not correct");
+	}
+
+	$insert['_id'] = $input['data']['matchNum'];
 }
 
 switch ($input['inputType']) {
 case "robot":
 
-	
-	
 	//validation of all data... log invalid data & change errorCount based on it
 	//if error count is too high then set use = false
+	
+	$db->raw->insert(
+		array_merge($insert, $input);
+	);
+
+	send_reg(array('message' => 'data submitted sucessfully'));
+
+	/* Data Model
+	
+	_id: random number
+	meta: {
+		scoutid: scoutid of user
+		time: when data was entered
+		type: inputType (robot, alliance, or pit)
+		use: default as true, if error count is too high then it is false
+	}
+	sort: {
+		matchNum:
+	}
+
+
+	*/
+
 	
 break;
 case "alliance":

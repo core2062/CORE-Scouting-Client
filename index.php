@@ -89,6 +89,15 @@
 		log of important events (like robot dieing during match)
 
 	scouting as full alliance
+
+
+	Add analytics to track visitors on page by page basis (and get browser + OS + ip + other stuff)
+	Data analysis: select/load data group -> show in graph, editable
+	Compare teams
+	Compare strategies
+		http://tablesorter.com/docs/
+		http://tablesorter.com/docs/example-pager.html
+	use JSON to send array for table data or graph data (format with client side JS)
 */
 
 $place = 'index.php';
