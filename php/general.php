@@ -144,4 +144,42 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	ob_clean (); //empty output buffer, stuff below is only thing sent
 	die($return);
 }
+
+//PATH is (P)HP (A)rrays (T)o (H)TML
+
+$selfClosingTags = ['img','br'];
+
+function path($array){
+	if(isset($innerHTML)){
+		echo "\n ---echo: " . $innerHTML;
+	}
+
+	//add stuff for self closing tags
+	$tagName = $array[0];
+	unset($array[0]);
+
+	//make a way to manually specify a self closing tag
+	$selfClosing = in_array($tagName, $selfClosingTags);
+
+	$return = "<" . $tagName;
+	$key = 1;
+	$innerHTML = "";
+	while (array_key_exists($key, $array)){
+		if(is_array($array[$key])){
+			$innerHTML .= path($array[$key]);
+		} else {
+			$innerHTML .= $array[$key];
+		}
+		unset($array[$key]);
+		$key++;
+	}
+
+	foreach($array as $key => $value){
+		$return .= ' ' . $key . '="' . $value . '"';
+	}
+	//add stuff for self closing tags
+	$return .= ">" . $innerHTML . "</" . $tagName . ">";
+
+	return $return;
+}
 ?>

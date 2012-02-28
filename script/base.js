@@ -139,7 +139,7 @@ function buildCache() {
 		for (var e in pages[i].subpages) {
 			cache.subpages.push(e);
 		}
-		for (var e in pages[i].modals) {
+		for (e in pages[i].modals) {
 			cache.modals.push(e);
 		}
 	}
@@ -148,12 +148,14 @@ function buildCache() {
 	cache.nav = '.' + cache.nav.join("-n, .") + '-n';
 }
 
+
+//rewrite this to use HTML5 pushState()
 window.onpopstate = function(event) {
 	// if nav() is failing, check browser support for this
 	console.log(event);
 	fixFavicon(); //remove this in future
 	nav();
-}
+};
 
 function nav() {
 	/*
@@ -163,7 +165,7 @@ function nav() {
 		open login modal if needed for page
 	*/
 
-	if (location.hash.substring(1) == "") {
+	if (location.hash.substring(1) === "") {
 		location.hash = '#front-page';//default page
 		return;
 	}
@@ -173,7 +175,7 @@ function nav() {
 	prev.lastSub = current.lastSub;
 	prev.subpage = current.subpage;
 
-	if (current.subpage == location.hash.substring(1) && current.subpage != "") {
+	if (current.subpage == location.hash.substring(1) && current.subpage !== "") {
 		return;
 	}
 
@@ -192,7 +194,7 @@ function nav() {
 	}
 
 	if (current.index === '') { // TODO: merge with subpage search ?
-		for (var i = 0; i < len; i++) {
+		for (i = 0; i < len; i++) {
 			if (typeof pages[i].modals[current.subpage] !== 'undefined') {
 				current.index = i;
 				current.type = 'modals';
@@ -211,7 +213,7 @@ function nav() {
 
 	var fadetime = 500;
 
-	if (prev.subpage == "") { // if this is the first page
+	if (prev.subpage === "") { // if this is the first page
 		if (current.type == 'modals') {
 			//fade in page
 			$('.front-page-c').fadeIn(fadetime / 4);
@@ -243,7 +245,7 @@ function nav() {
 		$('#' + current.subpage + '-r').attr('checked', true);
 
 		if (prev.type == 'subpages') { //sub-pages
-			if(user.prefs.fade == true){
+			if(user.prefs.fade === true){
 				$(cache.subpages).fadeOut(fadetime).promise().done(function() {
 					$('.' + current.subpage + '-c').fadeIn(fadetime);
 				});
@@ -253,13 +255,13 @@ function nav() {
 			}
 		} else { //modals
 			if (prev.lastSub == current.subpage) { //don't fade out sub-page if is is already under the modal
-				if(user.prefs.fade == true){
+				if(user.prefs.fade === true){
 					$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
 				} else {
 					$('#overlay, #modal-container, ' + cache.modals).css('display','none');
 				}
 			} else {
-				if(user.prefs.fade == true){
+				if(user.prefs.fade === true){
 					$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function() {
 						$('.' + current.subpage + '-c').fadeIn(fadetime);
 					});
@@ -273,7 +275,7 @@ function nav() {
 		document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
 
 		if (prev.type == 'subpages'){ //subpages
-			if(user.prefs.fade == true){
+			if(user.prefs.fade === true){
 				$(cache['modals']).hide().promise().done(function() {
 					$('#overlay').fadeIn(40);
 					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
@@ -283,7 +285,7 @@ function nav() {
 				$('#overlay, .' + current.subpage + '-c, #modal-container').css('display','block');
 			}
 		} else { //modals
-			if(user.prefs.fade == true){
+			if(user.prefs.fade === true){
 				$(cache.modals).fadeOut(fadetime).promise().done(function() {
 					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
 				});
@@ -294,7 +296,7 @@ function nav() {
 		}
 	}
 	
-	if(pages[current.index][current.type][current.subpage]['login-required'] == true && eatCookie('user') == ''){
+	if(pages[current.index][current.type][current.subpage]['login-required'] === true && eatCookie('user') === ''){
 		//TODO: figure out a way to do this without a timeout & without screwing up the page below
 		setTimeout("window.location = '#login'", fadetime*2);
 		return;
@@ -331,14 +333,14 @@ function modalClose(runScript) {//if runScript is defined then the script won't 
 	function eatCookie(name) {
 		var nameEQ = name + "=";
 		var ca = document.cookie.split(';');
+		var cookieValue = "";
 		for (var i = 0; i < ca.length; i++) {
 			var c = ca[i];
 			while (c.charAt(0) == ' ') c = c.substring(1);
-			if (c.indexOf(nameEQ) == 0) {
-				var cookieValue = c.substring(nameEQ.length);
+			if (c.indexOf(nameEQ) === 0) {
+				cookieValue = c.substring(nameEQ.length);
 				break;
-			} else
-			var cookieValue = "";
+			}
 		}
 		return cookieValue;
 	}
@@ -360,11 +362,11 @@ function getToken(password) {
 	scoutidInput.value = ''; //remove them from inputs
 	pwordInput.value = '';
 
-	if (user._id == '') {
+	if (user._id === '') {
 		$('#jGrowl-container').jGrowl('scoutID is blank', {
 			theme: 'error'
 		});
-	} else if (pword == '') {
+	} else if (pword === '') {
 		$('#jGrowl-container').jGrowl('password is blank', {
 			theme: 'error'
 		});
@@ -382,7 +384,7 @@ function getToken(password) {
 			modalClose();
 			
 			return;
-		} else if (json != false) {
+		} else if (json !== false) {
 			$('#jGrowl-container').jGrowl('server did not respond properly', {
 				theme: 'error'
 			});
@@ -407,15 +409,15 @@ function logout() {	//just removes the cookie & user object
 	
 	updateUserBar();
 	
-	if(pages[current.index][current.type][current.subpage]['login-required'] == true){
+	if(pages[current.index][current.type][current.subpage]['login-required'] === true){
 		window.location = '#login';
 	}
 }
 
 function updateUserBar(){//also updates account modal
-	var loginLabel = document.getElementById('login-r-label')
+	var loginLabel = document.getElementById('login-r-label');
 
-	if(eatCookie('user') != ''){//logged in
+	if(eatCookie('user') !== ''){//logged in
 		$('#login').css('display','none');
 		$('#logout').css('display','inline');
 		loginLabel.setAttribute('original-title','Logout');
@@ -437,13 +439,13 @@ function updateUserBar(){//also updates account modal
 function updateUser(key, value){//newObject does not need to be a full user object
 	//user = jQuery.extend(true, user, userUpdates);//CONSIDER using this in login so only non-default stuff needs to be sent
 	user.prefs[key] = value;
-	if(eatCookie('user') != ''){
+	if(eatCookie('user') !== ''){
 		bakeCookie('user', $.toJSON(user));
 	}
 }
 
 function postUserUpdates(){
-	if(eatCookie('user') != ''){//only run if logged in
+	if(eatCookie('user') !== ''){//only run if logged in
 		post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
 	}
 	modalClose(false);
@@ -455,15 +457,19 @@ String.prototype.titleCase = function () {
 	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
 
+Array.prototype.has = function(checkObj){
+	return (this.indexOf(checkObj) != -1);
+};
+
 function limitInput(e, limit) { //used for limiting form input
-	var unicode = e.charCode ? e.charCode : e.keyCode
+	var unicode = e.charCode ? e.charCode : e.keyCode;
 	if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { //if the key isn't the backspace key or tab or l/r arrow
 		if ((unicode < 48 || unicode > 57) && limit == 'number') { //if not a number
-			return false //disable key press
+			return false; //disable key press
 		}
 
 		if ((unicode < 65 || unicode > 90) && (unicode < 97 || unicode > 122) && limit == 'letter') { //if not a letter
-			return false //disable key press
+			return false; //disable key press
 		}
 	}
 }
@@ -528,7 +534,7 @@ function post(filename, json) {
 		return false; //this means error
 	}
 	
-	if(json.message && user.prefs.verbose == true){
+	if(json.message && user.prefs.verbose === true){
 		$('#jGrowl-container').jGrowl('success: ' + json.message, {
 			theme: 'message'
 		});

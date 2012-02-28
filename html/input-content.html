@@ -8,17 +8,17 @@
 			<legend>Penalties</legend>
 			<ul>
 				<li>
-					<label for="disabled">Disabled:</label>
-					<input type="checkbox" title="if robot was disabled with the e-stop" data-labelOn="Yes" data-labelOff="No"/>
+					<label for="wasDisabled">Disabled:</label>
+					<input id="wasDisabled" type="checkbox" title="if robot was disabled with the e-stop" data-labelOn="Yes" data-labelOff="No"/>
 				</li>
 				<li>
 					<label for="redCard">Red Card:</label>
-					<input type="checkbox" data-labelOn="Yes" data-labelOff="No"/>
+					<input id="redCard" type="checkbox" data-labelOn="Yes" data-labelOff="No"/>
 				</li>
 				<li>
 					<label for="yellowCard">Yellow Cards:</label>
 					<button onclick="increase('yellowCard');return false;" class="icon plus">+</button>
-					<input type="text" id="yellowCard" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+					<input id="yellowCard" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 			</ul>
 		</fieldset>
@@ -31,12 +31,12 @@
 				<li>
 					<label for="foul">Fouls:</label>
 					<button onclick="increase('foul');return false;" class="icon plus">+</button>
-					<input type="text" id="foul" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+					<input id="foul" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 				<li>
 					<label for="techFoul">Technical Fouls:</label>
 					<button onclick="increase('techFoul');return false;" class="icon plus">+</button>
-					<input type="text" id="techFoul" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+					<input id="techFoul" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 			</ul>
 		</fieldset>
@@ -47,8 +47,8 @@
 			<legend>Hybrid Period</legend>
 			<ul>
 				<li>
-					<label for="activity">Activity:</label>
-					<select size="1" id="activity" style="width:130px">
+					<label for="hybridActivity">Activity:</label>
+					<select id="hybridActivity" size="1"  style="width:130px">
 						<option value="autonomous">Autonomous</option>
 						<option value="inactive">None</option>
 						<option value="kinect">Kinect</option>
@@ -56,10 +56,10 @@
 				</li>
 
 				<li>
-					<label for="activity">Strategy:</label>
-					<select id="actvity" style="width:220px;" multiple class="chzn-select">
+					<label for="hybridStrategy">Strategy:</label>
+					<select id="hybridStrategy" style="width:220px;" multiple class="chzn-select">
 						<option value="shooter">Shooter</option>
-						<option value="hearder">Hearder</option>
+						<option value="herder">Herder</option>
 					</select>
 				</li>
 
@@ -67,7 +67,7 @@
 				<li>
 					<label for="hybridScored">Scored:</label>
 					<button onclick="increase('hybridScored');return false;" class="icon plus">+</button>
-					<input type="text" id="hybridScored" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+					<input id="hybridScored" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 			</ul>
 		</fieldset>
@@ -102,8 +102,8 @@
 			<legend>End Game</legend>
 			<ul>
 				<li>
-					<label for="balence">Balance:</label>
-					<select size="1" id="balence" data-placeholder="Action" style="width:125px;" tabindex="1">
+					<label for="balance">Balance:</label>
+					<select id="balance" size="1" data-placeholder="Action" style="width:125px;" tabindex="1">
 						<option value="no-attempt">No Attempt</option>
 						<option value="attempted">Attempted</option>
 						<option value="sucessful">Successful</option>
@@ -130,7 +130,7 @@
 			<ul>
 				<li>
 					<label for="drive">Drive:</label>
-					<select size="1" id="drive">
+					<select id="drive" size="1" style="width:150px">
 						<option value="mecanum">Mecanum</option>
 						<option value="sucessful">add value here</option>
 					</select>
@@ -146,7 +146,7 @@
 			<legend>Relevant Comments</legend>
 			<ul>
 				<li>
-					<textarea style="min-width:400px; min-height:40px;" id="comments" title="use line breaks (enter key) to seperate comments"></textarea>
+					<textarea id="comments" style="min-width:400px; min-height:40px;" id="comments" title="use line breaks (enter key) to seperate comments"></textarea>
 					<!-- additional comments - if robot gets damaged tell how -->
 				</li>
 			</ul>
