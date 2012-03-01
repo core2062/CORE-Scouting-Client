@@ -6,13 +6,17 @@ Requires:
 
 //get $sessionID
 //TODO: make sessionID getter more robust/low level
-if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfiles'){
+
+function getSessionID(){
 	$year = 2012;//year to get data from
-	$url = "https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25";
-	$contents = file_get_contents($url, false);
+	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
 	preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
 	$sessionID = $matches[1];
-	logger("got session key");
+	logger("got/updated session key");
+}
+
+if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfiles'){
+	getSessionID();
 }
 
 
@@ -134,7 +138,13 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		return "";
 	}
 
+	$count = 0;//after x teams, get new sessionID
+
+	//TODO: switch to seperate processes to built cache of pages to process & then extract data (low priority)
 	foreach($cursor as $obj){
+
+		if($count > 200) gerSessionID();
+
 		logger('getting team:' . $obj['_id']);
 
 		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
@@ -178,6 +188,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		);
 
 		preg_replace_callback("/<tr > <td >([^<>]*)<\/td> <td >([^<>]*)<\/td> <td >((?:[^<>]*|<br \/>|<(?:\/)?i>)*)<\/td> <\/tr>/", "processEvent", $contents);
+
+		$count++;
 	}
 
 	send_reg(array('message' => 'finished getting team profiles'));

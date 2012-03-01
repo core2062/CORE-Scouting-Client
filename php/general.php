@@ -17,7 +17,7 @@ $starttime = (float)$sec + (float)$micro;
 
 //connect to mongoDB
 $m = new Mongo();
-$db = $m->selectDB("CSD");
+$db = $m->selectDB("csd");
 
 //get basic variables
 $vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
@@ -59,6 +59,7 @@ $userObject = array(
 //logging function
 $log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
 
+//TODO: allow log to writeout to DB before end of script
 function logger($message, $fbDisplay = false){
 	global $log;
 	global $starttime;
@@ -147,9 +148,13 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 
 //PATH is (P)HP (A)rrays (T)o (H)TML
 
-$selfClosingTags = ['img','br'];
+$selfClosingTags = array('img','br');
 
 function path($array){
+	if(!is_array($array)){//temporary support for converting text to array to support non-PHP 5.4
+		//TODO: add this w/ regex
+	}
+
 	if(isset($innerHTML)){
 		echo "\n ---echo: " . $innerHTML;
 	}
