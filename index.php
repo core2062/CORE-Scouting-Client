@@ -17,87 +17,108 @@
     Base Page: page components which are needed for more than 1 page, these are embedded on first page request
     
 	
-	--- Main TODO ---
+	--- main TODO ---
 
-	TODO: make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
-	TODO: make a IE compatible style sheet
-	TODO: add gzip to server
-	TODO: make sure links on facebook contain a nice description of the site
-	TODO: make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
-	TODO: make onload scripts for each page
-	TODO: make a small drop-down for the nav button that gives the page categories
-	TODO: move all js scripts & static resources to cookie-less sub-domain
-	TODO: change table style back to table sorter style, then to aristo like
-	TODO: make fonts store in cache
-	TODO: make openid / login from other site
-	TODO: move public to new page - out of member analysis?
-	TODO: on login, check if training was finished for that page
-	TODO: fix font rendering across browsers - check support for @fontface
-	TODO: use standard deviation on DB
-	TODO: use php to get possible competition list
-	TODO: make a 404 page
-	TODO: provide link to github on site???
-	TODO: add tracking for progress of AJAX download - use green bar on progress bar to show download
+	performance
+		add gzip to server
+		move all js scripts & static resources to cookie-less sub-domain
+		make fonts store in cache
+		use scoutID to determine embedded pages (besides base) - based on most accessed or permissions
+		cache AJAX content (only for pages, not other stuff)
 
-	TODO: make + button on keyboard increment && - button on keyboard decrement
-	TODO: make multi select work w/out shift key being held & add code to disable specific options depending on what is selected - probably use "on change" 
-	TODO: fix color of toggle control & maybe add texture like google has
-	TODO: add shadow to selectbox
-	TODO: make sure highlight color can be changed
-	TODO: add color picker, or at least color input to account settings page
-	TODO: combine + button into input (for style)?
+
+	compatibility
+		IE
+			make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
+			make a IE compatible style sheet
+
+		other browsers
+			fix font rendering across browsers - check support for @fontface
+
+		external sites/SEO/other
+			make sure links on facebook contain a nice description of the site
+			make openid / login from other site
+			make a 404 page
+			provide link to github on site???
+
+		durability / reusability
+			make sure highlight color can be changed
+
 	
-	wiki style editing
-	blue alliance like public side w/ only basic data (data gathering and analysis on member side)
-	allow attachment of videos to matches (low priority - much later)
+	big / general features
+		wiki style editing
+		blue alliance like public side w/ only basic data (data gathering and analysis on member side)
+		allow attachment of videos to matches (low priority - much later)
+		add offline scouting mode for competitions without internet access
+
+		Add analytics to track visitors on page by page basis (and get browser + OS + ip + other stuff)
+			switch to non-hashtag based navagation so php can read it
+			use client side logging (log gets submitted in polling)
+
+
+	minor fixes / add features
+		add color picker, or at least color input to account settings page (for background of site)
+		make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
+		make a small drop-down for the nav button that gives the page categories
+		move public analysis to new page - out of analysis???
+		on login, check if training was finished for that page
+		make jGrowl append to top of scrollable box
+
+		store scouting data during error to a cookie
+			attempt to resubmit (ok if it's submitted twice)
+			delete cookie and display jGrowl when sent
+		
+		form / input
+			style
+				fix color of toggle control & maybe add texture like google has
+				add blue shadow to selectbox
+				combine + button into input?
+				add styling for disabled controls
+
+			make + button on keyboard increment && - button on keyboard decrement
+			add tracking for progress of AJAX download - use green bar on progress bar to show download
+			make competition selector on page - use php to fill
+			add code to select boxes for disabling specific options depending on what is selected - probably use "on change"
+
+	consider
+		manual sending of data on error
+			make popup in new window / tab / modal
+				opens a page that retrieves & displays data from the cookie (using base64 encoded js/html)
+				contains instructions on how to save and resubmit data
+				message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or mis-formatted data. If it is not possible to send it from this computer... contact me/send it to me.
+			or make it open modal with instructions to save link as (demo in untitled.html)
+			make a "upload direct button" in input (and a corresponding modal) to let people send data in json manually
+			make it work for blank scoutid / logout / other stuff???
+
+
+	unsorted junk
+		add check to php for duplicate data (in case of 2x submission)
+		make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
+		or make button disable at start of script and re-enable at end
+		make submit button disabled when form is blank
+
+		
+
+		if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
+
+		if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
+
+		above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a separate entry, even if they are duplicates.
+		in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
+
+		scouting 
+			pickup balls from wall or bridge
+			printout sheet - summary of alliance competing against
+				log of important events (like robot dieing during match)
+
+		Data analysis: select / load data group -> show in graph, editable
+		Compare teams
+		Compare strategies
+			http://tablesorter.com/docs/
+			http://tablesorter.com/docs/example-pager.html
+		use JSON to send array for table data or graph data (format with client side JS)
+
 	
-	use scoutID to determine embedded pages (besides base) - based on most accessed or permissions
-	make jGrowl append to top of scrollable box
-	
-	cache AJAX content
-	store scouting data during error to a cookie - attempt to resubmit (ok if it's submitted twice) - delete cookie and display jGrowl when sent
-	
-	change popup to open link in new window or tab - opens a link to a page that retrieves & displays data from the cookie and contains instructions on how to save and resubmit data - or modal
-	add offline scouting mode for competitions without internet access
-	
-	make a "upload direct button" (or something like that) in input-navbar (and a corresponding modal) to let people send POST data if AJAX failed first time
-
-	message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or mis-formatted data. If it is not possible to send it from this computer... contact me/send it to me.
-
-	check to see if save valuable scouting data jGrowl pops up for blank ScoutID or other errors
-
-	change popup thing with scouting data POST string to a modal (or even better: downloadify type thing)
-
-	add check to php: if data being entered is exactly the same (except for date) as another entry then allow it (or "overwrite" it) & move on
-
-	make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
-
-	make submit button disabled when form is blank
-
-	add styling for disabled button
-
-	if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
-
-	if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
-
-	above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a separate entry, even if they are duplicates.
-	in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
-
-	//scouting 
-	pickup balls from wall or bridge
-	printout sheet - summary of alliance competing against
-		log of important events (like robot dieing during match)
-
-	scouting as full alliance
-
-
-	Add analytics to track visitors on page by page basis (and get browser + OS + ip + other stuff)
-	Data analysis: select/load data group -> show in graph, editable
-	Compare teams
-	Compare strategies
-		http://tablesorter.com/docs/
-		http://tablesorter.com/docs/example-pager.html
-	use JSON to send array for table data or graph data (format with client side JS)
 */
 
 $place = 'index.php';
@@ -109,8 +130,7 @@ require_once 'php/general.php';
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
 //get site-map
-	$pages = $db->siteMap->findOne();
-	unset($pages['_id']);//remove id
+	require_once 'php/siteMap.php';
 	fb($pages);
 
 

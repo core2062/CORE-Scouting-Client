@@ -8,6 +8,9 @@ Requires:
 //TODO: make sessionID getter more robust/low level
 
 function getSessionID(){
+	global $sessionID;
+	global $contents; //so it can be reused in getTeams
+
 	$year = 2012;//year to get data from
 	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
 	preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
@@ -18,7 +21,6 @@ function getSessionID(){
 if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfiles'){
 	getSessionID();
 }
-
 
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid of each team
@@ -69,6 +71,8 @@ case "getTeams": //gets the number & tpid of each team
 	
 break;
 case "getTeamProfiles": //get profiles of each team. requires a tpid for each team
+	ini_set('max_execution_time', 90); //this script needs extra time ?????
+	//TODO: is above needed
 
 	$cursor = $db->team->find()->sort(array("_id" => 1));
 
@@ -77,7 +81,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		global $db;
 		global $obj;
 
-		unset($input[0]);
+		unset($input[0]);//this isn't needed
 		$input = array_values($input);//reset keys in array
 
 		//decode html characters
@@ -98,14 +102,14 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		$len = count($input['awards']);
 		for ($i=0; $i < $len; $i++) {
 			$input['awards'][$i] = trim($input['awards'][$i]);
-			if(empty($input['awards'][$i]) || $input['awards'][$i] == '<i>(2000 and prior award listings may be incomplete)</i>') unset($input['awards'][$i]);
+			if(empty($input['awards'][$i]) || $input['awards'][$i] == '<i>(2000 and prior award listings may be incomplete)</i>'){
+				unset($input['awards'][$i]);
+			}
 		}
 
 		$input['awards'] = array_values($input['awards']);//reset keys in array
 
 		$input[1] = str_replace($input[0] . ' ', '', $input[1]);//remove year prefix
-
-		//TODO: make year be integer
 
 		//finally add to DB
 		//TODO: find faster way to do this (w/out copying and re-adding)
@@ -119,7 +123,12 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		);
 
 		$events = iterator_to_array($events);
-		$events = $events[$obj['_id']]['events'];//really only need this part
+
+		//if(!empty($events[$obj['_id']]['events'])){
+			$events = $events[$obj['_id']]['events'];//really only need this part
+		//}
+		
+		//TODO: make year be integer
 
 		$events[$input[0]][$input[1]]['awards'] = $input['awards'];
 
@@ -134,7 +143,6 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 			),
 			true
 		);
-
 		return "";
 	}
 
@@ -143,12 +151,15 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 	//TODO: switch to seperate processes to built cache of pages to process & then extract data (low priority)
 	foreach($cursor as $obj){
 
-		if($count > 200) gerSessionID();
+		if($count > 200){
+			getSessionID();
+			$count = 0;
+		}
 
 		logger('getting team:' . $obj['_id']);
 
 		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
-		$contents = file_get_contents($url, false);
+		$contents = file_get_contents($url, false);//TODO: add way to re-try if connection times out 
 
 		$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..(?:.)?%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
 		$contents = preg_replace('/\s+/', ' ',$contents); //removes 
@@ -165,6 +176,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		//all those pregs had 1 backreferance, this moves the matches to proper place in array
 		//also decode them
 		foreach ($team as $key => $value) {
+			//TODO: fix issue with undefined index (not deadly)
 			$team[$key] = $team[$key][1];
 		}
 
