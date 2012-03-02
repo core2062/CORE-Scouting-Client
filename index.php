@@ -117,8 +117,6 @@
 			http://tablesorter.com/docs/
 			http://tablesorter.com/docs/example-pager.html
 		use JSON to send array for table data or graph data (format with client side JS)
-
-	
 */
 
 $place = 'index.php';
