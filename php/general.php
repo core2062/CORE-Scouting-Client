@@ -59,7 +59,6 @@ $userObject = array(
 //logging function
 $log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
 
-//TODO: allow log to writeout to DB before end of script
 function logger($message, $fbDisplay = false){
 	global $log;
 	global $starttime;
@@ -71,6 +70,8 @@ function logger($message, $fbDisplay = false){
 	if($fbDisplay == true){
 		fb($message);
 	}
+
+	error_log($message . "\n", 3, "log");
 }
 
 //global return functions
