@@ -71,7 +71,7 @@ function logger($message, $fbDisplay = false){
 		fb($message);
 	}
 
-	error_log($message . "\n", 3, "log");
+	error_log($message . "\n", 3, "tmp/log");
 }
 
 //global return functions
@@ -146,6 +146,7 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	ob_clean (); //empty output buffer, stuff below is only thing sent
 	die($return);
 }
+
 
 //PATH is (P)HP (A)rrays (T)o (H)TML
 
