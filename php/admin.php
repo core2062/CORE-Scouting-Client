@@ -4,14 +4,14 @@ Requires:
 	subRequest - getTeams, getTeamProfiles...
 */
 
-//get $sessionID
-//TODO: make sessionID getter more robust/low level
+//TODO: make function to limit history (number of years to track teams back to)
 
 function getSessionID(){
-	global $sessionID;
-	global $contents; //so it can be reused in getTeams
+	//TODO: make this more robust/low level & faster
 
-	$year = 2012;//year to get data from
+	global $sessionID;
+	global $year;
+
 	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
 	preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
 	$sessionID = $matches[1];
@@ -19,32 +19,24 @@ function getSessionID(){
 }
 
 if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfiles'){
+	//TODO: make year var more semantic
+	$year = 2012;//year to get data from
 	getSessionID();
 }
 
-switch ($input['subRequest']) {
-case "getTeams": //gets the number & tpid of each team
 
-	//find out how many teams were returned (to determine # of pages) - use same content as sessionID getter
+switch ($input['subRequest']) {
+case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team in that year's competition
+
+	$db->team->remove(array());//clear out database
+
+	//get file to find number of teams
+	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
+
+	//find out how many teams were returned (to determine # of pages)
 	preg_match('/All Areas\s+\((....|...|..|.) found,/', $contents, $matches);
 	$totalTeamsFound = $matches[1];
 
-	$contents = "";//reuse variable below
-
-	//get a bunch of pages from the FIRST site 
-	for($i = 0; $i < ($totalTeamsFound/250); $i++){
-		$url = "https://my.usfirst.org/myarea/index.lasso?page=searchresults&results_size=250&omit_searchform=1&skip_teams=" . $i*250 . "&-session=myarea:" . $sessionID . "#FRC_teams";
-
-		$temp = file_get_contents($url, false);
-
-		//test if below improves regex speed
-		$temp = preg_replace('/<!--(.|\s)*?-->/', '', $temp); //removes comments
-		$temp = preg_replace('/\s+/', ' ',$temp); //removes double spaces, indents, and line breaks
-
-		$contents .= $temp;
-	}
-
-	//process the pages using a regex, to get the tpid (used by FIRST to identify teams) for each team in that year's competition
 	function processTeamEntry($input){//add each team to DB
 		global $db;
 
@@ -64,8 +56,42 @@ case "getTeams": //gets the number & tpid of each team
 		return "";//is this needed or assumed????? & in below
 	}
 
-	$regex = '/<a href="\?page=team_details&tpid=(.....)&amp;-session=myarea:'. $sessionID . '"><b>(....|...|..|.)<\/b><\/a>/';
-	preg_replace_callback($regex, "processTeamEntry", $contents);
+	//get pages from the FIRST site 
+	for($i = 0; $i < ($totalTeamsFound/250); $i++){
+		$filename = "tmp/db/getTeams/" . $year . "-" . $i;
+	
+		if(file_exists($filename)){//check if page is in cache
+			$contents = file_get_contents($filename);
+		} else {
+			$url = "https://my.usfirst.org/myarea/index.lasso?page=searchresults&results_size=250&omit_searchform=1&skip_teams=" . $i*250 . "&-session=myarea:" . $sessionID . "#FRC_teams";
+			$contents = file_get_contents($url, false);//consider replacing with cURL
+
+			//remove crap from files
+			//TODO: test if below improves speed
+			/*
+			$contents = preg_replace('/<!--(.|\s)*?-->/', '', $contents, -1, $replacements); //removes comments
+			fb($replacements);
+			$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
+			fb($replacements);
+			*/
+			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
+			fb($replacements);
+
+			//TODO: find fix and remove the 2 below regex... adding "s" to 2nd regex uses too much memory and = seg fault 
+			$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
+			fb($replacements);
+			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
+			fb($replacements);
+
+			$fp = fopen($filename, "w+");
+			fwrite($fp, $contents);
+			fclose($fp);
+		}
+
+		//question: is it better to run a regex on several small files of one big one
+		$regex = '/<a href="\?page=team_details&tpid=(.....)&amp;-session=myarea:'. $sessionID . '"><b>(....|...|..|.)<\/b><\/a>/';
+		preg_replace_callback($regex, "processTeamEntry", $contents);
+	}
 
 	send_reg(array('message' => 'finished getting the number and tpid of each team'));
 	
@@ -211,7 +237,42 @@ break;
 case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
 
 break;
-case "updateEvents": //update scores/schedule of current or recent events
+case "updateEvents": //update scores/schedule of current or recent events (uses twitter api)
+
+break;
+case "clearTmp": //clear out & rebuild tmp
+/* if not working:
+	sudo chmod -R 775 /var/www/
+	sudo chown -R sean:www-data /var/www/
+*/
+
+//TODO: fix file permissions below
+
+	$cwd = getcwd();
+	system("rm -rf " . $cwd . "/tmp");
+	mkdir($cwd . "/tmp/pages", 0777, true);
+	mkdir($cwd . "/tmp/db/getTeams", 0777, true);
+	mkdir($cwd . "/tmp/db/getTeamProfiles");
+	mkdir($cwd . "/tmp/db/getEvents");
+	mkdir($cwd . "/tmp/db/updateEvents");
+
+	send_reg(array('message' => 'tmp directory is rebuilt'));
+
+break;
+case "clearLog": //clear out log collection in mongoDB
+	
+	$db->log->remove(array());
+	send_reg(array('message' => 'db log is cleared (except for this message)'));
+
+break;
+case "setupDB": //make all the collections / vars needed for the site
+	
+	$db->createCollection("event");
+	$db->createCollection("globalVar");
+	$db->createCollection("log");
+	$db->createCollection("team");
+	$db->createCollection("user");
+	//TODO: finish this function
 
 break;
 default:

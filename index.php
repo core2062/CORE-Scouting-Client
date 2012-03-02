@@ -206,7 +206,7 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 	for ($i = 1; $i < $embeddedLen; ++$i) {
 		$filename .= "," . $embedded[$i];
 	}
-	$filename = 'cache/' . $filename . '-index';
+	$filename = 'tmp/pages/' . $filename . '-index';
 	logger("filename = " . $filename);
 
 

@@ -10,8 +10,20 @@
 			<ul>
 				<li>
 					<label>Update:</label>
-					<button type="button" title="get the TPID and team number for each team" onclick="getTeams()">Get Teams</button>
-					<button type="button" title="get the profiles of all teams (relies on TPIDs)" onclick="getTeamProfiles()">Get Team Profiles</button>
+					<button type="button" title="get the TPID and team number for each team" onclick="adminRequest('getTeams')">Get Teams</button>
+					<button type="button" title="get the profiles of all teams (relies on TPIDs)" onclick="adminRequest('getTeamProfiles')">Get Team Profiles</button>
+				</li>
+			</ul>
+		</fieldset>
+	</li>
+	<li>
+		<fieldset>
+			<legend>Site</legend>
+			<ul>
+				<li>
+					<label>Clean:</label>
+					<button type="button" onclick="adminRequest('clearTmp')">Temporary Files</button>
+					<button type="button" onclick="adminRequest('clearLog')">DB Log</button>
 				</li>
 			</ul>
 		</fieldset>
