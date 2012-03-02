@@ -68,17 +68,14 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 
 			//remove crap from files
 			//TODO: test if below improves speed
-			/*
-			$contents = preg_replace('/<!--(.|\s)*?-->/', '', $contents, -1, $replacements); //removes comments
-			fb($replacements);
-			$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
-			fb($replacements);
-			*/
+
 			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
 			fb($replacements);
 
 			//TODO: find fix and remove the 2 below regex... adding "s" to 2nd regex uses too much memory and = seg fault 
 			$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
+			$contents = preg_replace('/&amp;-session=myarea:'. $sessionID . '"/', "", $contents, -1, $replacements);
+			//&amp;-session=myarea:C77D640507604078D1OjXUqD64EA"
 			fb($replacements);
 			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
 			fb($replacements);
@@ -89,7 +86,7 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		}
 
 		//question: is it better to run a regex on several small files of one big one
-		$regex = '/<a href="\?page=team_details&tpid=(.....)&amp;-session=myarea:'. $sessionID . '"><b>(....|...|..|.)<\/b><\/a>/';
+		$regex = '/<a href="\?page=team_details&tpid=(.....)><b>(....|...|..|.)<\/b><\/a>/';
 		preg_replace_callback($regex, "processTeamEntry", $contents);
 	}
 
