@@ -124,13 +124,15 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 		$events = iterator_to_array($events);
 
-		//if(!empty($events[$obj['_id']]['events'])){
+		if(!empty($events[$obj['_id']]['events'])){
 			$events = $events[$obj['_id']]['events'];//really only need this part
-		//}
+		} else {
+			$events = array();//at this point, the script finds that there was no point in the last ~20 lines
+		}
 		
 		//TODO: make year be integer
 
-		$events[$input[0]][$input[1]]['awards'] = $input['awards'];
+		$events[(int)$input[0]][$input[1]]['awards'] = $input['awards'];
 
 		$db->team->update(
 			array(
@@ -176,7 +178,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		//all those pregs had 1 backreferance, this moves the matches to proper place in array
 		//also decode them
 		foreach ($team as $key => $value) {
-			//TODO: fix issue with undefined index (not deadly)
+			//TODO: fix issue with undefined index (not deadly) ... think it's happening becasuse one of the above wasn't found
 			$team[$key] = $team[$key][1];
 		}
 
