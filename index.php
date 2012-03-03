@@ -1,122 +1,7 @@
 <?php
+
 /*
-	PHP embeds pages based on user id, and popularity of page (can't actually see page hash requested)
-	JS reads hash & searches the page for the sub-page requested
-	if requested page is found, then that is presented, otherwise it is downloaded (from catche or from page.php)
-	page.php takes necessary components to build the page and sends it to JS via AJAX
 
-	all scripts in top directory are to be requested by browser directly, scripts in php directory are referenced by other scripts & cannot be requested by browser
-	
-
-    Official Terms:
-
-    Site: index.php, which acts as the container for all pages
-    Page: a set of sub-pages, and modals within the site (like input, home, or query)
-    Subpage: a piece of a page, only one subpage is displayed at a time
-    Modal: a dialog which gets overlaid on top of the site, some pages require specific modals, and these are sent with the page request
-    Base Page: page components which are needed for more than 1 page, these are embedded on first page request
-    
-	
-	--- main TODO ---
-
-	performance
-		add gzip to server
-		move all js scripts & static resources to cookie-less sub-domain
-		make fonts store in cache
-		use scoutID to determine embedded pages (besides base) - based on most accessed or permissions
-		cache AJAX content (only for pages, not other stuff)
-
-
-	compatibility
-		IE
-			make a kill IE 6 page like http://themeforest.net/item/kill-ie6-template/full_screen_preview/795628
-			make a IE compatible style sheet
-
-		other browsers
-			fix font rendering across browsers - check support for @fontface
-
-		external sites/SEO/other
-			make sure links on facebook contain a nice description of the site
-			make openid / login from other site
-			make a 404 page
-			provide link to github on site???
-
-		durability / reusability
-			make sure highlight color can be changed
-
-	
-	big / general features
-		wiki style editing
-		blue alliance like public side w/ only basic data (data gathering and analysis on member side)
-		allow attachment of videos to matches (low priority - much later)
-		add offline scouting mode for competitions without internet access
-
-		Add analytics to track visitors on page by page basis (and get browser + OS + ip + other stuff)
-			switch to non-hashtag based navagation so php can read it
-			use client side logging (log gets submitted in polling)
-
-
-	minor fixes / add features
-		add color picker, or at least color input to account settings page (for background of site)
-		make signup page hidden when logged in (or just not sent when a valid cookie is given w/ request)
-		make a small drop-down for the nav button that gives the page categories
-		move public analysis to new page - out of analysis???
-		on login, check if training was finished for that page
-		make jGrowl append to top of scrollable box
-
-		store scouting data during error to a cookie
-			attempt to resubmit (ok if it's submitted twice)
-			delete cookie and display jGrowl when sent
-		
-		form / input
-			style
-				fix color of toggle control & maybe add texture like google has
-				add blue shadow to selectbox
-				combine + button into input?
-				add styling for disabled controls
-
-			make + button on keyboard increment && - button on keyboard decrement
-			add tracking for progress of AJAX download - use green bar on progress bar to show download
-			make competition selector on page - use php to fill
-			add code to select boxes for disabling specific options depending on what is selected - probably use "on change"
-
-	consider
-		manual sending of data on error
-			make popup in new window / tab / modal
-				opens a page that retrieves & displays data from the cookie (using base64 encoded js/html)
-				contains instructions on how to save and resubmit data
-				message: paste the saved data into the box, and it will be sent to the database, do not modify the data in anyway or it will fail upon detecting out of range, or mis-formatted data. If it is not possible to send it from this computer... contact me/send it to me.
-			or make it open modal with instructions to save link as (demo in untitled.html)
-			make a "upload direct button" in input (and a corresponding modal) to let people send data in json manually
-			make it work for blank scoutid / logout / other stuff???
-
-
-	unsorted junk
-		add check to php for duplicate data (in case of 2x submission)
-		make submit button disabled after sending (add class disabled?), until next error check is run (or something that prevents 2X clicking)
-		or make button disable at start of script and re-enable at end
-		make submit button disabled when form is blank
-
-		
-
-		if scouting entry matches a existing entry in some categories, but other areas of the original entry are blank, fill in blanks (used to pre-fill match robots & match numbers.
-
-		if there is something that doesn't match (but match numbers are the same) then write the parts that don't match to a error field (and affects error count)
-
-		above things are about compiled database table, in normal submit, data is written to row, no checking is done, blank fields are ignored. each row is a separate entry, even if they are duplicates.
-		in complied table, all entries are searched and formed into a final table, all errors sorted out. 1 match in each row.
-
-		scouting 
-			pickup balls from wall or bridge
-			printout sheet - summary of alliance competing against
-				log of important events (like robot dieing during match)
-
-		Data analysis: select / load data group -> show in graph, editable
-		Compare teams
-		Compare strategies
-			http://tablesorter.com/docs/
-			http://tablesorter.com/docs/example-pager.html
-		use JSON to send array for table data or graph data (format with client side JS)
 */
 
 $place = 'index.php';
@@ -124,6 +9,98 @@ $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
 require_once 'php/general.php';
+
+
+
+
+
+
+
+
+
+
+fb("start");
+
+	//general
+	$db->createCollection("user");
+
+	$db->user->insert(
+		array(
+			"_id"=> "admin",
+			"permission"=> 9,
+			"token"=> "",
+
+			"info"=> array(
+				"fName"=> "Sean",
+				"lName"=> "Lang",
+				"team"=> 2062
+			),
+
+			"prefs"=> array(
+				"fade"=> true,
+				"verbose"=> true
+			),
+
+			"account"=> array(
+				"pword"=> "superpass",
+				"email"=> "slang800@gmail.com"
+			),
+
+			"stats"=> array(
+				"ip"=> "",
+				"logintime"=> 0
+			),
+
+			"opt"=> array(
+				"zip"=> 0,
+				"browser"=> "Firefox",
+				"gender"=> "m"
+			)
+		)
+	);
+
+	$db->createCollection("log");
+	$db->createCollection("globalVar");
+
+	$db->globalVar->insert(
+		array(
+			"_id" => "since_id",//for updateFMS (used while interacting with twitter)
+			"value" => 0
+		)
+	);
+
+	$db->globalVar->insert(
+		array(
+			"_id" => "devMode",//sets global devMode, if true, will override local devMode (in index.php)
+			"value" => false
+		)
+	);
+
+
+	//compiled collections
+	$db->createCollection("compiledEvent");
+	$db->createCollection("compiledTeam");
+
+
+	//source collections
+	$db->createCollection("sourceScouting");
+	$db->createCollection("sourceFMS");
+	$db->createCollection("sourceTeamInfo");
+	$db->createCollection("sourceEventInfo");
+	
+
+
+
+fb("start");
+
+
+
+
+
+
+
+
+
 
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
@@ -140,8 +117,13 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 	//check if dev mode is set (dev mode disables obfuscation / minification & caching)
 	if (isset($_GET['dev'])) {
 		$input['devMode'] = true;
-		$disableCache = true;
-		//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
+	} else {//check for global devMode
+		$input['devMode'] = globalVar('devMode');
+		fb(globalVar('devMode'));
+	}
+
+	if($input['devMode'] == true){
+		$disableCache = true;//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
 		logger('dev mode enabled');
 	}
 
