@@ -6,19 +6,22 @@ Requires:
 
 //TODO: make function to limit history (number of years to track teams back to)
 
-function getSessionID(){
-	//TODO: make this more robust/low level & faster
-
-	global $sessionID;
-	global $year;
-
-	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
-	preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
-	$sessionID = $matches[1];
-	logger("got/updated session key");
-}
+$vars['devMode'] = globalVar('devMode');
 
 if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfiles'){
+	function getSessionID(){
+		//TODO: make this more robust/low level & faster
+
+		global $sessionID;
+		global $year;
+
+		$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
+		preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
+		$sessionID = $matches[1];
+		logger("got/updated session key");
+	}
+
+
 	//TODO: make year var more semantic
 	$year = 2012;//year to get data from
 	getSessionID();
@@ -26,9 +29,9 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 
 
 switch ($input['subRequest']) {
-case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team in that year's competition
+case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
 
-	$db->team->remove(array());//clear out database
+	$db->sourceTeamInfo->remove(array());//clear out sourceTeamInfo
 
 	//get file to find number of teams
 	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
@@ -37,10 +40,10 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 	preg_match('/All Areas\s+\((....|...|..|.) found,/', $contents, $matches);
 	$totalTeamsFound = $matches[1];
 
-	function processTeamEntry($input){//add each team to DB
+	function processTPID($input){//add each team to DB
 		global $db;
 
-		$db->team->update(
+		$db->sourceTeamInfo->update(
 			array(
 				"_id" => (int)$input[2]
 			),
@@ -56,11 +59,11 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		return "";//is this needed or assumed????? & in below
 	}
 
-	//get pages from the FIRST site 
+	//get team list pages from the FIRST site 
 	for($i = 0; $i < ($totalTeamsFound/250); $i++){
-		$filename = "tmp/db/getTeams/" . $year . "-" . $i;
+		$filename = "tmp/db/getTPIDs/" . $year . "-" . $i;
 	
-		if(file_exists($filename)){//check if page is in cache
+		if(file_exists($filename) && $vars['devMode']){//check if page is in cache (caching is disabled if not in dev mode)
 			$contents = file_get_contents($filename);
 		} else {
 			$url = "https://my.usfirst.org/myarea/index.lasso?page=searchresults&results_size=250&omit_searchform=1&skip_teams=" . $i*250 . "&-session=myarea:" . $sessionID . "#FRC_teams";
@@ -68,38 +71,40 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 
 			//remove crap from files
 			//TODO: test if below improves speed
-
 			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
-			fb($replacements);
 
 			//TODO: find fix and remove the 2 below regex... adding "s" to 2nd regex uses too much memory and = seg fault 
 			$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
 			$contents = preg_replace('/&amp;-session=myarea:'. $sessionID . '"/', "", $contents, -1, $replacements);
 			//&amp;-session=myarea:C77D640507604078D1OjXUqD64EA"
-			fb($replacements);
-			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
-			fb($replacements);
 
-			$fp = fopen($filename, "w+");
-			fwrite($fp, $contents);
-			fclose($fp);
+			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
+
+
+			if($vars['devMode']){
+				$fp = fopen($filename, "w+");
+				fwrite($fp, $contents);
+				fclose($fp);
+			}
 		}
 
 		//question: is it better to run a regex on several small files of one big one
 		$regex = '/<a href="\?page=team_details&tpid=(.....)><b>(....|...|..|.)<\/b><\/a>/';
-		preg_replace_callback($regex, "processTeamEntry", $contents);
+		preg_replace_callback($regex, "processTPID", $contents);
 	}
 
-	send_reg(array('message' => 'finished getting the number and tpid of each team'));
-	
-break;
-case "getTeamProfiles": //get profiles of each team. requires a tpid for each team
-	ini_set('max_execution_time', 90); //this script needs extra time ?????
-	//TODO: is above needed
+	logger('finished getting the number and tpid of each team');
 
-	$cursor = $db->team->find()->sort(array("_id" => 1));
 
-	//define the function - actually get used at end of team-get 
+
+	//team profile getter
+
+	ini_set('max_execution_time', 120); //this script needs extra time
+
+
+	//read TPIDs that were just processed
+	$cursor = $db->sourceTeamInfo->find()->sort(array("_id" => 1));
+
 	function processEvent($input){//add each team to DB
 		global $db;
 		global $obj;
@@ -136,7 +141,7 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 
 		//finally add to DB
 		//TODO: find faster way to do this (w/out copying and re-adding)
-		$events = $db->team->find(
+		$events = $db->sourceTeamInfo->find(
 			array(
 				'_id' => $obj['_id']
 			),
@@ -150,14 +155,14 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		if(!empty($events[$obj['_id']]['events'])){
 			$events = $events[$obj['_id']]['events'];//really only need this part
 		} else {
-			$events = array();//at this point, the script finds that there was no point in the last ~20 lines
+			$events = array();//if the team has no events entered yet
 		}
 		
 		//TODO: make year be integer
 
 		$events[(int)$input[0]][$input[1]]['awards'] = $input['awards'];
 
-		$db->team->update(
+		$db->sourceTeamInfo->update(
 			array(
 				"_id" => $obj['_id']
 			),
@@ -176,19 +181,38 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 	//TODO: switch to seperate processes to built cache of pages to process & then extract data (low priority)
 	foreach($cursor as $obj){
 
-		if($count > 200){
-			getSessionID();
-			$count = 0;
-		}
+		
 
 		logger('getting team:' . $obj['_id']);
 
-		$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
-		$contents = file_get_contents($url, false);//TODO: add way to re-try if connection times out 
+		$filename = "tmp/db/getTeamProfiles/" . $obj['_id'];
 
-		$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..(?:.)?%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments double spaces, indents, line breaks, and other crap
-		$contents = preg_replace('/\s+/', ' ',$contents); //removes 
+		if(file_exists($filename) && $vars['devMode']){//check if page is in cache (caching is disabled if not in dev mode)
+			$contents = file_get_contents($filename);
+		} else {
+			if($count > 200){
+				getSessionID();
+				$count = 0;
+			}
+			$count++;
 
+			$url = "https://my.usfirst.org/myarea/index.lasso?page=team_details&tpid=" . $obj['meta']['tpid'] . "&-session=myarea:" . $sessionID;
+			//TODO: add way to re-try if connection times out 
+			$contents = file_get_contents($url, false);//consider replacing with cURL
+
+			//remove crap from files
+			//TODO: test if below improves speed
+			$contents = preg_replace('/(?:(v)?align="[a-z]*"|nowrap|bgcolor="#......"|width="..(?:.)?%"|<!--(.|\s)*?-->)/', '', $contents); //removes comments, and other crap
+			$contents = preg_replace('/\s+/', ' ',$contents); //removes spaces
+
+			if($vars['devMode']){
+				$fp = fopen($filename, "w+");
+				fwrite($fp, $contents);
+				fclose($fp);
+			}
+		}
+
+		//get basic team info
 		preg_match("/<td >Team Name<\/td> <td>([^<>]*)<\/td>/", $contents, $team['name']);
 		preg_match("/<td >Team Location<\/td> <td>([^<>]*)<\/td>/", $contents, $team['location']);
 		preg_match("/<td >Rookie Season<\/td> <td>(....)<\/td>/", $contents, $team['rookieYear']);
@@ -201,8 +225,13 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		//all those pregs had 1 backreferance, this moves the matches to proper place in array
 		//also decode them
 		foreach ($team as $key => $value) {
-			//TODO: fix issue with undefined index (not deadly) ... think it's happening becasuse one of the above wasn't found
-			$team[$key] = $team[$key][1];
+
+			if(!empty($team[$key][1])){//fixes issue with undefined index... happens becasuse one of the above wasn't found
+				$team[$key] = $team[$key][1];
+			} else {
+				$team[$key] = '';
+			}
+			
 		}
 
 		settype($team['rookieYear'], "int");
@@ -212,7 +241,8 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 		$team['nickname'] = utf8_encode(html_entity_decode($team['nickname']));
 		$team['motto'] = utf8_encode(html_entity_decode($team['motto']));
 
-		$db->team->update(
+		//insert basic data
+		$db->sourceTeamInfo->update(
 			array(
 				"_id" => $obj['_id']
 			),
@@ -224,12 +254,12 @@ case "getTeamProfiles": //get profiles of each team. requires a tpid for each te
 			true
 		);
 
+		//get events & input them
 		preg_replace_callback("/<tr > <td >([^<>]*)<\/td> <td >([^<>]*)<\/td> <td >((?:[^<>]*|<br \/>|<(?:\/)?i>)*)<\/td> <\/tr>/", "processEvent", $contents);
-
-		$count++;
 	}
 
-	send_reg(array('message' => 'finished getting team profiles'));
+	send_reg(array('message' => 'finished getting team info'));
+
 break;
 case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
 
@@ -248,7 +278,8 @@ case "clearTmp": //clear out & rebuild tmp
 	$cwd = getcwd();
 	system("rm -rf " . $cwd . "/tmp");
 	mkdir($cwd . "/tmp/pages", 0777, true);
-	mkdir($cwd . "/tmp/db/getTeams", 0777, true);
+	mkdir($cwd . "/tmp/backup");
+	mkdir($cwd . "/tmp/db/getTPIDs", 0777, true);
 	mkdir($cwd . "/tmp/db/getTeamProfiles");
 	mkdir($cwd . "/tmp/db/getEvents");
 	mkdir($cwd . "/tmp/db/updateEvents");
@@ -262,72 +293,16 @@ case "clearLog": //clear out log collection in mongoDB
 	send_reg(array('message' => 'db log is cleared (except for this message)'));
 
 break;
-case "resetDB": //make all the collections / vars needed for the site
-	
-	//general
-	$db->createCollection("user");
+case "resetDB": //make all the collections / vars needed for the site and remove current
 
-	$db->globalVar->insert(
-		array(
-			"_id"=> "admin",
-			"permission"=> 9,
-			"token"=> "",
+	//TODO: finish & add stuff to empty db (and maybe export into a backup in temp)
+	require_once "php/admin/resetDB.php";
 
-			"info"=> array(
-				"fName"=> "Sean",
-				"lName"=> "Lang",
-				"team"=> 2062
-			),
+break;
+case "backupDB": //copy DB to file in tmp/backup
 
-			"prefs"=> array(
-				"fade"=> true,
-				"verbose"=> true
-			),
+	//TODO: finish
 
-			"account"=> array(
-				"pword"=> "superpass",
-				"email"=> "slang800@gmail.com"
-			),
-
-			"stats"=> array(
-				"ip"=> "",
-				"logintime"=> 0
-			),
-
-			"opt"=> array(
-				"zip"=> 0,
-				"browser"=> "Firefox",
-				"gender"=> "m"
-			)
-		)
-	);
-
-	$db->createCollection("log");
-	$db->createCollection("globalVar");
-
-	$db->globalVar->insert(
-		array(
-			"_id" => "since_id",//for updateFMS (used while interacting with twitter)
-			"value" => 0
-		),
-		array(
-			"_id" => "devMode",//sets global devMode, if true, will override local devMode (in index.php)
-			"value" => false
-		)
-	);
-
-
-	//compiled collections
-	$db->createCollection("compiledEvent");
-	$db->createCollection("compiledTeam");
-
-
-	//source collections
-	$db->createCollection("sourceScouting");
-	$db->createCollection("sourceFMS");
-	$db->createCollection("sourceTeamInfo");
-	$db->createCollection("sourceEventInfo");
-	
 break;
 default:
 	send_error('invalid subRequest');

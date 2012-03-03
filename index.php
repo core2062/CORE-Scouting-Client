@@ -1,106 +1,12 @@
 <?php
 
-/*
-
-*/
-
 $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
 require_once 'php/general.php';
 
-
-
-
-
-
-
-
-
-
-fb("start");
-
-	//general
-	$db->createCollection("user");
-
-	$db->user->insert(
-		array(
-			"_id"=> "admin",
-			"permission"=> 9,
-			"token"=> "",
-
-			"info"=> array(
-				"fName"=> "Sean",
-				"lName"=> "Lang",
-				"team"=> 2062
-			),
-
-			"prefs"=> array(
-				"fade"=> true,
-				"verbose"=> true
-			),
-
-			"account"=> array(
-				"pword"=> "superpass",
-				"email"=> "slang800@gmail.com"
-			),
-
-			"stats"=> array(
-				"ip"=> "",
-				"logintime"=> 0
-			),
-
-			"opt"=> array(
-				"zip"=> 0,
-				"browser"=> "Firefox",
-				"gender"=> "m"
-			)
-		)
-	);
-
-	$db->createCollection("log");
-	$db->createCollection("globalVar");
-
-	$db->globalVar->insert(
-		array(
-			"_id" => "since_id",//for updateFMS (used while interacting with twitter)
-			"value" => 0
-		)
-	);
-
-	$db->globalVar->insert(
-		array(
-			"_id" => "devMode",//sets global devMode, if true, will override local devMode (in index.php)
-			"value" => false
-		)
-	);
-
-
-	//compiled collections
-	$db->createCollection("compiledEvent");
-	$db->createCollection("compiledTeam");
-
-
-	//source collections
-	$db->createCollection("sourceScouting");
-	$db->createCollection("sourceFMS");
-	$db->createCollection("sourceTeamInfo");
-	$db->createCollection("sourceEventInfo");
-	
-
-
-
-fb("start");
-
-
-
-
-
-
-
-
-
+//TODO: add function to check if db is setup (can be commented out later)
 
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
@@ -111,19 +17,19 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 
 //options
 	//defaults
-	$disableCache = false;
-	$input['devMode'] = false;
+	$vars['disableCache'] = false;
+	$vars['devMode'] = false;
 
 	//check if dev mode is set (dev mode disables obfuscation / minification & caching)
 	if (isset($_GET['dev'])) {
-		$input['devMode'] = true;
+		$vars['devMode'] = true;
 	} else {//check for global devMode
-		$input['devMode'] = globalVar('devMode');
+		$vars['devMode'] = globalVar('devMode');
 		fb(globalVar('devMode'));
 	}
 
-	if($input['devMode'] == true){
-		$disableCache = true;//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
+	if($vars['devMode'] == true){
+		$vars['disableCache'] = true;//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
 		logger('dev mode enabled');
 	}
 
@@ -162,7 +68,7 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 				$pages[1]['embedded'] = true;//show admin page
 				$pages[1]['hidden'] = false;
 				logger("admin page loaded");
-				$disableCache = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
+				$vars['disableCache'] = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
 			}
 		}
 	}
@@ -192,7 +98,7 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 	logger("filename = " . $filename);
 
 
-if (file_exists($filename) == true && $disableCache == false){//also, check if cache has been disabled
+if (file_exists($filename) == true && $vars['disableCache'] == false){//also, check if cache has been disabled
 
 	//function to check if files have been modified
 	function cacheCheck() {
@@ -379,7 +285,7 @@ function embed($folder, $extension) {
 $html = ob_get_contents();
 ob_clean();//fix to prevent send_reg from putting the entire page in the log
 
-if ($input['devMode'] == false) {
+if ($vars['devMode'] == false) {
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
 	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags (this causes some weird issues)
@@ -403,7 +309,7 @@ for ($i = 0; $i < $embeddedLen; ++$i) {
 	}
 }
 
-if ($input['devMode'] == false){
+if ($vars['devMode'] == false){
 	$javascript = JSMinPlus::minify($javascript);
 }
 
@@ -415,7 +321,7 @@ $html .= $javascript . '</script></body></html>';
 $html = trim($html);
 
 //cache data to temporary file (unless it is disabled)
-if($disableCache == false){
+if($vars['disableCache'] == false){
 	$fp = fopen($filename, "w+");
 	fwrite($fp, $html);
 	fclose($fp);
