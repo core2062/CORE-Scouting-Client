@@ -78,16 +78,13 @@ function logger($message, $fbDisplay = false){
 function globalVar($name){//consider adding ability to set var here too
 	global $db;
 
-	$return = $db->globalVars->findOne(
+	$return = $db->globalVar->findOne(
 		array(
 			'_id' => $name
-		),
-		array(
-			'value' => 1
 		)
 	);
 
-	return $return;
+	return $return['value'];
 }
 
 //global return functions
