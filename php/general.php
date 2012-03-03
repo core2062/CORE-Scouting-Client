@@ -75,6 +75,21 @@ function logger($message, $fbDisplay = false){
 	error_log($message . ", at " . $duration . "\n", 3, "tmp/log");
 }
 
+function globalVar($name){//consider adding ability to set var here too
+	global $db;
+
+	$return = $db->globalVars->findOne(
+		array(
+			'_id' => $name
+		),
+		array(
+			'value' => 1
+		)
+	);
+
+	return $return;
+}
+
 //global return functions
 function send_error($error_text, $error = '', $script = ''){
 	global $db;
