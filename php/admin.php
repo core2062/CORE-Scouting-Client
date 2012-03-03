@@ -181,8 +181,6 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 	//TODO: switch to seperate processes to built cache of pages to process & then extract data (low priority)
 	foreach($cursor as $obj){
 
-		
-
 		logger('getting team:' . $obj['_id']);
 
 		$filename = "tmp/db/getTeamProfiles/" . $obj['_id'];
@@ -264,8 +262,59 @@ break;
 case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
 
 break;
-case "updateEvents": //update scores/schedule of current or recent events (uses twitter api)
+case "updateFMS": //update scores/schedule of current or recent events (uses twitter)
+	$since_id = globalVar('since_id');
+	$fmsFiltered = array();
 
+	for($i = 1; $i < (3200/200); $i++){
+		$filename = "tmp/db/updateFMS/" . $i;
+
+		logger('getting page ' . $i);
+
+		logger($filename);
+		logger(file_exists($filename));
+		logger($vars['devMode']);
+
+		if(file_exists($filename) && $vars['devMode']){//check if page is in cache (caching is disabled if not in dev mode)
+			logger('getting from cache');
+
+			$fmsFeed = file_get_contents($filename);
+		} else {
+			logger('getting from twitter');
+
+			$fmsFeed = file_get_contents('http://twitter.com/statuses/user_timeline/frcfms.json?since_id=' . $since_id);
+			$fmsFeed = json_decode($fmsFeed);
+
+			if($vars['devMode']){
+				$fp = fopen($filename, "w+");
+				fwrite($fp, $fmsFeed);
+				fclose($fp);
+			}
+		}
+
+		if($fmsFeed == '[]'){
+			logger('reached end of loop (page was blank)');
+			break;
+		}
+
+		foreach($fmsFeed as $obj){//$i = 0; $i > $len; $i++
+			$fmsFiltered[] = $obj->text;
+
+			logger($obj->text);
+
+			if($obj->id > $since_id){
+				$since_id = $obj->id;
+			}
+		}
+	}
+
+	$since_id = 0;//remove later
+		
+	globalVar('since_id', $since_id);
+
+	fb($fmsFiltered);
+
+	send_reg(array('message' => 'finished updating FMS'));
 break;
 case "clearTmp": //clear out & rebuild tmp
 /* if not working:
@@ -282,7 +331,7 @@ case "clearTmp": //clear out & rebuild tmp
 	mkdir($cwd . "/tmp/db/getTPIDs", 0777, true);
 	mkdir($cwd . "/tmp/db/getTeamProfiles");
 	mkdir($cwd . "/tmp/db/getEvents");
-	mkdir($cwd . "/tmp/db/updateEvents");
+	mkdir($cwd . "/tmp/db/updateFMS");
 
 	send_reg(array('message' => 'tmp directory is rebuilt'));
 

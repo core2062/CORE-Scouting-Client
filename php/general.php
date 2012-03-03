@@ -75,14 +75,27 @@ function logger($message, $fbDisplay = false){
 	error_log($message . ", at " . $duration . "\n", 3, "tmp/log");
 }
 
-function globalVar($name){//consider adding ability to set var here too
+function globalVar($name, $update = null){//consider adding ability to set var here too
 	global $db;
 
-	$return = $db->globalVar->findOne(
-		array(
-			'_id' => $name
-		)
-	);
+	if(!isset($update)){
+		$return = $db->globalVar->findOne(
+			array(
+				'_id' => $name
+			)
+		);
+	} else {
+		$return = $db->globalVar->update(
+			array(
+				'_id' => $name
+			),
+			array(
+				'$set' => array(
+					'value' => $update
+				)
+			)
+		);
+	}
 
 	return $return['value'];
 }
