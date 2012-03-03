@@ -64,14 +64,15 @@ function logger($message, $fbDisplay = false){
 	global $starttime;
 
 	list($micro, $sec) = explode(" ",microtime());
+	$duration = (float)$sec + (float)$micro - $starttime;
 
-	$log[] = array($message, (float)$sec + (float)$micro - $starttime);
+	$log[] = array($message, $duration);
 
 	if($fbDisplay == true){
 		fb($message);
 	}
 
-	error_log($message . "\n", 3, "tmp/log");
+	error_log($message . ", at " . $duration . "\n", 3, "tmp/log");
 }
 
 //global return functions
@@ -90,7 +91,7 @@ function send_error($error_text, $error = '', $script = ''){
 
 	if ($error == ""){$error = $error_text;}
 
-	logger(ob_get_contents());
+	logger("script ended, output buffer=" . ob_get_contents());
 
 	$db->log->insert(
 		array(
@@ -124,7 +125,7 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	global $type;
 	global $place;
 
-	logger(ob_get_contents());
+	logger("script ended, output buffer=" . ob_get_contents());
 
 	$db->log->insert(
 		array(
