@@ -266,7 +266,7 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 	$since_id = globalVar('since_id');
 	$fmsFiltered = array();
 
-	for($i = 1; $i < (3200/200); $i++){
+	for($i = 1; $i < 17; $i++){
 		$filename = "tmp/db/updateFMS/" . $i;
 
 		logger('getting page ' . $i);
@@ -283,7 +283,6 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 			logger('getting from twitter');
 
 			$fmsFeed = file_get_contents('http://twitter.com/statuses/user_timeline/frcfms.json?since_id=' . $since_id);
-			$fmsFeed = json_decode($fmsFeed);
 
 			if($vars['devMode']){
 				$fp = fopen($filename, "w+");
@@ -297,15 +296,51 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 			break;
 		}
 
+		$fmsFeed = json_decode($fmsFeed, true);
+
+		fb($fmsFeed);
+
 		foreach($fmsFeed as $obj){//$i = 0; $i > $len; $i++
-			$fmsFiltered[] = $obj->text;
+			$fmsFiltered[] = $obj['text'];
 
-			logger($obj->text);
-
-			if($obj->id > $since_id){
-				$since_id = $obj->id;
+			if($obj['id'] > $since_id){
+				$since_id = $obj['id'];
 			}
 		}
+	}
+
+	$len = count($fmsFiltered);
+	for($i = 0; $i < $len; $i++){
+		//#FRCArchimedes TY Q MC 100 RF 320 BF 410 RA 1234 5678 8900 BA 1234 5678 8900 RB 10 BB 10 RFP 0 BFP 0 RHS 0 BHS 0 RTS 0 BTS 0 CP 0
+		preg_match('/#FRC([^\s]*)/', $fmsFiltered[$i], $info['eventCode']);
+		preg_match('/TY (.)/', $fmsFiltered[$i], $info['matchType']);
+		preg_match('/MC ([0-9]*)/', $fmsFiltered[$i], $info['matchNumber']);
+
+		preg_match('/RF ([0-9]*)/', $fmsFiltered[$i], $info['redFinalScore']);
+		preg_match('/BF ([0-9]*)/', $fmsFiltered[$i], $info['blueFinalScore']);
+		preg_match('/RF ([0-9]*)/', $fmsFiltered[$i], $info['matchNumber']);
+
+
+		foreach ($info as $key => $value) {
+			if(!empty($info[$key][1])){//fixes issue with undefined index... happens becasuse one of the above wasn't found
+				$info[$key] = $info[$key][1];
+			} else {
+				$info[$key] = '';
+			}
+		}
+
+		$db->sourceTeamInfo->update(
+			array(
+				"_id" => $obj['id']
+			),
+			array(
+				'$set' => array(
+					'data' => $info
+				)
+			),
+			true
+		);
+
 	}
 
 	$since_id = 0;//remove later
