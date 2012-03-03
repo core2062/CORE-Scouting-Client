@@ -264,12 +264,68 @@ case "clearLog": //clear out log collection in mongoDB
 break;
 case "setupDB": //make all the collections / vars needed for the site
 	
-	$db->createCollection("event");
-	$db->createCollection("globalVar");
-	$db->createCollection("log");
-	$db->createCollection("team");
+	//general
 	$db->createCollection("user");
-	//TODO: finish this function
+
+	$db->globalVar->insert(
+		array(
+			"_id"=> "admin",
+			"permission"=> 9,
+			"token"=> "",
+
+			"info"=> array(
+				"fName"=> "Sean",
+				"lName"=> "Lang",
+				"team"=> 2062
+			),
+
+			"prefs"=> array(
+				"fade"=> true,
+				"verbose"=> true
+			),
+
+			"account"=> array(
+				"pword"=> "superpass",
+				"email"=> "slang800@gmail.com"
+			),
+
+			"stats"=> array(
+				"ip"=> "",
+				"logintime"=> 0
+			),
+
+			"opt"=> array(
+				"zip"=> 0,
+				"browser"=> "Firefox",
+				"gender"=> "m"
+			)
+		)
+	);
+
+	$db->createCollection("log");
+	$db->createCollection("globalVar");
+
+	$db->globalVar->insert(
+		array(
+			"_id" => "since_id",
+			"value" => 0
+		)
+	);
+
+
+	//compiled collections
+	$db->createCollection("compiledEvent");
+	$db->createCollection("compiledTeam");
+
+
+	//source collections
+	$db->createCollection("sourceScouting");
+	$db->createCollection("sourceFMS");
+	$db->createCollection("sourceTeamInfo");
+	$db->createCollection("sourceEventInfo");
+	
+
+
 
 break;
 default:
