@@ -109,6 +109,14 @@
 						<option value="sucessful">Successful</option>
 					</select>
 				</li>
+				<li>
+					<label for="robotsBalancing"># of Robots on Bridge:</label>
+					<select id="robotsBalancing" size="1" data-placeholder="Action" style="width:125px;" tabindex="1">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+					</select>
+				</li>
 				<!-- human player successful -->
 				<!-- balance successful or attempted -->
 			</ul>
@@ -119,6 +127,26 @@
 <!-- Alliance -->
 <ul class="alliance-c" style="display:none">
 
+	<li>
+		<fieldset style="min-width:300px;">
+			<legend>Tracking</legend>
+			<ul>
+				<canvas id="canvas" onclick="canvasClick(event)"></canvas>
+				<div id="scoreContainer">
+					<button id="top" onclick="scoreSelect('top')">top</button>
+					<button id="middle" onclick="scoreSelect('middle')">middle</button>
+					<button id="bottom" onclick="scoreSelect('bottom')">bottom</button>
+				</div>
+				<br/>
+				<div id="typeContainer">
+					<button id="pickup" onclick="typeSelect('pickup')">pickup</button>
+					<button id="shoot" onclick="typeSelect('shoot')">shoot</button>
+				</div>
+				<br/>
+				<button style="float:right; margin: 5px; margin-right: -15px;" onclick="addEntry()">Submit</button>
+			</ul>
+		</fieldset>
+	</li>
 </ul>
 
 
