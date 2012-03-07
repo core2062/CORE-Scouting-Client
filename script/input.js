@@ -33,23 +33,32 @@ var input = {
 	"matchNum": {
 		"categories": ["r", "a"]
 	},
+	"matchType": {
+		"categories": ["r", "a"]
+	},
 	"teamNum": {
-		"categories": ["r", "a", "p"]
+		"categories": ["r", "a"]
+	},
+	"pitTeamNum": {//this is really just a pain
+		"categories": ["p"]
 	},
 	"allianceColor": {
-		"categories": ["r"]
+		"categories": ["r","a"]
 	},
 	"wasDisabled": {
-		"categories": ["r", "a"]
+		"categories": ["r"]
 	},
 	"redCard": {
-		"categories": ["r", "a"]
+		"categories": ["r"]
 	},
 	"bridge": {
-		"categories": ["r", "a"]
+		"categories": ["r"]
+	},
+	"robotsBalancing": {
+		"categories": ["r"]
 	},
 	"bump": {
-		"categories": ["r", "a"]
+		"categories": ["r"]
 	}
 };
 
@@ -75,7 +84,7 @@ function getValues(){
 */
 
 function submitData(){
-	var submit = [];
+	var submit = {};
 
 	for(var i in input){
 		if(input[i].categories.has(current.subpage.charAt(0))){
@@ -83,14 +92,24 @@ function submitData(){
 		}
 	}
 
+	if(current.subpage.charAt(0) == 'a'){
+		submit.trackingInputs = trackingInputs;
+	}
+
+	if(current.subpage.charAt(0) == 'p'){
+		submit.teamNum = submit.pitTeamNum;
+		delete submit.pitTeamNum;
+	}
+
 	console.log(submit);
 
 	//submit.push('"' + i + '": "' + inputValue[i].value + '"');
 
+console.log($.toJSON(submit));
+	submit = '{"request": "input", "inputType": "' + current.subpage + '", "data": ' + $.toJSON(submit) + '}';
+	console.log(submit);
 
-	//submit = '{"request": "input", "inputType": "' + current.subpage + '", "data": {' + submit.join(', ') + '}}';
-
-	//post('process.php', submit);
+	post('process.php', submit);
 }
 
 function increase(elementid){
@@ -129,17 +148,17 @@ function errorcheck(){
 }
 
 function clearinputs(){
-	if (currentpage == 'robot') {
+	if (current.subpage == 'robot') {
 		inputspossible = 6;
 
 		// TODO clear input code
 
-	} else if (currentpage == 'human') {
+	} else if (current.subpage == 'human') {
 		inputspossible = 6;
 
 		//clear input code
 
-	} else if (currentpage == 'pit') {
+	} else if (current.subpage == 'pit') {
 		inputspossible = 6;
 
 		//clear input code
@@ -153,3 +172,104 @@ function clearinputs(){
 	document.getElementById('Comments').innerHTML = '';
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
 }
+
+//tracking (canvas input stuff)
+		
+	function typeSelect(typeOfEntry){
+		currentEntry.type = typeOfEntry;
+		document.getElementById(typeOfEntry).className = "selected";
+	
+		if(typeOfEntry == 'pickup'){
+			document.getElementById('top').disabled = true;
+			document.getElementById('middle').disabled = true;
+			document.getElementById('bottom').disabled = true;
+
+			document.getElementById('top').className = "";
+			document.getElementById('middle').className = "";
+			document.getElementById('bottom').className = "";
+		} else {//shoot
+			document.getElementById('top').disabled = false;
+			document.getElementById('middle').disabled = false;
+			document.getElementById('bottom').disabled = false;
+		}
+		
+		document.getElementById('pickup').className = "";
+		document.getElementById('shoot').className = "";
+		document.getElementById(typeOfEntry).className = "selected";
+	}
+	
+	function canvasClick(e){
+		console.log(e.clientX);
+		currentEntry.xCoord = e.clientX-$('#canvas').offset().left;
+		
+		console.log(e.clientY);
+		currentEntry.yCoord = e.clientY-$('#canvas').offset().top;
+		
+		canvas.drawImage(img, 0, 0, 300, 150);//redraw image
+		
+		canvas.beginPath();
+		canvas.arc(currentEntry.xCoord, currentEntry.yCoord, 10, 0, Math.PI*2, false);
+		canvas.closePath();
+		canvas.fillStyle = "#000";
+		canvas.fill();
+	}
+	
+	function scoreSelect(typeOfScore){
+		if(document.getElementById(typeOfScore).disabled === true){
+			return;
+		}
+
+		document.getElementById('top').className = "";
+		document.getElementById('middle').className = "";
+		document.getElementById('bottom').className = "";
+
+		if(typeOfScore == currentEntry.score){
+
+			typeOfScore = "";//clicking on already selected button deselects it
+			currentEntry.score = "";
+
+		} else {
+
+			currentEntry.score = typeOfScore;
+			document.getElementById(typeOfScore).className = "selected";
+
+		}
+
+		console.log(currentEntry);
+		
+	}
+
+	var trackingInputs = [];
+
+	function addEntry(){
+		trackingInputs.push(currentEntry);
+
+		canvas.drawImage(img, 0, 0, 300, 150);//redraw image
+
+		currentEntry = {
+			type: "pickup",//pickup/shoot
+			xCoord: 0,
+			yCoord: 0,
+			score: ""//top/middle/bottom
+		};
+
+		typeSelect('pickup');
+	}
+	
+var img = new Image();
+var canvas = document.getElementById('canvas').getContext('2d');
+img.src = "img/field.png";
+
+img.onload = function(){
+	canvas.drawImage(img, 0, 0, 300, 150);
+};
+	
+var currentEntry = {
+	type: "pickup",//pickup/shoot
+	xCoord: 0,
+	yCoord: 0,
+	score: ""//top/middle/bottom
+};
+
+typeSelect('pickup');
+

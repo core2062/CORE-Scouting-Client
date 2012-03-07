@@ -176,13 +176,9 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 
 //PATH is (P)HP (A)rrays (T)o (H)TML
 
-$selfClosingTags = array('img','br');
+$selfClosingTags = ['img','br'];
 
 function path($array){
-	if(!is_array($array)){//temporary support for converting text to array to support non-PHP 5.4
-		//TODO: add this w/ regex
-	}
-
 	if(isset($innerHTML)){
 		echo "\n ---echo: " . $innerHTML;
 	}
