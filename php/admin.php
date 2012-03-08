@@ -398,6 +398,7 @@ case "compile": //clear out log collection in mongoDB
 	//OPR Calculations
 
 	$teamMatchups = [];
+	$teamScores = [];
 
 	$cursor = $db->sourceFMS->find();
 
@@ -408,33 +409,61 @@ case "compile": //clear out log collection in mongoDB
 			$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['blueTeams'][$e] ]++;
 			$teamMatchups[ $obj['redTeams'][$e] ][ $obj['redTeams'][$e] ]++;
 
+			$teamScores[ $obj['blueTeams'][$e] ] = $teamScores[ $obj['blueTeams'][$e] ] + $obj['blueFinalScore'];
+			$teamScores[ $obj['redTeams'][$e] ] = $teamScores[ $obj['redTeams'][$e] ] + $obj['redFinalScore'];
+
 			for($i=0; $i < 3; $i++){
 				$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['redTeams'][$i] ]++;
 				$teamMatchups[ $obj['redTeams'][$e] ][ $obj['blueTeams'][$i] ]++;
 			}
 		}
 	}
-	fb($teamMatchups);
-die();
+
+	//multiply inverse of teamMatchups by teamScores
+
+	//fb($teamMatchups);
+	//fb($teamScores);
+	
+	//die();
 
 
 	//stats
 
 	$cursor = $db->sourceTeamInfo->find();
 
+	/*
+		array(
+			'use' => true,
+			'inputType' => 'robot'
+		)
+	*/
+
 	foreach($cursor as $obj){
 
-		$db->compiledTeam->update(
-			array(
-				"_id" => $obj['_id']
-			),
-			array(
-				'$set' => array(
-					'info' => $team
-				)
-			),
-			true
-		);
+		//edit $obj here & add analysis stuff
+		if(in_array($obj["_id"], $mnTeams)){
+			$db->compiledTeam->insert($obj);
+		}
+	}
+
+
+
+	//process tracking info
+	$cursor = $db->sourceFMS->find(
+		array(
+			'meta.use' => true,
+			'inputType' => 'robot'
+		)
+	);
+
+	foreach($cursor as $obj){
+fb($obj);
+
+/*
+		if(in_array($obj["_id"], $mnTeams)){
+			$db->compiledTeam->insert($obj);
+		}
+*/
 	}
 
 	send_reg(array('message' => 'db is compiled'));
