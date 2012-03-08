@@ -246,40 +246,46 @@ function clearinputs(){
 	var trackingInputs = [];
 
 	function addEntry(){
-		if(currentEntry.xCoord === 0 || currentEntry.yCoord === 0){//this doesn't support coords for each at 0 (which could happen)
+		if(currentEntry.xCoord === -1 || currentEntry.yCoord === -1){//this doesn't support coords for each at 0 (which could happen)
 			$('#jGrowl-container').jGrowl('placement on field was not set', {
 				theme: 'error'
 			});
 			return;
 		}
-		
 
 		trackingInputs.push(currentEntry);
 
-		canvas.drawImage(img, 0, 0, 300, 150);//redraw image
-
-		currentEntry = {
-			type: "pickup",//pickup/shoot
-			xCoord: 0,
-			yCoord: 0,
-			score: ""//top/middle/bottom
-		};
+		reloadTrackingInput();
 
 		typeSelect('pickup');
 	}
-	
+
+//tracking input startup
 var img = new Image();
 var canvas = document.getElementById('canvas').getContext('2d');
 img.src = "img/field.png";
+var currentEntry = {};
 
 img.onload = function(){
-	canvas.drawImage(img, 0, 0, 300, 150);
+	reloadTrackingInput();
 };
+
+function reloadTrackingInput(){
+	canvas.drawImage(img, 0, 0, 300, 150);
+
+	currentEntry = {
+		type: "pickup",//pickup/shoot
+		xCoord: -1,
+		yCoord: -1,
+		score: ""//top/middle/bottom
+	};
+
+}
 	
 var currentEntry = {
 	type: "pickup",//pickup/shoot
-	xCoord: 0,
-	yCoord: 0,
+	xCoord: -1,
+	yCoord: -1,
 	score: ""//top/middle/bottom
 };
 
