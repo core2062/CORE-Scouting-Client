@@ -95,6 +95,7 @@ function submitData(){
 
 	if(current.subpage.charAt(0) == 'a'){
 		submit.trackingInputs = trackingInputs;
+		trackingInputs = [];
 	}
 
 	if(current.subpage.charAt(0) == 'p'){
@@ -102,7 +103,9 @@ function submitData(){
 		delete submit.pitTeamNum;
 	}
 
-	console.log(submit);
+	//console.log(submit);
+
+	increase('matchNum');
 
 	//submit.push('"' + i + '": "' + inputValue[i].value + '"');
 
@@ -243,6 +246,14 @@ function clearinputs(){
 	var trackingInputs = [];
 
 	function addEntry(){
+		if(currentEntry.xCoord === 0 || currentEntry.yCoord === 0){//this doesn't support coords for each at 0 (which could happen)
+			$('#jGrowl-container').jGrowl('placement on field was not set', {
+				theme: 'error'
+			});
+			return;
+		}
+		
+
 		trackingInputs.push(currentEntry);
 
 		canvas.drawImage(img, 0, 0, 300, 150);//redraw image

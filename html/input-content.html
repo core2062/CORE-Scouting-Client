@@ -358,7 +358,7 @@ echo path($path);
 					<button id="shoot" onclick="typeSelect('shoot')">shoot</button>
 				</div>
 				<br/>
-				<button style="float:right; margin: 5px; margin-right: -15px;" onclick="addEntry()">Submit</button>
+				<button style="float:right; margin: 5px; margin-right: -15px;" onclick="addEntry()">Add</button>
 			</ul>
 		</fieldset>
 	</li>
@@ -375,7 +375,14 @@ echo path($path);
 					<label for="drive">Drive:</label>
 					<select id="drive" size="1" style="width:150px">
 						<option value="mecanum">Mecanum</option>
-						<option value="sucessful">add value here</option>
+						<option value="add value here">add value here</option>
+					</select>
+				</li>
+				<li>
+					<label for="inspected">Inspected:</label>
+					<select id="inspected" size="1" style="width:100px">
+						<option value="true">Yes</option>
+						<option value="false">No</option>
 					</select>
 				</li>
 			</ul>

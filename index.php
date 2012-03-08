@@ -40,6 +40,9 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 		global $user;
 
 		if(empty($_COOKIE['user']) == false){
+
+			fb($_COOKIE['user']);
+
 			//variables_order must contain "C" in php.ini
 			$input['user'] = json_decode($_COOKIE['user'], true);
 
@@ -63,8 +66,10 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 				return;
 			}
 
+			fb($user);
+
 			//embed admin page if admin
-			if($user['permission'] = 9){
+			if($user['permission'] == 9){
 				$pages[1]['embedded'] = true;//show admin page
 				$pages[1]['hidden'] = false;
 				logger("admin page loaded");
