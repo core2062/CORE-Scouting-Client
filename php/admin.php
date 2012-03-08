@@ -471,6 +471,12 @@ case "compile": //clear out log collection in mongoDB
 
 			}
 
+			$db->compiledTeam->findOne(
+				array(
+					"_id" => $obj['teamNum']
+				)
+			);
+
 			//write new data to team object
 		}
 

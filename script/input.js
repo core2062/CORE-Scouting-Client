@@ -243,8 +243,8 @@ function clearinputs(){
 		
 	}
 
-	var trackingInputs = [];
 
+//Tracking Robots
 	function addEntry(){
 		if(currentEntry.xCoord === -1 || currentEntry.yCoord === -1){//this doesn't support coords for each at 0 (which could happen)
 			$('#jGrowl-container').jGrowl('placement on field was not set', {
@@ -256,38 +256,35 @@ function clearinputs(){
 		trackingInputs.push(currentEntry);
 
 		reloadTrackingInput();
+	}
+
+	//tracking input startup
+	var trackingInputs = [];
+	var img = new Image();
+	var canvas = document.getElementById('canvas').getContext('2d');
+	img.src = "img/field.png";
+	var currentEntry = {};
+
+	img.onload = function(){
+		reloadTrackingInput();
+	};
+
+	function reloadTrackingInput(){
+		canvas.drawImage(img, 0, 0, 300, 150);
+
+		currentEntry = {
+			type: "pickup",//pickup/shoot
+			xCoord: -1,
+			yCoord: -1,
+			score: ""//top/middle/bottom
+		};
 
 		typeSelect('pickup');
 	}
 
-//tracking input startup
-var img = new Image();
-var canvas = document.getElementById('canvas').getContext('2d');
-img.src = "img/field.png";
-var currentEntry = {};
 
-img.onload = function(){
-	reloadTrackingInput();
-};
+//match timer
 
-function reloadTrackingInput(){
-	canvas.drawImage(img, 0, 0, 300, 150);
-
-	currentEntry = {
-		type: "pickup",//pickup/shoot
-		xCoord: -1,
-		yCoord: -1,
-		score: ""//top/middle/bottom
-	};
-
-}
-	
-var currentEntry = {
-	type: "pickup",//pickup/shoot
-	xCoord: -1,
-	yCoord: -1,
-	score: ""//top/middle/bottom
-};
-
-typeSelect('pickup');
-
+	function startMatch(){
+		
+	}
