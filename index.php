@@ -37,18 +37,15 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 		global $db;
 		global $vars;
 		global $pages;
-		global $user;
 
 		if(empty($_COOKIE['user']) == false){
 
-			fb($_COOKIE['user']);
-
 			//variables_order must contain "C" in php.ini
-			$input['user'] = json_decode($_COOKIE['user'], true);
+			$user = json_decode($_COOKIE['user'], true);
 
 			//if user object is wrong, return & move on with guest-level functionality
 
-			if(empty($input['user']['_id']) == true || empty($input['user']['token']) == true) {
+			if(empty($user['_id']) == true || empty($user['token']) == true) {
 				logger("checkForUser failed while getting basic parameters");
 				return;
 			}
@@ -56,17 +53,15 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 			//check user & assign user object
 			$user = $db->user->findOne(
 				array(
-					'_id' => $input['user']['_id']
+					'_id' => $user['_id']
 				)
 			);
 
-			if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $input['user']['token']) {//validate user object
+			if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $user['token']) {//validate user object
 				logger("checkForUser failed on user object validation");
 				unset($user);
 				return;
 			}
-
-			fb($user);
 
 			//embed admin page if admin
 			if($user['permission'] == 9){
