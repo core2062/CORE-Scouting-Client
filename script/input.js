@@ -88,7 +88,7 @@ function submitData(){
 
 	for(var i in input){
 		if(input[i].categories.has(current.subpage.charAt(0))){
-			console.log('getting:' + i);
+			//console.log('getting:' + i);
 			submit[i] = input[i].elementNode[input[i].valueGetter];
 		}
 	}
@@ -103,7 +103,7 @@ function submitData(){
 		delete submit.pitTeamNum;
 	}
 
-	//console.log(submit);
+	console.log(submit);
 
 	increase('matchNum');
 

@@ -1,6 +1,6 @@
 var fName = document.getElementById('fName');
 var lName = document.getElementById('lName');
-var teamNum = document.getElementById('teamNum');
+var signupTeamNum = document.getElementById('signupTeamNum');
 var previewScoutID = document.getElementById('previewScoutID');
 var signupPassword = document.getElementById('signupPassword');
 var email = document.getElementById('email');
@@ -10,10 +10,10 @@ function displayScoutID() {
 	setTimeout(function(){
 		var fNameV = fName.value;
 		var lNameV = lName.value;
-		var teamNumV = teamNum.value;
+		var signupTeamNumV = signupTeamNum.value;
 
-		if (fNameV != '' && lNameV != '' && teamNumV != '') {
-			previewScoutID.value = fNameV.toLowerCase().titleCase() + lNameV.toLowerCase().titleCase() + "-" + teamNumV;
+		if (fNameV != '' && lNameV != '' && signupTeamNumV != '') {
+			previewScoutID.value = fNameV.toLowerCase().titleCase() + lNameV.toLowerCase().titleCase() + "-" + signupTeamNumV;
 		} else {
 			previewScoutID.value = '';
 		}
@@ -93,7 +93,7 @@ function postSignup(){//this function will interfere with logged in users... sig
 	user.info = {
 		"fName": fName.value,
 		"lName": lName.value,
-		"team": teamNum.value
+		"team": signupTeamNum.value
 	};
 	user.account = {
 		"pword": signupPassword.value,

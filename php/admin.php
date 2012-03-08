@@ -445,7 +445,6 @@ case "compile": //clear out log collection in mongoDB
 	}
 
 
-
 	//process tracking info
 	$cursor = $db->sourceScouting->find(
 		array(
@@ -455,10 +454,24 @@ case "compile": //clear out log collection in mongoDB
 
 	foreach($cursor as $obj){
 		if($obj['meta']['use']){
+			$len = count($obj['trackingInputs']);
+			for ($i=0; $i < $len; $i++) {
+				$currentObj = $obj['trackingInputs'][$i];//only need this stuff
+
+				if($currentObj['type'] == 'shoot'){
+					$shooting['totalShots']++;
+
+					if(!empty($currentObj['score'])){
+						$shooting['totalScores']++;
+						$shooting['locationTotal'][ $currentObj['score'] ]++;
+					}
+				}
 
 
 
-			fb($obj);
+			}
+
+			//write new data to team object
 		}
 
 		
