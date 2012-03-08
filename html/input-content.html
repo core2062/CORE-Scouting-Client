@@ -2,19 +2,12 @@
 <!-- make content scroll when its height exceeds height of sidebar? -->
 
 <!-- Regular -->
-<ul class="robot-c" style="display:none;">
+<!--<ul class="robot-c" style="display:none;">
 	<li>
 		<fieldset style="min-width:300px;">
 			<legend>Penalties</legend>
 			<ul>
-				<li>
-					<label for="wasDisabled">Disabled:</label>
-					<input id="wasDisabled" type="checkbox" title="if robot was disabled with the e-stop" data-labelOn="Yes" data-labelOff="No"/>
-				</li>
-				<li>
-					<label for="redCard">Red Card:</label>
-					<input id="redCard" type="checkbox" data-labelOn="Yes" data-labelOff="No"/>
-				</li>
+
 				<li>
 					<label for="yellowCard">Yellow Cards:</label>
 					<button onclick="increase('yellowCard');return false;" class="icon plus">+</button>
@@ -22,107 +15,343 @@
 				</li>
 			</ul>
 		</fieldset>
-	</li>
+	</li>-->
+<?php
 
-	<li>
-		<fieldset style="min-width:300px;">
-			<legend>Fouls</legend>
-			<ul>
-				<li>
-					<label for="foul">Fouls:</label>
-					<button onclick="increase('foul');return false;" class="icon plus">+</button>
-					<input id="foul" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
-				</li>
-				<li>
-					<label for="techFoul">Technical Fouls:</label>
-					<button onclick="increase('techFoul');return false;" class="icon plus">+</button>
-					<input id="techFoul" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
+$path = [
+	'ul',
+	'class' => "robot-c",
+	'style' => "display:none",
+	[
+		'li',
+		[
+			'fieldset',
+			[
+				'legend',
+				'Penalties'
+			],
+			[
+				'ul',
+				[
+					'li',
+					[
+						'label',
+						'for' => 'wasDisabled',
+						'Disabled:'
+					],
+					[
+						'input',
+						'id' => 'wasDisabled',
+						'type' => 'checkbox',
+						'title' => "if robot was disabled with the e-stop",
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				],
+				[
+					'li',
+					[
+						'label',
+						'for' => 'redCard',
+						'Red Card:'
+					],
+					[
+						'input',
+						'id' => 'redCard',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				],
+				[
+					'li',
+					[
+						'label',
+						'for' => 'yellowCard',
+						'Yellow Cards:'
+					],
+					[
+						'button',
+						'onclick' => "increase('yellowCard');return false;",
+						'class' => "icon plus",
+						'+'
+					],
+					[
+						'input',
+						'id' => 'yellowCard',
+						'type' => 'text',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				]
+			]
+		]
+	],
+	[
+		'li',
+		[
+			'fieldset',
+			'style' => "min-width:300px;",
+			[
+				'legend',
+				'Fouls'
+			],
+			[
+				'ul',
+				[
+					'li',
+					[
+						'label',
+						'for' => 'foul',
+						'Fouls:'
+					],
+					[
+						'button',
+						'onclick' => "increase('foul');return false;",
+						'class' => "icon plus",
+						'+'
+					],
+					[
+						'input',
+						'id' => 'foul',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				[
+					'li',
+					[
+						'label',
+						'for' => 'techFoul',
+						'Technical Fouls:'
+					],
+					[
+						'button',
+						'onclick' => "increase('techFoul');return false;",
+						'class' => "icon plus",
+						'+'
+					],
+					[
+						'input',
+						'id' => 'techFoul',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				]
+			]
+		]
+	],
+	[
+		'li',
+		[
+			'fieldset',
+			'style' => "min-width:300px;",
+			[
+				'legend',
+				'Hybrid Period'
+			],
+			[
+				'ul',
+				[
+					'li',
+					[
+						'label',
+						'for' => 'hybridActivity',
+						'Activity:'
+					],
+					[
+						'select',
+						'id' => 'hybridActivity',
+						'size' => 1,
+						'style' => "width:130px",
+						[
+							'option',
+							'value' => "autonomous",
+							'Autonomous'
+						],
+						[
+							'option',
+							'value' => "inactive",
+							'None'
+						],
+						[
+							'option',
+							'value' => "kinect",
+							'Kinect'
+						]
+					]
+				],
+				[
+					'li',
+					[
+						'label',
+						'for' => 'hybridStrategy',
+						'Strategy:'
+					],
+					[
+						'select',
+						'id' => 'hybridStrategy',
+						'style' => "width:220px",
+						'multiple' => "",
+						'class' => "chzn-select",
+						[
+							'option',
+							'value' => "shooter",
+							'Shooter'
+						],
+						[
+							'option',
+							'value' => "herder",
+							'Herder'
+						]
+					]
+				], //how effective... any scored?
+				[
+					'li',
+					[
+						'label',
+						'for' => 'hybridScored',
+						'Scored:'
+					],
+					[
+						'button',
+						'onclick' => "increase('hybridScored');return false;",
+						'class' => "icon plus",
+						'+'
+					],
+					[
+						'input',
+						'id' => 'hybridScored',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				]
+			]
+		]
+	],
+	[
+		'li',
+		[
+			'fieldset',
+			'style' => "min-width:300px;",
+			[
+				'legend',
+				'Teleop Period'
+			],
+			[
+				'ul',
+				//driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank
+				
+				//strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation *
 
-	<li>
-		<fieldset style="min-width:300px;">
-			<legend>Hybrid Period</legend>
-			<ul>
-				<li>
-					<label for="hybridActivity">Activity:</label>
-					<select id="hybridActivity" size="1"  style="width:130px">
-						<option value="autonomous">Autonomous</option>
-						<option value="inactive">None</option>
-						<option value="kinect">Kinect</option>
-					</select>
-				</li>
+				//ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter
 
-				<li>
-					<label for="hybridStrategy">Strategy:</label>
-					<select id="hybridStrategy" style="width:220px;" multiple class="chzn-select">
-						<option value="shooter">Shooter</option>
-						<option value="herder">Herder</option>
-					</select>
-				</li>
+				//ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score))
+				[
+					'li',
+					[
+						'label',
+						'for' => 'bridge',
+						'Crosses Bridge:'
+					],
+					[
+						'input',
+						'type' => "checkbox",
+						'id' => "bridge",
+						'title' => "note any difficulties in comments",
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				]
+			]
+		]
+	],
+	[
+		'li',
+		[
+			'fieldset',
+			'style' => "min-width:300px;",
+			[
+				'legend',
+				'End Game'
+			],
+			[
+				'ul',
+				[
+					'li',
+					[
+						'label',
+						'for' => 'balance',
+						'Balance:'
+					],
+					[
+						'select',
+						'id' => 'balance',
+						'size' => 1,
+						'data-placeholder' => "Action",
+						'style' => "width:125px;",
+						'tabindex' => 1,
+						[
+							'option',
+							'value' => "no-attempt",
+							'No Attempt'
+						],
+						[
+							'option',
+							'value' => "attempted",
+							'Attempted'
+						],
+						[
+							'option',
+							'value' => "sucessful",
+							'Successful'
+						]
+					]
+				],
+				[
+					'li',
+					[
+						'label',
+						'for' => 'robotsBalancing',
+						'# of Robots on Bridge:'
+					],
+					[
+						'select',
+						'id' => 'robotsBalancing',
+						'size' => 1,
+						'data-placeholder' => "Action",
+						'style' => "width:50px;",
+						'tabindex' => 1,
+						[
+							'option',
+							'value' => 1,
+							'1'
+						],
+						[
+							'option',
+							'value' => 2,
+							'2'
+						],
+						[
+							'option',
+							'value' => 3,
+							'3'
+						]
+					]
+				//human player successful
+				//balance successful or attempted
+				]
+			]
+		]
+	]
+];
 
-				<!-- how effective... any scored? -->
-				<li>
-					<label for="hybridScored">Scored:</label>
-					<button onclick="increase('hybridScored');return false;" class="icon plus">+</button>
-					<input id="hybridScored" type="text" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
+echo path($path);
+?>
 
-	<li>
-		<fieldset style="min-width:300px;">
-			<legend>Teleop Period</legend>
-			<ul>
-				<!-- driver skill / maneuverability - comment, or slider (rating), or select & include ability to leave blank -->
-
-				<!-- strategy info - non-op (no move), no show (didn't show up), barely operational (no noticeable strategy / nothing useful), ball herder *, shooter *, blocker *, pushes other robots *, pulls balls away from other robots / ball starvation * -->
-
-				<!-- ball pickup - none or (from floor, from walls, thrown in hopper) - # picked up is assumed by # shot - can be more detailed by adding info for # picked up for each place (might be excessive) - - only if strategy includes shooter -->
-
-				<!-- ball shooting - none or (from opposite side of field, same side of field) - include # shot from each side and maybe more specific placement - - (record top / middle / bottom / no-score (maybe not no-score)) -->
-
-				<li>
-					<label for="bridge">Crosses Bridge:</label>
-					<input type="checkbox" id="bridge" title="note any difficulties in comments" data-labelOn="Yes" data-labelOff="No"/>
-				</li>
-				<li>
-					<label for="bump">Crosses Bump:</label>
-					<input type="checkbox" id="bump" title="note any difficulties in comments" data-labelOn="Yes" data-labelOff="No"/>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-
-	<li>
-		<fieldset style="min-width:300px">
-			<legend>End Game</legend>
-			<ul>
-				<li>
-					<label for="balance">Balance:</label>
-					<select id="balance" size="1" data-placeholder="Action" style="width:125px;" tabindex="1">
-						<option value="no-attempt">No Attempt</option>
-						<option value="attempted">Attempted</option>
-						<option value="sucessful">Successful</option>
-					</select>
-				</li>
-				<li>
-					<label for="robotsBalancing"># of Robots on Bridge:</label>
-					<select id="robotsBalancing" size="1" data-placeholder="Action" style="width:125px;" tabindex="1">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-					</select>
-				</li>
-				<!-- human player successful -->
-				<!-- balance successful or attempted -->
-			</ul>
-		</fieldset>
-	</li>
-</ul>
 
 <!-- Alliance -->
 <ul class="alliance-c" style="display:none">

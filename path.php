@@ -69,9 +69,9 @@ function path($array){
 
 	//add stuff for self closing tags
 	if(!$selfClosing){
-		$return .= '>' . $innerHTML . '</' . $tagName . '>';
+		$return .= '>' . $innerHTML . '</' . $tagName . '> ';
 	} else {
-		$return .= '/>';
+		$return .= '/> ';
 	}
 
 	return $return;
