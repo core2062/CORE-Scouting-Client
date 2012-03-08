@@ -431,34 +431,37 @@ case "compile": //clear out log collection in mongoDB
 
 	$cursor = $db->sourceTeamInfo->find();
 
-	/*
-		array(
-			'use' => true,
-			'inputType' => 'robot'
-		)
-	*/
-
 	foreach($cursor as $obj){
+		if($obj['meta']['use']){//do use check with mongo???
+			//edit $obj here & add analysis stuff
 
-		//edit $obj here & add analysis stuff
-		if(in_array($obj["_id"], $mnTeams)){
-			$db->compiledTeam->insert($obj);
-		}
+
+
+
+			if(in_array($obj["_id"], $mnTeams)){
+				$db->compiledTeam->insert($obj);
+			}
+		}	
 	}
 
 
 
 	//process tracking info
-	$cursor = $db->sourceFMS->find(
+	$cursor = $db->sourceScouting->find(
 		array(
-			'meta.use' => true,
-			'inputType' => 'robot'
+			'inputType' => 'alliance'
 		)
 	);
 
 	foreach($cursor as $obj){
-fb($obj);
+		if($obj['meta']['use']){
 
+
+
+			fb($obj);
+		}
+
+		
 /*
 		if(in_array($obj["_id"], $mnTeams)){
 			$db->compiledTeam->insert($obj);
