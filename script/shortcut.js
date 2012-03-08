@@ -73,7 +73,7 @@ shortcut = {
 				".":">",
 				"/":"?",
 				"\\":"|"
-			}
+			};
 			//Special Keys - and their codes
 			var special_keys = {
 				'esc':27,
@@ -127,9 +127,9 @@ shortcut = {
 				'f10':121,
 				'f11':122,
 				'f12':123
-			}
+			};
 	
-			var modifiers = { 
+			var modifiers = {
 				shift: { wanted:false, pressed:false},
 				ctrl : { wanted:false, pressed:false},
 				alt  : { wanted:false, pressed:false},
@@ -167,14 +167,14 @@ shortcut = {
 					if(character == k) kp++;
 					else {
 						if(shift_nums[character] && e.shiftKey) { //Stupid Shift key bug created by using lowercase
-							character = shift_nums[character]; 
+							character = shift_nums[character];
 							if(character == k) kp++;
 						}
 					}
 				}
-			}
+			};
 			
-			if(kp == keys.length && 
+			if(kp == keys.length &&
 						modifiers.ctrl.pressed == modifiers.ctrl.wanted &&
 						modifiers.shift.pressed == modifiers.shift.wanted &&
 						modifiers.alt.pressed == modifiers.alt.wanted &&
@@ -196,8 +196,8 @@ shortcut = {
 			}
 		}
 		this.all_shortcuts[shortcut_combination] = {
-			'callback':func, 
-			'target':ele, 
+			'callback':func,
+			'target':ele,
 			'event': opt['type']
 		};
 		//Attach the function with the event
