@@ -21,7 +21,6 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 		logger("got/updated session key");
 	}
 
-
 	//TODO: make year var more semantic
 	$year = 2012;//year to get data from
 	getSessionID();
@@ -365,6 +364,81 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 	globalVar('since_id', $new_since_id);
 
 	send_reg(array('message' => 'finished updating FMS'));
+break;
+case "compile": //clear out log collection in mongoDB
+	$db->compiledTeam->remove(array());//clear out compiledTeam
+	
+	function isIn($objectPoint, $containerPoint1, $containerPoint2){
+		//checks if object (a specific point) is in square container
+		if($containerPoint1[0] > $containerPoint2[0]){
+			//switch points to put highest in point 2
+			$tmp = $containerPoint1[0];
+			$containerPoint1[0] = $containerPoint2[0];
+			$containerPoint2[0] = $tmp;
+		}
+		if($containerPoint1[1] > $containerPoint2[1]){
+			//switch points to put highest in point 2
+			$tmp = $containerPoint1[1];
+			$containerPoint1[1] = $containerPoint2[1];
+			$containerPoint2[1] = $tmp;
+		}
+
+		if($objectPoint[0] > $containerPoint2[0] || $objectPoint[0] < $containerPoint1[0] || $objectPoint[1] > $containerPoint2[1] || $objectPoint[1] < $containerPoint1[1]){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	$mnTeams = [3061, 1625, 2957, 4238, 3754, 3312, 4181, 2470, 3840, 2472, 3261, 3263, 3883, 3056, 3036, 2512, 4009, 4230, 2220, 1816, 3828, 3054, 2499, 2518, 2977, 3755, 3747, 2526, 2177, 2500, 2538, 4217, 3102, 2052, 3276, 3122, 3788, 2845, 3294, 2264, 2169, 2530, 2846, 2574, 3018, 3740, 3267, 2491, 3846, 3839, 3367, 4228, 2175, 3130, 877, 876, 93, 3197, 2506, 4011, 4054, 1714, 2826, 3381, 2062];
+	/*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18B13D">     */
+
+
+
+	//OPR Calculations
+
+	$teamMatchups = [];
+
+	$cursor = $db->sourceFMS->find();
+
+	foreach($cursor as $obj){
+		$obj = $obj['data'];//only part that is needed
+
+		for($e=0; $e < 3; $e++){
+			$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['blueTeams'][$e] ]++;
+			$teamMatchups[ $obj['redTeams'][$e] ][ $obj['redTeams'][$e] ]++;
+
+			for($i=0; $i < 3; $i++){
+				$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['redTeams'][$i] ]++;
+				$teamMatchups[ $obj['redTeams'][$e] ][ $obj['blueTeams'][$i] ]++;
+			}
+		}
+	}
+	fb($teamMatchups);
+die();
+
+
+	//stats
+
+	$cursor = $db->sourceTeamInfo->find();
+
+	foreach($cursor as $obj){
+
+		$db->compiledTeam->update(
+			array(
+				"_id" => $obj['_id']
+			),
+			array(
+				'$set' => array(
+					'info' => $team
+				)
+			),
+			true
+		);
+	}
+
+	send_reg(array('message' => 'db is compiled'));
+
 break;
 case "clearTmp": //clear out & rebuild tmp
 /* if not working:

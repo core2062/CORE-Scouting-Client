@@ -56,10 +56,10 @@ var input = {
 	},
 	"robotsBalancing": {
 		"categories": ["r"]
-	},
+	}/*,
 	"bump": {
 		"categories": ["r"]
-	}
+	}*/
 };
 
 
