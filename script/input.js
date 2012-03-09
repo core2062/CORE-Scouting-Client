@@ -276,7 +276,7 @@ function clearinputs(){
 			type: "pickup",//pickup/shoot
 			xCoord: -1,
 			yCoord: -1,
-			score: ""//top/middle/bottom
+			score: ''//top/middle/bottom
 		};
 
 		typeSelect('pickup');
@@ -284,7 +284,35 @@ function clearinputs(){
 
 
 //match timer
+	var startMatch = document.getElementById('startMatch');
 
-	function startMatch(){
-		
+	function startMatchTimer(){
+		window.matchTimerID = setInterval('updateMatchTimer();', 1000);
+		startMatch.setAttribute('onclick','stopMatchTimer()');
+		window.matchTimer = 0;
+		window.matchPeroid = '';
+		updateMatchTimer();//gets rid of short delay before 1st update
+	}
+
+	function stopMatchTimer(){
+		clearInterval(matchTimerID);
+		startMatch.innerHTML = 'Start Match';
+		startMatch.setAttribute('onclick','startMatchTimer()');
+	}
+
+	function updateMatchTimer(){
+		if(matchTimer < 15){
+			matchPeroid = 'hybrid';
+		} else if (matchTimer < 105){
+			matchPeroid = 'teleop';
+		} else if (matchTimer < 135){
+			matchPeroid = 'end game';
+		} else {
+			stopMatchTimer();
+			return;
+		}
+
+		matchTimer++;
+
+		startMatch.innerHTML = matchPeroid + ' - ' + (135-matchTimer);
 	}

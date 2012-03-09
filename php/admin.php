@@ -418,11 +418,11 @@ case "compile": //clear out log collection in mongoDB
 			}
 		}
 	}
+	fb(isSquare($teamMatchups));
+	fb(solveEC($teamMatchups, $teamScores));
 
-	//multiply inverse of teamMatchups by teamScores
-
-	//fb($teamMatchups);
-	//fb($teamScores);
+	fb($teamMatchups);
+	fb($teamScores);
 	
 	//die();
 
