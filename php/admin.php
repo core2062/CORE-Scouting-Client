@@ -368,6 +368,8 @@ break;
 case "compile": //clear out log collection in mongoDB
 	$db->compiledTeam->remove(array());//clear out compiledTeam
 	
+	require_once "math/Matrix.php";
+
 	function isIn($objectPoint, $containerPoint1, $containerPoint2){
 		//checks if object (a specific point) is in square container
 		if($containerPoint1[0] > $containerPoint2[0]){
@@ -391,40 +393,61 @@ case "compile": //clear out log collection in mongoDB
 	}
 
 	$mnTeams = [3061, 1625, 2957, 4238, 3754, 3312, 4181, 2470, 3840, 2472, 3261, 3263, 3883, 3056, 3036, 2512, 4009, 4230, 2220, 1816, 3828, 3054, 2499, 2518, 2977, 3755, 3747, 2526, 2177, 2500, 2538, 4217, 3102, 2052, 3276, 3122, 3788, 2845, 3294, 2264, 2169, 2530, 2846, 2574, 3018, 3740, 3267, 2491, 3846, 3839, 3367, 4228, 2175, 3130, 877, 876, 93, 3197, 2506, 4011, 4054, 1714, 2826, 3381, 2062];
+	$blackList = [4230];
+	sort($mnTeams);
 	/*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18B13D">     */
-
 
 
 	//OPR Calculations
 
-	$teamMatchups = [];
-	$teamScores = [];
+	$teamMatchups = array_fill_keys($mnTeams, 0);
+	$teamScores = array_fill_keys($mnTeams, 0);
+
+	foreach ($teamMatchups as $key => $value) {
+		$teamMatchups[$key] = array_fill_keys($mnTeams, 0);
+	}
 
 	$cursor = $db->sourceFMS->find();
 
 	foreach($cursor as $obj){
-		$obj = $obj['data'];//only part that is needed
+		if($obj['data']['eventCode'] == "DMN"){//use check with mongo???
+			$obj = $obj['data'];//only part that is needed
 
-		for($e=0; $e < 3; $e++){
-			$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['blueTeams'][$e] ]++;
-			$teamMatchups[ $obj['redTeams'][$e] ][ $obj['redTeams'][$e] ]++;
+			for($e=0; $e < 3; $e++){
+				$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['blueTeams'][$e] ]++;
+				$teamMatchups[ $obj['redTeams'][$e] ][ $obj['redTeams'][$e] ]++;
 
-			$teamScores[ $obj['blueTeams'][$e] ] = $teamScores[ $obj['blueTeams'][$e] ] + $obj['blueFinalScore'];
-			$teamScores[ $obj['redTeams'][$e] ] = $teamScores[ $obj['redTeams'][$e] ] + $obj['redFinalScore'];
+				$teamScores[ $obj['blueTeams'][$e] ] = $teamScores[ $obj['blueTeams'][$e] ] + $obj['blueFinalScore'];
+				$teamScores[ $obj['redTeams'][$e] ] = $teamScores[ $obj['redTeams'][$e] ] + $obj['redFinalScore'];
 
-			for($i=0; $i < 3; $i++){
-				$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['redTeams'][$i] ]++;
-				$teamMatchups[ $obj['redTeams'][$e] ][ $obj['blueTeams'][$i] ]++;
+				for($i=0; $i < 3; $i++){
+					$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['redTeams'][$i] ]++;
+					$teamMatchups[ $obj['redTeams'][$e] ][ $obj['blueTeams'][$i] ]++;
+				}
 			}
 		}
 	}
-	fb(isSquare($teamMatchups));
-	fb(solveEC($teamMatchups, $teamScores));
+
+	ksort($teamMatchups);
+	foreach($teamMatchups as $key => $value){
+		ksort($teamMatchups[$key]);
+	}
+
+	$teamMatchups = array_values($teamMatchups);
+	foreach($teamMatchups as $key => $value){
+		$teamMatchups[$key] = array_values($teamMatchups[$key]);
+	}
+
+	$teamScores = array_values($teamScores);
 
 	fb($teamMatchups);
 	fb($teamScores);
+
+	$teamMatchupsMatrix = new Math_Matrix($teamMatchups);
+	$teamScoresVector = new Math_Vector($teamScores);
+
+	fb(Math_Matrix::solve($teamMatchupsMatrix, $teamScoresVector));
 	
-	//die();
 
 
 	//stats
@@ -432,16 +455,15 @@ case "compile": //clear out log collection in mongoDB
 	$cursor = $db->sourceTeamInfo->find();
 
 	foreach($cursor as $obj){
-		if($obj['meta']['use']){//do use check with mongo???
-			//edit $obj here & add analysis stuff
+
+		//edit $obj here & add analysis stuff
+
+		//add in OPR data
 
 
-
-
-			if(in_array($obj["_id"], $mnTeams)){
-				$db->compiledTeam->insert($obj);
-			}
-		}	
+		if(in_array($obj["_id"], $mnTeams)){
+			$db->compiledTeam->insert($obj);
+		}
 	}
 
 
@@ -454,38 +476,95 @@ case "compile": //clear out log collection in mongoDB
 
 	foreach($cursor as $obj){
 		if($obj['meta']['use']){
+
+			//get team object (to add data from previous matches together)
+			$currentTeam = $db->compiledTeam->findOne(
+				array(
+					'_id' => (int)$obj['teamNum']
+				)
+			);
+
+			//get comments
+			$obj['comments'] = split("\n", $obj['comments']);
+
+			$currentTeam['matches'][$obj['matchNum']] = array(
+				'comments' => $obj['comments']
+			);
+
+			$currentTeam['totalMatches']++;
+
+			//process tracking inputs
 			$len = count($obj['trackingInputs']);
 			for ($i=0; $i < $len; $i++) {
 				$currentObj = $obj['trackingInputs'][$i];//only need this stuff
 
-				if($currentObj['type'] == 'shoot'){
-					$shooting['totalShots']++;
-
-					if(!empty($currentObj['score'])){
-						$shooting['totalScores']++;
-						$shooting['locationTotal'][ $currentObj['score'] ]++;
-					}
+				//get shoot/pickup locations
+				$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
+				if((isIn($currentCoords, [0,0], [150,150]) && $obj['allianceColor'] == 'r') || (isIn($currentCoords, [300,150], [150,150]) && $obj['allianceColor'] == 'b')){
+					$location = 'oppositeSide';
+				} else {
+					$location = 'sameSide';
 				}
 
+				//check if it is from key
+				if(isIn($currentCoords, [0,53], [89,100]) || isIn($currentCoords, [300,247], [89,211])){
+					$location = $location . 'Key';
+				} else if(isIn($currentCoords, [0,150], [150,129]) || isIn($currentCoords, [300,0], [150,24])){
+					$location = $location . 'Lane';
+				}
+
+				$distanceFromHoopY = abs($currentObj['yCoord']-75);
+				if($obj['allianceColor'] == 'r'){
+					$distanceFromHoopX = $currentObj['xCoord'];
+				} else {
+					$distanceFromHoopX = 300-$currentObj['xCoord'];
+				}
+
+				$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//1 is farthest you can get, 0 is right on top of the hoop (it's a percent)
+
+				if($currentObj['type'] == 'shoot'){
+					$currentTeam['shooting']['totalShots']++;
+					$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalShots']++;
+
+					//add to shoot totals
+					if(!empty($currentObj['score'])){
+						$currentTeam['shooting']['totalScores']++;
+						$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalScores']++;
+
+						//increase score total for the correct hoop
+						$currentTeam['shooting']['heightTotal'][ $currentObj['score'] ]++;
+						$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['heightTotal'][ $currentObj['score'] ]++;
+					}
 
 
+				}
+
+				//more stuff here
 			}
 
-			$db->compiledTeam->findOne(
-				array(
-					"_id" => $obj['teamNum']
-				)
-			);
+			//get averages
+/*
+			foreach($currentTeam['matches'] as $key => $value) {
+				$currentTeam['matches'][$key]['shooting'][''];
+			}//NOT FINISHED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
+
+
+			//check for incorrect teamNum (not fatal if exists, just wrong)
+			if(!in_array($obj["teamNum"], $mnTeams)){
+				logger('wrong teamNum in match ' . $obj["matchNum"] . ' : ' . $obj["teamNum"], true);
+			}
 
 			//write new data to team object
-		}
+			$db->compiledTeam->remove(
+				array(
+					'_id' => (int)$obj['teamNum']
+				)
+			);//remove old one
+			$db->compiledTeam->insert($currentTeam);//insert new one
 
-		
-/*
-		if(in_array($obj["_id"], $mnTeams)){
-			$db->compiledTeam->insert($obj);
+			
 		}
-*/
 	}
 
 	send_reg(array('message' => 'db is compiled'));

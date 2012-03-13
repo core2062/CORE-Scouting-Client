@@ -202,6 +202,7 @@ function clearinputs(){
 		document.getElementById(typeOfEntry).className = "selected";
 	}
 	
+	//TODO: fix issue with incorrect location caused by scroll bar
 	function canvasClick(e){
 		console.log(e.clientX);
 		currentEntry.xCoord = e.clientX-$('#canvas').offset().left;
@@ -252,10 +253,20 @@ function clearinputs(){
 			});
 			return;
 		}
+		/*
+		if(matchTimer == -1){
+			$('#jGrowl-container').jGrowl('timer was not started', {
+				theme: 'error'
+			});
+			return;
+		}
+		*/
+
+		//currentEntry.time = matchTimer;
 
 		trackingInputs.push(currentEntry);
 
-		reloadTrackingInput();
+		reloadTrackingInput();//only make this happen when it submits error-less-ly
 	}
 
 	//tracking input startup
@@ -276,26 +287,29 @@ function clearinputs(){
 			type: "pickup",//pickup/shoot
 			xCoord: -1,
 			yCoord: -1,
-			score: ''//top/middle/bottom
+			score: ''/*,//top/middle/bottom
+			time: -1*/
 		};
 
 		typeSelect('pickup');
 	}
 
-
+/*
 //match timer
 	var startMatch = document.getElementById('startMatch');
+	var matchTimer = -1;
+	var matchPeroid = '';
 
 	function startMatchTimer(){
 		window.matchTimerID = setInterval('updateMatchTimer();', 1000);
 		startMatch.setAttribute('onclick','stopMatchTimer()');
-		window.matchTimer = 0;
-		window.matchPeroid = '';
 		updateMatchTimer();//gets rid of short delay before 1st update
 	}
 
 	function stopMatchTimer(){
 		clearInterval(matchTimerID);
+		matchTimer = -1;
+		matchPeroid = '';
 		startMatch.innerHTML = 'Start Match';
 		startMatch.setAttribute('onclick','startMatchTimer()');
 	}
@@ -316,3 +330,4 @@ function clearinputs(){
 
 		startMatch.innerHTML = matchPeroid + ' - ' + (135-matchTimer);
 	}
+*/
