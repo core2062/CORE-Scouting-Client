@@ -121,7 +121,7 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 			}
 		}
 		for ($i = 0; $i < $embeddedLen; ++$i) {
-			$file = 'script/' . $embedded[$i] . '.js';
+			$file = 'js/' . $embedded[$i] . '.js';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
@@ -299,10 +299,10 @@ for($i=0; $i < $len; $i++){
 
 $javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
 
-$javascript .= file_get_contents("script/libraries.js");
+$javascript .= file_get_contents("js/libraries.js");
 
 for ($i = 0; $i < $embeddedLen; ++$i) {
-	$file = 'script/' . $embedded[$i] . '.js';
+	$file = 'js/' . $embedded[$i] . '.js';
 
 	if (file_exists($file) == true) {
 		$javascript .= file_get_contents($file);

@@ -33,17 +33,30 @@ ramblings:
 	page.php takes necessary components to build the page and sends it to JS via AJAX
 
 	all scripts in top directory are to be requested by browser directly, scripts in php directory are referenced by other scripts & cannot be requested by browser
-	
 
-    Official Terms:
 
-    Site: index.php, which acts as the container for all pages
-    Page: a set of sub-pages, and modals within the site (like input, home, or query)
-    Subpage: a piece of a page, only one subpage is displayed at a time
-    Modal: a dialog which gets overlaid on top of the site, some pages require specific modals, and these are sent with the page request
-    Base Page: page components which are needed for more than 1 page, these are embedded on first page request
+	Official Terms:
+
+	Site: index.php, which acts as the container for all pages
+	Page: a set of sub-pages, and modals within the site (like input, home, or query)
+	Subpage: a piece of a page, only one subpage is displayed at a time
+	Modal: a dialog which gets overlaid on top of the site, some pages require specific modals, and these are sent with the page request
+	Base Page: page components which are needed for more than 1 page, these are embedded on first page request
     
-	
+    How The Site Directories Are Setup:
+
+    /less: just for development, and should not be on a production server. files in this folder are used to create the css files in /css
+    /css: contains all css files which are used by index.php to create the requested page (they are embedded into the response)
+    /php: these files are scripts called by the scripts in the top directory / other directories and should not be accessable by anyone other than the user php runs under (so they may not be accessed by the public)
+    /js: contains all javascript files which are used by index.php to create the requested page (they are embedded into the response)
+    /js/libraries: contains js files which are combined together and added to each request as the base libraries
+    /firephp: just used for FirePHP (development tool), remove before production
+    /font: contains all font files
+    /tmp: contains temporary files cached to speed up various functions
+    /html: contains html & path files which are called by index.php
+
+
+
 	--- main TODO ---
 
 	performance
