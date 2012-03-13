@@ -6,12 +6,12 @@
 				<li>
 					<!-- TODO: make that complex match input thing - select between qualifications and finals... then match input stuff -->
 					<label for="matchNum">Match Number:</label>
-					<input type="text" id="matchNum" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
+					<input type="number" id="matchNum" style="width:40px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 				<li>
 					<label for="matchType">Type:</label>
-					<select size="1" id="matchType" style="width:125px;">
-						<option value="p">Practice</option>
+					<select size="1" id="matchType" style="width:130px;">
+						<!--<option value="p">Practice</option>-->
 						<option value="q">Qualification</option>
 						<option value="e">Elimination</option>
 					</select>
@@ -19,7 +19,7 @@
 				<br/><br/>
 				<li>
 					<label for="teamNum">Team Number:</label>
-					<input type="text" id="teamNum" style="width:60px;" onkeypress="return limitInput(event, 'number')"/>
+					<input type="number" id="teamNum" style="width:60px" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 				<li>
 					<label for="allianceColor">Color:</label>
@@ -40,7 +40,7 @@
 			<ul id="inputSidebar">
 				<li>
 					<label for="pitTeamNum">Team Number:</label>
-					<input type="text" id="pitTeamNum" style="width:60px;" onkeypress="return limitInput(event, 'number')"/>
+					<input type="number" id="pitTeamNum" style="width:60px;" onkeypress="return limitInput(event, 'number')"/>
 				</li>
 			</ul>
 		</fieldset>

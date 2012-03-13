@@ -1,6 +1,6 @@
 <?php
 	// remove this section before production
-	require_once('FirePHP/fb.php');
+	require_once('firephp/fb.php');
 	ob_start();
 
 	error_reporting( E_ALL );
