@@ -55,7 +55,6 @@
 		)
 	);
 
-
 	//compiled collections
 	$db->createCollection("compiledEvent");
 	$db->createCollection("compiledTeam");
@@ -66,4 +65,6 @@
 	$db->createCollection("sourceFMS");
 	$db->createCollection("sourceTeamInfo");
 	$db->createCollection("sourceEventInfo");
+
+	clearTmp();
 ?>

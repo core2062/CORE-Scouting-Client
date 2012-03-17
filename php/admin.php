@@ -30,7 +30,7 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
 
-	$db->sourceTeamInfo->remove(array());//clear out sourceTeamInfo
+	$db->sourceTeamInfo->remove([]);//clear out sourceTeamInfo
 
 	//get file to find number of teams
 	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
@@ -43,16 +43,16 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		global $db;
 
 		$db->sourceTeamInfo->update(
-			array(
+			[
 				"_id" => (int)$input[2]
-			),
-			array(
-				'$set' => array(
-					"meta" => array(
+			],
+			[
+				'$set' => [
+					"meta" => [
 						"tpid" => (int)$input[1]
-					)
-				)
-			),
+					]
+				]
+			],
 			true
 		);
 		return "";//is this needed or assumed????? & in below
@@ -102,7 +102,7 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 
 
 	//read TPIDs that were just processed
-	$cursor = $db->sourceTeamInfo->find()->sort(array("_id" => 1));
+	$cursor = $db->sourceTeamInfo->find()->sort(["_id" => 1]);
 
 	function processEvent($input){//add each team to DB
 		global $db;
@@ -117,7 +117,7 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 			$input[$i] = html_entity_decode($input[$i]);
 		}
 
-		$input['awards'] = array();
+		$input['awards'] = [];
 
 		//split awards string into array
 		for ($i=2; $i < $len; $i++) {// award list starts at 2nd array element
@@ -141,12 +141,12 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		//finally add to DB
 		//TODO: find faster way to do this (w/out copying and re-adding)
 		$events = $db->sourceTeamInfo->find(
-			array(
+			[
 				'_id' => $obj['_id']
-			),
-			array(
+			],
+			[
 				'events' => 1
-			)
+			]
 		);
 
 		$events = iterator_to_array($events);
@@ -154,7 +154,7 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		if(!empty($events[$obj['_id']]['events'])){
 			$events = $events[$obj['_id']]['events'];//really only need this part
 		} else {
-			$events = array();//if the team has no events entered yet
+			$events = [];//if the team has no events entered yet
 		}
 		
 		//TODO: make year be integer
@@ -162,14 +162,14 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		$events[(int)$input[0]][$input[1]]['awards'] = $input['awards'];
 
 		$db->sourceTeamInfo->update(
-			array(
+			[
 				"_id" => $obj['_id']
-			),
-			array(
-				'$set' => array(
+			],
+			[
+				'$set' => [
 					"events" => $events
-				)
-			),
+				]
+			],
 			true
 		);
 		return "";
@@ -240,14 +240,14 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 
 		//insert basic data
 		$db->sourceTeamInfo->update(
-			array(
+			[
 				"_id" => $obj['_id']
-			),
-			array(
-				'$set' => array(
+			],
+			[
+				'$set' => [
 					'info' => $team
-				)
-			),
+				]
+			],
 			true
 		);
 
@@ -255,19 +255,19 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 		preg_replace_callback("/<tr > <td >([^<>]*)<\/td> <td >([^<>]*)<\/td> <td >((?:[^<>]*|<br \/>|<(?:\/)?i>)*)<\/td> <\/tr>/", "processEvent", $contents);
 	}
 
-	send_reg(array('message' => 'finished getting team info'));
+	send_reg(['message' => 'finished getting team info']);
 
 break;
 case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
 
 break;
 case "updateFMS": //update scores/schedule of current or recent events (uses twitter)
-	$db->sourceFMS->remove(array());//clear out sourceFMS
+	$db->sourceFMS->remove([]);//clear out sourceFMS
 
 	$since_id = globalVar('since_id');
 	$since_id = 132931435354005504;
 
-	$fmsFiltered = array();
+	$fmsFiltered = [];
 
 	for($i = 1; $i < 17; $i++){
 		$filename = "tmp/db/updateFMS/" . $i;
@@ -313,10 +313,10 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 			preg_match('/BF ([0-9]*)/', $obj['text'], $info['blueFinalScore']);
 
 			preg_match('/RA ([0-9]*) ([0-9]*) ([0-9]*)/', $obj['text'], $info['redTeams']);
-			$info['redTeams'][1] = array((int)$info['redTeams'][1], (int)$info['redTeams'][2], (int)$info['redTeams'][3]);
+			$info['redTeams'][1] = [(int)$info['redTeams'][1], (int)$info['redTeams'][2], (int)$info['redTeams'][3]];
 
 			preg_match('/BA ([0-9]*) ([0-9]*) ([0-9]*)/', $obj['text'], $info['blueTeams']);
-			$info['blueTeams'][1] = array((int)$info['blueTeams'][1], (int)$info['blueTeams'][2], (int)$info['blueTeams'][3]);
+			$info['blueTeams'][1] = [(int)$info['blueTeams'][1], (int)$info['blueTeams'][2], (int)$info['blueTeams'][3]];
 
 			preg_match('/RB ([0-9]*)/', $obj['text'], $info['redBridgePoints']);
 			preg_match('/BB ([0-9]*)/', $obj['text'], $info['blueBridgePoints']);
@@ -341,15 +341,15 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 			}
 
 			$db->sourceFMS->update(
-				array(
+				[
 					"_id" => $obj['id_str']
-				),
-				array(
-					'$set' => array(
+				],
+				[
+					'$set' => [
 						'text' => $obj['text'],
 						'data' => $info
-					)
-				),
+					]
+				],
 				true
 			);
 
@@ -363,10 +363,10 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 
 	globalVar('since_id', $new_since_id);
 
-	send_reg(array('message' => 'finished updating FMS'));
+	send_reg(['message' => 'finished updating FMS']);
 break;
 case "compile": //clear out log collection in mongoDB
-	$db->compiledTeam->remove(array());//clear out compiledTeam
+	$db->compiledTeam->remove([]);//clear out compiledTeam
 	
 	require_once "php/math/Matrix.php";
 
@@ -485,9 +485,9 @@ case "compile": //clear out log collection in mongoDB
 
 	//process tracking info
 	$cursor = $db->sourceScouting->find(
-		array(
+		[
 			'inputType' => 'tracking'
-		)
+		]
 	);
 
 	foreach($cursor as $obj){
@@ -495,17 +495,17 @@ case "compile": //clear out log collection in mongoDB
 
 			//get team object (to add data from previous matches together)
 			$currentTeam = $db->compiledTeam->findOne(
-				array(
+				[
 					'_id' => (int)$obj['teamNum']
-				)
+				]
 			);
 
 			//get comments
 			$obj['comments'] = split("\n", $obj['comments']);
 
-			$currentTeam['matches'][$obj['matchNum']] = array(
+			$currentTeam['matches'][$obj['matchNum']] = [
 				'comments' => $obj['comments']
-			);
+			];
 
 			$currentTeam['totalMatches']++;
 
@@ -596,9 +596,9 @@ case "compile": //clear out log collection in mongoDB
 
 			//write new data to team object
 			$db->compiledTeam->remove(
-				array(
+				[
 					'_id' => (int)$obj['teamNum']
-				)
+				]
 			);//remove old one
 			$db->compiledTeam->insert($currentTeam);//insert new one
 
@@ -606,7 +606,7 @@ case "compile": //clear out log collection in mongoDB
 		}
 	}
 
-	send_reg(array('message' => 'db is compiled'));
+	send_reg(['message' => 'db is compiled']);
 
 break;
 case "export":
@@ -657,31 +657,23 @@ case "export":
 		return join("\n", $csv);
 	}
 
+	$fp = fopen($filename, "w+");
+	fwrite($fp, $contents);
+	fclose($fp);
+
+	globalVar('exportTotal', globalVar('exportTotal')++;);
+
+	send_reg(['message' => 'export is avaliable in /tmp/exports']);
+
 break;
 case "clearTmp": //clear out & rebuild tmp
-/* if not working:
-	sudo chmod -R 775 /var/www/
-	sudo chown -R sean:www-data /var/www/
-*/
 
-//TODO: fix file permissions below
-
-	$cwd = getcwd();
-	system("rm -rf " . $cwd . "/tmp");
-	mkdir($cwd . "/tmp/pages", 0777, true);
-	mkdir($cwd . "/tmp/backup");
-	mkdir($cwd . "/tmp/db/getTPIDs", 0777, true);
-	mkdir($cwd . "/tmp/db/getTeamProfiles");
-	mkdir($cwd . "/tmp/db/getEvents");
-	mkdir($cwd . "/tmp/db/updateFMS");
-
-	send_reg(array('message' => 'tmp directory is rebuilt'));
 
 break;
 case "clearLog": //clear out log collection in mongoDB
 	
-	$db->log->remove(array());
-	send_reg(array('message' => 'db log is cleared (except for this message)'));
+	$db->log->remove([]);
+	send_reg(['message' => 'db log is cleared (except for this message)']);
 
 break;
 case "resetDB": //make all the collections / vars needed for the site and remove current
@@ -697,6 +689,30 @@ case "backupDB": //copy DB to file in tmp/backup
 break;
 default:
 	send_error('invalid subRequest');
+}
+
+//functions
+
+function clearTmp(){
+	/* if not working:
+	sudo chmod -R 775 /var/www/
+	sudo chown -R sean:www-data /var/www/
+	*/
+
+	//TODO: fix file permissions below
+
+	$cwd = getcwd();
+	system("rm -rf " . $cwd . "/tmp");
+	mkdir($cwd . "/tmp/pages", 0777, true);
+	mkdir($cwd . "/tmp/backup");
+	mkdir($cwd . "/tmp/db/getTPIDs", 0777, true);
+	mkdir($cwd . "/tmp/db/getTeamProfiles");
+	mkdir($cwd . "/tmp/db/getEvents");
+	mkdir($cwd . "/tmp/db/updateFMS");
+
+	globalVar('exportTotal', 0);
+
+	send_reg(['message' => 'tmp directory is rebuilt']);
 }
 
 
