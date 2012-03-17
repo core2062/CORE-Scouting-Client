@@ -351,7 +351,7 @@ $path = [
 						[
 							'canvas',
 							'id' => 'canvas',
-							'onclick'='canvasClick(event)'
+							'onclick' => 'canvasClick(event)'
 						],
 						[
 							'div',
@@ -392,12 +392,16 @@ $path = [
 								'teleop'
 							]
 						],
-						['br'],
+						//['br'],
 						[
 							'button',
 							'style' => 'float:right; margin: 5px; margin-right: -15px',
 							'onclick' => 'addEntry()',
 							'Add'
+						],
+						[
+							'table',
+							'id' => 'trackingDisplay'
 						]
 					]
 				]

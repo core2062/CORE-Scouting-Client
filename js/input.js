@@ -68,7 +68,6 @@ var input = {
 //add fields to input object for use later
 for(var i in input){
 	input[i].elementNode = document.getElementById(i);
-	console.log(input[i].elementNode);
 	if(input[i].elementNode.type == "checkbox"){
 		input[i].valueGetter = 'checked';
 	} else {
@@ -104,15 +103,15 @@ function submitData(){
 		delete submit.pitTeamNum;
 	}
 
-	console.log(submit);
+	//console.log(submit);
 
 	increase('matchNum');
 
 	//submit.push('"' + i + '": "' + inputValue[i].value + '"');
 
-console.log($.toJSON(submit));
+	//console.log($.toJSON(submit));
 	submit = '{"request": "input", "inputType": "' + current.subpage + '", "data": ' + $.toJSON(submit) + '}';
-	console.log(submit);
+	//console.log(submit);
 
 	post('process.php', submit);
 }
@@ -189,16 +188,16 @@ function clearinputs(){
 		document.getElementById(typeOfEntry).className = "selected";
 		
 		document.getElementById('hybrid').className = "";
-		document.getElementById('shoot').className = "";
+		document.getElementById('teleop').className = "";
 		document.getElementById(typeOfEntry).className = "selected";
 	}
 	
 	//TODO: fix issue with incorrect location caused by scroll bar
 	function canvasClick(e){
-		console.log(e.clientX);
+		//console.log(e.clientX);
 		currentEntry.xCoord = e.clientX-$('#canvas').offset().left;
 		
-		console.log(e.clientY);
+		//console.log(e.clientY);
 		currentEntry.yCoord = e.clientY-$('#canvas').offset().top;
 		
 		canvas.drawImage(img, 0, 0, 300, 150);//redraw image
@@ -211,9 +210,6 @@ function clearinputs(){
 	}
 	
 	function scoreSelect(typeOfScore){
-		if(document.getElementById(typeOfScore).disabled === true){
-			return;
-		}
 
 		document.getElementById('top').className = "";
 		document.getElementById('middle').className = "";
@@ -231,7 +227,7 @@ function clearinputs(){
 
 		}
 
-		console.log(currentEntry);
+		//console.log(currentEntry);
 		
 	}
 
@@ -258,6 +254,20 @@ function clearinputs(){
 		trackingInputs.push(currentEntry);
 
 		reloadTrackingInput(currentEntry.peroid);
+		updateTrackingDisplay();
+
+		$('#jGrowl-container').jGrowl('added', {});
+	}
+
+	function updateTrackingDisplay(){
+		var table = '<thead><tr><td>#</td><td>peroid</td><td>height</td></tr></thead><tbody>';
+		len = trackingInputs.length;
+		for(var i = 0; i < len; i++){
+			table += '<tr><td>' + (i+1) + '</td><td>' + trackingInputs[i].peroid + '</td><td>' + trackingInputs[i].score + '</td></tr>';
+		}
+		table += '</tbody>';
+		document.getElementById('trackingDisplay').innerHTML = table;
+		console.log(table);
 	}
 
 	//tracking input startup
@@ -281,7 +291,11 @@ function clearinputs(){
 			score: ''
 		};
 
-		typeSelect(matchPeroid);
+		document.getElementById('top').className = "";
+		document.getElementById('middle').className = "";
+		document.getElementById('bottom').className = "";
+
+		typeSelect(currentEntry.peroid);
 	}
 
 /*
