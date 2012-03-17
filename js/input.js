@@ -28,22 +28,22 @@ var input = {
 		"categories": ["p"]
 	},
 	"comments": {
-		"categories": ["r", "a", "p"]
+		"categories": ["r", "t", "p"]
 	},
 	"matchNum": {
-		"categories": ["r", "a"]
+		"categories": ["r", "t"]
 	},
 	"matchType": {
-		"categories": ["r", "a"]
+		"categories": ["r", "t"]
 	},
 	"teamNum": {
-		"categories": ["r", "a"]
+		"categories": ["r", "t"]
 	},
 	"pitTeamNum": {//this is really just a pain
 		"categories": ["p"]
 	},
 	"allianceColor": {
-		"categories": ["r","a"]
+		"categories": ["r","t"]
 	},
 	"wasDisabled": {
 		"categories": ["r"]
@@ -68,6 +68,7 @@ var input = {
 //add fields to input object for use later
 for(var i in input){
 	input[i].elementNode = document.getElementById(i);
+	console.log(input[i].elementNode);
 	if(input[i].elementNode.type == "checkbox"){
 		input[i].valueGetter = 'checked';
 	} else {
@@ -93,7 +94,7 @@ function submitData(){
 		}
 	}
 
-	if(current.subpage.charAt(0) == 'a'){
+	if(current.subpage.charAt(0) == 't'){
 		submit.trackingInputs = trackingInputs;
 		trackingInputs = [];
 	}
@@ -130,6 +131,7 @@ function increase(elementid){
 }
 
 function errorcheck(){
+/*
 	if (currentpage == 'robot') {
 		inputspossible = 6;
 
@@ -149,9 +151,11 @@ function errorcheck(){
 
 	$("#progressbar-value").animate( { width: inputnum / inputspossible * 100 + "%" } );
 	$("#errorbar-value").animate( { width: errornum / inputspossible * 100 + "%" } );
+*/
 }
 
 function clearinputs(){
+/*
 	if (current.subpage == 'robot') {
 		inputspossible = 6;
 
@@ -175,29 +179,16 @@ function clearinputs(){
 	document.getElementById('YCard').value = '';
 	document.getElementById('Comments').innerHTML = '';
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
+*/
 }
 
 //tracking (canvas input stuff)
 		
 	function typeSelect(typeOfEntry){
-		currentEntry.type = typeOfEntry;
+		currentEntry.peroid = typeOfEntry;
 		document.getElementById(typeOfEntry).className = "selected";
-	
-		if(typeOfEntry == 'pickup'){
-			document.getElementById('top').disabled = true;
-			document.getElementById('middle').disabled = true;
-			document.getElementById('bottom').disabled = true;
-
-			document.getElementById('top').className = "";
-			document.getElementById('middle').className = "";
-			document.getElementById('bottom').className = "";
-		} else {//shoot
-			document.getElementById('top').disabled = false;
-			document.getElementById('middle').disabled = false;
-			document.getElementById('bottom').disabled = false;
-		}
 		
-		document.getElementById('pickup').className = "";
+		document.getElementById('hybrid').className = "";
 		document.getElementById('shoot').className = "";
 		document.getElementById(typeOfEntry).className = "selected";
 	}
@@ -266,7 +257,7 @@ function clearinputs(){
 
 		trackingInputs.push(currentEntry);
 
-		reloadTrackingInput();//only make this happen when it submits error-less-ly
+		reloadTrackingInput(currentEntry.peroid);
 	}
 
 	//tracking input startup
@@ -277,21 +268,20 @@ function clearinputs(){
 	var currentEntry = {};
 
 	img.onload = function(){
-		reloadTrackingInput();
+		reloadTrackingInput('hybrid');
 	};
 
-	function reloadTrackingInput(){
+	function reloadTrackingInput(peroid){
 		canvas.drawImage(img, 0, 0, 300, 150);
 
 		currentEntry = {
-			type: "pickup",//pickup/shoot
+			peroid: peroid,// hybrid/teleop
 			xCoord: -1,
 			yCoord: -1,
-			score: ''/*,//top/middle/bottom
-			time: -1*/
+			score: ''
 		};
 
-		typeSelect('pickup');
+		typeSelect(matchPeroid);
 	}
 
 /*

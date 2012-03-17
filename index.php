@@ -154,7 +154,7 @@ include 'php/jsminplus.php';
 <html> <!--TODO: add  manifest="manifest.mf" + make file-->
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
-<title>Input</title>
+<title>CSD</title>
 <link href="favicon.ico" rel="shortcut icon" id="favicon"/>
 <!--[if lt IE 9]>
 <link rel="stylesheet" type="text/css" href="css/style-ie.css" />
@@ -272,6 +272,8 @@ function embed($folder, $extension) {
 	global $embeddedLen;
 	global $embedded;
 	global $pages;
+
+	fb($embedded);
 
 	for ($i = 0; $i < $embeddedLen; ++$i) {
 		$file = $folder . $embedded[$i] . $extension;

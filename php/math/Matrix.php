@@ -22,7 +22,7 @@
 //
 
 //require_once 'PEAR.php';
-require_once 'math/Vector.php';
+require_once 'php/math/Vector.php';
 
 /**
  * Defines a matrix object, conceptualized as an array of arrays such that:
@@ -1197,7 +1197,7 @@ class Math_Matrix {/*{{{*/
                     $data[] = explode(',',trim($line));
                 }
             }
-            $m =& new Math_Matrix();
+            $m = new Math_Matrix();
             $e = $m->setData($data);
             if (PEAR::isError($e)) {
                 return $e; 
