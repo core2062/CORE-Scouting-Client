@@ -514,7 +514,7 @@ case "compile": //clear out log collection in mongoDB
 			for ($i=0; $i < $len; $i++) {
 				$currentObj = $obj['trackingInputs'][$i];//only need this stuff
 
-				//get shoot/pickup locations
+				//get shoot locations
 				$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
 
 				//check if it is from key
@@ -558,29 +558,24 @@ case "compile": //clear out log collection in mongoDB
 				$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
 
 
+				$currentTeam['shooting']['totalShots']++;
+				$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalShots']++;
 
-				if($currentObj['type'] == 'shoot'){
-					$currentTeam['shooting']['totalShots']++;
-					$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalShots']++;
+				//add distance info to object
+				$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['shots'][] = [
+					'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
+					'distance' => $distanceFromHoop,
+					'place' => $location
+				];
 
-					//add distance info to object
-					$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['shots'][] = [
-						'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
-						'distance' => $distanceFromHoop,
-						'place' => $location
-					];
+				//add to shoot totals
+				if(!empty($currentObj['score'])){
+					$currentTeam['shooting']['totalScores']++;
+					$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalScores']++;
 
-					//add to shoot totals
-					if(!empty($currentObj['score'])){
-						$currentTeam['shooting']['totalScores']++;
-						$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalScores']++;
-
-						//increase score total for the correct hoop
-						$currentTeam['shooting']['heightTotal'][ $currentObj['score'] ]++;
-						$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['heightTotal'][ $currentObj['score'] ]++;
-					}
-
-
+					//increase score total for the correct hoop
+					$currentTeam['shooting']['heightTotal'][ $currentObj['score'] ]++;
+					$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['heightTotal'][ $currentObj['score'] ]++;
 				}
 
 				//more stuff here
@@ -612,6 +607,55 @@ case "compile": //clear out log collection in mongoDB
 	}
 
 	send_reg(array('message' => 'db is compiled'));
+
+break;
+case "export":
+
+	$cursor = $db->compiledTeam->find();
+
+	foreach ($cursor as $obj) {
+		$csv[] = [
+			'teamNum' => 0,
+			'matches' => 0,
+			'shots' => 0,
+			'scores' => 0,
+			'topBasketScores' => 0,
+			'middleBasketScores' => 0,
+			'bottomBasketScores' => 0,
+			'balenceAttempts' => 0,
+			//number of time bridge was brought down (just indicates ability to bring bridge down, not necessarily balancing)
+			'sucessfulBalence' => 0,//total of below 3 
+			'1RobotBalence' => 0,
+			'2RobotBalence' => 0,
+			'3RobotBalence' => 0,
+			'coopertitionBalance' => 0
+		];
+	}
+
+	/*
+		total number of balances
+
+		next level of importance:
+
+		# matches doa
+		penalty points incurred
+		total bump crossings
+		hybrid score seperated from teleop score
+
+		nice to have
+
+		longest shot made (could be represented in feet or in increments like fender, key, front court, half court...)
+		best balance (single, double, etc)
+	*/
+
+	function toCSV($csv){
+		array_unshift($csv, array_keys($csv[0]));//prepend
+		$len = count($csv);
+		for($i=0; $i < $len; $i++){ 
+			$csv[$i] = join(',', array_values($csv[$i]));
+		}
+		return join("\n", $csv);
+	}
 
 break;
 case "clearTmp": //clear out & rebuild tmp
