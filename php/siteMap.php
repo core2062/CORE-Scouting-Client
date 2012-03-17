@@ -58,9 +58,9 @@
 			"hidden" => false,
 			"full-name" => "Input",
 			"subpages" => array(
-				"alliance" => array(
+				"tracking" => array(
 					"description" => "lorem",
-					"full-name" => "Alliance Scouting",
+					"full-name" => "Tracking Scouting",
 					"login-required" => true
 				),
 				"pit" => array(
