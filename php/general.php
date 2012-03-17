@@ -57,7 +57,7 @@ $userObject = array(
 );
 
 //logging function
-$log = array(); //start log - used for general logging (any messages that are not recorded by anything else)
+$log = []; //start log - used for general logging (any messages that are not recorded by anything else)
 
 function logger($message, $fbDisplay = false){
 	global $log;
