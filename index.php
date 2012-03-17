@@ -88,10 +88,10 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 	$pages = array_values($pages);//reindex from unsetting
 
 	sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
-	$embeddedLen = count($embedded);
 
 	$filename = $embedded[0];
-	for ($i = 1; $i < $embeddedLen; ++$i) {
+	$len = count($embedded);
+	for ($i = 1; $i < $len; ++$i) {
 		$filename .= "," . $embedded[$i];
 	}
 	$filename = 'tmp/pages/' . $filename . '-index';
@@ -102,7 +102,6 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 
 	//function to check if files have been modified
 	function cacheCheck() {
-		global $embeddedLen;
 		global $embedded;
 		global $filename;
 
@@ -114,20 +113,21 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 		$htmlparts = array('navbar', 'content', 'sidebar', 'modals');
 		$parts_length = count($htmlparts);
 
-		for ($i = 0; $i < $embeddedLen; ++$i) {
+		$len = count($embedded);
+		for ($i = 0; $i < $len; ++$i) {
 			$file = 'css/' . $embedded[$i] . '.css';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
-		for ($i = 0; $i < $embeddedLen; ++$i) {
+		for ($i = 0; $i < $len; ++$i) {
 			$file = 'js/' . $embedded[$i] . '.js';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
 		for ($e = 0; $e < $parts_length; ++$e) {
-			for ($i = 0; $i < $embeddedLen; ++$i) {
+			for ($i = 0; $i < $len; ++$i) {
 				$file = 'html/' . $embedded[$i] . '-' . $htmlparts[$e] . '.html';
 				if (file_exists($file)) {
 					if (filemtime($file) > $cache_date) {return false;}
@@ -269,17 +269,17 @@ include 'php/jsminplus.php';
 <?php
 
 function embed($folder, $extension) {
-	global $embeddedLen;
 	global $embedded;
 	global $pages;
 
-	fb($embedded);
+	$embeddedLen = count($embedded);
+	for ($embeddedIndex = 0; $embeddedIndex < $embeddedLen; ++$embeddedIndex) {
+		$file = $folder . $embedded[$embeddedIndex] . $extension;
 
-	for ($i = 0; $i < $embeddedLen; ++$i) {
-		$file = $folder . $embedded[$i] . $extension;
-
-		if (file_exists($file) == true) {
+		if (file_exists($file)) {
 			include($file);
+		} else {
+			logger($file . ' is non-existent', true);
 		}
 	}
 }
@@ -303,7 +303,8 @@ $javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
 
 $javascript .= file_get_contents("js/libraries.js");
 
-for ($i = 0; $i < $embeddedLen; ++$i) {
+$len = count($embedded);
+for ($i = 0; $i < $len; ++$i) {
 	$file = 'js/' . $embedded[$i] . '.js';
 
 	if (file_exists($file) == true) {
