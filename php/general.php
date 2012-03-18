@@ -1,12 +1,4 @@
 <?php
-	// remove this section before production
-	require_once('firephp/fb.php');
-	ob_start();
-
-	error_reporting( E_ALL );
-	ini_set( 'display_errors', 1 );
-?>
-<?php
 //This script handles: general functions needed for almost all scripts
 
 //start timer
@@ -18,6 +10,38 @@ $starttime = (float)$sec + (float)$micro;
 //connect to mongoDB
 $m = new Mongo();
 $db = $m->selectDB("csd");
+
+function globalVar($name, $update = null){//consider adding ability to set var here too
+	global $db;
+
+	if(!isset($update)){
+		$return = $db->globalVar->findOne(
+			array(
+				'_id' => $name
+			)
+		);
+	} else {
+		$return = $db->globalVar->update(
+			array(
+				'_id' => $name
+			),
+			array(
+				'$set' => array(
+					'value' => $update
+				)
+			)
+		);
+	}
+	return $return['value'];
+}
+
+if(globalVar('devMode')){
+	require_once('firephp/fb.php');
+	ob_start();
+
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', 1 );
+}
 
 //get basic variables
 $vars['ip'] = $_SERVER['REMOTE_ADDR'] or send_error("cannot get ip");
@@ -73,31 +97,6 @@ function logger($message, $fbDisplay = false){
 	}
 
 	error_log($message . ", at " . $duration . "\n", 3, "tmp/log");
-}
-
-function globalVar($name, $update = null){//consider adding ability to set var here too
-	global $db;
-
-	if(!isset($update)){
-		$return = $db->globalVar->findOne(
-			array(
-				'_id' => $name
-			)
-		);
-	} else {
-		$return = $db->globalVar->update(
-			array(
-				'_id' => $name
-			),
-			array(
-				'$set' => array(
-					'value' => $update
-				)
-			)
-		);
-	}
-
-	return $return['value'];
 }
 
 //global return functions

@@ -47,7 +47,6 @@
 			"value" => 1
 		)
 	);
-
 	$db->globalVar->insert(
 		array(
 			"_id" => "devMode",//sets global devMode, if true, will override local devMode (in index.php)
@@ -66,5 +65,5 @@
 	$db->createCollection("sourceTeamInfo");
 	$db->createCollection("sourceEventInfo");
 
-	clearTmp();
+	clearTmp();//also rebuilds tmp
 ?>
