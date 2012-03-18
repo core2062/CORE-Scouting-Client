@@ -36,12 +36,12 @@ function calcOPR(){
 	global $db;
 	global $teams;
 
-	$teamMatchups = array_fill_keys($teams, 0);
-	$teamScores = array_fill_keys($teams, 0);
+	//ini_set('max_execution_time', 1200); //this script needs extra time
+	//ini_set('memory_limit', '1200M');//the OPR calc can require alot of memory
 
-	foreach ($teamMatchups as $key => $value) {
-		$teamMatchups[$key] = array_fill_keys($teams, 0);
-	}
+	$teamMatchups = [];
+	$teamScores = [];
+	$allianceColors = ['red', 'blue'];
 
 	$cursor = $db->sourceFMS->find();
 
@@ -49,12 +49,23 @@ function calcOPR(){
 		$obj = $obj['data'];//only part that is needed
 		if($obj['eventCode'] == "DMN" && $obj['matchType'] != "P"){//use check with mongo???
 			for($e=0; $e < 3; $e++){
-				$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['blueTeams'][$e] ]++;
-				$teamMatchups[ $obj['redTeams'][$e] ][ $obj['redTeams'][$e] ]++;
+				for($allianceColorIndex=0; $allianceColorIndex < 2; $allianceColorIndex++){//toggle current alliance
+					//$currentAlliance == 'redTeams' ? $oppositeAlliance = 'blueTeams' : $oppositeAlliance = 'redTeams';
+					$currentTeam = $obj[$allianceColors[$allianceColorIndex] . 'Teams'][$e];//just for convince & better naming
 
-				$teamScores[ $obj['blueTeams'][$e] ] = $teamScores[ $obj['blueTeams'][$e] ] + $obj['blueFinalScore'];
-				$teamScores[ $obj['redTeams'][$e] ] = $teamScores[ $obj['redTeams'][$e] ] + $obj['redFinalScore'];
+					if(empty($teamMatchups[$currentTeam])){//if team has not been added yet
+						$teamScores[$currentTeam] = 0;
+						$teamMatchups[$currentTeam] = array_fill_keys(array_keys($teamMatchups),0);
+						foreach ($teamMatchups as $key => $value){
+							$teamMatchups[$key][$currentTeam] = 0;
+						}
+					}
+					$teamMatchups[$currentTeam][$currentTeam]++;//increse team vs itself number (number of times it has played)
+					$teamScores[$currentTeam] = $teamScores[$currentTeam] + $obj[$allianceColors[$allianceColorIndex] . 'FinalScore'];//increase team total score
+				}
+			}
 
+			for($e=0; $e < 3; $e++){//seperate so all teams are already defined
 				for($i=0; $i < 3; $i++){
 					$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['redTeams'][$i] ]++;
 					$teamMatchups[ $obj['redTeams'][$e] ][ $obj['blueTeams'][$i] ]++;
@@ -63,18 +74,21 @@ function calcOPR(){
 		}
 	}
 
+	//recursivly sort matrix
 	ksort($teamMatchups);
 	foreach($teamMatchups as $key => $value){
 		ksort($teamMatchups[$key]);
 	}
 
+	ksort($teamScores);
+	$teamList = array_keys($teamScores);
+	$teamScores = array_values($teamScores);
+
+	//remove team numbers from array - turn into normal matrix to it can be put through equation
 	$teamMatchups = array_values($teamMatchups);
 	foreach($teamMatchups as $key => $value){
 		$teamMatchups[$key] = array_values($teamMatchups[$key]);
 	}
-
-	$teamNumbers = array_keys($teamScores);//used to re-associate with OPR values later
-	$teamScores = array_values($teamScores);//clean away keys to use in equation
 
 	$teamMatchupsMatrix = new Math_Matrix($teamMatchups);
 	$teamScoresVector = new Math_Vector($teamScores);
@@ -82,13 +96,22 @@ function calcOPR(){
 	$oprValues = Math_Matrix::solve($teamMatchupsMatrix, $teamScoresVector);
 	$oprValues = $oprValues->_tuple->data;
 
-	//re-associate keys with data from oprValues
 	$len = count($oprValues);
 	for($i = 0; $i < $len; $i++){
-		//$opr[] = [$teamNumbers[$i], $oprValues[$i]];
-		$opr[$teamNumbers[$i]] = $oprValues[$i];
+		//$opr[] = [$teamList[$i], $oprValues[$i]];
+		$opr[$teamList[$i]] = $oprValues[$i];
 	}
 	unset($oprValues);
+/*
+	usort($opr, function (array $a, array $b){ return $a[1] - $b[1]; });
+	
+	$oprText = "";
+	foreach ($opr as $key => $value) {
+		$oprText .= '\n' . $value[0] . '=' . $value[1] . "\n"; 
+	}
+	fb($oprText);
+*/
+	//fb($opr);
 
 	return $opr;
 }

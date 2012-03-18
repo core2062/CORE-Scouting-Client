@@ -1,7 +1,7 @@
 <?php
 /*
 Requires:
-	inputType - robot, alliance, pit...
+	inputType - robot, tracking, pit...
 */
 
 if(empty($input['inputType']) == true){
@@ -20,10 +20,13 @@ $input['data']['meta'] = array(
 
 fb($input['data']);
 
-//for robot & alliance
-if($input['inputType'] == 'robot' || $input['inputType'] == 'alliance'){
+//for robot & tracking
+if($input['inputType'] == 'robot' || $input['inputType'] == 'tracking'){
 	if(empty($input['data']['matchNum'])){
 		send_error("match number was not correct");
+	}
+	if(empty($input['data']['teamNum'])){
+		send_error("team number was not correct");
 	}
 }
 
@@ -42,7 +45,7 @@ _id: random number
 meta: {
 	scoutid: scoutid of user
 	time: when data was entered
-	type: inputType (robot, alliance, or pit)
+	type: inputType (robot, tracking, or pit)
 	use: default as true, if error count is too high then it is false
 }
 sort: {
