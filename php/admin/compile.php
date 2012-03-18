@@ -145,11 +145,13 @@ foreach($cursor as $obj){
 	}
 }
 
-$cursor = $db->sourceScouting->find(['inputType' => 'alliance']);
+$cursor = $db->sourceScouting->find(['inputType' => 'tracking']);
 $counter = 0;
 foreach($cursor as $obj){
 	$counter++;
-	$obj['inputType'] = 'tracking';
+	foreach ($obj as $key => $value) {
+	if(is_numeric($value)) $obj[$key] = $obj[$key] + 0;//change type of vars if they are actually numbers
+}
 
 
 	//write new data to team object

@@ -498,20 +498,46 @@ function json2table (json) {
 	return table;
 }
 
-function post(filename, json) {
+function post(filename, json, async){
+	async = (typeof async == "undefined")? false :async;//TODO finish??????????????
 	/*
 	this function handles:
 		all interfacing w/ server via AJAX
 		
 	json.globalError: holds type of globalError (which determines action), error text is still in json.error
 	*/
+	function success(data){
+		json = eval("(" + data + ")");
+		console.log(json);//TODO: remove before production
+		
+		if(json.script){//script must be run before error returns (like for logout function)
+			eval(json.script);
+		}
+		
+		if(json.error){
+			$('#jGrowl-container').jGrowl('error: ' + json.error, {
+				theme: 'error'
+			});
+			return false; //this means error
+		}
+		
+		if(json.message && user.prefs.verbose === true){
+			$('#jGrowl-container').jGrowl('success: ' + json.message, {
+				theme: 'message'
+			});
+			delete json.message;
+		}
+		
+		return json;//if nothing is returned assume error
+	}
+
 	var ajax = $.ajax({
 		type: "POST",
 		url: filename,
 		data: 'data=' + json,
-		async: false,
-		success: function() {
-
+		async: async,
+		success: function(data){
+			if(async) success(data);
 		},
 		error: function() {
 			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {
@@ -520,28 +546,8 @@ function post(filename, json) {
 			});
 		}
 	});
-	json = eval("(" + ajax.responseText + ")");
-	console.log(json);//TODO: remove before production
-	
-	if(json.script){//script must be run before error returns (like for logout function)
-		eval(json.script);
-	}
-	
-	if(json.error){
-		$('#jGrowl-container').jGrowl('error: ' + json.error, {
-			theme: 'error'
-		});
-		return false; //this means error
-	}
-	
-	if(json.message && user.prefs.verbose === true){
-		$('#jGrowl-container').jGrowl('success: ' + json.message, {
-			theme: 'message'
-		});
-		delete json.message;
-	}
-	
-	return json;//if nothing is returned assume error
+
+	if(!async) return success(ajax.responseText);
 }
 
 

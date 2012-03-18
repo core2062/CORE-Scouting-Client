@@ -30,6 +30,10 @@ if($input['inputType'] == 'robot' || $input['inputType'] == 'tracking'){
 	}
 }
 
+foreach ($input['data'] as $key => $value) {
+	if(is_numeric($value)) $input['data'][$key] = $input['data'][$key] + 0;//change type of vars if they are actually numbers
+}
+
 //validation of all data... log invalid data & change errorCount based on it
 //if error count is too high then set use = false
 
