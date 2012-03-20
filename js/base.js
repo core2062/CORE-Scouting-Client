@@ -461,6 +461,12 @@ Array.prototype.has = function(checkObj){
 	return (this.indexOf(checkObj) != -1);
 };
 
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
 function limitInput(e, limit) { //used for limiting form input
 	var unicode = e.charCode ? e.charCode : e.keyCode;
 	if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { //if the key isn't the backspace key or tab or l/r arrow
@@ -503,6 +509,8 @@ function post(filename, json, async){
 	/*
 	this function handles:
 		all interfacing w/ server via AJAX
+
+	TODO: add reattempt code
 		
 	json.globalError: holds type of globalError (which determines action), error text is still in json.error
 	*/

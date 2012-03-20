@@ -9,7 +9,7 @@ sort($teams);
 
 
 analysisScouting();//remove this later
-
+die();
 $opr = calcOPR();
 
 $db->compiledTeam->remove([]);//clear out compiledTeam

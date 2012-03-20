@@ -88,32 +88,36 @@ function submitData(){
 
 	for(var i in input){
 		if(input[i].categories.has(current.subpage.charAt(0))){
-			//console.log('getting:' + i);
 			submit[i] = input[i].elementNode[input[i].valueGetter];
 		}
 	}
 
 	if(current.subpage.charAt(0) == 't'){
 		submit.shots = trackingInputs;
-		trackingInputs = [];
 	}
 
 	if(current.subpage.charAt(0) == 'p'){
 		submit.teamNum = submit.pitTeamNum;
-		delete submit.pitTeamNum;
 	}
 
-	//console.log(submit);
+	console.log(submit);
 
 	increase('matchNum');
 
-	//submit.push('"' + i + '": "' + inputValue[i].value + '"');
-
-	//console.log($.toJSON(submit));
 	submit = '{"request": "input", "inputType": "' + current.subpage + '", "data": ' + $.toJSON(submit) + '}';
 	//console.log(submit);
 
-	post('process.php', submit);
+	if(post('process.php', submit) !== false){//if no errors, clear inputs
+			if(current.subpage.charAt(0) == 't'){
+			trackingInputs = [];
+			updateTrackingDisplay();
+		}
+
+		if(current.subpage.charAt(0) == 'p'){
+			submit.teamNum = submit.pitTeamNum;
+			delete submit.pitTeamNum;
+		}
+	}
 }
 
 function increase(elementid){
@@ -184,7 +188,7 @@ function clearinputs(){
 //tracking (canvas input stuff)
 		
 	function typeSelect(typeOfEntry){
-		currentEntry.peroid = typeOfEntry;
+		currentEntry.period = typeOfEntry;
 		document.getElementById(typeOfEntry).className = "selected";
 		
 		document.getElementById('hybrid').className = "";
@@ -253,21 +257,25 @@ function clearinputs(){
 
 		trackingInputs.push(currentEntry);
 
-		reloadTrackingInput(currentEntry.peroid);
+		reloadTrackingInput(currentEntry.period);
 		updateTrackingDisplay();
 
 		$('#jGrowl-container').jGrowl('added', {});
 	}
 
 	function updateTrackingDisplay(){
-		var table = '<thead><tr><td>#</td><td>peroid</td><td>height</td></tr></thead><tbody>';
+		var table = '<thead><tr><td>#</td><td>period</td><td>height</td><td>remove</td></tr></thead><tbody>';
 		len = trackingInputs.length;
 		for(var i = 0; i < len; i++){
-			table += '<tr><td>' + (i+1) + '</td><td>' + trackingInputs[i].peroid + '</td><td>' + trackingInputs[i].score + '</td></tr>';
+			table += '<tr><td>' + (i+1) + '</td><td>' + trackingInputs[i].period + '</td><td>' + trackingInputs[i].score + '</td><td><button onclick="removeTrackingInput(' + i + ')">X</button></td></tr>';
 		}
 		table += '</tbody>';
 		document.getElementById('trackingDisplay').innerHTML = table;
-		console.log(table);
+	}
+
+	function removeTrackingInput(index){
+		trackingInputs.remove(index);
+		updateTrackingDisplay();
 	}
 
 	//tracking input startup
@@ -281,11 +289,11 @@ function clearinputs(){
 		reloadTrackingInput('hybrid');
 	};
 
-	function reloadTrackingInput(peroid){
+	function reloadTrackingInput(period){
 		canvas.drawImage(img, 0, 0, 300, 150);
 
 		currentEntry = {
-			peroid: peroid,// hybrid/teleop
+			period: period,// hybrid/teleop
 			xCoord: -1,
 			yCoord: -1,
 			score: ''
@@ -295,14 +303,14 @@ function clearinputs(){
 		document.getElementById('middle').className = "";
 		document.getElementById('bottom').className = "";
 
-		typeSelect(currentEntry.peroid);
+		typeSelect(currentEntry.period);
 	}
 
 /*
 //match timer
 	var startMatch = document.getElementById('startMatch');
 	var matchTimer = -1;
-	var matchPeroid = '';
+	var matchperiod = '';
 
 	function startMatchTimer(){
 		window.matchTimerID = setInterval('updateMatchTimer();', 1000);
@@ -313,18 +321,18 @@ function clearinputs(){
 	function stopMatchTimer(){
 		clearInterval(matchTimerID);
 		matchTimer = -1;
-		matchPeroid = '';
+		matchperiod = '';
 		startMatch.innerHTML = 'Start Match';
 		startMatch.setAttribute('onclick','startMatchTimer()');
 	}
 
 	function updateMatchTimer(){
 		if(matchTimer < 15){
-			matchPeroid = 'hybrid';
+			matchperiod = 'hybrid';
 		} else if (matchTimer < 105){
-			matchPeroid = 'teleop';
+			matchperiod = 'teleop';
 		} else if (matchTimer < 135){
-			matchPeroid = 'end game';
+			matchperiod = 'end game';
 		} else {
 			stopMatchTimer();
 			return;
@@ -332,6 +340,6 @@ function clearinputs(){
 
 		matchTimer++;
 
-		startMatch.innerHTML = matchPeroid + ' - ' + (135-matchTimer);
+		startMatch.innerHTML = matchperiod + ' - ' + (135-matchTimer);
 	}
 */
