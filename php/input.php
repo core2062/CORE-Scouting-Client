@@ -41,22 +41,8 @@ $db->sourceScouting->insert(
 	$input['data']
 );
 
+require "php/analysis.php";
+trackingEntryAnalysis($input['data']);
+
 send_reg(array('message' => 'data submitted sucessfully'));
-
-/* Data Model
-
-_id: random number
-meta: {
-	scoutid: scoutid of user
-	time: when data was entered
-	type: inputType (robot, tracking, or pit)
-	use: default as true, if error count is too high then it is false
-}
-sort: {
-	matchNum:
-}
-
-*/
-
-
 ?>
