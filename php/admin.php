@@ -30,7 +30,7 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
 
-	require_once 'php/admin/getTeams';
+	require 'php/admin/getTeams';
 	send_reg(['message' => 'finished getting team info']);
 
 break;
@@ -39,19 +39,26 @@ case "getEvents": //get all events & add links for teams in each match (which wi
 break;
 case "updateFMS": //update scores/schedule of current or recent events (uses twitter)
 
-	require_once "php/admin/updateFMS.php";
+	require "php/admin/updateFMS.php";
 	send_reg(['message' => 'finished updating FMS']);
 	
 break;
 case "compile": //clear out log collection in mongoDB
 	
-	require_once "php/admin/compile.php";
+	require "php/admin/compile.php";
 	send_reg(['message' => 'db is compiled']);
+
+break;
+case "rebuildAnalysisScouting": //clear out log collection in mongoDB
+	
+	require "php/analysis.php";
+	analysisScouting();
+	send_reg(['message' => 'scouting analysis db is rebuilt']);
 
 break;
 case "export":
 
-	require_once "php/admin/export.php";
+	require "php/admin/export.php";
 	send_reg(['message' => 'export is avaliable in /tmp/db/exports']);
 
 break;
@@ -71,7 +78,7 @@ case "resetDB": //make all the collections / vars needed for the site and remove
 
 	send_error('bad idea, and not finished');
 	//TODO: finish & add stuff to empty db (and maybe export into a backup in temp)
-	require_once "php/admin/resetDB.php";
+	require "php/admin/resetDB.php";
 
 break;
 case "backupDB": //copy DB to file in tmp/backup

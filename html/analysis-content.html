@@ -1,48 +1,3 @@
-<!-- TODO fix all the shit-code below -->
-
-<div id="direct" style="display: none;">
-<form action="">
-<fieldset style="width:80%; margin-left:10%;">
-<legend>Direct SQL Query</legend>
-<ul style="min-width:900px;">
-	<li><label for="queryinput">Query:</label></li>
-	<li><input type="text" id="queryinput" value="SELECT * FROM entries" style="width:300px;" /></li>
-	<li><button type="button" onclick="AccessDBT(document.getElementById('queryinput').value,'table','sqltable');">Run Query</button></li>
-	<li><p id="resultnum" style="float:right; margin-right:20px;"></p></li>
-</ul>
-
-</fieldset>
-</form>
-<div id="sqltable" align="center"></div>
-</div>
-
-<div id="teamlookfull" style="display:none; min-width:400px;">
-<form action="">
-<ul>
-	<li><label for="teamentryfull">Team:</label></li>
-	<li><input type="text" id="teamentryfull" value="2062" /></li>
-	<li><button type="button" onclick="getval('teamentryfull','teamfull'); AccessDBT(2,'value','matches',document.getElementById('teamentryfull').value);">Search Teams Full</button></li>
-</ul>
-</form>
-<pre>
-Team: <span id="teamfull"></span>	Number of Matches Played: <span id="matches"></span> other text
-</pre>
-</div>
-
-<div id="teamlooksum" style="display:none;">
-<form action="">
-<ul>
-	<li><label for="teamentrysum">Team:</label></li>
-	<li><input type="text" id="teamentrysum" value="2062" /></li>
-	<li><button type="button" onclick="getval(teamentryfull,teamfull); AccessDBT(document.getElementById('teamfull').value,'value','teamfull');">Search Teams Summary</button></li>
-</ul>
-</form>
-<pre>
-Team:<span id="teamfull">-</span>
-</pre>
-</div>
-
-
 <!-- TODO salvage the writing below and move into something else, maybe add guiders back in later -->
 
 
@@ -78,11 +33,3 @@ position: 5,
 title: "CORE Logo"
 });
 </script>
-
-<!-- leftover stuff from slide out
-	
-	<li><a href="#direct" onclick="Hide('direct');">Direct SQL Query</a></li>
-	<li><a href="#teamlookfull" onclick="Hide('teamlookfull');">Team Lookup (Full)</a></li>
-	<li><a href="#teamlooksum" onclick="Hide('teamlooksum');">Team Lookup (Summary)</a></li>
-
--->
