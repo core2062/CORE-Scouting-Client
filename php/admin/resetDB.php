@@ -54,10 +54,12 @@
 		)
 	);
 
-	//compiled collections
+	//compiled collections (holds fully compiled data and is rebuilt (for now) because data relies on multiple sources)
 	$db->createCollection("compiledEvent");
 	$db->createCollection("compiledTeam");
 
+	//analysis collections (holds semi-compiled data and is updated rather than rebuilt)
+	$db->createCollection("analysisScouting");
 
 	//source collections
 	$db->createCollection("sourceScouting");
