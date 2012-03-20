@@ -1,5 +1,5 @@
 function adminRequest(request){
-	console.log(post('process.php','{"request": "admin", "subRequest": "' + request + '"}'));
+	post('process.php','{"request": "admin", "subRequest": "' + request + '"}', true);
 }
 /*TODO: make browser based download of exported CSV
 function export(){
