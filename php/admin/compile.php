@@ -8,25 +8,17 @@ sort($teams);
 
 
 
-
-/*
-usort($opr, function (array $a, array $b){ return $a[1] - $b[1]; });
-
-$oprText = "";
-foreach ($opr as $key => $value) {
-	$oprText .= '\n' . $value[0] . '=' . $value[1] . "\n"; 
-}
-fb($oprText);
-*/
-
-//stats
-
 analysisScouting();//remove this later
 
 
 $opr = calcOPR();
 
 $db->compiledTeam->remove([]);//clear out compiledTeam
+
+$len = count($teams);
+for($i=0; $i < $len; $i++){ 
+	$teams[$i];
+}
 
 $cursor = $db->sourceTeamInfo->find();
 foreach($cursor as $obj){
@@ -38,30 +30,30 @@ foreach($cursor as $obj){
 	unset($obj['events']);//temporary
 
 
-/*
-			//get team object (to add data from previous matches together)
-			$currentTeam = $db->compiledTeam->findOne(['_id' => (int)$obj['teamNum']]);
 
-			//increase total matches - TODO: move to analysis
-			$currentTeam['totalMatches']++;
+	//get team object (to add data from previous matches together)
+	$currentTeam = $db->compiledTeam->findOne(['_id' => (int)$obj['teamNum']]);
 
-			$currentTeam['matches'][$obj['matchNum']] = [
-				'comments' => $obj['comments']
-			];
+	//increase total matches - TODO: move to analysis
+	$currentTeam['totalMatches']++;
 
-			$currentTeam['shooting']['totalShots']++;
-			$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalShots']++;
+	$currentTeam['matches'][$obj['matchNum']] = [
+		'comments' => $obj['comments']
+	];
 
-			//add to shoot totals
-			if(!empty($currentObj['score'])){
-				$currentTeam['shooting']['totalScores']++;
-				$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalScores']++;
+	$currentTeam['shooting']['totalShots']++;
+	$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalShots']++;
 
-				//increase score total for the correct hoop
-				$currentTeam['shooting']['heightTotal'][ $currentObj['score'] ]++;
-				$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['heightTotal'][ $currentObj['score'] ]++;
-			}
-*/
+	//add to shoot totals
+	if(!empty($currentObj['score'])){
+		$currentTeam['shooting']['totalScores']++;
+		$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalScores']++;
+
+		//increase score total for the correct hoop
+		$currentTeam['shooting']['heightTotal'][ $currentObj['score'] ]++;
+		$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['heightTotal'][ $currentObj['score'] ]++;
+	}
+
 
 
 	if(in_array($obj["_id"], $teams)){
