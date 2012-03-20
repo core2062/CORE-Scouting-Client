@@ -94,7 +94,7 @@ function submitData(){
 	}
 
 	if(current.subpage.charAt(0) == 't'){
-		submit.trackingInputs = trackingInputs;
+		submit.shots = trackingInputs;
 		trackingInputs = [];
 	}
 

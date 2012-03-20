@@ -10,80 +10,52 @@ sort($teams);
 
 analysisScouting();//remove this later
 
-
 $opr = calcOPR();
 
 $db->compiledTeam->remove([]);//clear out compiledTeam
 
 $len = count($teams);
 for($i=0; $i < $len; $i++){ 
-	$teams[$i];
-}
-
-$cursor = $db->sourceTeamInfo->find();
-foreach($cursor as $obj){
-
-	//edit $obj here & add analysis stuff
+	$obj = $db->sourceTeamInfo->findOne(['teamNum' => $teams[$i]]);//start with team info
+	unset($obj['events']);//temporary
 
 	$obj['opr'] = $opr[$obj["_id"]];//add opr data to team object
 
-	unset($obj['events']);//temporary
+	//get scouting info
+	$cursor = $db->analysisScouting->find(['teamNum' => $obj["_id"]]);
+	foreach($cursor as $currentMatch){
+		//count total shots/scores
+		$currentMatch['totalShots'] = count($currentMatch['shots']);
+		for($matchNum=0; $matchNum < $currentMatch['totalShots']; $matchNum++){ 
+			if($currentMatch['shots'][$matchNum]['result'] != 'missed'){
+				$currentMatch['totalScores']++;
+				$currentMatch['heightTotal'][ $currentMatch['shots'][$matchNum]['result'] ]++;
+			};
+		}
 
-
-
-	//get team object (to add data from previous matches together)
-	$currentTeam = $db->compiledTeam->findOne(['_id' => (int)$obj['teamNum']]);
-
-	//increase total matches - TODO: move to analysis
-	$currentTeam['totalMatches']++;
-
-	$currentTeam['matches'][$obj['matchNum']] = [
-		'comments' => $obj['comments']
-	];
-
-	$currentTeam['shooting']['totalShots']++;
-	$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalShots']++;
-
-	//add to shoot totals
-	if(!empty($currentObj['score'])){
-		$currentTeam['shooting']['totalScores']++;
-		$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['totalScores']++;
-
-		//increase score total for the correct hoop
-		$currentTeam['shooting']['heightTotal'][ $currentObj['score'] ]++;
-		$currentTeam['matches'][ $obj['matchNum'] ]['shooting']['heightTotal'][ $currentObj['score'] ]++;
+		$obj['matches'][$currentMatch['matchNum']] = $currentMatch;
 	}
 
+	$obj['totalMatches'] = count($obj['matches']);
 
+	//count total shots for team
+	for($matchNum=0; $matchNum < $obj['totalMatches']; $matchNum++){ 
+		$obj['totalShots'] = $obj['matches'][$matchNum]['totalShots'] + $obj['totalShots'];
+		$obj['totalScores'] = $obj['matches'][$matchNum]['totalScores'] + $obj['totalScores'];
 
-	if(in_array($obj["_id"], $teams)){
-		$db->compiledTeam->insert($obj);
+		$obj['heightTotal']['top'] = $obj['matches'][$matchNum]['heightTotal']['top'] + $obj['heightTotal']['top'];
+		$obj['heightTotal']['middle'] = $obj['matches'][$matchNum]['heightTotal']['middle'] + $obj['heightTotal']['middle'];
+		$obj['heightTotal']['bottom'] = $obj['matches'][$matchNum]['heightTotal']['bottom'] + $obj['heightTotal']['bottom'];
 	}
-}
 
-/*
-----FIXER----
-$cursor = $db->sourceScouting->find(['inputType' => 'tracking']);
-$counter = 0;
-foreach($cursor as $obj){
-	$counter++;
-	foreach ($obj as $key => $value) {
-	if(is_numeric($value)) $obj[$key] = $obj[$key] + 0;//change type of vars if they are actually numbers
+	//other analytics
+
+	$db->compiledTeam->insert($obj);
 }
 
 
-	//write new data to team object
-		$db->sourceScouting->remove(
-			[
-				'_id' => $obj['_id']
-			]
-		);//remove old one
-		$db->sourceScouting->insert($obj);//insert new one
-}
-fb($counter);
-*/
 
-
+//functions
 
 //OPR Calculations
 function calcOPR(){
@@ -155,17 +127,6 @@ function calcOPR(){
 		//$opr[] = [$teamList[$i], $oprValues[$i]];
 		$opr[$teamList[$i]] = $oprValues[$i];
 	}
-	unset($oprValues);
-/*
-	usort($opr, function (array $a, array $b){ return $a[1] - $b[1]; });
-	
-	$oprText = "";
-	foreach ($opr as $key => $value) {
-		$oprText .= '\n' . $value[0] . '=' . $value[1] . "\n"; 
-	}
-	fb($oprText);
-*/
-	//fb($opr);
 
 	return $opr;
 }
@@ -216,14 +177,15 @@ function trackingEntryAnalysis($obj){
 	global $teams;//remove this dependency later
 
 	if(!$obj['meta']['use']) return;//if use is false
+	unset($obj['meta']);
 
 	//get comments
 	$obj['comments'] = split("\n", $obj['comments']);
 
-	//process tracking inputs
-	$len = count($obj['trackingInputs']);
+	//process shots
+	$len = count($obj['shots']);
 	for ($i=0; $i < $len; $i++) {
-		$currentObj = $obj['trackingInputs'][$i];//only need this stuff
+		$currentObj = $obj['shots'][$i];//only need this stuff
 
 		//get shoot locations
 		$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
@@ -269,7 +231,7 @@ function trackingEntryAnalysis($obj){
 		$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
 
 		//add distance info to object
-		$obj['trackingInputs'][$i] = [
+		$obj['shots'][$i] = [
 			'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
 			'distance' => $distanceFromHoop,
 			'place' => $location,
@@ -293,6 +255,7 @@ function robotEntryAnalysis($obj){
 	global $db;
 
 	if(!$obj['meta']['use']) return;//if use is false
+	unset($obj['meta']);
 
 	//get comments
 	$obj['comments'] = split("\n", $obj['comments']);
