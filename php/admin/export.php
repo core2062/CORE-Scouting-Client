@@ -43,25 +43,26 @@
 
 
 	//robot scouting sheets
-	$cursor = $db->sourceScouting->find(['inputType' => 'robot']);
+	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
 	foreach ($cursor as $obj) {
-		$csv[] = [
+		$currentEntry = [
 			'teamNum' => $obj['teamNum'],
 			'matchNum' => $obj['matchNum'],
 			'allianceColor' => $obj['allianceColor'],
 			'matchType' => $obj['matchType'],
+
 			'disabled' => $obj['disabled'],//true or false
 			'crossesBump' => $obj['crossesBump'],//true or false
 			'canPickup' => $obj['canPickup'],//true or false
 			'getsBallsFromBridge' => $obj['getsBallsFromBridge'],//true or false
 			'usesKinect' => $obj['usesKinect'],//true or false
-			//strategy info
-			//shooting info?
+
 			'fouls' => $obj['fouls'],
 			'technicalFouls' => $obj['technicalFouls'],
-			'comments' => $obj['comments']//,
-			//balance info?
+			'comments' => $obj['comments']
 		];
+
+		$csv[] = $currentEntry;
 	}
 
 	$fp = fopen('tmp/db/export/robotScouting.csv', "w+");
