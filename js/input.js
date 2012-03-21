@@ -44,10 +44,10 @@ var input = {
 	},
 	"allianceColor": {
 		"categories": ["r","t"]
-	},
+	},/*
 	"wasDisabled": {
 		"categories": ["r"]
-	},
+	},*/
 	"redCard": {
 		"categories": ["r"]
 	},

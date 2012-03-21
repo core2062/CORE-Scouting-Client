@@ -4,7 +4,176 @@
 // make content scroll when its height exceeds height of sidebar?
 
 $path = [
-	[// Regular
+	[//shit scouting sheet
+		'ul',
+		'class' => "robot-c",
+		'style' => "display:none",
+		[
+			'li',
+			[
+				'fieldset',
+				[
+					'legend',
+					'Basic Info'
+				],
+				[
+					'ul',
+					[
+						'li',
+						[
+							'label',
+							'for' => 'disabledOrNoShow',
+							'Disabled Or No Show:'
+						],
+						[
+							'input',
+							'id' => 'disabledOrNoShow',
+							'type' => 'checkbox',
+							'data-labelOn' => "Yes",
+							'data-labelOff' => "No"
+						]
+					],
+					[
+						'li',
+						[
+							'label',
+							'for' => 'crossesBump',
+							'Crosses Bump:'
+						],
+						[
+							'input',
+							'id' => 'crossesBump',
+							'type' => 'checkbox',
+							'data-labelOn' => "Yes",
+							'data-labelOff' => "No"
+						]
+					],
+				],
+				[
+					'ul',
+					[
+						'li',
+						[
+							'label',
+							'for' => 'picksUpBalls',
+							'Picks Up Balls:'
+						],
+						[
+							'input',
+							'id' => 'picksUpBalls',
+							'type' => 'checkbox',
+							'data-labelOn' => "Yes",
+							'data-labelOff' => "No"
+						]
+					],
+					[
+						'li',
+						[
+							'label',
+							'for' => 'manipulatesBridge',
+							'Manipulates Bridge:'
+						],
+						[
+							'input',
+							'id' => 'manipulatesBridge',
+							'type' => 'checkbox',
+							'data-labelOn' => "Yes",
+							'data-labelOff' => "No"
+						]
+					]
+				]
+			]
+		],
+		[
+			'li',
+			[
+				'fieldset',
+				[
+					'legend',
+					'other'
+				],
+				[
+					'ul',
+					[
+						'li',
+						[
+							'label',
+							'for' => 'totalHybridPoints',
+							'Total Hybrid Points:'
+						],
+						[
+							'input',
+							'id' => 'totalHybridPoints',
+							'style' => "width:40px",
+							'onkeypress' => "return limitInput(event, 'number')"
+						]
+					],
+					[
+						'li',
+						[
+							'label',
+							'for' => 'totalTeleopPoints',
+							'Total Teleop Points:'
+						],
+						[
+							'input',
+							'id' => 'totalTeleopPoints',
+							'style' => "width:40px",
+							'onkeypress' => "return limitInput(event, 'number')"
+						]
+					],
+					[
+						'li',
+						[
+							'label',
+							'for' => 'totalTeleopShots',
+							'Total Teleop Shots:'
+						],
+						[
+							'input',
+							'id' => 'totalTeleopShots',
+							'style' => "width:40px",
+							'onkeypress' => "return limitInput(event, 'number')"
+						]
+					]
+				],
+				[
+					'ul',
+					[
+						'li',
+						[
+							'label',
+							'for' => 'foul',
+							'Fouls:'
+						],
+						[
+							'input',
+							'id' => 'foul',
+							'type' => 'text',
+							'style' => "width:40px;",
+							'onkeypress' => "return limitInput(event, 'number')"
+						]
+					],
+					[
+						'li',
+						[
+							'label',
+							'for' => 'techFoul',
+							'Technical Fouls:'
+						],
+						[
+							'input',
+							'id' => 'techFoul',
+							'type' => 'text',
+							'style' => "width:40px;",
+							'onkeypress' => "return limitInput(event, 'number')"
+						]
+					]
+				]
+			]
+		]
+	],
+	/*[// Regular
 		'ul',
 		'class' => "robot-c",
 		'style' => "display:none",
@@ -333,7 +502,7 @@ $path = [
 				]
 			]	
 		]
-	],
+	],*/
 	[// tracking
 		'ul',
 		'class' => 'tracking-c',
