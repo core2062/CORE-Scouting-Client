@@ -30,16 +30,19 @@ if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfile
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
 
-	require 'php/admin/getTeams';
+	require 'php/scraper/teams.php';
 	send_reg(['message' => 'finished getting team info']);
 
 break;
 case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
 
+	require 'php/scraper/event.php';
+	send_reg(['message' => 'finished getting team info']);
+
 break;
 case "updateFMS": //update scores/schedule of current or recent events (uses twitter)
 
-	require "php/admin/updateFMS.php";
+	require "php/scraper/twitter.php";
 	send_reg(['message' => 'finished updating FMS']);
 	
 break;

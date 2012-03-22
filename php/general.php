@@ -35,8 +35,10 @@ function globalVar($name, $update = null){//consider adding ability to set var h
 	return $return['value'];
 }
 
+require 'php/path.php';
+
 if(globalVar('devMode')){
-	require_once('firephp/fb.php');
+	require 'firephp/fb.php';
 	ob_start();
 
 	error_reporting( E_ALL );
@@ -173,52 +175,4 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 }
 
 
-//PATH is (P)HP (A)rrays (T)o (H)TML
-
-$selfClosingTags = ['img', 'br', 'input'];
-
-function path($array){
-	global $selfClosingTags;
-
-	if(isset($innerHTML)){
-		echo "\n ---echo: " . $innerHTML;
-	}
-
-	//add stuff for self closing tags
-	$tagName = $array[0];
-	unset($array[0]);
-
-	//make a way to manually specify a self closing tag
-	$selfClosing = in_array($tagName, $selfClosingTags);
-
-	$return = '<' . $tagName;
-
-	if(!$selfClosing){//self closing tags can't have innerHTML
-		$key = 1;
-		$innerHTML = '';
-
-		while (array_key_exists($key, $array)){
-			if(is_array($array[$key])){
-				$innerHTML .= path($array[$key]);
-			} else {
-				$innerHTML .= $array[$key];
-			}
-			unset($array[$key]);
-			$key++;
-		}
-	}
-
-	foreach($array as $key => $value){
-		$return .= ' ' . $key . '="' . $value . '"';
-	}
-
-	//add stuff for self closing tags
-	if(!$selfClosing){
-		$return .= '>' . $innerHTML . '</' . $tagName . '> ';
-	} else {
-		$return .= '/> ';
-	}
-
-	return $return;
-}
 ?>

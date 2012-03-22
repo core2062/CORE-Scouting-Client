@@ -99,6 +99,31 @@
 		}
 	}
 
+	ul.stacked {
+		display: inline-block;
+		vertical-align: top;
+
+		li {
+			display: block;
+			margin-top: 10px;
+
+			> label {
+				float: left;
+				text-align: right;
+				margin-right: 5px;
+				margin-left: 0 !important; //reset from another part of the style
+				margin-top: 2px;
+				width: 125px;//TODO: standardize this (right now only applies to home > signup)
+				line-height: @lineHeight + 4px;
+			}
+		}
+
+		input {
+			margin-right: 0; //reset from another part of the style
+			width: 200px;//needs this size for email & scoutID
+		}
+	}
+
 	td#content > ul, td#sidebar > ul {
 		display:inline; // for forms
 	}

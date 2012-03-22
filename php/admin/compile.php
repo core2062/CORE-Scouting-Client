@@ -15,10 +15,10 @@ for($i=0; $i < $len; $i++){
 	$obj = $db->sourceTeamInfo->findOne(['teamNum' => $teams[$i]]);//start with team info
 	unset($obj['events']);//temporary
 
-	$obj['opr'] = $opr[$obj["_id"]];//add opr data to team object
+	$obj['opr'] = $opr[$teams[$i]];//add opr data to team object
 
 	//get scouting info
-	$cursor = $db->analysisScouting->find(['teamNum' => $obj["_id"]]);
+	$cursor = $db->analysisScouting->find(['teamNum' => $teams[$i]]);
 	foreach($cursor as $currentMatch){
 		$obj['matches'][$currentMatch['matchNum']] = $currentMatch;//add match object
 		unset($obj['matches'][$currentMatch['matchNum']]['matchNum']);//because it is now represented in the key for the match

@@ -6,7 +6,7 @@ var inputnum = 0; //# of inputs filled
 
 //id of each element to get data from
 var input = {
-	"yellowCard": {
+	/*"yellowCard": {
 		"categories": ["r"]
 	},
 	"foul": {
@@ -23,7 +23,7 @@ var input = {
 	},
 	"hybridScored": {
 		"categories": ["r"]
-	},
+	},*/
 	"drive": {
 		"categories": ["p"]
 	},
@@ -44,10 +44,10 @@ var input = {
 	},
 	"allianceColor": {
 		"categories": ["r","t"]
-	},/*
+	},/*,
 	"wasDisabled": {
 		"categories": ["r"]
-	},*/
+	},
 	"redCard": {
 		"categories": ["r"]
 	},
@@ -56,8 +56,35 @@ var input = {
 	},
 	"robotsBalancing": {
 		"categories": ["r"]
-	}/*,
+	},
 	"bump": {
+		"categories": ["r"]
+	}*/      /*
+	"disabledOrNoShow": {
+		"categories": ["r"]
+	},
+	"crossesBump": {
+		"categories": ["r"]
+	},
+	"picksUpBalls": {
+		"categories": ["r"]
+	},
+	"manipulatesBridge": {
+		"categories": ["r"]
+	},
+	"totalHybridPoints": {
+		"categories": ["r"]
+	},
+	"totalTeleopPoints": {
+		"categories": ["r"]
+	},
+	"totalTeleopShots": {
+		"categories": ["r"]
+	},
+	"fouls": {
+		"categories": ["r"]
+	},
+	"techFouls": {
 		"categories": ["r"]
 	}*/
 };
@@ -111,6 +138,7 @@ function submitData(){
 			if(current.subpage.charAt(0) == 't'){
 			trackingInputs = [];
 			updateTrackingDisplay();
+			clearinputs();
 		}
 
 		if(current.subpage.charAt(0) == 'p'){
@@ -158,31 +186,9 @@ function errorcheck(){
 }
 
 function clearinputs(){
-/*
-	if (current.subpage == 'robot') {
-		inputspossible = 6;
-
-		// TODO clear input code
-
-	} else if (current.subpage == 'human') {
-		inputspossible = 6;
-
-		//clear input code
-
-	} else if (current.subpage == 'pit') {
-		inputspossible = 6;
-
-		//clear input code
-
-	}
-
-	document.getElementById('TeamNum').value = "";
-	document.getElementById('AllianceScore').value = '';
-	document.getElementById('RCard').value = '';
-	document.getElementById('YCard').value = '';
-	document.getElementById('Comments').innerHTML = '';
+	document.getElementById('comments').value = '';
+	document.getElementById('teamNum').value = '';
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
-*/
 }
 
 //tracking (canvas input stuff)
