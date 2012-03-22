@@ -6,87 +6,108 @@ var inputnum = 0; //# of inputs filled
 
 //id of each element to get data from
 var input = {
-	/*"yellowCard": {
-		"categories": ["r"]
-	},
-	"foul": {
-		"categories": ["r"]
-	},
-	"techFoul": {
-		"categories": ["r"]
-	},
-	"hybridActivity": {
-		"categories": ["r"]
-	},
-	"hybridStrategy": {
-		"categories": ["r"]
-	},
-	"hybridScored": {
-		"categories": ["r"]
-	},*/
 	"drive": {
 		"categories": ["p"]
 	},
 	"comments": {
-		"categories": ["r", "t", "p"]
+		"categories": ["r", "t", "p"],
+		"defaultValue": ''
 	},
 	"matchNum": {
 		"categories": ["r", "t"]
 	},
 	"matchType": {
-		"categories": ["r", "t"]
+		"categories": ["r", "t"],
+		"defaultValue": 'p'
 	},
 	"teamNum": {
-		"categories": ["r", "t"]
+		"categories": ["r", "t"],
+		"defaultValue": ''
 	},
 	"pitTeamNum": {//this is really just a pain
-		"categories": ["p"]
+		"categories": ["p"],
+		"defaultValue": ''
 	},
 	"allianceColor": {
-		"categories": ["r","t"]
-	},/*,
-	"wasDisabled": {
-		"categories": ["r"]
+		"categories": ["r","t"],
+		"defaultValue": 'red'
 	},
-	"redCard": {
-		"categories": ["r"]
-	},
-	"bridge": {
-		"categories": ["r"]
-	},
-	"robotsBalancing": {
-		"categories": ["r"]
-	},
-	"bump": {
-		"categories": ["r"]
-	}*/      /*
 	"disabledOrNoShow": {
-		"categories": ["r"]
+		"categories": ["r"],
+		"defaultValue": false
 	},
 	"crossesBump": {
-		"categories": ["r"]
+		"categories": ["r"],
+		"defaultValue": false
 	},
 	"picksUpBalls": {
-		"categories": ["r"]
+		"categories": ["r"],
+		"defaultValue": false
 	},
 	"manipulatesBridge": {
-		"categories": ["r"]
+		"categories": ["r"],
+		"defaultValue": false
 	},
-	"totalHybridPoints": {
-		"categories": ["r"]
+	"getsBallsOffBridge": {
+		"categories": ["r"],
+		"defaultValue": false
 	},
-	"totalTeleopPoints": {
-		"categories": ["r"]
+	"usesKinect": {
+		"categories": ["r"],
+		"defaultValue": false
 	},
-	"totalTeleopShots": {
-		"categories": ["r"]
+	"hybridHigh": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"hybridMiddle": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"hybridBottom": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"attemptBalance": {
+		"categories": ["r"],
+		"defaultValue": false
+	},
+	"robotsOnBridge": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"balanceSuccess": {
+		"categories": ["r"],
+		"defaultValue": false
+	},
+	"coopertition": {
+		"categories": ["r"],
+		"defaultValue": false
+	},
+	"teleopHigh": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"teleopMiddle": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"teleopBottom": {
+		"categories": ["r"],
+		"defaultValue": 0
+	},
+	"shotsTaken": {
+		"categories": ["r"],
+		"defaultValue": 0
 	},
 	"fouls": {
-		"categories": ["r"]
+		"categories": ["r"],
+		"defaultValue": 0
 	},
 	"techFouls": {
-		"categories": ["r"]
-	}*/
+		"categories": ["r"],
+		"defaultValue": 0
+	}
 };
 
 
@@ -114,9 +135,7 @@ function submitData(){
 	var submit = {};
 
 	for(var i in input){
-		if(input[i].categories.has(current.subpage.charAt(0))){
-			submit[i] = input[i].elementNode[input[i].valueGetter];
-		}
+		if(input[i].categories.has(current.subpage.charAt(0))) submit[i] = input[i].elementNode[input[i].valueGetter];
 	}
 
 	if(current.subpage.charAt(0) == 't'){
@@ -135,7 +154,7 @@ function submitData(){
 	//console.log(submit);
 
 	if(post('process.php', submit) !== false){//if no errors, clear inputs
-			if(current.subpage.charAt(0) == 't'){
+		if(current.subpage.charAt(0) == 't'){
 			trackingInputs = [];
 			updateTrackingDisplay();
 			clearinputs();
@@ -186,8 +205,11 @@ function errorcheck(){
 }
 
 function clearinputs(){
-	document.getElementById('comments').value = '';
-	document.getElementById('teamNum').value = '';
+	for(var i in input){
+		if(input[i].categories.has(current.subpage.charAt(0)) && input[i].defaultValue){
+			input[i].elementNode[input[i].valueGetter] = input[i].defaultValue;
+		}
+	}
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
 }
 
