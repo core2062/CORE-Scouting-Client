@@ -37,7 +37,7 @@
 		best balance (single, double, etc)
 	*/
 
-	$fp = fopen('tmp/db/export/teams.csv', "w+");
+	$fp = fopen('tmp/db/export/compiledTeam.csv', "w+");
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
 
@@ -45,31 +45,18 @@
 	//robot scouting sheets
 	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
 	foreach ($cursor as $obj) {
-		$currentEntry = [
-			'teamNum' => $obj['teamNum'],
-			'matchNum' => $obj['matchNum'],
-			'allianceColor' => $obj['allianceColor'],
-			'matchType' => $obj['matchType'],
+		unset($obj['meta']);
 
-			'disabled' => $obj['disabled'],//true or false
-			'crossesBump' => $obj['crossesBump'],//true or false
-			'canPickup' => $obj['canPickup'],//true or false
-			'getsBallsFromBridge' => $obj['getsBallsFromBridge'],//true or false
-			'usesKinect' => $obj['usesKinect'],//true or false
-
-			'fouls' => $obj['fouls'],
-			'technicalFouls' => $obj['technicalFouls'],
-			'comments' => $obj['comments']
+		$csv[] = [
+			$obj
 		];
-
-		$csv[] = $currentEntry;
 	}
 
-	$fp = fopen('tmp/db/export/robotScouting.csv', "w+");
+	$fp = fopen('tmp/db/export/sourceScoutingRobot.csv', "w+");
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
 
-
+/*
 	//tracking scouting sheets
 	$cursor = $db->sourceScouting->find(['inputType' => 'tracking']);
 	foreach ($cursor as $obj) {
@@ -95,7 +82,7 @@
 	$fp = fopen('tmp/db/export/trackingScouting.csv', "w+");
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
-
+*/
 
 	//functions
 	function toCSV($csv){
