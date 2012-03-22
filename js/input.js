@@ -206,8 +206,9 @@ function errorcheck(){
 
 function clearinputs(){
 	for(var i in input){
-		if(input[i].categories.has(current.subpage.charAt(0)) && input[i].defaultValue){
+		if(input[i].categories.has(current.subpage.charAt(0)) && input[i].defaultValue !== undefined){
 			input[i].elementNode[input[i].valueGetter] = input[i].defaultValue;
+
 		}
 	}
 	$('#jGrowl-container').jGrowl('Inputs have been cleared.');
