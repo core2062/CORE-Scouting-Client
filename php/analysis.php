@@ -118,6 +118,8 @@ function analysisScouting(){
 	//only call this function if compiledScouting needs to be rebuilt completely
 	global $db;
 
+	$dbErrors = [];//holds errors in db, written to globalVar later
+
 	$db->analysisScouting->remove([]);//clear out analysisScouting
 
 	$cursor = $db->sourceScouting->find(['inputType' => 'tracking']);//process tracking info
@@ -129,12 +131,16 @@ function analysisScouting(){
 	foreach($cursor as $obj){
 		robotEntryAnalysis($obj);
 	}
+
+	globalVar('analysisScoutingErrors',$dbErrors);
 }
 
 function trackingEntryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
 	global $teams;//remove this dependency later
+
+	//TODO: add code to determine meta.use
 
 	if(!$obj['meta']['use']) return;//if use is false
 	unset($obj['meta']);
@@ -203,7 +209,7 @@ function trackingEntryAnalysis($obj){
 	
 
 	//count total shots/scores
-	empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
+	!empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
 
 	//add in objects to prevent undefined index error
 	$obj['totalScores'] = 0;
@@ -218,7 +224,7 @@ function trackingEntryAnalysis($obj){
 
 	//check for incorrect teamNum (not fatal if exists, just wrong)
 	if(!in_array($obj["teamNum"], $teams)){
-		logger('wrong teamNum in match ' . $obj["matchNum"] . ' : ' . $obj["teamNum"], true);
+		$dbErrors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
 	}
 
 	//write new data to analysisScouting
@@ -230,6 +236,8 @@ function robotEntryAnalysis($obj){
 	global $db;
 	global $teams;
 
+	//TODO: add code to determine meta.use = false if data is bad
+
 	if(!$obj['meta']['use']) return;//if use is false
 	unset($obj['meta']);
 
@@ -237,9 +245,18 @@ function robotEntryAnalysis($obj){
 
 	//... analysis
 
+	//add in objects to prevent undefined index error
+	$obj['totalScores'] = 0;
+	$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
+
+	if(empty($opr['totalShots'])) logger('wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"]);
+
+	//TODO; get total shots, total scores, height breakdown
+	//TODO: add peroid breakdown
+
 	//check for incorrect teamNum (not fatal if exists, just wrong)
 	if(!in_array($obj["teamNum"], $teams)){
-		logger('wrong teamNum in match ' . $obj["matchNum"] . ' : ' . $obj["teamNum"], true);
+		$dbErrors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
 	}
 
 	//write new data to analysisScouting

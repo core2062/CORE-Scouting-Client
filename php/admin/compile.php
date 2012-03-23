@@ -1,7 +1,7 @@
 <?php
 require "php/analysis.php";
 
-$opr = calcOPR();
+//$opr = calcOPR(); fuck opr ... port to c++ & don't run w/ data from twitter (use firstDB)
 
 $db->compiledTeam->remove([]);//clear out compiledTeam
 
@@ -11,26 +11,34 @@ for($i=0; $i < $len; $i++){
 
 	unset($obj['events']);//temporary
 
-	$obj['opr'] = $opr[$teams[$i]];//add opr data to team object
+	//$obj['opr'] = $opr[$teams[$i]];//add opr data to team object
 
 	//get scouting info
 	$cursor = $db->analysisScouting->find(['teamNum' => $teams[$i]]);
 	foreach($cursor as $currentMatch){
-		unset($currentMatch['_id']);//just a random id
-		unset($currentMatch['teamNum']);
-		$obj['matches'][$currentMatch['matchNum']] = $currentMatch;//add match object
-		unset($obj['matches'][$currentMatch['matchNum']]['matchNum']);//because it is now represented in the key for the match
+		if($currentMatch['meta']['use']){
+			unset($currentMatch['_id']);//just a random id
+			unset($currentMatch['teamNum']);
+			$obj['matches'][$currentMatch['matchType'] . $currentMatch['matchNum']] = $currentMatch;//add match object
+			unset($currentMatch['matchType']);
+			unset($obj['matches'][$currentMatch['matchNum']]['matchNum']);//now represented in the key for the match
+		}
 	}
 
+	//TODO: make paper data merge with tracking
+
 	$obj['totalMatches'] = count($obj['matches']);
+
+	//add in indexes
+	$obj['totalShots'] = 0;
+	$obj['totalScores'] = 0;
 	$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
 
 	//count total shots for team
-	for($matchNum=0; $matchNum < $obj['totalMatches']; $matchNum++){ 
-		$obj['totalShots'] = $obj['matches'][$matchNum]['totalShots'] + $obj['totalShots'];
-		$obj['totalScores'] = $obj['matches'][$matchNum]['totalScores'] + $obj['totalScores'];
-
-		$obj['heightTotal'] = array_add([ $obj['matches'][$matchNum]['heightTotal'], $obj['heightTotal'] ]);
+	foreach($obj['matches'] as $value){
+		if(!empty($value['totalShots'])) $obj['totalShots'] = $value['totalShots'] + $obj['totalShots'];
+		if(!empty($value['totalScores'])) $obj['totalScores'] = $value['totalScores'] + $obj['totalScores'];
+		if(!empty($value['heightTotal'])) $obj['heightTotal'] = array_add([ $value['heightTotal'], $obj['heightTotal'] ]);
 	}
 
 	//other analytics

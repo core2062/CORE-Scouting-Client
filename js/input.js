@@ -58,15 +58,15 @@ var input = {
 	},
 	"hybridHigh": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"hybridMiddle": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"hybridBottom": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"attemptBalance": {
 		"categories": ["r"],
@@ -74,7 +74,7 @@ var input = {
 	},
 	"robotsOnBridge": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"balanceSuccess": {
 		"categories": ["r"],
@@ -86,27 +86,27 @@ var input = {
 	},
 	"teleopHigh": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"teleopMiddle": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"teleopBottom": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
-	"shotsTaken": {
+	"totalShots": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"fouls": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	},
 	"techFouls": {
 		"categories": ["r"],
-		"defaultValue": 0
+		"defaultValue": ''
 	}
 };
 
@@ -132,6 +132,8 @@ function getValues(){
 */
 
 function submitData(){
+	//document.getElementById('submit').disabled = true;//prevent 2x press (team will be cleared so it will error-out if submitted 2x)
+
 	var submit = {};
 
 	for(var i in input){
@@ -166,6 +168,7 @@ function submitData(){
 
 		clearInputs();
 	}
+	//document.getElementById('submit').disabled = false;
 }
 
 function increase(elementid){
