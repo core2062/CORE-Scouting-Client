@@ -16,13 +16,11 @@ for($i=0; $i < $len; $i++){
 	//get scouting info
 	$cursor = $db->analysisScouting->find(['teamNum' => $teams[$i]]);
 	foreach($cursor as $currentMatch){
-		if($currentMatch['meta']['use']){
-			unset($currentMatch['_id']);//just a random id
-			unset($currentMatch['teamNum']);
-			$obj['matches'][$currentMatch['matchType'] . $currentMatch['matchNum']] = $currentMatch;//add match object
-			unset($currentMatch['matchType']);
-			unset($obj['matches'][$currentMatch['matchNum']]['matchNum']);//now represented in the key for the match
-		}
+		unset($currentMatch['_id']);//just a random id
+		unset($currentMatch['teamNum']);
+		$obj['matches'][$currentMatch['matchType'] . $currentMatch['matchNum']] = $currentMatch;//add match object
+		unset($currentMatch['matchType']);
+		unset($obj['matches'][$currentMatch['matchNum']]['matchNum']);//now represented in the key for the match
 	}
 
 	//TODO: make paper data merge with tracking
