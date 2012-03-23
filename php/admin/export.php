@@ -41,18 +41,21 @@
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
 
+	unset($csv);
 
 	//robot scouting sheets
 	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
 	foreach ($cursor as $obj) {
 		unset($obj['meta']);
 		unset($obj['_id']);
+		unset($obj['inputType']);
 
-		join($obj['_id'],"\n");
+		$obj['comments'] = join($obj['comments']," | ");
+		$obj['comments'] = preg_replace('/,/', ';', $obj['comments']);
 
-		$csv[] = [
-			$obj
-		];
+		fb($obj['comments']);
+
+		$csv[] = $obj;
 	}
 
 	$fp = fopen('tmp/db/export/sourceScoutingRobot.csv', "w+");
