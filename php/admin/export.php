@@ -50,6 +50,12 @@
 		unset($obj['_id']);
 		unset($obj['inputType']);
 
+		//handle height breakdown
+		$obj['topBasketScores'] = $obj['heightTotal']['top'];
+		$obj['middleBasketScores'] = $obj['heightTotal']['middle'];
+		$obj['bottomBasketScores'] = $obj['heightTotal']['bottom'];
+		unset($obj['heightTotal']);
+
 		$obj['comments'] = join($obj['comments']," | ");
 		$obj['comments'] = preg_replace('/,/', ';', $obj['comments']);
 
