@@ -1,31 +1,12 @@
 <?php
 /*
 Requires:
-	subRequest - getTeams, getTeamProfiles...
+	subRequest - getTeams...
 */
 
 //TODO: make function to limit history (number of years to track teams back to)
 
 $vars['devMode'] = globalVar('devMode');
-
-if($input['subRequest'] == 'getTeams' || $input['subRequest'] == 'getTeamProfiles'){
-	function getSessionID(){
-		//TODO: make this more robust/low level & faster
-
-		global $sessionID;
-		global $year;
-
-		$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
-		preg_match("/<form action=\"index.lasso\?-session=myarea:([A-Za-z_0-9]*)\" method=\"post\">/", $contents, $matches);
-		$sessionID = $matches[1];
-		logger("got/updated session key");
-	}
-
-	//TODO: make year var more semantic
-	$year = 2012;//year to get data from
-	getSessionID();
-}
-
 
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
@@ -36,7 +17,7 @@ case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for 
 break;
 case "getEvents": //get all events & add links for teams in each match (which will hold scouting data)
 
-	require 'php/scraper/event.php';
+	require 'php/scraper/events.php';
 	send_reg(['message' => 'finished getting team info']);
 
 break;

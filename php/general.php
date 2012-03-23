@@ -173,6 +173,4 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	ob_clean (); //empty output buffer, stuff below is only thing sent
 	die($return);
 }
-
-
 ?>

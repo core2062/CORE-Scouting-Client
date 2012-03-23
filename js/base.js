@@ -547,8 +547,8 @@ function post(filename, json, async){
 		success: function(data){
 			if(async) success(data);
 		},
-		error: function() {
-			$('#jGrowl-container').jGrowl('AJAX Error Code: ' + xmlhttp.status + '<br />Request was not successful.', {
+		error: function(jqXHR) {
+			$('#jGrowl-container').jGrowl('AJAX Error: ' + jqXHR.responseText + '<br />Request was not successful.', {
 				sticky: true,
 				theme: 'error'
 			});

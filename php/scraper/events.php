@@ -1,25 +1,20 @@
 <?php
 	$db->sourceEventInfo->remove([]);//clear out sourceTeamInfo
 
-	//get file to find number of teams
-	//$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
-	$contents = file_get_contents('eventInfo.php');
+	require 'php/scraper/scraper.php';
+	$sessionID = getSessionID();
 
-	//find out how many teams were returned (to determine # of pages)
-	preg_match('/All Areas\s+\((....|...|..|.) found,/', $contents, $matches);
-	$totalTeamsFound = $matches[1];
-
-	function processTPID($input){//add each team to DB
+	function processEID($input){//add each team to DB
 		global $db;
 
-		$db->sourceTeamInfo->update(
+		$db->sourceEventInfo->update(
 			[
 				"_id" => (int)$input[2]
 			],
 			[
 				'$set' => [
 					"meta" => [
-						"tpid" => (int)$input[1]
+						"eid" => (int)$input[1]
 					]
 				]
 			],
@@ -28,39 +23,36 @@
 		return '';//is this needed or assumed????? & in below
 	}
 
-	//get team list pages from the FIRST site 
-	for($i = 0; $i < ($totalTeamsFound/250); $i++){
-		$filename = "tmp/db/getTPIDs/" . $year . "-" . $i;
-	
-		if(file_exists($filename) && $vars['devMode']){//check if page is in cache (caching is disabled if not in dev mode)
-			$contents = file_get_contents($filename);
-		} else {
-			$url = "https://my.usfirst.org/myarea/index.lasso?page=searchresults&results_size=250&omit_searchform=1&skip_teams=" . $i*250 . "&-session=myarea:" . $sessionID . "#FRC_teams";
-			$contents = file_get_contents($url, false);//consider replacing with cURL
+	$filename = 'tmp/db/getEvents/listEIDs';
 
-			//remove crap from files
-			//TODO: test if below improves speed
-			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
+	if(file_exists($filename) && $vars['devMode']){//check if page is in cache (caching is disabled if not in dev mode)
+		$contents = file_get_contents($filename);
+	}else{
+		$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&sort_events=subtype&-session=myarea:" . $sessionID, false);//consider replacing with cURL
+		echo "https://my.usfirst.org/myarea/index.lasso?page=searchresults&sort_events=subtype&-session=myarea:" . $sessionID;
 
-			//TODO: find fix and remove the 2 below regex... adding "s" to 2nd regex uses too much memory and = seg fault 
-			$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
-			$contents = preg_replace('/&amp;-session=myarea:'. $sessionID . '"/', "", $contents, -1, $replacements);
-			//&amp;-session=myarea:C77D640507604078D1OjXUqD64EA"
+		//remove crap from files
+		//TODO: test if below improves speed
+		$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
 
-			$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
+		//TODO: find fix and remove the 2 below regex... adding "s" to 2nd regex uses too much memory and = seg fault 
+		$contents = preg_replace('/<\/a>((?!<a).)*<a/', "</a><a", $contents, -1, $replacements); //removes other crap... another good one: '/<(\/)?t[^<>]*>/'
+		$contents = preg_replace('/&amp;-session=myarea:'. $sessionID . '"/', "", $contents, -1, $replacements);
+		//&amp;-session=myarea:C77D640507604078D1OjXUqD64EA"
+
+		$contents = preg_replace('/\s+/', ' ',$contents, -1, $replacements); //removes double spaces, indents, and line breaks
 
 
-			if($vars['devMode']){
-				$fp = fopen($filename, "w+");
-				fwrite($fp, $contents);
-				fclose($fp);
-			}
+		if($vars['devMode']){
+			$fp = fopen($filename, "w+");
+			fwrite($fp, $contents);
+			fclose($fp);
 		}
-
-		//question: is it better to run a regex on several small files of one big one
-		$regex = '/<a href="\?page=team_details&tpid=(.....)><b>(....|...|..|.)<\/b><\/a>/';
-		preg_replace_callback($regex, "processTPID", $contents);
 	}
+die();
+	//question: is it better to run a regex on several small files of one big one
+	$regex = '/<a href="\?page=team_details&tpid=(.....)><b>(....|...|..|.)<\/b><\/a>/';
+	preg_replace_callback($regex, "processEID", $contents);
 
 	logger('finished getting the number and tpid of each team');
 
@@ -158,7 +150,7 @@
 			$contents = file_get_contents($filename);
 		} else {
 			if($count > 200){
-				getSessionID();
+				$sessionID = getSessionID();
 				$count = 0;
 			}
 			$count++;

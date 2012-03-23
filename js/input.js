@@ -157,7 +157,7 @@ function submitData(){
 		if(current.subpage.charAt(0) == 't'){
 			trackingInputs = [];
 			updateTrackingDisplay();
-			clearinputs();
+			clearInputs();
 		}
 
 		if(current.subpage.charAt(0) == 'p'){
@@ -180,7 +180,7 @@ function increase(elementid){
 	element.value = startvalue;
 }
 
-function errorcheck(){
+function errorCheck(){
 /*
 	if (currentpage == 'robot') {
 		inputspossible = 6;
@@ -204,9 +204,10 @@ function errorcheck(){
 */
 }
 
-function clearinputs(){
+function clearInputs(){
 	for(var i in input){
-		if(input[i].categories.has(current.subpage.charAt(0)) && input[i].defaultValue !== undefined){
+		if(input[i].categories.has(current.subpage.charAt(0)) && input[i].defaultValue !== undefined && input[i].valueGetter !== 'checked'){
+			//TODO: make resetter for iButton and remove && input[i].valueGetter !== 'checked'
 			input[i].elementNode[input[i].valueGetter] = input[i].defaultValue;
 
 		}
@@ -334,41 +335,3 @@ function clearinputs(){
 
 		typeSelect(currentEntry.period);
 	}
-
-/*
-//match timer
-	var startMatch = document.getElementById('startMatch');
-	var matchTimer = -1;
-	var matchperiod = '';
-
-	function startMatchTimer(){
-		window.matchTimerID = setInterval('updateMatchTimer();', 1000);
-		startMatch.setAttribute('onclick','stopMatchTimer()');
-		updateMatchTimer();//gets rid of short delay before 1st update
-	}
-
-	function stopMatchTimer(){
-		clearInterval(matchTimerID);
-		matchTimer = -1;
-		matchperiod = '';
-		startMatch.innerHTML = 'Start Match';
-		startMatch.setAttribute('onclick','startMatchTimer()');
-	}
-
-	function updateMatchTimer(){
-		if(matchTimer < 15){
-			matchperiod = 'hybrid';
-		} else if (matchTimer < 105){
-			matchperiod = 'teleop';
-		} else if (matchTimer < 135){
-			matchperiod = 'end game';
-		} else {
-			stopMatchTimer();
-			return;
-		}
-
-		matchTimer++;
-
-		startMatch.innerHTML = matchperiod + ' - ' + (135-matchTimer);
-	}
-*/

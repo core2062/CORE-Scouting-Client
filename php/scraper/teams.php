@@ -1,6 +1,9 @@
 <?php
 	$db->sourceTeamInfo->remove([]);//clear out sourceTeamInfo
 
+	require 'php/scraper/scraper.php';
+	$sessionID = getSessionID();
+
 	//get file to find number of teams
 	$contents = file_get_contents("https://my.usfirst.org/myarea/index.lasso?page=searchresults&skip_teams=0&programs=FRC&season_FRC=" . $year . "&reports=teams&results_size=25", false);
 
@@ -157,7 +160,7 @@
 			$contents = file_get_contents($filename);
 		} else {
 			if($count > 200){
-				getSessionID();
+				$sessionID = getSessionID();
 				$count = 0;
 			}
 			$count++;
