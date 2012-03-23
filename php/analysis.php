@@ -134,10 +134,10 @@ function analysisScouting(){
 		if(empty($obj['totalShots'])){
 			$obj['totalShots'] = $obj['shotsTaken'];
 			unset($obj['shotsTaken']);
-			$db->sourceScouting->update($obj);//insert new one
+			$db->sourceScouting->update(['_id' => $obj['_id']],$obj);//insert new one
 		}
-	}*/
-
+	}
+	*/
 	$cursor = $db->sourceScouting->find(['inputType' => 'robot']);//process robot info
 	foreach($cursor as $obj){
 		robotEntryAnalysis($obj);
@@ -263,7 +263,7 @@ function robotEntryAnalysis($obj){
 	$obj['totalScores'] = 0;
 	$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
 
-	if(empty($obj['totalShots'])) logger('missing totalShots in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"]);
+	if(!empty($obj['shotsTaken'])) logger('missing totalShots in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"]);
 
 	//TODO: get total shots, total scores, height breakdown
 	//TODO: add peroid breakdown
