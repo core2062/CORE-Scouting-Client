@@ -127,6 +127,17 @@ function analysisScouting(){
 		trackingEntryAnalysis($obj);
 	}
 
+	//FIXER
+	/*
+	$cursor = $db->sourceScouting->find(['inputType' => 'robot']);//process robot info
+	foreach($cursor as $obj){
+		if(empty($obj['totalShots'])){
+			$obj['totalShots'] = $obj['shotsTaken'];
+			unset($obj['shotsTaken']);
+			$db->sourceScouting->update($obj);//insert new one
+		}
+	}*/
+
 	$cursor = $db->sourceScouting->find(['inputType' => 'robot']);//process robot info
 	foreach($cursor as $obj){
 		robotEntryAnalysis($obj);
@@ -238,7 +249,10 @@ function robotEntryAnalysis($obj){
 
 	//TODO: add code to determine meta.use = false if data is bad
 
-	if(!$obj['meta']['use']) return;//if use is false
+	if(!$obj['meta']['use']){
+		$dbErrors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' ' . $obj['inputType'] . ' scouting data is not usable';
+		return;//if use is false
+	}
 	unset($obj['meta']);
 
 	$obj['comments'] = processComments($obj['comments']);
@@ -249,9 +263,9 @@ function robotEntryAnalysis($obj){
 	$obj['totalScores'] = 0;
 	$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
 
-	if(empty($opr['totalShots'])) logger('wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"]);
+	if(empty($obj['totalShots'])) logger('missing totalShots in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"]);
 
-	//TODO; get total shots, total scores, height breakdown
+	//TODO: get total shots, total scores, height breakdown
 	//TODO: add peroid breakdown
 
 	//check for incorrect teamNum (not fatal if exists, just wrong)
