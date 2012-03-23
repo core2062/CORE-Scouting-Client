@@ -1,10 +1,11 @@
 <?php
 require_once "php/math/Matrix.php";
 
-$teams = [4371,167,967,3352,2040,81,4296,4143,2115,1736,2039,2481,868,135,3184,4174,2169,48,93,2202,3197,1716,2194,2506,1091];
+$teams = [4371,167,967,3352,2040,81,4296,4143,2115,1736,2039,2481,868,135,3184,4174,2169,48,93,2202,3197,1716,2194,2506,1091,706,3692,1306,1675,1714,1732,1864,2830,3963,4095,4247,930,269,2826,1259,171,1652,3418,3596,537,3381,2077,2062];
 $blackList = [4230];//make something to work with this
 sort($teams);
 /*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18echo">     */
+
 
 //OPR Calculations
 function calcOPR(){
@@ -103,6 +104,16 @@ function isIn($objectPoint, $containerPoint1, $containerPoint2){
 	}
 }
 
+function processComments($comments){
+	$comments = split("\n", $comments);
+	$len = count($comments);
+	for($i=0; $i < $len; $i++){ 
+		$comments[$i] = trim($comments[$i]);
+		if(empty($comments[$i])) unset($comments[$i]);
+	}
+	return $comments;
+}
+
 function analysisScouting(){
 	//only call this function if compiledScouting needs to be rebuilt completely
 	global $db;
@@ -113,12 +124,11 @@ function analysisScouting(){
 	foreach($cursor as $obj){
 		trackingEntryAnalysis($obj);
 	}
-/*
+
 	$cursor = $db->sourceScouting->find(['inputType' => 'robot']);//process robot info
 	foreach($cursor as $obj){
 		robotEntryAnalysis($obj);
 	}
-*/
 }
 
 function trackingEntryAnalysis($obj){
@@ -129,13 +139,7 @@ function trackingEntryAnalysis($obj){
 	if(!$obj['meta']['use']) return;//if use is false
 	unset($obj['meta']);
 
-	//get comments
-	$obj['comments'] = split("\n", $obj['comments']);
-	$len = count($obj['comments']);
-	for($i=0; $i < $len; $i++){ 
-		$obj['comments'][$i] = trim($obj['comments'][$i]);
-		if(empty($obj['comments'][$i])) unset($obj['comments'][$i]);
-	}
+	$obj['comments'] = processComments($comments);
 
 	//process shots
 	$len = count($obj['shots']);
@@ -225,8 +229,7 @@ function robotEntryAnalysis($obj){
 	if(!$obj['meta']['use']) return;//if use is false
 	unset($obj['meta']);
 
-	//get comments
-	$obj['comments'] = split("\n", $obj['comments']);
+	$obj['comments'] = processComments($comments);
 
 	//... analysis
 

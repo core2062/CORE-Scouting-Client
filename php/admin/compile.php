@@ -1,11 +1,6 @@
 <?php
 require "php/analysis.php";
 
-$teams = [4371,167,967,3352,2040,81,4296,4143,2115,1736,2039,2481,868,135,3184,4174,2169,48,93,2202,3197,1716,2194,2506,1091];
-$blackList = [4230];//make something to work with this
-sort($teams);
-/*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18echo">     */
-
 $opr = calcOPR();
 
 $db->compiledTeam->remove([]);//clear out compiledTeam

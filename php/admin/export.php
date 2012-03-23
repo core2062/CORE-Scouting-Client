@@ -29,7 +29,7 @@
 		# matches doa
 		penalty points incurred
 		total bump crossings
-		hybrid score separated from teleop score
+1		hybrid score separated from teleop score
 
 		nice to have
 
@@ -46,6 +46,9 @@
 	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
 	foreach ($cursor as $obj) {
 		unset($obj['meta']);
+		unset($obj['_id']);
+
+		join($obj['_id'],"\n");
 
 		$csv[] = [
 			$obj
