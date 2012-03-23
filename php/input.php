@@ -41,6 +41,8 @@ $db->sourceScouting->insert(
 	$input['data']
 );
 
+logger('data from match ' . $input['data']['matchNum'] . ' was submitted by ' . $input['data']['meta']['scoutid']);
+
 require "php/analysis.php";
 trackingEntryAnalysis($input['data']);
 

@@ -153,7 +153,7 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 
 	logger("script ended, output buffer=" . ob_get_contents());
 
-	$db->log->insert(
+	/*$db->log->insert(
 		array(
 			'type' => $type,
 			'return' => $logReturn ? $return : "",
@@ -164,7 +164,7 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 			'vars' => $vars,
 			'user' => $user
 		)
-	);
+	);*/
 
 	if($enableEncode == true){//option required for index.php (sends entire page as return)
 		$return = json_encode($return);

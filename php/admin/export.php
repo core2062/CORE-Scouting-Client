@@ -53,8 +53,6 @@
 		$obj['comments'] = join($obj['comments']," | ");
 		$obj['comments'] = preg_replace('/,/', ';', $obj['comments']);
 
-		fb($obj['comments']);
-
 		$csv[] = $obj;
 	}
 
