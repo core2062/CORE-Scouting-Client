@@ -29,7 +29,8 @@ function globalVar($name, $update = null){//consider adding ability to set var h
 				'$set' => array(
 					'value' => $update
 				)
-			)
+			),
+			true
 		);
 	}
 	return $return['value'];
