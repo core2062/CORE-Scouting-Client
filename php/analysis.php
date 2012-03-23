@@ -105,7 +105,7 @@ function isIn($objectPoint, $containerPoint1, $containerPoint2){
 }
 
 function processComments($comments){
-	$comments = split("\n", $comments);
+	$comments = preg_split("\n", $comments);
 	$len = count($comments);
 	for($i=0; $i < $len; $i++){ 
 		$comments[$i] = trim($comments[$i]);
@@ -139,7 +139,7 @@ function trackingEntryAnalysis($obj){
 	if(!$obj['meta']['use']) return;//if use is false
 	unset($obj['meta']);
 
-	$obj['comments'] = processComments($comments);
+	$obj['comments'] = processComments($obj['comments']);
 
 	//process shots
 	$len = count($obj['shots']);
@@ -200,7 +200,7 @@ function trackingEntryAnalysis($obj){
 	}
 
 	//count total shots/scores
-	$obj['totalShots'] = count($obj['shots']);
+	empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
 
 	//add in objects to prevent undefined index error
 	$obj['totalScores'] = 0;
@@ -225,11 +225,12 @@ function trackingEntryAnalysis($obj){
 function robotEntryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
+	global $teams;
 
 	if(!$obj['meta']['use']) return;//if use is false
 	unset($obj['meta']);
 
-	$obj['comments'] = processComments($comments);
+	$obj['comments'] = processComments($obj['comments']);
 
 	//... analysis
 
