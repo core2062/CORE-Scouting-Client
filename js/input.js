@@ -157,13 +157,14 @@ function submitData(){
 		if(current.subpage.charAt(0) == 't'){
 			trackingInputs = [];
 			updateTrackingDisplay();
-			clearInputs();
 		}
 
 		if(current.subpage.charAt(0) == 'p'){
 			submit.teamNum = submit.pitTeamNum;
 			delete submit.pitTeamNum;
 		}
+
+		clearInputs();
 	}
 }
 

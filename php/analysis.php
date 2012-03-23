@@ -105,7 +105,7 @@ function isIn($objectPoint, $containerPoint1, $containerPoint2){
 }
 
 function processComments($comments){
-	$comments = preg_split("\n", $comments);
+	$comments = preg_split("/\n/", $comments);
 	$len = count($comments);
 	for($i=0; $i < $len; $i++){ 
 		$comments[$i] = trim($comments[$i]);
@@ -142,62 +142,65 @@ function trackingEntryAnalysis($obj){
 	$obj['comments'] = processComments($obj['comments']);
 
 	//process shots
-	$len = count($obj['shots']);
-	for ($i=0; $i < $len; $i++) {
-		$currentObj = $obj['shots'][$i];//only need this stuff
+	if(!empty($obj['shots'])){
+		$len = count($obj['shots']);
+		for ($i=0; $i < $len; $i++) {
+			$currentObj = $obj['shots'][$i];//only need this stuff
 
-		//get shoot locations
-		$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
+			//get shoot locations
+			$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
 
-		//check if it is from key
-		if(isIn($currentCoords, [0,53], [89,100]) || isIn($currentCoords, [213,53], [300,100])){
-			$location = 'key';
-		} else if(isIn($currentCoords, [0,150], [150,129]) || isIn($currentCoords, [300,0], [150,24])){
-			$location = 'fender';
-		} else {
-			$location = 'unspecified';
-		}
-		
-		if(isIn($currentCoords, [0,0], [150,150])){
-			$side = 'b';//based on color of key
-		} else {
-			$side = 'r';
-		}
-
-		if(($side == 'b' && $obj['allianceColor'] == 'r') || ($side == 'r' && $obj['allianceColor'] == 'b')){
-			if($location == 'fender'){
-				$side = 'same';
+			//check if it is from key
+			if(isIn($currentCoords, [0,53], [89,100]) || isIn($currentCoords, [213,53], [300,100])){
+				$location = 'key';
+			} else if(isIn($currentCoords, [0,150], [150,129]) || isIn($currentCoords, [300,0], [150,24])){
+				$location = 'fender';
 			} else {
-				$side = 'opposite';
+				$location = 'unspecified';
 			}
-		} else {
-			if($location == 'fender'){
-				$side = 'opposite';
+			
+			if(isIn($currentCoords, [0,0], [150,150])){
+				$side = 'b';//based on color of key
 			} else {
-				$side = 'same';
+				$side = 'r';
 			}
+
+			if(($side == 'b' && $obj['allianceColor'] == 'r') || ($side == 'r' && $obj['allianceColor'] == 'b')){
+				if($location == 'fender'){
+					$side = 'same';
+				} else {
+					$side = 'opposite';
+				}
+			} else {
+				if($location == 'fender'){
+					$side = 'opposite';
+				} else {
+					$side = 'same';
+				}
+			}
+
+			$location = $side . ' Side, ' . $location;
+
+			$distanceFromHoopY = abs($currentObj['yCoord']-75);
+			if($obj['allianceColor'] == 'r'){
+				$distanceFromHoopX = $currentObj['xCoord'];
+			} else {
+				$distanceFromHoopX = 300-$currentObj['xCoord'];
+			}
+
+			$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
+
+			//add distance info to object
+			$obj['shots'][$i] = [
+				'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
+				'distance' => $distanceFromHoop,
+				'place' => $location,
+				'period' => $currentObj['period']
+			];
+			//more stuff here
 		}
-
-		$location = $side . ' Side, ' . $location;
-
-		$distanceFromHoopY = abs($currentObj['yCoord']-75);
-		if($obj['allianceColor'] == 'r'){
-			$distanceFromHoopX = $currentObj['xCoord'];
-		} else {
-			$distanceFromHoopX = 300-$currentObj['xCoord'];
-		}
-
-		$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
-
-		//add distance info to object
-		$obj['shots'][$i] = [
-			'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
-			'distance' => $distanceFromHoop,
-			'place' => $location,
-			'period' => $currentObj['period']
-		];
-		//more stuff here
 	}
+	
 
 	//count total shots/scores
 	empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
@@ -240,6 +243,6 @@ function robotEntryAnalysis($obj){
 	}
 
 	//write new data to analysisScouting
-	$db->analysisScouting->insert($currentTeam);//insert new one
+	$db->analysisScouting->insert($obj);//insert new one
 }
 ?>
