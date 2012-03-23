@@ -170,7 +170,22 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 		$return = json_encode($return);
 	}
 	
-	ob_clean (); //empty output buffer, stuff below is only thing sent
+	ob_clean(); //empty output buffer, stuff below is only thing sent
 	die($return);
+}
+
+//general functions
+function array_add($arrays){//parameter (arrays) is a array of the arrays to be added (must all have same keys)
+	//TODO: make this recursive
+	$numOfArrays = count($arrays);
+	$keys = array_keys($arrays[0]);
+	$numOfKeys = count($keys);
+	for($i=0; $i < $numOfKeys; $i++){
+		$sum[$keys[$i]] = 0;
+		for($e=0; $e < $numOfArrays; $e++){ 
+			$sum[$keys[$i]] = $sum[$keys[$i]] + $arrays[$e][$keys[$i]];
+		}
+	}
+	return $sum;
 }
 ?>
