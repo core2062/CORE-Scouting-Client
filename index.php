@@ -4,14 +4,14 @@ $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
-require_once 'php/general.php';
+require 'php/general.php';
 
 //TODO: add function to check if db is setup (can be commented out later)
 
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
 //get site-map
-	require_once 'php/siteMap.php';
+	require 'php/siteMap.php';
 	fb($pages);
 
 
@@ -147,7 +147,9 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 	}
 }
 
-include 'php/jsminplus.php';
+require 'php/jsminplus.php';
+
+//TODO: rewrite below html to PATH
 ?>
 
 <!DOCTYPE html>
@@ -165,9 +167,10 @@ include 'php/jsminplus.php';
 		//TODO: add in csstidy + fix gradient support
 	?>
 </style>
+<!--TODO: add meta tags for bookmarks and/or for search engines -->
 </head>
 <body id="body">
-<!--TODO: add tags for bookmarks and/or for search engines -->
+
 
 
 <!-- START Layout -->

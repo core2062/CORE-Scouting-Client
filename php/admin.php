@@ -36,7 +36,7 @@ break;
 case "rebuildAnalysisScouting": //clear out log collection in mongoDB
 	
 	require "php/analysis.php";
-	analysisScouting();
+	analysisScoutingRebuild();
 	send_reg(['message' => 'scouting analysis db is rebuilt']);
 
 break;

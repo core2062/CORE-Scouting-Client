@@ -1,26 +1,24 @@
 <?php
 	//compiled team objects
+/*
 	$cursor = $db->compiledTeam->find();
 	foreach ($cursor as $obj) {
-		$csv[] = [
-			'teamNum' => $obj['_id'],
-			'opr' => empty($obj['opr']) ? 'null' : $obj['opr'],
-			'matches' => empty($obj['totalMatches']) ? 0 : $obj['totalMatches'],
-			'shots' => empty($obj['shooting']['totalShots']) ? 0 : $obj['shooting']['totalShots'],
-			'scores' => empty($obj['shooting']['totalScores']) ? 0 : $obj['shooting']['totalScores'],
-			'topBasketScores' => empty($obj['shooting']['heightTotal']['top']) ? 0 : $obj['shooting']['heightTotal']['top'],
-			'middleBasketScores' => empty($obj['shooting']['heightTotal']['middle']) ? 0 : $obj['shooting']['heightTotal']['middle'],
-			'bottomBasketScores' => empty($obj['shooting']['heightTotal']['bottom']) ? 0 : $obj['shooting']['heightTotal']['bottom']//,
-			//'balenceAttempts' => $obj,
-			//number of times bridge was brought down (just indicates ability to bring bridge down, not necessarily balancing)
-			//'sucessfulBalence' => $obj,//total of below 3 
-			//'1RobotBalence' => $obj,
-			//'2RobotBalence' => $obj,
-			//'3RobotBalence' => $obj,
-			//'coopertitionBalance' => $obj
-		];
-	}
+		$obj['teamNum'] = $obj['_id'];
+		unset($obj['_id']);
 
+		unset($obj['matches']);
+		
+		unset($obj['info']['name']);
+		unset($obj['info']['site']);
+		unset($obj['info']['location']);
+		unset($obj['info']['motto']);
+
+		$obj['comments'] = join($obj['comments']," | ");
+		$obj['comments'] = preg_replace('/,/', ';', $obj['comments']);
+
+		$csv[] = toFlatArray($obj);
+	}
+*/
 	/*
 		total number of balances
 
@@ -36,33 +34,51 @@
 		longest shot made (could be represented in feet or in increments like fender, key, front court, half court...)
 		best balance (single, double, etc)
 	*/
-
+/*
 	$fp = fopen('tmp/db/export/compiledTeam.csv', "w+");
+	fwrite($fp, toCSV($csv));
+	fclose($fp);
+
+	unset($csv);
+*/
+	//robot scouting sheets
+	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
+	foreach ($cursor as $obj) {
+		unset($obj['meta']);
+		unset($obj['_id']);
+		unset($obj['inputType']);
+
+		ksort($obj);
+
+		$obj['comments'] = join($obj['comments']," | ");
+		$obj['comments'] = preg_replace('/,/', ';', $obj['comments']);
+
+		$csv[] = toFlatArray($obj);
+	}
+
+	$fp = fopen('tmp/db/export/sourceScoutingRobot.csv', "w+");
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
 
 	unset($csv);
 
 	//robot scouting sheets
-	$cursor = $db->analysisScouting->find(['inputType' => 'robot', 'matchType' => 'q']);
+	$cursor = $db->analysisScouting->find(['inputType' => 'tracking']);
 	foreach ($cursor as $obj) {
 		unset($obj['meta']);
 		unset($obj['_id']);
 		unset($obj['inputType']);
+		unset($obj['shots']);
 
-		//handle height breakdown
-		$obj['topBasketScores'] = $obj['heightTotal']['top'];
-		$obj['middleBasketScores'] = $obj['heightTotal']['middle'];
-		$obj['bottomBasketScores'] = $obj['heightTotal']['bottom'];
-		unset($obj['heightTotal']);
+		ksort($obj);
 
 		$obj['comments'] = join($obj['comments']," | ");
 		$obj['comments'] = preg_replace('/,/', ';', $obj['comments']);
 
-		$csv[] = $obj;
+		$csv[] = toFlatArray($obj);
 	}
 
-	$fp = fopen('tmp/db/export/sourceScoutingRobot.csv', "w+");
+	$fp = fopen('tmp/db/export/sourceScoutingTracking.csv', "w+");
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
 
@@ -80,12 +96,11 @@
 		foreach ($json as $key => $value) {
 			if(is_array($value)){
 				$newEntries = toFlatArray($value, $rootKey . $key . '.');
-				$len = count($newEntries);
-				for($i=0; $i < $len; $i++){
-					$flatArray[] = $newEntries[$i];
+				foreach ($newEntries as $newKey => $newValue) {
+					$flatArray[$newKey] = $newValue;
 				}
 			} else {
-				$flatArray[] = [$rootKey . $key => $value];
+				$flatArray[$rootKey . $key] = $value;
 			}
 		}
 		return $flatArray;

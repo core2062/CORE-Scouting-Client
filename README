@@ -86,6 +86,7 @@ ramblings:
 
 	
 	big / general features
+		make some type of framework for interfacing between the client & server functions (replace hierarchies of switches)
 		wiki style editing
 		team images/robot images/other graphics associated w/ each team (used in team lookup)
 		blue alliance like public side w/ only basic data (data gathering and analysis on member side)
@@ -93,7 +94,7 @@ ramblings:
 		add offline scouting mode for competitions without internet access
 
 		Add analytics to track visitors on page by page basis (and get browser + OS + ip + other stuff)
-			switch to non-hashtag based navagation so php can read it
+			switch to non-hashtag based navigation so php can read it
 			use client side logging (log gets submitted in polling)
 
 
