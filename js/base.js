@@ -570,6 +570,7 @@ function WriteToWindow() {
 */
 
 function colorBackground(){
+	//TODO: switch to pre-compiled list of colors
 	var i = Math.round(new Date() - startTime2)/(5000/seizureMode) ;
 	var phase = 0.75;
 	center = 128;
@@ -578,7 +579,28 @@ function colorBackground(){
 	red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
 	green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
 	blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
+
 	bodyElement.style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+
+	if(current.subpage == 'front-page'){
+		i = i + 0.25;
+		red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
+		green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
+		blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
+		cElement.style.color = 'rgb(' + red + ',' + green + ',' + blue + ')';
+
+		i = i + 0.25;
+		red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
+		green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
+		blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
+		sElement.style.color = 'rgb(' + red + ',' + green + ',' + blue + ')';
+
+		i = i + 0.25;
+		red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
+		green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
+		blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
+		dElement.style.color = 'rgb(' + red + ',' + green + ',' + blue + ')';
+	}
 }
 
 function rainbow(seizureMode){
@@ -590,6 +612,9 @@ function rainbow(seizureMode){
 	console.log(seizureMode);
 
 	window.bodyElement = document.getElementById('body');
+	window.cElement = document.getElementById('bigC');
+	window.sElement = document.getElementById('bigS');
+	window.dElement = document.getElementById('bigD');
 	window.startTime2 = new Date();
 	setInterval("colorBackground()",150);
 }
