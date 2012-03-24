@@ -279,7 +279,7 @@ function embed($folder, $extension) {
 	for ($embeddedIndex = 0; $embeddedIndex < $embeddedLen; ++$embeddedIndex) {
 		$file = $folder . $embedded[$embeddedIndex] . $extension;
 
-		if (file_exists($file)) {
+		if(file_exists($file)){
 			require($file);
 			logger($file . ' was embedded', true);
 		} else {

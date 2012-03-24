@@ -82,7 +82,7 @@
 		[
 			"name" => "analysis",
 			"description" => "lorem",
-			"embedded" => false,
+			"embedded" => true,
 			"hidden" => false,
 			"full-name" => "Analysis",
 			"subpages" => [
