@@ -36,6 +36,13 @@ function globalVar($name, $update = null){//consider adding ability to set var h
 	return $return['value'];
 }
 
+function globalVarAppend($name, $newData){
+	if(count($newData) != 0){
+		$newData = array_merge(globalVar($name), $newData);
+		globalVar($name, $newData);
+	}
+}
+
 require 'php/path.php';
 
 if(globalVar('devMode')){
