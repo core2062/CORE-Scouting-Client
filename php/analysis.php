@@ -109,16 +109,6 @@ function mutualErrorCheck($obj){
 
 }
 
-function processComments($comments){
-	$comments = preg_split("/\n/", $comments);
-	$len = count($comments);
-	for($i=0; $i < $len; $i++){ 
-		$comments[$i] = trim($comments[$i]);
-		if(empty($comments[$i])) unset($comments[$i]);
-	}
-	return $comments;
-}
-
 function analysisScoutingRebuild(){
 	//only call this function if compiledScouting needs to be rebuilt completely
 	global $db;
@@ -128,7 +118,7 @@ function analysisScoutingRebuild(){
 
 	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'tracking'], globalVar('analysisQueryLimits')));//process tracking info
 	foreach($cursor as $obj){
-		trackingEntryAnalysis($obj);
+		entryAnalysis($obj);
 	}
 
 	//FIXER
@@ -144,11 +134,11 @@ function analysisScoutingRebuild(){
 	*/
 	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'robot'], globalVar('analysisQueryLimits')));//process robot info
 	foreach($cursor as $obj){
-		robotEntryAnalysis($obj);
+		entryAnalysis($obj);
 	}	
 }
 
-function trackingEntryAnalysis($obj){
+function entryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
 	global $teams;
@@ -157,159 +147,145 @@ function trackingEntryAnalysis($obj){
 
 	//check for incorrect teamNum
 	if(!in_array($obj["teamNum"], $teams)){
-		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
+		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for teamNum=' . $obj["teamNum"];
 		$obj['meta']['use'] = false;
 	}
 
 	if(!$obj['meta']['use']){
-		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' ' . $obj['inputType'] . ' scouting data is not usable';
-		globalVarAppend('analysisScoutingErrors', $errors);//need to write out errors here before return
+		$errors[] =  $obj['inputType'] . ' scouting data is not usable for teamNum=' . $obj["teamNum"];
+		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => $errors]);//need to write out errors here before return
 		return;
 	}
 	unset($obj['meta']);
 
-	$obj['comments'] = processComments($obj['comments']);
+	//process comments
+	$obj['comments'] = preg_split("/\n/", $obj['comments']);
+	$len = count($obj['comments']);
+	for($i=0; $i < $len; $i++){ 
+		$obj['comments'][$i] = trim($obj['comments'][$i]);
+		if(empty($obj['comments'][$i])) unset($obj['comments'][$i]);
+	}
 
-	//process shots
-	if(!empty($obj['shots'])){
-		$len = count($obj['shots']);
-		for ($i=0; $i < $len; $i++) {
-			$currentObj = $obj['shots'][$i];//only need this stuff
+	if($obj['inputType'] == 'tracking'){
+		//process shots
+		if(!empty($obj['shots'])){
+			$len = count($obj['shots']);
+			for ($i=0; $i < $len; $i++) {
+				$currentObj = $obj['shots'][$i];//only need this stuff
 
-			//get shoot locations
-			$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
+				//get shoot locations
+				$currentCoords = [ $currentObj['xCoord'] , $currentObj['yCoord'] ];
 
-			//check if it is from key
-			if(isIn($currentCoords, [0,53], [89,100]) || isIn($currentCoords, [213,53], [300,100])){
-				$location = 'key';
-			} else if(isIn($currentCoords, [0,150], [150,129]) || isIn($currentCoords, [300,0], [150,24])){
-				$location = 'fender';
-			} else {
-				$location = 'unspecified';
-			}
-			
-			if(isIn($currentCoords, [0,0], [150,150])){
-				$side = 'b';//based on color of key
-			} else {
-				$side = 'r';
-			}
-
-			if(($side == 'b' && $obj['allianceColor'] == 'r') || ($side == 'r' && $obj['allianceColor'] == 'b')){
-				if($location == 'fender'){
-					$side = 'same';
+				//check if it is from key
+				if(isIn($currentCoords, [0,53], [89,100]) || isIn($currentCoords, [213,53], [300,100])){
+					$location = 'key';
+				} else if(isIn($currentCoords, [0,150], [150,129]) || isIn($currentCoords, [300,0], [150,24])){
+					$location = 'fender';
 				} else {
-					$side = 'opposite';
+					$location = 'unspecified';
 				}
-			} else {
-				if($location == 'fender'){
-					$side = 'opposite';
+				
+				if(isIn($currentCoords, [0,0], [150,150])){
+					$side = 'b';//based on color of key
 				} else {
-					$side = 'same';
+					$side = 'r';
 				}
+
+				if(($side == 'b' && $obj['allianceColor'] == 'r') || ($side == 'r' && $obj['allianceColor'] == 'b')){
+					if($location == 'fender'){
+						$side = 'same';
+					} else {
+						$side = 'opposite';
+					}
+				} else {
+					if($location == 'fender'){
+						$side = 'opposite';
+					} else {
+						$side = 'same';
+					}
+				}
+
+				$location = $side . ' side ' . $location;
+
+				$distanceFromHoopY = abs($currentObj['yCoord']-75);
+				if($obj['allianceColor'] == 'r'){
+					$distanceFromHoopX = $currentObj['xCoord'];
+				} else {
+					$distanceFromHoopX = 300-$currentObj['xCoord'];
+				}
+
+				$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
+
+				//add distance info to object
+				$obj['shots'][$i] = [
+					'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
+					'distance' => $distanceFromHoop,
+					'place' => $location,
+					'period' => $currentObj['period']
+				];
+				//more stuff here
 			}
-
-			$location = $side . ' side ' . $location;
-
-			$distanceFromHoopY = abs($currentObj['yCoord']-75);
-			if($obj['allianceColor'] == 'r'){
-				$distanceFromHoopX = $currentObj['xCoord'];
-			} else {
-				$distanceFromHoopX = 300-$currentObj['xCoord'];
-			}
-
-			$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
-
-			//add distance info to object
-			$obj['shots'][$i] = [
-				'result' => empty($currentObj['score']) ? 'missed' : $currentObj['score'],
-				'distance' => $distanceFromHoop,
-				'place' => $location,
-				'period' => $currentObj['period']
-			];
-			//more stuff here
 		}
-	}
-	
-	//count total shots/scores
-	!empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
+		
+		//count total shots/scores
+		!empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
 
-	//add in objects to prevent undefined index error
-	$obj['totalScores'] = 0;
-	$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
-	$obj['averageDistance'] = 0;
+		//add in objects to prevent undefined index error
+		$obj['totalScores'] = 0;
+		$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
+		$obj['averageDistance'] = 0;
 
-	for($shotNum=0; $shotNum < $obj['totalShots']; $shotNum++){ 
-		if($obj['shots'][$shotNum]['result'] != 'missed'){
-			$obj['totalScores']++;
-			$obj['averageDistance'] = $obj['averageDistance'] + $obj['shots'][$shotNum]['distance'];
-			$obj['heightTotal'][ $obj['shots'][$shotNum]['result'] ]++;
-		};
-	}
+		for($shotNum=0; $shotNum < $obj['totalShots']; $shotNum++){ 
+			if($obj['shots'][$shotNum]['result'] != 'missed'){
+				$obj['totalScores']++;
+				$obj['averageDistance'] = $obj['averageDistance'] + $obj['shots'][$shotNum]['distance'];
+				$obj['heightTotal'][ $obj['shots'][$shotNum]['result'] ]++;
+			};
+		}
 
-	//turn $obj['averageDistance'] into average (not total)
-	if($obj['totalScores'] != 0){
-		$obj['averageDistance'] = $obj['averageDistance'] / $obj['totalScores'];
-	}
+		//turn $obj['averageDistance'] into average (not total)
+		if($obj['totalScores'] != 0){
+			$obj['averageDistance'] = $obj['averageDistance'] / $obj['totalScores'];
+		}
+	} else if($obj['inputType'] == 'robot'){
 
-	//write new data to analysisScouting
-	$db->analysisScouting->insert($obj);//insert new one
+		//... analysis
 
-	globalVarAppend('analysisScoutingErrors', $errors);
-}
+		$obj['hybridHeightTotal'] = [
+			'top' => $obj['hybridHigh'],
+			'middle' => $obj['hybridMiddle'],
+			'bottom' => $obj['hybridBottom']
+		];
+		unset($obj['hybridHigh']);
+		unset($obj['hybridMiddle']);
+		unset($obj['hybridBottom']);
 
-function robotEntryAnalysis($obj){
-	//$obj is the object holding the input scouting data
-	global $db;
-	global $teams;
+		$obj['teleopHeightTotal'] = [
+			'top' => $obj['teleopHigh'],
+			'middle' => $obj['teleopMiddle'],
+			'bottom' => $obj['teleopBottom']
+		];
+		unset($obj['teleopHigh']);
+		unset($obj['teleopMiddle']);
+		unset($obj['teleopBottom']);
 
-	$errors = [];//holds all errors found
+		//add in objects to prevent undefined index error
+		$obj['heightTotal'] = array_add([ $obj['hybridHeightTotal'], $obj['teleopHeightTotal'] ]);
+		//TODO: change "high" to "top" in robot scounting input
 
-	//check for incorrect teamNum
-	if(!in_array($obj["teamNum"], $teams)){
-		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
+		$obj['totalScores'] = array_sum(array_values($obj['heightTotal']));
+
+		//TODO: add peroid breakdown
+	} else {
+		$errors[] = 'incorrect input type';
 		$obj['meta']['use'] = false;
 	}
 
-	if(!$obj['meta']['use']){
-		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' ' . $obj['inputType'] . ' scouting data is not usable';
-		globalVarAppend('analysisScoutingErrors', $errors);//need to write out errors here before return
-		return;
-	}
-	unset($obj['meta']);	$errors = [];//holds all errors found
-
-	$obj['comments'] = processComments($obj['comments']);
-
-	//... analysis
-
-	$obj['hybridHeightTotal'] = [
-		'top' => $obj['hybridHigh'],
-		'middle' => $obj['hybridMiddle'],
-		'bottom' => $obj['hybridBottom']
-	];
-	unset($obj['hybridHigh']);
-	unset($obj['hybridMiddle']);
-	unset($obj['hybridBottom']);
-
-	$obj['teleopHeightTotal'] = [
-		'top' => $obj['teleopHigh'],
-		'middle' => $obj['teleopMiddle'],
-		'bottom' => $obj['teleopBottom']
-	];
-	unset($obj['teleopHigh']);
-	unset($obj['teleopMiddle']);
-	unset($obj['teleopBottom']);
-
-	//add in objects to prevent undefined index error
-	$obj['heightTotal'] = array_add([ $obj['hybridHeightTotal'], $obj['teleopHeightTotal'] ]);
-	//TODO: change "high" to "top" in robot scounting input
-
-	$obj['totalScores'] = array_sum(array_values($obj['heightTotal']));
-
-	//TODO: add peroid breakdown
-
 	//write new data to analysisScouting
 	$db->analysisScouting->insert($obj);//insert new one
 
-	globalVarAppend('analysisScoutingErrors', $errors);
+	if(count($errors) != 0){
+		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => $errors]);
+	}
 }
 ?>
