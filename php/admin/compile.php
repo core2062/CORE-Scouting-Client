@@ -9,6 +9,7 @@ $len = count($teams);
 for($i=0; $i < $len; $i++){ 
 	$obj = $db->sourceTeamInfo->findOne(['_id' => $teams[$i]]);//start with team info
 
+	unset($obj['meta']);
 	unset($obj['events']);//temporary
 
 	//$obj['opr'] = $opr[$teams[$i]];//add opr data to team object

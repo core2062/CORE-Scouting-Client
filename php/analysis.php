@@ -114,17 +114,14 @@ function processComments($comments){
 	return $comments;
 }
 
-//TODO: put below in analysisScouting function
-$analysisScoutingErrors = [];//holds errors in db, written to globalVar later
-
-function analysisScouting(){
+function analysisScoutingRebuild(){
 	//only call this function if compiledScouting needs to be rebuilt completely
 	global $db;
 	global $analysisScoutingErrors;
 
 	$db->analysisScouting->remove([]);//clear out analysisScouting
 
-	$cursor = $db->sourceScouting->find(['inputType' => 'tracking']);//process tracking info
+	$cursor = $db->sourceScouting->find(['inputType' => 'tracking', 'matchType' => 'q']);//process tracking info
 	foreach($cursor as $obj){
 		trackingEntryAnalysis($obj);
 	}
@@ -140,10 +137,20 @@ function analysisScouting(){
 		}
 	}
 	*/
-	$cursor = $db->sourceScouting->find(['inputType' => 'robot']);//process robot info
+	$cursor = $db->sourceScouting->find(['inputType' => 'robot', 'matchType' => 'q']);//process robot info
 	foreach($cursor as $obj){
 		robotEntryAnalysis($obj);
 	}
+
+	analysisScoutingErrorCheck();
+
+	
+}
+
+function analysisScoutingErrorCheck(){
+	$analysisScoutingErrors = [];//holds errors in db, written to globalVar later
+
+
 
 	globalVar('analysisScoutingErrors',$analysisScoutingErrors);
 }
@@ -152,7 +159,8 @@ function trackingEntryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
 	global $teams;//remove this dependency later
-	global $analysisScoutingErrors;
+
+	$errors = [];//holds all errors found
 
 	//TODO: add code to determine meta.use
 
@@ -199,7 +207,7 @@ function trackingEntryAnalysis($obj){
 				}
 			}
 
-			$location = $side . ' Side, ' . $location;
+			$location = $side . ' side ' . $location;
 
 			$distanceFromHoopY = abs($currentObj['yCoord']-75);
 			if($obj['allianceColor'] == 'r'){
@@ -221,24 +229,30 @@ function trackingEntryAnalysis($obj){
 		}
 	}
 	
-
 	//count total shots/scores
 	!empty($obj['shots']) ? $obj['totalShots'] = count($obj['shots']) : $obj['totalShots'] = 0;
 
 	//add in objects to prevent undefined index error
 	$obj['totalScores'] = 0;
 	$obj['heightTotal'] = ['top' => 0, 'middle' => 0, 'bottom' => 0];
+	$obj['averageDistance'] = 0;
 
-	for($matchNum=0; $matchNum < $obj['totalShots']; $matchNum++){ 
-		if($obj['shots'][$matchNum]['result'] != 'missed'){
+	for($shotNum=0; $shotNum < $obj['totalShots']; $shotNum++){ 
+		if($obj['shots'][$shotNum]['result'] != 'missed'){
 			$obj['totalScores']++;
-			$obj['heightTotal'][ $obj['shots'][$matchNum]['result'] ]++;
+			$obj['averageDistance'] = $obj['averageDistance'] + $obj['shots'][$shotNum]['distance'];
+			$obj['heightTotal'][ $obj['shots'][$shotNum]['result'] ]++;
 		};
+	}
+
+	//turn $obj['averageDistance'] into average (not total)
+	if($obj['totalScores'] != 0){
+		$obj['averageDistance'] = $obj['averageDistance'] / $obj['totalScores'];
 	}
 
 	//check for incorrect teamNum (not fatal if exists, just wrong)
 	if(!in_array($obj["teamNum"], $teams)){
-		$analysisScoutingErrors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
+		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
 	}
 
 	//write new data to analysisScouting
@@ -249,7 +263,8 @@ function robotEntryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
 	global $teams;
-	global $analysisScoutingErrors;
+
+	$errors = [];//holds all errors found
 
 	//TODO: add code to determine meta.use = false if data is bad
 
@@ -268,18 +283,18 @@ function robotEntryAnalysis($obj){
 		'middle' => $obj['hybridMiddle'],
 		'bottom' => $obj['hybridBottom']
 	];
-	/*unset($obj['hybridHigh']);
+	unset($obj['hybridHigh']);
 	unset($obj['hybridMiddle']);
-	unset($obj['hybridBottom']);*/
+	unset($obj['hybridBottom']);
 
 	$obj['teleopHeightTotal'] = [
 		'top' => $obj['teleopHigh'],
 		'middle' => $obj['teleopMiddle'],
 		'bottom' => $obj['teleopBottom']
 	];
-	/*unset($obj['teleopHigh']);
+	unset($obj['teleopHigh']);
 	unset($obj['teleopMiddle']);
-	unset($obj['teleopBottom']);*/
+	unset($obj['teleopBottom']);
 
 	//add in objects to prevent undefined index error
 	$obj['heightTotal'] = array_add([ $obj['hybridHeightTotal'], $obj['teleopHeightTotal'] ]);
@@ -291,7 +306,7 @@ function robotEntryAnalysis($obj){
 
 	//check for incorrect teamNum (not fatal if exists, just wrong)
 	if(!in_array($obj["teamNum"], $teams)){
-		$analysisScoutingErrors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
+		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
 	}
 
 	//write new data to analysisScouting
