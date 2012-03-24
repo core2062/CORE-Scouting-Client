@@ -2,7 +2,6 @@
 require_once "php/math/Matrix.php";
 
 $teams = [4371,167,967,3352,2040,81,4296,4143,2115,1736,2039,2481,868,135,3184,4174,2169,48,93,2202,3197,1716,2194,2506,1091,706,3692,1306,1675,1714,1732,1864,2830,3963,4095,4247,930,269,2826,1259,171,1652,3418,3596,537,3381,2077,2062];
-$blackList = [4230];//make something to work with this
 sort($teams);
 /*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18echo">     */
 
@@ -151,6 +150,11 @@ function entryAnalysis($obj){
 		$obj['meta']['use'] = false;
 	}
 
+	if(in_array($obj['_id'], globalVar('blacklist'))){//remove teams that are literally not worth my cpu cycles
+		$errors[] = 'blacklisted team in ' . $obj['inputType'] . ' scouting data';
+		$obj['meta']['use'] = false;
+	}
+
 	if(!$obj['meta']['use']){
 		$errors[] =  $obj['inputType'] . ' scouting data is not usable for teamNum=' . $obj["teamNum"];
 		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => $errors]);//need to write out errors here before return
@@ -237,11 +241,12 @@ function entryAnalysis($obj){
 
 		for($shotNum=0; $shotNum < $obj['totalShots']; $shotNum++){ 
 			if($obj['shots'][$shotNum]['result'] != 'missed'){
-				$obj['totalScores']++;
 				$obj['averageDistance'] = $obj['averageDistance'] + $obj['shots'][$shotNum]['distance'];
 				$obj['heightTotal'][ $obj['shots'][$shotNum]['result'] ]++;
 			};
 		}
+
+		$obj['totalScores'] = array_sum(array_values($obj['heightTotal']));
 
 		//turn $obj['averageDistance'] into average (not total)
 		if($obj['totalScores'] != 0){
@@ -271,14 +276,14 @@ function entryAnalysis($obj){
 
 		//add in objects to prevent undefined index error
 		$obj['heightTotal'] = array_add([ $obj['hybridHeightTotal'], $obj['teleopHeightTotal'] ]);
-		//TODO: change "high" to "top" in robot scounting input
+		//TODO: change "high" to "top" in robot scouting input
 
 		$obj['totalScores'] = array_sum(array_values($obj['heightTotal']));
 
-		//TODO: add peroid breakdown
+		//TODO: add period breakdown
 	} else {
 		$errors[] = 'incorrect input type';
-		$obj['meta']['use'] = false;
+		$obj['meta']['use'] = false;//TODO: add use check to end of function too
 	}
 
 	//write new data to analysisScouting
