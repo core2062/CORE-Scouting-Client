@@ -280,7 +280,7 @@ function embed($folder, $extension) {
 		$file = $folder . $embedded[$embeddedIndex] . $extension;
 
 		if (file_exists($file)) {
-			include($file);
+			require($file);
 		} else {
 			logger($file . ' is non-existent', true);
 		}
