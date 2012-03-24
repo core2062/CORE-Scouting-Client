@@ -44,7 +44,7 @@
 	unset($csv);
 
 	//robot scouting sheets
-	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
+	$cursor = $db->analysisScouting->find(['inputType' => 'robot', 'matchType' => 'q']);
 	foreach ($cursor as $obj) {
 		unset($obj['meta']);
 		unset($obj['_id']);
@@ -66,41 +66,28 @@
 	fwrite($fp, toCSV($csv));
 	fclose($fp);
 
-/*
-	//tracking scouting sheets
-	$cursor = $db->sourceScouting->find(['inputType' => 'tracking']);
-	foreach ($cursor as $obj) {
-		$csv[] = [
-			'teamNum' => $obj['teamNum'],
-			'matchNum' => $obj['matchNum'],
-			'allianceColor' => $obj['allianceColor'],
-			'matchType' => $obj['matchType'],
-
-			'crossesBump' => $obj['crossesBump'],//true or false
-			'canPickup' => $obj['canPickup'],//true or false
-			'getsBallsFromBridge' => $obj['getsBallsFromBridge'],//true or false
-			'usesKinect' => $obj['usesKinect'],//true or false
-			//strategy info
-			//shooting info?
-			'fouls' => $obj['fouls'],
-			'technicalFouls' => $obj['technicalFouls'],
-			'comments' => $obj['comments']//,
-			//balance info?
-		];
-	}
-
-	$fp = fopen('tmp/db/export/trackingScouting.csv', "w+");
-	fwrite($fp, toCSV($csv));
-	fclose($fp);
-*/
-
 	//functions
-	function toCSV($csv){
+	function toCSV($csv){//all rows must have same keys
 		array_unshift($csv, array_keys($csv[0]));//prepend
 		$len = count($csv);
 		for($i=0; $i < $len; $i++){ 
 			$csv[$i] = join(',', array_values($csv[$i]));
 		}
 		return join("\n", $csv);
+	}
+
+	function toFlatArray($json, $rootKey = ""){
+		foreach ($json as $key => $value) {
+			if(is_array($value)){
+				$newEntries = toFlatArray($value, $rootKey . $key . '.');
+				$len = count($newEntries);
+				for($i=0; $i < $len; $i++){
+					$flatArray[] = $newEntries[$i];
+				}
+			} else {
+				$flatArray[] = [$rootKey . $key => $value];
+			}
+		}
+		return $flatArray;
 	}
 ?>
