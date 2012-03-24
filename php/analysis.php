@@ -120,6 +120,7 @@ function analysisScoutingRebuild(){
 	global $analysisScoutingErrors;
 
 	$db->analysisScouting->remove([]);//clear out analysisScouting
+	globalVar('analysisScoutingErrors',[]);
 
 	$cursor = $db->sourceScouting->find(['inputType' => 'tracking', 'matchType' => 'q']);//process tracking info
 	foreach($cursor as $obj){
@@ -140,19 +141,7 @@ function analysisScoutingRebuild(){
 	$cursor = $db->sourceScouting->find(['inputType' => 'robot', 'matchType' => 'q']);//process robot info
 	foreach($cursor as $obj){
 		robotEntryAnalysis($obj);
-	}
-
-	analysisScoutingErrorCheck();
-
-	
-}
-
-function analysisScoutingErrorCheck(){
-	$analysisScoutingErrors = [];//holds errors in db, written to globalVar later
-
-
-
-	globalVar('analysisScoutingErrors',$analysisScoutingErrors);
+	}	
 }
 
 function trackingEntryAnalysis($obj){
@@ -164,7 +153,11 @@ function trackingEntryAnalysis($obj){
 
 	//TODO: add code to determine meta.use
 
-	if(!$obj['meta']['use']) return;//if use is false
+	if(!$obj['meta']['use']){
+		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' tracking scouting data is not usable';
+		globalVarAppend('analysisScoutingErrors', $errors);//need to write out errors here before return
+		return;
+	}
 	unset($obj['meta']);
 
 	$obj['comments'] = processComments($obj['comments']);
@@ -257,6 +250,8 @@ function trackingEntryAnalysis($obj){
 
 	//write new data to analysisScouting
 	$db->analysisScouting->insert($obj);//insert new one
+
+	globalVarAppend('analysisScoutingErrors', $errors);
 }
 
 function robotEntryAnalysis($obj){
@@ -269,7 +264,8 @@ function robotEntryAnalysis($obj){
 	//TODO: add code to determine meta.use = false if data is bad
 
 	if(!$obj['meta']['use']){
-		$analysisScoutingErrors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' ' . $obj['inputType'] . ' scouting data is not usable';
+		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' robot scouting data is not usable';
+		globalVarAppend('analysisScoutingErrors', $errors);//need to write out errors here before return
 		return;//if use is false
 	}
 	unset($obj['meta']);
@@ -311,5 +307,7 @@ function robotEntryAnalysis($obj){
 
 	//write new data to analysisScouting
 	$db->analysisScouting->insert($obj);//insert new one
+
+	globalVarAppend('analysisScoutingErrors', $errors);
 }
 ?>
