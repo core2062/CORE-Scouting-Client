@@ -44,7 +44,7 @@ function path($array, $logName="unknown"){
 	} else {
 		$return .= '/> ';
 	}
-	logger("Generated PATH path for ".$logName);
+	//logger("Generated PATH path for ".$logName);
 	return $return;
 }
 ?>
