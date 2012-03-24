@@ -1,203 +1,203 @@
 <?php
 	//CONSIDER: move sitemap data to mongoDB if requred
-	//TODO: replace sitemap with function which scans html directory and gets config from existing files (low importance)
+	//TODO: replace sitemap with function which scans html directory and gets config from existing files (low importance]
 
-	$pages = array(
-		array(
+	$pages = [
+		[
 			"name" => "home",
 			"description" => "lorem",
 			"embedded" => true,
 			"hidden" => false,
 			"full-name" => "Home",
-			"subpages" => array(
-				"front-page" => array(
+			"subpages" => [
+				"front-page" => [
 					"full-name" => "Front Page",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"synopsis" => array(
+				],
+				"synopsis" => [
 					"full-name" => "Synopsis",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"tour" => array(
+				],
+				"tour" => [
 					"full-name" => "Guided Tour",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"signup" => array(
+				],
+				"signup" => [
 					"full-name" => "Signup",
 					"description" => "lorem",
 					"login-required" => false
-				)
-			),
-			"modals" => array(),
+				]
+			],
+			"modals" => [],
 			"minWidth" => "1150px",
 			"progressbar" => "none"
-		),
-		array(
+		],
+		[
 			"name" => "admin",
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => true,
 			"full-name" => "Administrative",
-			"subpages" => array(
-				"mongo" => array(
+			"subpages" => [
+				"mongo" => [
 					"full-name" => "Manage MongoDB",
 					"description" => "lorem",
 					"login-required" => false
-				)
-			),
-			"modals" => array(),
+				]
+			],
+			"modals" => [],
 			"minWidth" => "1150px",
 			"progressbar" => "none"
-		),
-		array(
+		],
+		[
 			"name" => "input",
 			"description" => "lorem",
 			"embedded" => true,
 			"hidden" => false,
 			"full-name" => "Input",
-			"subpages" => array(
-				"tracking" => array(
+			"subpages" => [
+				"tracking" => [
 					"description" => "lorem",
 					"full-name" => "Tracking Scouting",
 					"login-required" => true
-				),
-				"pit" => array(
+				],
+				"pit" => [
 					"full-name" => "Pit Scouting",
 					"description" => "lorem",
 					"login-required" => true
-				),
-				"robot" => array(
+				],
+				"robot" => [
 					"full-name" => "Robot Scouting",
 					"description" => "lorem",
 					"login-required" => true
-				)
-			),
-			"modals" => array(),
+				]
+			],
+			"modals" => [],
 			"minWidth" => "1150px",
 			"progressbar" => "block"
-		),
-		array(
+		],
+		[
 			"name" => "analysis",
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => false,
 			"full-name" => "Analysis",
-			"subpages" => array(
-				"public" => array(
+			"subpages" => [
+				"public" => [
 					"full-name" => "Public Analysis",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"member" => array(
+				],
+				"member" => [
 					"full-name" => "Member Analysis",
 					"description" => "lorem",
 					"login-required" => true
-				),
-				"data-liberation" => array(
+				],
+				"data-liberation" => [
 					"full-name" => "Data Liberation",
 					"description" => "lorem",
 					"login-required" => true
-				)
-			),
-			"modals" => array(),
+				]
+			],
+			"modals" => [],
 			"minWidth" => "1150px",
 			"progressbar" => "none"
-		),
-		array(
+		],
+		[
 			"name" => "team-leader",
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => false,
 			"full-name" => "Team Leader",
-			"subpages" => array(
-				"manage" => array(
+			"subpages" => [
+				"manage" => [
 					"full-name" => "Manage Scouting",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"contribution" => array(
+				],
+				"contribution" => [
 					"full-name" => "View Contribution",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"team" => array(
+				],
+				"team" => [
 					"full-name" => "View Team Members",
 					"description" => "lorem",
 					"login-required" => false
-				)
-			),
-			"modals" => array(),
+				]
+			],
+			"modals" => [],
 			"minWidth" => "1150px",
 			"progressbar" => "none"
-		),
-		array(
+		],
+		[
 			"name" => "help",
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => false,
 			"full-name" => "Help",
-			"subpages" => array(
-				"training" => array(
+			"subpages" => [
+				"training" => [
 					"full-name" => "Manage Training",
 					"description" => "lorem",
 					"login-required" => true
-				),
-				"documentation" => array(
+				],
+				"documentation" => [
 					"full-name" => "Documentation",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"forum" => array(
+				],
+				"forum" => [
 					"full-name" => "Forum",
 					"description" => "lorem",
 					"login-required" => true
-				)
-			),
-			"modals" => array(),
+				]
+			],
+			"modals" => [],
 			"minWidth" => "1150px",
 			"progressbar" => "none"
-		),
-		array(
+		],
+		[
 			"name" => "base",
 			"description" => "",
 			"embedded" => true,
 			"hidden" => false,
 			"full-name" => "Other",
-			"modals" => array(
-				"account" => array(
+			"modals" => [
+				"account" => [
 					"description" => "lorem",
 					"full-name" => "Edit Account",
 					"login-required" => true,
-					"onClose" => "postUserUpdates()"
-				),
-				"contact" => array(
+					"onClose" => "postUserUpdates(]"
+				],
+				"contact" => [
 					"full-name" => "Contact",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"credits" => array(
+				],
+				"credits" => [
 					"full-name" => "Credits",
 					"description" => "lorem",
 					"login-required" => false
-				),
-				"login" => array(
+				],
+				"login" => [
 					"full-name" => "Login",
 					"description" => "lorem",
 					"login-required" => false,
-					"onOpen" => "$('#scoutid').focus()"
-				),
-				"navigation" => array(
+					"onOpen" => "$('#scoutid'].focus(]"
+				],
+				"navigation" => [
 					"full-name" => "Navigation",
 					"description" => "lorem",
 					"login-required" => false
-				)
-			),
+				]
+			],
 			"progressbar" => "none",
 			"minWidth" => "1150px",
-			"subpages" => array()
-		)
-	)
+			"subpages" => []
+		]
+	]
 ?>
