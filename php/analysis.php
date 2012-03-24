@@ -268,18 +268,18 @@ function robotEntryAnalysis($obj){
 		'middle' => $obj['hybridMiddle'],
 		'bottom' => $obj['hybridBottom']
 	];
-	unset($obj['hybridHigh']);
+	/*unset($obj['hybridHigh']);
 	unset($obj['hybridMiddle']);
-	unset($obj['hybridBottom']);
+	unset($obj['hybridBottom']);*/
 
 	$obj['teleopHeightTotal'] = [
 		'top' => $obj['teleopHigh'],
 		'middle' => $obj['teleopMiddle'],
 		'bottom' => $obj['teleopBottom']
 	];
-	unset($obj['teleopHigh']);
+	/*unset($obj['teleopHigh']);
 	unset($obj['teleopMiddle']);
-	unset($obj['teleopBottom']);
+	unset($obj['teleopBottom']);*/
 
 	//add in objects to prevent undefined index error
 	$obj['heightTotal'] = array_add([ $obj['hybridHeightTotal'], $obj['teleopHeightTotal'] ]);

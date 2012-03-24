@@ -18,6 +18,13 @@ for($i=0; $i < $len; $i++){
 	foreach($cursor as $currentMatch){
 		unset($currentMatch['_id']);//just a random id
 		unset($currentMatch['teamNum']);
+
+		//merge paper & electronic data here
+		if(!empty($obj['matches'][$currentMatch['matchType'] . $currentMatch['matchNum']])){
+
+		}
+
+
 		$obj['matches'][$currentMatch['matchType'] . $currentMatch['matchNum'] . ' - ' . $currentMatch['inputType']] = $currentMatch;//add match object
 		unset($currentMatch['matchType']);
 		unset($obj['matches'][$currentMatch['matchNum']]['matchNum']);//now represented in the key for the match
