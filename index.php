@@ -281,6 +281,7 @@ function embed($folder, $extension) {
 
 		if (file_exists($file)) {
 			require($file);
+			logger($file . ' was embedded', true);
 		} else {
 			logger($file . ' is non-existent', true);
 		}
