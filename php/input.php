@@ -41,10 +41,10 @@ $db->sourceScouting->insert(
 	$input['data']
 );
 
-logger('data from match ' . $input['data']['matchNum'] . ' was submitted by ' . $input['data']['meta']['scoutid']);
+logger($input['data']['inputType'] . ' data from match ' . $input['data']['matchNum'] . ' was submitted by ' . $input['data']['meta']['scoutid']);
 
 require "php/analysis.php";
-trackingEntryAnalysis($input['data']);
+entryAnalysis($input['data']);
 
 send_reg(array('message' => 'data submitted sucessfully'));
 ?>
