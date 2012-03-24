@@ -103,11 +103,6 @@ function isIn($objectPoint, $containerPoint1, $containerPoint2){
 	}
 }
 
-function mutualErrorCheck($obj){
-	global $teams;
-
-}
-
 function analysisScoutingRebuild(){
 	//only call this function if compiledScouting needs to be rebuilt completely
 	global $db;
@@ -135,6 +130,8 @@ function analysisScoutingRebuild(){
 	foreach($cursor as $obj){
 		entryAnalysis($obj);
 	}	
+
+	//TODO: make multi entry error check code
 }
 
 function entryAnalysis($obj){
@@ -150,7 +147,7 @@ function entryAnalysis($obj){
 		$obj['meta']['use'] = false;
 	}
 
-	if(in_array($obj['_id'], globalVar('blacklist'))){//remove teams that are literally not worth my cpu cycles
+	if(in_array($obj['teamNum'], globalVar('blacklist'))){//remove teams that are literally not worth my cpu cycles
 		$errors[] = 'blacklisted team in ' . $obj['inputType'] . ' scouting data';
 		$obj['meta']['use'] = false;
 	}
@@ -290,7 +287,7 @@ function entryAnalysis($obj){
 	$db->analysisScouting->insert($obj);//insert new one
 
 	if(count($errors) != 0){
-		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => $errors]);
+		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => [$obj['teamNum'] => [$obj['inputType'] => $errors]]]);
 	}
 }
 ?>
