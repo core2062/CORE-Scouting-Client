@@ -7,7 +7,7 @@
 
 $selfClosingTags = ['img', 'br', 'input'];
 
-function path($array){
+function path($array, $logName="unknown"){
 	global $selfClosingTags;
 
 	//add stuff for self closing tags
@@ -44,7 +44,7 @@ function path($array){
 	} else {
 		$return .= '/> ';
 	}
-
+	logger("Generated PATH path for ".$logName);
 	return $return;
 }
 ?>
