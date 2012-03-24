@@ -104,6 +104,23 @@ function isIn($objectPoint, $containerPoint1, $containerPoint2){
 	}
 }
 
+function mutualErrorCheck($obj){
+	global $teams;
+
+	$errors = [];
+
+	if(!$obj['meta']['use']){
+		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' ' . $obj['inputType'] . ' scouting data is not usable';
+	}
+
+	//check for incorrect teamNum (not fatal if exists, just wrong)
+	if(!in_array($obj["teamNum"], $teams)){
+		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
+	}
+
+	return $errors;
+}
+
 function processComments($comments){
 	$comments = preg_split("/\n/", $comments);
 	$len = count($comments);
@@ -117,7 +134,6 @@ function processComments($comments){
 function analysisScoutingRebuild(){
 	//only call this function if compiledScouting needs to be rebuilt completely
 	global $db;
-	global $analysisScoutingErrors;
 
 	$db->analysisScouting->remove([]);//clear out analysisScouting
 	globalVar('analysisScoutingErrors',[]);
@@ -147,14 +163,12 @@ function analysisScoutingRebuild(){
 function trackingEntryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
-	global $teams;//remove this dependency later
 
-	$errors = [];//holds all errors found
+	$errors = mutualErrorCheck($obj);
 
 	//TODO: add code to determine meta.use
 
 	if(!$obj['meta']['use']){
-		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' tracking scouting data is not usable';
 		globalVarAppend('analysisScoutingErrors', $errors);//need to write out errors here before return
 		return;
 	}
@@ -243,11 +257,6 @@ function trackingEntryAnalysis($obj){
 		$obj['averageDistance'] = $obj['averageDistance'] / $obj['totalScores'];
 	}
 
-	//check for incorrect teamNum (not fatal if exists, just wrong)
-	if(!in_array($obj["teamNum"], $teams)){
-		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
-	}
-
 	//write new data to analysisScouting
 	$db->analysisScouting->insert($obj);//insert new one
 
@@ -257,14 +266,12 @@ function trackingEntryAnalysis($obj){
 function robotEntryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
-	global $teams;
 
-	$errors = [];//holds all errors found
+	$errors = mutualErrorCheck($obj);//$errors holds all errors found
 
 	//TODO: add code to determine meta.use = false if data is bad
 
 	if(!$obj['meta']['use']){
-		$errors[] = 'match ' . $obj['matchType'] . $obj['matchNum'] . ' robot scouting data is not usable';
 		globalVarAppend('analysisScoutingErrors', $errors);//need to write out errors here before return
 		return;//if use is false
 	}
@@ -299,11 +306,6 @@ function robotEntryAnalysis($obj){
 	$obj['totalScores'] = array_sum(array_values($obj['heightTotal']));
 
 	//TODO: add peroid breakdown
-
-	//check for incorrect teamNum (not fatal if exists, just wrong)
-	if(!in_array($obj["teamNum"], $teams)){
-		$errors[] = 'wrong teamNum in ' . $obj['inputType'] . ' scouting data for match ' . $obj["matchNum"] . ' | teamNum:' . $obj["teamNum"];
-	}
 
 	//write new data to analysisScouting
 	$db->analysisScouting->insert($obj);//insert new one
