@@ -43,6 +43,16 @@ function globalVarAppend($name, $newData){
 	}
 }
 
+//check if dev mode is set (dev mode disables obfuscation / minification & caching)
+if (isset($_GET['dev'])) {
+	$vars['devMode'] = true;
+} else {//check for global devMode
+	$vars['devMode'] = globalVar('devMode');
+	logger(globalVar('devMode'));
+}
+
+//fb($db2 = $m->selectDB("csd2"));
+
 require 'php/path.php';
 
 if(globalVar('devMode')){
@@ -96,13 +106,14 @@ $log = []; //start log - used for general logging (any messages that are not rec
 function logger($message, $fbDisplay = false){
 	global $log;
 	global $starttime;
+	global $vars;
 
 	list($micro, $sec) = explode(" ",microtime());
 	$duration = (float)$sec + (float)$micro - $starttime;
 
 	$log[] = array($message, $duration);
 
-	if($fbDisplay == true){
+	if($fbDisplay == true && $vars['devMode'] == true){
 		fb($message);
 	}
 
