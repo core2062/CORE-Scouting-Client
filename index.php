@@ -12,21 +12,12 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 
 //get site-map
 	require 'php/siteMap.php';
-	fb($pages);
+	if($vars['devMode'] == true) fb($pages);
 
 
 //options
 	//defaults
 	$vars['disableCache'] = false;
-	$vars['devMode'] = false;
-
-	//check if dev mode is set (dev mode disables obfuscation / minification & caching)
-	if (isset($_GET['dev'])) {
-		$vars['devMode'] = true;
-	} else {//check for global devMode
-		$vars['devMode'] = globalVar('devMode');
-		fb(globalVar('devMode'));
-	}
 
 	if($vars['devMode'] == true){
 		$vars['disableCache'] = true;//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)

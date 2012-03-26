@@ -580,6 +580,7 @@ function colorBackground(){
 	cElement.setAttribute('fill', colorList[i+1] + ' !important');
 	sElement.style.fill = colorList[i+2] + '!important';
 	dElement.style.fill = colorList[i+3] + '!important';
+	//TODO: make above work w/ css
 
 	if(current.subpage == 'front-page'){
 		bigcElement.style.color = colorList[i+4];
