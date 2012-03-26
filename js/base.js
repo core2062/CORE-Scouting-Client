@@ -569,52 +569,33 @@ function WriteToWindow() {
 }
 */
 
-function colorBackground(){
-	//TODO: switch to pre-compiled list of colors
-	var i = Math.round(new Date() - startTime2)/(5000/seizureMode) ;
-	var phase = 0.75;
-	center = 128;
-	width = 127;
-	frequency = Math.PI*2;
-	red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
-	green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
-	blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
+var colorList = ['rgb(97,28,252)','rgb(11,223,129)','rgb(27,98,240)','rgb(109,250,21)','rgb(40,247,81)','rgb(1,166,194)','rgb(197,2,196)','rgb(207,4,184)','rgb(210,181,5)','rgb(183,1,208)','rgb(140,7,237)','rgb(12,128,223)','rgb(7,142,213)','rgb(35,87,245)','rgb(15,228,121)','rgb(46,72,250)','rgb(250,106,47)','rgb(19,112,233)','rgb(76,43,254)','rgb(26,101,239)','rgb(217,172,8)','rgb(28,96,241)','rgb(158,227,3)','rgb(102,251,25)','rgb(205,187,4)','rgb(174,1,216)','rgb(228,15,156)','rgb(252,52,99)','rgb(252,99,53)','rgb(31,243,93)','rgb(125,244,13)','rgb(153,4,230)','rgb(230,152,17)','rgb(29,95,242)','rgb(10,219,134)','rgb(245,122,35)','rgb(152,231,4)','rgb(107,250,22)','rgb(209,183,5)','rgb(137,8,239)','rgb(234,20,147)','rgb(233,19,148)','rgb(238,24,139)','rgb(254,88,62)','rgb(179,212,1)','rgb(1,169,191)','rgb(253,95,55)','rgb(186,1,206)','rgb(202,190,3)','rgb(165,2,222)','rgb(21,109,235)','rgb(61,254,57)','rgb(3,156,202)','rgb(254,83,66)','rgb(52,252,66)','rgb(203,3,189)','rgb(155,229,3)','rgb(8,139,216)','rgb(55,63,253)','rgb(167,221,1)','rgb(159,3,226)','rgb(42,248,78)','rgb(145,6,235)','rgb(116,17,247)','rgb(242,30,129)','rgb(25,103,238)','rgb(9,218,135)','rgb(240,133,28)','rgb(248,113,42)','rgb(227,14,158)','rgb(70,48,254)','rgb(53,65,252)','rgb(3,201,158)','rgb(224,162,13)','rgb(136,239,9)','rgb(130,11,242)','rgb(5,147,210)','rgb(63,55,254)','rgb(22,236,107)','rgb(6,212,143)','rgb(38,247,82)','rgb(226,14,159)','rgb(2,163,197)','rgb(149,5,232)','rgb(48,251,71)','rgb(192,200,1)','rgb(147,234,5)','rgb(92,253,32)','rgb(196,196,2)','rgb(214,7,176)','rgb(218,171,9)','rgb(175,1,214)','rgb(171,1,218)','rgb(20,111,234)','rgb(219,169,9)','rgb(1,191,170)','rgb(170,1,219)','rgb(1,173,187)','rgb(5,210,147)','rgb(95,253,30)','rgb(58,253,59)','rgb(27,100,240)','rgb(206,185,4)','rgb(252,100,52)','rgb(1,188,173)','rgb(229,16,154)','rgb(228,157,15)','rgb(253,92,58)','rgb(49,251,69)','rgb(3,204,154)','rgb(254,66,84)','rgb(235,21,145)','rgb(6,144,212)','rgb(231,151,18)','rgb(73,46,254)','rgb(250,47,105)','rgb(2,160,200)','rgb(88,34,254)','rgb(253,59,91)','rgb(81,40,254)','rgb(194,1,198)','rgb(244,124,34)','rgb(143,6,236)','rgb(200,192,2)','rgb(180,1,211)','rgb(37,246,84)','rgb(2,196,164)','rgb(105,23,251)','rgb(110,249,20)','rgb(69,254,49)','rgb(101,252,26)','rgb(236,23,142)','rgb(113,248,19)','rgb(45,74,250)','rgb(222,165,11)','rgb(254,77,72)','rgb(59,59,253)','rgb(118,247,16)','rgb(162,224,2)','rgb(85,254,36)','rgb(249,109,44)','rgb(14,123,226)','rgb(33,90,244)','rgb(251,49,104)','rgb(4,205,153)','rgb(50,68,251)','rgb(246,37,120)'];
 
-	bodyElement.style.backgroundColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+function colorBackground(){
+	var i = Math.floor(Math.random()*colorList.length);
+
+	if(i > colorList.length - 6) i = 0;//not really random, but easy and quick
+
+	bodyElement.style.backgroundColor = colorList[i];
+	cElement.setAttribute('fill', colorList[i+1] + ' !important');
+	sElement.style.fill = colorList[i+2] + '!important';
+	dElement.style.fill = colorList[i+3] + '!important';
 
 	if(current.subpage == 'front-page'){
-		i = i + 0.25;
-		red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
-		green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
-		blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
-		cElement.style.color = 'rgb(' + red + ',' + green + ',' + blue + ')';
-
-		i = i + 0.25;
-		red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
-		green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
-		blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
-		sElement.style.color = 'rgb(' + red + ',' + green + ',' + blue + ')';
-
-		i = i + 0.25;
-		red = Math.floor(Math.sin(frequency*i+2+phase) * width + center);
-		green = Math.floor(Math.sin(frequency*i+0+phase) * width + center);
-		blue = Math.floor(Math.sin(frequency*i+4+phase) * width + center);
-		dElement.style.color = 'rgb(' + red + ',' + green + ',' + blue + ')';
+		bigcElement.style.color = colorList[i+4];
+		bigsElement.style.color = colorList[i+5];
+		bigdElement.style.color = colorList[i+6];
 	}
 }
 
 function rainbow(seizureMode){
-	if(! seizureMode){
-		window.seizureMode = 1;
-	} else {
-		window.seizureMode = 10;
-	}
-	console.log(seizureMode);
-
 	window.bodyElement = document.getElementById('body');
-	window.cElement = document.getElementById('bigC');
-	window.sElement = document.getElementById('bigS');
-	window.dElement = document.getElementById('bigD');
+	window.bigcElement = document.getElementById('bigC');
+	window.bigsElement = document.getElementById('bigS');
+	window.bigdElement = document.getElementById('bigD');
+	window.cElement = document.getElementById('c');
+	window.sElement = document.getElementById('s');
+	window.dElement = document.getElementById('d');
 	window.startTime2 = new Date();
 	setInterval("colorBackground()",150);
 }

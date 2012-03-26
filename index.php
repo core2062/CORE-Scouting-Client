@@ -274,6 +274,7 @@ require 'php/jsminplus.php';
 function embed($folder, $extension) {
 	global $embedded;
 	global $pages;
+	global $vars;
 
 	$embeddedLen = count($embedded);
 	for ($embeddedIndex = 0; $embeddedIndex < $embeddedLen; ++$embeddedIndex) {
@@ -281,9 +282,9 @@ function embed($folder, $extension) {
 
 		if(file_exists($file)){
 			require($file);
-			logger($file . ' was embedded', true);
+			if($vars['devMode']) logger($file . ' was embedded', true);
 		} else {
-			logger($file . ' is non-existent', true);
+			if($vars['devMode']) logger($file . ' is non-existent', true);
 		}
 	}
 }
