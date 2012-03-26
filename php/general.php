@@ -51,8 +51,6 @@ if (isset($_GET['dev'])) {
 	logger(globalVar('devMode'));
 }
 
-//fb($db2 = $m->selectDB("csd2"));
-
 require 'php/path.php';
 
 if(globalVar('devMode')){
