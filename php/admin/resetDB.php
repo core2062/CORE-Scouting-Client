@@ -1,4 +1,18 @@
 <?php
+	/*
+	This script sets up or resets the entire CSD database.
+	It is not a part of any other script, and must be called carefully as it will remove all data on the site and restore the default user.
+	*/
+
+	//TODO: add auto backup
+
+	if($_GET['pword'] != 'superpass') die('you need to prove your competency by correctly setting the pword GET var to the chosen pword in your request');
+	
+	$m = new Mongo();
+
+	$m->selectDb("csd")->execute("function(){}");//creates database csd
+
+	$db = $m->selectDB("csd");
 
 	//general
 	$db->createCollection("user");
@@ -49,7 +63,7 @@
 	);
 	$db->globalVar->insert(
 		array(
-			"_id" => "devMode",//sets global devMode, if true, will override local devMode (in index.php)
+			"_id" => "devMode",//sets global devMode, if true, will override local devMode (especally for index.php & firebug)
 			"value" => false
 		)
 	);
@@ -61,7 +75,7 @@
 	//analysis collections (holds semi-compiled data and is updated rather than rebuilt)
 	$db->createCollection("analysisScouting");
 
-	//source collections
+	//source collections (holds nearly raw data)
 	$db->createCollection("sourceScouting");
 	$db->createCollection("sourceFMS");
 	$db->createCollection("sourceTeamInfo");
