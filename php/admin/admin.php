@@ -26,13 +26,13 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 	send_reg(['message' => 'finished updating FMS']);
 	
 break;
-case "compile": //clear out log collection in mongoDB
+case "compile":
 	
 	require "php/admin/compile.php";
 	send_reg(['message' => 'db is compiled']);
 
 break;
-case "rebuildAnalysisScouting": //clear out log collection in mongoDB
+case "rebuildAnalysisScouting":
 	
 	require "php/analysis.php";
 	analysisScoutingRebuild();
@@ -60,8 +60,8 @@ case "clearLog": //clear out log collection in mongoDB
 break;
 case "backupDB": //copy DB to file in tmp/backup
 
-	//TODO: finish
 	send_error('not finished');
+	require 'maintenance/maintenance.php';
 
 break;
 default:
