@@ -58,13 +58,6 @@ case "clearLog": //clear out log collection in mongoDB
 	send_reg(['message' => 'db log is cleared (except for this message)']);
 
 break;
-case "resetDB": //make all the collections / vars needed for the site and remove current
-
-	send_error('bad idea, and not finished');
-	//TODO: finish & add stuff to empty db (and maybe export into a backup in temp)
-	require "php/admin/resetDB.php";
-
-break;
 case "backupDB": //copy DB to file in tmp/backup
 
 	//TODO: finish

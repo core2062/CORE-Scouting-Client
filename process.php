@@ -42,9 +42,9 @@ if (empty($input['user']['token']) == true) {
 
 //check user & assign user object
 $user = $db->user->findOne(
-	array(
+	[
 		'_id' => $input['user']['_id']
-	)
+	]
 );
 
 if ($user['token'] !== $input['user']['token']) {//validate token
@@ -133,7 +133,6 @@ case "scout-leader":
 	}
 
 	send_error('this part is not finished');
-	include 'php/admin.php';
 
 break;
 case "admin":
@@ -141,7 +140,7 @@ case "admin":
 		send_error('invalid permissions - admin only');
 	}
 
-	include 'php/admin.php';
+	include 'php/admin/admin.php';
 
 break;
 case "logout":
@@ -153,18 +152,18 @@ case "updateUser":
 	
 	//TODO: if moved to cookie-less sub-domain, make partial pref update (not sending all prefs, because not all have not changed)
 	$db->user->update(
-		array(
+		[
 			'_id' => $user['_id']
-		),
-		array(
-			'$set' => array(
+		],
+		[
+			'$set' => [
 				'prefs' => $input['user']['prefs']
-			)
-		)
+			]
+		]
 	);
 	//TODO: check for error in prefs update?
 
-	send_reg(array('message' => 'preferences updated successfully'));
+	send_reg(['message' => 'preferences updated successfully']);
 
 break;
 default:
@@ -178,21 +177,21 @@ function logout($error_message = ''){//must be function to let it be called from
 	global $user;
 	
 	$db->user->update(
-		array(
+		[
 			'_id:' => $user['_id']
-		),
-		array(
-			'$unset' => array(
+		],
+		[
+			'$unset' => [
 				'ip' => 1,
 				'token' => 1
-			)
-		)
+			]
+		]
 	); // delete token & ip for active user
 	
 	//TODO: check for logout error?
 	
 	if($error_message == ''){//if no error message is specified then assume no error
-		send_reg(array('message' => 'logout successful'));
+		send_reg(['message' => 'logout successful']);
 	} else {
 		send_error($error_message,'','logout();');
 	}
