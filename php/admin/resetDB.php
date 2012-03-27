@@ -6,14 +6,18 @@
 
 	//TODO: add auto backup
 
-	if($_GET['pword'] != 'superpass') die('you need to prove your competency by correctly setting the pword GET var to the chosen pword in your request');
+	if(is_set($_GET['pword']) && $_GET['pword'] == 'superpass'){
+		echo 'resetting...';
+	} else {
+		die('you need to prove your competency by correctly setting the pword GET var to the chosen pword in your request');
+	}
 	
 	$m = new Mongo();
 	$m->selectDb("csd")->execute("function(){}");//creates database csd
 	$db = $m->selectDB("csd");
 
-	require '/php/base.php';
-	require '/php/maintenance/maintenance.php';
+	require '/../base.php';
+	require '/../maintenance/maintenance.php';
 
 	//general
 	$db->createCollection("user");
@@ -71,4 +75,6 @@
 	$db->createCollection("sourceEventInfo");
 
 	clearTmp();//also rebuilds tmp
+
+	echo ' done';
 ?>
