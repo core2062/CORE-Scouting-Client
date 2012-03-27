@@ -13,6 +13,7 @@
 	$db = $m->selectDB("csd");
 
 	require '/php/base.php';
+	require '/php/maintenance/maintenance.php';
 
 	//general
 	$db->createCollection("user");
@@ -55,37 +56,11 @@
 	$db->createCollection("log");
 	$db->createCollection("globalVar");
 
-	$db->globalVar->insert(
-		array(
-			"_id" => "since_id",//for updateFMS (used while interacting with twitter)
-			"value" => 1
-		)
-	);
-	$db->globalVar->insert(
-		array(
-			"_id" => "devMode",//sets global devMode, if true, will override local devMode (especially for index.php & firebug)
-			"value" => false
-		)
-	);
-	$db->globalVar->insert(
-		array(
-			"_id" => "blacklist",//teams that are literally not worth my cpu cycles
-			"value" => []
-		)
-	);
-	$db->globalVar->insert(
-		array(
-			"_id" => "analysisScoutingErrors",//error log for analysisScouting
-			"value" => []
-		)
-	);
-	$db->globalVar->insert(
-		array(
-			"_id" => "analysisQueryLimits",//limit what is carried into analysisScouting
-			"value" => []
-		)
-	);
-
+	globalVar("since_id", 1);//for updateFMS (used while interacting with twitter)
+	globalVar("devMode", false);//sets global devMode, if true, will override local devMode (especially for index.php & firebug)
+	globalVar("blacklist", []);//teams that are literally not worth my cpu cycles
+	globalVar("analysisScoutingErrors", []);//error log for analysisScouting
+	globalVar("analysisQueryLimits", []);//limit what is carried into analysisScouting
 
 	//compiled collections (holds fully compiled data and is rebuilt (for now) because data relies on multiple sources)
 	$db->createCollection("compiledEvent");
