@@ -2,7 +2,7 @@
 // ex: http://localhost/CSD/page.php?pages={"0":"input", "1":"home"}
 //TODO make sure this page's result gets cached by the browser
 
-//TODO: migrate parts of this script to use stuff from general.php
+//TODO: migrate parts of this script to use stuff from init.php
 
 $embedded = json_decode($_GET["pages"], true);
 

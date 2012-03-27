@@ -9,7 +9,7 @@ This script handles: signup (because process.php requires token)
 $place = 'signup.php';
 $type = 'signup';
 
-require 'php/general.php';
+require 'php/init.php';
 
 //get input variables
 //variables_order must contain "C" in php.ini

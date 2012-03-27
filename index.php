@@ -4,7 +4,7 @@ $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
-require 'php/general.php';
+require 'php/init.php';
 
 //TODO: add function to check if db is setup (can be commented out later)
 
