@@ -61,7 +61,7 @@
 	);
 	$db->globalVar->insert(
 		array(
-			"_id" => "devMode",//sets global devMode, if true, will override local devMode (especally for index.php & firebug)
+			"_id" => "devMode",//sets global devMode, if true, will override local devMode (especially for index.php & firebug)
 			"value" => false
 		)
 	);
@@ -74,6 +74,12 @@
 	$db->globalVar->insert(
 		array(
 			"_id" => "analysisScoutingErrors",//error log for analysisScouting
+			"value" => []
+		)
+	);
+	$db->globalVar->insert(
+		array(
+			"_id" => "analysisQueryLimits",//limit what is carried into analysisScouting
 			"value" => []
 		)
 	);
