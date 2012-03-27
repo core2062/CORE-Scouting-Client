@@ -107,13 +107,13 @@ break;
 case "input":
 	//user is not banned based on above check, therefore user has needed permissions
 
-	include 'php/input.php';
+	require 'php/input.php';
 
 break;
 case "mail":
 
 	send_error('this part is not finished');
-	include 'php/mail.php';
+	require 'php/mail.php';
 	
 	//encode chars to remove HTML or JS
 	
@@ -124,7 +124,7 @@ case "query":
 	}
 
 	send_error('this part is not finished');
-	include 'php/query.php';
+	require 'php/query.php';
 
 break;
 case "scout-leader":
@@ -140,7 +140,7 @@ case "admin":
 		send_error('invalid permissions - admin only');
 	}
 
-	include 'php/admin/admin.php';
+	require 'php/admin/admin.php';
 
 break;
 case "logout":
