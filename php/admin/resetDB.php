@@ -12,6 +12,8 @@
 	$m->selectDb("csd")->execute("function(){}");//creates database csd
 	$db = $m->selectDB("csd");
 
+	require '/php/base.php';
+
 	//general
 	$db->createCollection("user");
 
