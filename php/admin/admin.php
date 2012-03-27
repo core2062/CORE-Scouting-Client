@@ -6,7 +6,6 @@ Requires:
 
 //TODO: make function to limit history (number of years to track teams back to)
 
-$vars['devMode'] = globalVar('devMode');
 
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
@@ -48,6 +47,7 @@ case "export":
 break;
 case "clearTmp": //clear out & rebuild tmp
 	
+	require 'maintenance/maintenance.php';
 	clearTmp();
 	send_reg(['message' => 'tmp directory is rebuilt']);
 
@@ -66,26 +66,5 @@ case "backupDB": //copy DB to file in tmp/backup
 break;
 default:
 	send_error('invalid subRequest');
-}
-
-//functions
-
-function clearTmp(){
-	/* if not working:
-	sudo chmod -R 775 /var/www/
-	sudo chown -R sean:www-data /var/www/
-	*/
-
-	//TODO: fix file permissions below
-
-	$cwd = getcwd();
-	system("rm -rf " . $cwd . "/tmp");
-	mkdir($cwd . "/tmp/pages", 0777, true);
-	mkdir($cwd . "/tmp/backup");
-	mkdir($cwd . "/tmp/db/getTPIDs", 0777, true);
-	mkdir($cwd . "/tmp/db/getTeamProfiles");
-	mkdir($cwd . "/tmp/db/getEvents");
-	mkdir($cwd . "/tmp/db/updateFMS");
-	mkdir($cwd . "/tmp/db/export");
 }
 ?>

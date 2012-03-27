@@ -92,7 +92,7 @@ function htmlembed($type) {
 }
 
 function jsembed() {
-	include 'php/jsminplus.php';
+	require 'php/jsminplus.php';
 	global $length;
 	global $embedded;
 	$return = "";
