@@ -19,38 +19,33 @@
 	$db->createCollection("user");
 
 	$db->user->insert(
-		array(
+		[
 			"_id"=> "admin",
 			"permission"=> 9,
 			"token"=> "",
-
-			"info"=> array(
+			"info"=> [
 				"fName"=> "Sean",
 				"lName"=> "Lang",
 				"team"=> 2062
-			),
-
-			"prefs"=> array(
+			],
+			"prefs"=> [
 				"fade"=> true,
 				"verbose"=> true
-			),
-
-			"account"=> array(
+			],
+			"account"=> [
 				"pword"=> "superpass",
 				"email"=> "slang800@gmail.com"
-			),
-
-			"stats"=> array(
+			],
+			"stats"=> [
 				"ip"=> "",
 				"logintime"=> 0
-			),
-
-			"opt"=> array(
+			],
+			"opt"=> [
 				"zip"=> 0,
 				"browser"=> "Firefox",
 				"gender"=> "m"
-			)
-		)
+			]
+		]
 	);
 
 	$db->createCollection("log");

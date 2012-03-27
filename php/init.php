@@ -11,6 +11,8 @@ $starttime = (float)$sec + (float)$micro;
 $m = new Mongo();
 $db = $m->selectDB("csd");
 
+require 'php/base.php';
+
 //check if dev mode is set (dev mode disables obfuscation / minification & caching)
 if (isset($_GET['dev'])) {
 	$vars['devMode'] = true;
@@ -19,7 +21,6 @@ if (isset($_GET['dev'])) {
 	logger(globalVar('devMode'));
 }
 
-require 'php/base.php';
 require 'php/path.php';
 
 if(globalVar('devMode')){
