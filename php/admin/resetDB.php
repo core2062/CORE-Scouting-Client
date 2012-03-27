@@ -16,8 +16,8 @@
 	$m->selectDb("csd")->execute("function(){}");//creates database csd
 	$db = $m->selectDB("csd");
 
-	require '/../base.php';
-	require '/../maintenance/maintenance.php';
+	require '../base.php';
+	require '../maintenance/maintenance.php';
 
 	//general
 	$db->createCollection("user");
