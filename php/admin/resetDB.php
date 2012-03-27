@@ -6,7 +6,7 @@
 
 	//TODO: add auto backup
 
-	if(is_set($_GET['pword']) && $_GET['pword'] == 'superpass'){
+	if(isset($_GET['pword']) && $_GET['pword'] == 'superpass'){
 		echo 'resetting...';
 	} else {
 		die('you need to prove your competency by correctly setting the pword GET var to the chosen pword in your request');
