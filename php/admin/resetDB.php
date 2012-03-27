@@ -9,9 +9,7 @@
 	if($_GET['pword'] != 'superpass') die('you need to prove your competency by correctly setting the pword GET var to the chosen pword in your request');
 	
 	$m = new Mongo();
-
 	$m->selectDb("csd")->execute("function(){}");//creates database csd
-
 	$db = $m->selectDB("csd");
 
 	//general
@@ -67,6 +65,19 @@
 			"value" => false
 		)
 	);
+	$db->globalVar->insert(
+		array(
+			"_id" => "blacklist",//teams that are literally not worth my cpu cycles
+			"value" => []
+		)
+	);
+	$db->globalVar->insert(
+		array(
+			"_id" => "analysisScoutingErrors",//error log for analysisScouting
+			"value" => []
+		)
+	);
+
 
 	//compiled collections (holds fully compiled data and is rebuilt (for now) because data relies on multiple sources)
 	$db->createCollection("compiledEvent");
