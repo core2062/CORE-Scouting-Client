@@ -134,6 +134,18 @@ function analysisScoutingRebuild(){
 	//TODO: make multi entry error check code
 }
 
+function writeErrors($errors, $obj){//declare this function as part of entryAnalysis to allow it to access its vars ????
+	if(count($errors) != 0){
+		globalVarAppend('analysisScoutingErrors', [
+			$obj['matchType'] . $obj['matchNum'] => [
+				$obj['teamNum'] => [
+					$obj['inputType'] => $errors
+				]
+			]
+		]);
+	}
+}
+
 function entryAnalysis($obj){
 	//$obj is the object holding the input scouting data
 	global $db;
@@ -154,7 +166,7 @@ function entryAnalysis($obj){
 
 	if(!$obj['meta']['use']){
 		$errors[] =  $obj['inputType'] . ' scouting data is not usable for teamNum=' . $obj["teamNum"];
-		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => $errors]);//need to write out errors here before return
+		writeErrors($errors, $obj);//need to write out errors here before return
 		return;
 	}
 	unset($obj['meta']);
@@ -215,7 +227,7 @@ function entryAnalysis($obj){
 					$distanceFromHoopX = 300-$currentObj['xCoord'];
 				}
 
-				$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//0 is farthest you can get, 1 is right on top of the hoop (it's a percent)
+				$distanceFromHoop = sqrt(300^2 + 75^2)/sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)-1;//1 is farthest you can get, 0 is right on top of the hoop (it's a percent)
 
 				//add distance info to object
 				$obj['shots'][$i] = [
@@ -278,6 +290,7 @@ function entryAnalysis($obj){
 		$obj['totalScores'] = array_sum(array_values($obj['heightTotal']));
 
 		//TODO: add period breakdown
+
 	} else {
 		$errors[] = 'incorrect input type';
 		$obj['meta']['use'] = false;//TODO: add use check to end of function too
@@ -285,9 +298,6 @@ function entryAnalysis($obj){
 
 	//write new data to analysisScouting
 	$db->analysisScouting->insert($obj);//insert new one
-
-	if(count($errors) != 0){
-		globalVarAppend('analysisScoutingErrors', [$obj['matchType'] . $obj['matchNum'] => [$obj['teamNum'] => [$obj['inputType'] => $errors]]]);
-	}
+	writeErrors($errors, $obj);
 }
 ?>

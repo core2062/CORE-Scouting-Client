@@ -18,7 +18,6 @@ if (isset($_GET['dev'])) {
 	$vars['devMode'] = true;
 } else {//check for global devMode
 	$vars['devMode'] = globalVar('devMode');
-	logger(globalVar('devMode'));
 }
 
 require 'php/path.php';
@@ -28,7 +27,7 @@ if(globalVar('devMode')){
 	ob_start();
 
 	error_reporting( E_ALL );
-	ini_set( 'display_errors', 1 );
+	ini_set('display_errors', 1);
 }
 
 //get basic variables
