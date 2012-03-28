@@ -222,12 +222,12 @@ function entryAnalysis($obj){
 
 				$distanceFromHoopY = abs($currentObj['yCoord']-75);
 				if($obj['allianceColor'] == 'r'){
-					$distanceFromHoopX = $currentObj['xCoord'];
-				} else {
 					$distanceFromHoopX = 300-$currentObj['xCoord'];
+				} else {
+					$distanceFromHoopX = $currentObj['xCoord'];
 				}
 
-				$distanceFromHoop = sqrt(300^2 + 75^2)/sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)-1;//1 is farthest you can get, 0 is right on top of the hoop (it's a percent)
+				$distanceFromHoop = sqrt($distanceFromHoopX^2 + $distanceFromHoopY^2)/sqrt(300^2 + 75^2);//1 is farthest you can get, 0 is right on top of the hoop (it's a percent)
 
 				//add distance info to object
 				$obj['shots'][$i] = [
