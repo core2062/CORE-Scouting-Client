@@ -67,9 +67,9 @@ function send_error($error_text, $error = '', $script = ''){
 		$log[] = 'script defined: ' . $script;
 	}
 
-	if ($error == ""){$error = $error_text;}
+	if($error == "") $error = $error_text;
 
-	logger("script ended, output buffer=" . ob_get_contents());
+	logger("script ended with error, output buffer=" . ob_get_contents());
 
 	$db->log->insert(
 		array(

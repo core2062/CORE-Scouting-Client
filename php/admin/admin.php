@@ -6,7 +6,6 @@ Requires:
 
 //TODO: make function to limit history (number of years to track teams back to)
 
-
 switch ($input['subRequest']) {
 case "getTeams": //gets the number & tpid (used by FIRST to identify teams) for each team, then gets all profiles
 
