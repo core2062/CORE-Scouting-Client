@@ -1,10 +1,4 @@
 <?php
-/*
-	this handles all analysis done on single database entries
-	this does not compare multiple entries and all error checking is done within the single entry
-	this relies on data from sourceScouting and outputs to analysisScouting
-*/
-
 require_once "php/math/Matrix.php";
 
 $teams = [4371,167,967,3352,2040,81,4296,4143,2115,1736,2039,2481,868,135,3184,4174,2169,48,93,2202,3197,1716,2194,2506,1091,706,3692,1306,1675,1714,1732,1864,2830,3963,4095,4247,930,269,2826,1259,171,1652,3418,3596,537,3381,2077,2062];
@@ -12,6 +6,80 @@ sort($teams);
 /*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18echo">     */
 
 
+//OPR Calculations
+function calcOPR(){
+	global $db;
+	global $teams;
+	//TODO: php is too slow, use a c++ program for OPR
+
+	//ini_set('max_execution_time', 1200); //this script needs extra time
+	//ini_set('memory_limit', '1200M');//the OPR calc can require alot of memory
+
+	$teamMatchups = [];
+	$teamScores = [];
+	$allianceColors = ['red', 'blue'];
+
+	$cursor = $db->sourceFMS->find();
+
+	foreach($cursor as $obj){
+		$obj = $obj['data'];//only part that is needed
+		if($obj['eventCode'] == "DMN" && $obj['matchType'] != "P"){//use check with mongo???
+			for($e=0; $e < 3; $e++){
+				for($allianceColorIndex=0; $allianceColorIndex < 2; $allianceColorIndex++){//toggle current alliance
+					//$currentAlliance == 'redTeams' ? $oppositeAlliance = 'blueTeams' : $oppositeAlliance = 'redTeams';
+					$currentTeam = $obj[$allianceColors[$allianceColorIndex] . 'Teams'][$e];//just for convince & better naming
+
+					if(empty($teamMatchups[$currentTeam])){//if team has not been added yet
+						$teamScores[$currentTeam] = 0;
+						$teamMatchups[$currentTeam] = array_fill_keys(array_keys($teamMatchups),0);
+						foreach ($teamMatchups as $key => $value){
+							$teamMatchups[$key][$currentTeam] = 0;
+						}
+					}
+					$teamMatchups[$currentTeam][$currentTeam]++;//increse team vs itself number (number of times it has played)
+					$teamScores[$currentTeam] = $teamScores[$currentTeam] + $obj[$allianceColors[$allianceColorIndex] . 'FinalScore'];//increase team total score
+				}
+			}
+
+			for($e=0; $e < 3; $e++){//seperate so all teams are already defined
+				for($i=0; $i < 3; $i++){
+					$teamMatchups[ $obj['blueTeams'][$e] ][ $obj['redTeams'][$i] ]++;
+					$teamMatchups[ $obj['redTeams'][$e] ][ $obj['blueTeams'][$i] ]++;
+				}
+			}
+		}
+	}
+
+	//recursivly sort matrix
+	ksort($teamMatchups);
+	foreach($teamMatchups as $key => $value){
+		ksort($teamMatchups[$key]);
+	}
+
+	ksort($teamScores);
+	$teamList = array_keys($teamScores);
+	$teamScores = array_values($teamScores);
+
+	//remove team numbers from array - turn into normal matrix to it can be put through equation
+	$teamMatchups = array_values($teamMatchups);
+	foreach($teamMatchups as $key => $value){
+		$teamMatchups[$key] = array_values($teamMatchups[$key]);
+	}
+
+	$teamMatchupsMatrix = new Math_Matrix($teamMatchups);
+	$teamScoresVector = new Math_Vector($teamScores);
+
+	$oprValues = Math_Matrix::solve($teamMatchupsMatrix, $teamScoresVector);
+	$oprValues = $oprValues->_tuple->data;
+
+	$len = count($oprValues);
+	for($i = 0; $i < $len; $i++){
+		//$opr[] = [$teamList[$i], $oprValues[$i]];
+		$opr[$teamList[$i]] = $oprValues[$i];
+	}
+
+	return $opr;
+}
 
 function isIn($objectPoint, $containerPoint1, $containerPoint2){
 	//checks if object (a specific point) is in square container
@@ -61,7 +129,9 @@ function analysisScoutingRebuild(){
 	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'robot'], globalVar('analysisQueryLimits')));//process robot info
 	foreach($cursor as $obj){
 		entryAnalysis($obj);
-	}
+	}	
+
+	//TODO: make multi entry error check code
 }
 
 function writeErrors($errors, $obj){//declare this function as part of entryAnalysis to allow it to access its vars ????
