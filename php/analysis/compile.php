@@ -77,6 +77,7 @@ function calcOPR(){
 }
 
 function compileScouting(){
+	global $teams;
 	//$opr = calcOPR(); fuck opr ... port to c++ & don't run w/ data from twitter (use firstDB)
 
 	$db->compiledTeam->remove([]);//clear out compiledTeam
