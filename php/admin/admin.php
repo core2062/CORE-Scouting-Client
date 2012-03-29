@@ -27,13 +27,13 @@ case "updateFMS": //update scores/schedule of current or recent events (uses twi
 break;
 case "compile":
 	
-	require "php/admin/compile.php";
+	require "php/analysis/compile.php";
 	send_reg(['message' => 'db is compiled']);
 
 break;
 case "rebuildAnalysisScouting":
 	
-	require "php/analysis.php";
+	require "php/analysis/analysis.php";
 	analysisScoutingRebuild();
 	send_reg(['message' => 'scouting analysis db is rebuilt']);
 

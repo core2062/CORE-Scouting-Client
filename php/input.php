@@ -43,7 +43,7 @@ $db->sourceScouting->insert(
 
 logger($input['data']['inputType'] . ' data from match ' . $input['data']['matchNum'] . ' was submitted by ' . $input['data']['meta']['scoutid']);
 
-require "php/analysis.php";
+require "php/analysis/analysis.php";
 entryAnalysis($input['data']);
 
 send_reg(array('message' => 'data submitted sucessfully'));
