@@ -3,5 +3,6 @@
 #include <iostream>
 
 int main (){
-	//todo finish
+	std::cout << "I should make some code for opr." << std::endl;
+	return 0;
 }
