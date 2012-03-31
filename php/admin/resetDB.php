@@ -6,6 +6,7 @@
 
 	//TODO: add auto backup
 
+	//this is just to stop myself from accidentally navigating to this script & resetting the db while working with it
 	if(isset($_GET['pword']) && $_GET['pword'] == 'superpass'){
 		echo 'resetting...';
 	} else {
