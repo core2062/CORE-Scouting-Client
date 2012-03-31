@@ -1,10 +1,13 @@
 <?php
+/*
+	This script handles all requests for pages that come from the user (requests that come from js are over in other php scripts, depending on their type). It is responsible for interpreting the request, pulling all parts of the UI together, and sending it out.
+*/
 
 $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
-require 'php/init.php';
+require 'php/init.php';//TODO: add error reporting if mongodb is down
 
 //TODO: add function to check if db is setup (can be commented out later)
 
@@ -184,6 +187,9 @@ require 'php/jsminplus.php';
 	<!-- START Content -->
 	<tr>
 		<td id="content">
+			<noscript>
+				<p>Um, this is awkward... all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.</p>
+			</noscript>
 
 			<?php
 				embed('html/', '-content.html');

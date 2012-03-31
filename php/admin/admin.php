@@ -2,6 +2,9 @@
 /*
 Requires:
 	subRequest - getTeams...
+
+Note: most of this admin stuff is going to be temporary...
+	it will be moved into automaticly triggered tasks or stuff that team leaders can do.
 */
 
 //TODO: make function to limit history (number of years to track teams back to)
