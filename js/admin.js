@@ -1,5 +1,6 @@
 function adminRequest(request){
-	post('process.php','{"request": "admin", "subRequest": "' + request + '"}', true);
+	request.request = 'admin';
+	post('process.php', $.toJSON(request), true);
 }
 /*TODO: make browser based download of exported CSV
 function export(){

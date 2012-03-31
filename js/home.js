@@ -11,7 +11,6 @@ function updateStats(){
 	}
 }
 
-
 var oldCodeLength = 0;
 function formatCode(el){
 	newVal = "";
