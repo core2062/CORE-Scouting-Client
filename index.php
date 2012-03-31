@@ -188,7 +188,7 @@ require 'php/jsminplus.php';
 	<tr>
 		<td id="content">
 			<noscript>
-				<p>Um, this is awkward... all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.</p>
+				<p>Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.</p>
 			</noscript>
 
 			<?php
