@@ -17,31 +17,31 @@ $path = [
 					[
 						'button',
 						'title' => 'get the TPID, team number, and profiles of all teams',
-						'onclick' => 'adminRequest({"subRequest": "getTeams"})',
+						'onclick' => "adminRequest('getTeams')",
 						'Get Teams'
 					],
 					[
 						'button',
 						'title' => 'get the EID, and event info for all competitions',
-						'onclick' => 'adminRequest({"subRequest": "getEvents"})',
+						'onclick' => "adminRequest('getEvents')",
 						'Get Events'
 					],
 					[
 						'button',
 						'title' => 'update the FMS database by pulling from twitter',
-						'onclick' => 'adminRequest({"subRequest": "updateFMS"})',
+						'onclick' => "adminRequest('updateFMS')",
 						'Update FMS'
 					],
 					[
 						'button',
 						'title' => 'do all analysis',
-						'onclick' => 'adminRequest({"subRequest": "compile"})',
+						'onclick' => "adminRequest('compile')",
 						'Compile'
 					],
 					[
 						'button',
 						'title' => 'rebuild the collection holding partly analyzed scouting data',
-						'onclick' => 'adminRequest({"subRequest": "rebuildAnalysisScouting"})',
+						'onclick' => "adminRequest('rebuildAnalysisScouting')",
 						'Rebuild Scouting Analysis'
 					]
 				],
@@ -50,13 +50,13 @@ $path = [
 					['label','Export:'],
 					[
 						'button',
-						'onclick' => 'adminRequest({"subRequest": "export"})',
+						'onclick' => "adminRequest('export')",
 						'All'
 					],
 					['label','Import:'],
 					[
 						'button',
-						'onclick' => 'adminRequest({"subRequest": "import"})',
+						'onclick' => "adminRequest('import')",
 						'All'
 					]
 				]
