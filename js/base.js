@@ -107,19 +107,18 @@ function fixFavicon() { //fixes favicon bug in firefox -- remove in future
 }
 
 function getMissedPosts(){
+	//console.log(missedPost);
 	var i = 0;
-	missedPosts = [];
+	var missedPosts = [];
 	while(true){
-		missedPost = eatCookie('missedPost' + i);
-		console.log(missedPost);
+		var missedPost = eatCookie('missedPost' + i);
 		if (missedPost !== '') {
-			window.missedPosts[i] = eval('(' + missedPost + ')');
+			missedPosts[i] = eval('(' + missedPost + ')');
+			i++;
 		} else {
-			break;
+			return missedPosts;
 		}
-		i++;
 	}
-	return missedPosts;
 }
 
 $(document).ready(function() {
@@ -142,7 +141,7 @@ $(document).ready(function() {
 		window.user = defaultUser;
 	}
 
-
+	missedPosts = getMissedPosts();
 
 	buildCache();
 	nav();
@@ -346,7 +345,8 @@ function modalClose(runScript) {//if runScript is defined then the script won't 
 	function bakeCookie(name, value) {
 		var expires = new Date();
 		expires.setTime(expires.getTime() + (15552000000));
-		document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
+		//set cookie, or if value is blank, set it to be removed
+		document.cookie = (value !== '' ? name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/" : name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT");
 	}
 
 	function eatCookie(name) {
@@ -537,7 +537,7 @@ function post(filename, json, async, saveRequest){
 	
 	var ajax = $.ajax({
 		type: "POST",
-		url: filename+ "jj",
+		url: filename,
 		data: 'data=' + json,
 		async: async,
 		success: function(data){
@@ -589,8 +589,10 @@ function postSuccess(data){
 
 	//try to submit any requests that failed before
 	if(missedPosts.length !== 0){
-		post(missedPosts[0].filename, missedPosts[0].json, true, true);
-		missedPosts.remove(0);//it will be re-added if it failed
+		var lastMissedPost = missedPosts.length - 1;
+		post(missedPosts[lastMissedPost].filename, missedPosts[lastMissedPost].json, true, true);
+		missedPosts.remove(0);//it will be re-added if it fails
+		bakeCookie('missedPost' + lastMissedPost, "");
 	}
 	
 	return json;//if nothing is returned assume error
@@ -598,10 +600,10 @@ function postSuccess(data){
 
 function saveMissedRequest(filename, json){
 	missedPosts.push({"filename": filename, "json": json});
-	console.log($.toJSON(missedPosts[missedPosts.length]));
-	bakeCookie('missedPost' + missedPosts.length, $.toJSON(missedPosts[missedPosts.length - 1]));
+	var lastMissedPost = missedPosts.length - 1;
+	bakeCookie('missedPost' + (lastMissedPost), $.toJSON(missedPosts[lastMissedPost]));
 
-	if(missedPosts.length >= 149){
+	if(lastMissedPost >= 149){
 		console.log('TODO: prompt file download');
 	}
 
