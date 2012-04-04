@@ -42,13 +42,13 @@ function analysisScoutingRebuild(){
 	}
 
 	//FIXER
-	
+	/*
 	$cursor = $db->sourceScouting->find([]);//process robot info
 	foreach($cursor as $obj){
 		$obj['meta']['eventCode'] = 'WI';
 		$db->sourceScouting->update(['_id' => $obj['_id']],$obj);//insert new one
 	}
-	
+	*/
 	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'robot'], globalVar('analysisQueryLimits')));//process robot info
 	foreach($cursor as $obj){
 		entryAnalysis($obj);
@@ -73,12 +73,31 @@ function entryAnalysis($obj){
 	global $teams;
 
 	$errors = [];
+
+	if(empty($obj['inputType'])){
+		$errors[] = 'no inputType';
+		$obj['inputType'] = 'unknown';//temporary fix for writeErrors function
+		$obj['meta']['use'] = false;
+	} else if($obj['inputType'] != 'tracking' && $obj['inputType'] != 'robot'){
+		$errors[] = 'wrong inputType';
+		$obj['meta']['use'] = false;
+	}
+
+	if(empty($obj['matchNum'])){
+		$errors[] = 'no matchNum';
+		$obj['matchNum'] = -1;//temporary fix for writeErrors function
+		$obj['meta']['use'] = false;
+	}
 	
-	if(in_array($obj['teamNum'], globalVar('blacklist'))){//remove blacklisted teams
-		$errors[] = 'blacklisted team';
+	if(empty($obj['teamNum'])){
+		$errors[] = 'no teamNum';
+		$obj['teamNum'] = -1;//temporary fix for writeErrors function
 		$obj['meta']['use'] = false;
 	} else if(!in_array($obj["teamNum"], $teams)){//check for incorrect teamNum
 		$errors[] = 'wrong teamNum';
+		$obj['meta']['use'] = false;
+	} else if(in_array($obj['teamNum'], globalVar('blacklist'))){//remove blacklisted teams
+		$errors[] = 'blacklisted team';
 		$obj['meta']['use'] = false;
 	}
 
