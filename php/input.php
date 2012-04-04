@@ -19,7 +19,7 @@ $input['data']['meta'] = array(
 	'use' => true //default
 );
 
-fb($input['data']);
+//fb($input['data']);
 
 //for robot & tracking
 if($input['inputType'] == 'robot' || $input['inputType'] == 'tracking'){

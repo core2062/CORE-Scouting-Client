@@ -148,14 +148,14 @@ function submitData(){
 		submit.teamNum = submit.pitTeamNum;
 	}
 
-	console.log(submit);
+	//console.log(submit);
 
 	increase('matchNum');
 
 	submit = '{"request": "input", "inputType": "' + current.subpage + '", "data": ' + $.toJSON(submit) + '}';
 	//console.log(submit);
 
-	if(post('process.php', submit) !== false){//if no errors, clear inputs
+	if(post('process.php', submit, false, true) !== false){//if no errors, clear inputs
 		if(current.subpage.charAt(0) == 't'){
 			trackingInputs = [];
 			updateTrackingDisplay();
