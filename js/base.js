@@ -346,7 +346,12 @@ function modalClose(runScript) {//if runScript is defined then the script won't 
 		var expires = new Date();
 		expires.setTime(expires.getTime() + (15552000000));
 		//set cookie, or if value is blank, set it to be removed
-		document.cookie = (value !== '' ? name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/" : name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT");
+		if(value === ''){
+			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+		} else {
+			document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
+		}
+		console.log(document.cookie);
 	}
 
 	function eatCookie(name) {
@@ -591,7 +596,7 @@ function postSuccess(data){
 	if(missedPosts.length !== 0){
 		var lastMissedPost = missedPosts.length - 1;
 		post(missedPosts[lastMissedPost].filename, missedPosts[lastMissedPost].json, true, true);
-		missedPosts.remove(0);//it will be re-added if it fails
+		missedPosts.remove(0);//it will be re-added if it fails to submit
 		bakeCookie('missedPost' + lastMissedPost, "");
 	}
 	
