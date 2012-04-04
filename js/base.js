@@ -106,6 +106,22 @@ function fixFavicon() { //fixes favicon bug in firefox -- remove in future
 	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
 
+function getMissedPosts(){
+	var i = 0;
+	missedPosts = [];
+	while(true){
+		missedPost = eatCookie('missedPost' + i);
+		console.log(missedPost);
+		if (missedPost !== '') {
+			window.missedPosts[i] = eval('(' + missedPost + ')');
+		} else {
+			break;
+		}
+		i++;
+	}
+	return missedPosts;
+}
+
 $(document).ready(function() {
 	
 	$('a[title], label[title], button[title], textarea[title]').tipsy();
@@ -118,12 +134,15 @@ $(document).ready(function() {
 		gravity: 'w'
 	});
 
-	if (eatCookie('user') !== '') {
-		window.user = eval('(' + eatCookie('user') + ')');
+	user = eatCookie('user');
+	if (user !== '') {
+		window.user = eval('(' + user + ')');
 		updateUserBar();//userbar is setup for guest by default
 	} else {
 		window.user = defaultUser;
 	}
+
+
 
 	buildCache();
 	nav();
@@ -504,8 +523,9 @@ function json2table (json) {
 	return table;
 }
 
-function post(filename, json, async){
-	async = (typeof async == "undefined")? false :async;//TODO finish??????????????
+function post(filename, json, async, saveRequest){
+	async = (typeof async == "undefined")? false :async;
+	saveRequest = (typeof saveRequest == "undefined")? false :saveRequest;
 	/*
 	this function handles:
 		all interfacing w/ server via AJAX
@@ -514,60 +534,85 @@ function post(filename, json, async){
 		
 	json.globalError: holds type of globalError (which determines action), error text is still in json.error
 	*/
-	function success(data){
-		json = eval("(" + data + ")");
-		console.log(json);//TODO: remove before production
-		
-		if(json.script){//script must be run before error returns (like for logout function)
-			eval(json.script);
-		}
-		
-		if(json.error){
-			$('#jGrowl-container').jGrowl('error: ' + json.error, {
-				theme: 'error'
-			});
-			return false; //this means error
-		}
-		
-		if(json.message && user.prefs.verbose === true){
-			$('#jGrowl-container').jGrowl('success: ' + json.message, {
-				theme: 'message'
-			});
-			delete json.message;
-		}
-		
-		return json;//if nothing is returned assume error
-	}
-
+	
 	var ajax = $.ajax({
 		type: "POST",
-		url: filename,
+		url: filename+ "jj",
 		data: 'data=' + json,
 		async: async,
 		success: function(data){
-			if(async) success(data);
+			if(async) postSuccess(data);//else, the function below will be called (async posts can't return anything)
 		},
-		error: function(jqXHR) {
-			$('#jGrowl-container').jGrowl('AJAX Error: ' + jqXHR.responseText + '<br />Request was not successful.', {
+		error: function(jqXHR){
+			//will trigger even if verbose is off
+			$('#jGrowl-container').jGrowl('AJAX Error: ' + jqXHR.status + '<br />' + jqXHR.statusText + '.', {
 				sticky: true,
 				theme: 'error'
 			});
+
+			if(saveRequest){
+				saveMissedRequest(filename, json);
+			}
 		}
 	});
 
-	if(!async) return success(ajax.responseText);
+	if(!async) return postSuccess(ajax.responseText);
+}
+
+function postSuccess(data){
+	if(data.charAt(0) == '{'){//not a flawless way to detect if it is json
+		json = eval('(' + data + ')');
+	} else {
+		json = {};
+		json.error = 'valid json was not returned';
+	}
+	
+	//console.log(json);//TODO: remove before production
+	
+	if(json.script){//script must be run before error returns (like for logout function)
+		eval(json.script);
+	}
+	
+	if(json.error){
+		$('#jGrowl-container').jGrowl('error: ' + json.error, {
+			theme: 'error'
+		});
+		return false; //this means error
+	}
+	
+	if(json.message && user.prefs.verbose === true){
+		$('#jGrowl-container').jGrowl('success: ' + json.message, {
+			theme: 'message'
+		});
+		delete json.message;
+	}
+
+	//try to submit any requests that failed before
+	if(missedPosts.length !== 0){
+		post(missedPosts[0].filename, missedPosts[0].json, true, true);
+		missedPosts.remove(0);//it will be re-added if it failed
+	}
+	
+	return json;//if nothing is returned assume error
+}
+
+function saveMissedRequest(filename, json){
+	missedPosts.push({"filename": filename, "json": json});
+	console.log($.toJSON(missedPosts[missedPosts.length]));
+	bakeCookie('missedPost' + missedPosts.length, $.toJSON(missedPosts[missedPosts.length - 1]));
+
+	if(missedPosts.length >= 149){
+		console.log('TODO: prompt file download');
+	}
+
+	$('#jGrowl-container').jGrowl('although the request has failed, your data has been saved, and I will attempt to resubmit it when possible', {
+		sticky: true,
+		theme: 'error'
+	});
 }
 
 
 //TODO: replace with something better, like downloadify or just a modal
-/*
-function WriteToWindow() {
-	top.consoleRef = window.open('', 'myconsole', 'width=350,height=250,menubar=0,toolbar=1,status=0,scrollbars=1,resizable=1');
-	//TODO: fix link to style sheet, or replace completely
-	top.consoleRef.document.write('<html><head><title>Scouting Data</title></head><body bgcolor=white onLoad="self.focus()"><textarea style="width:100%; height:100%;">' + writetext + '</textarea></body></html>')
-	top.consoleRef.document.close()
-}
-*/
 
 var colorList = ['rgb(97,28,252)','rgb(11,223,129)','rgb(27,98,240)','rgb(109,250,21)','rgb(40,247,81)','rgb(1,166,194)','rgb(197,2,196)','rgb(207,4,184)','rgb(210,181,5)','rgb(183,1,208)','rgb(140,7,237)','rgb(12,128,223)','rgb(7,142,213)','rgb(35,87,245)','rgb(15,228,121)','rgb(46,72,250)','rgb(250,106,47)','rgb(19,112,233)','rgb(76,43,254)','rgb(26,101,239)','rgb(217,172,8)','rgb(28,96,241)','rgb(158,227,3)','rgb(102,251,25)','rgb(205,187,4)','rgb(174,1,216)','rgb(228,15,156)','rgb(252,52,99)','rgb(252,99,53)','rgb(31,243,93)','rgb(125,244,13)','rgb(153,4,230)','rgb(230,152,17)','rgb(29,95,242)','rgb(10,219,134)','rgb(245,122,35)','rgb(152,231,4)','rgb(107,250,22)','rgb(209,183,5)','rgb(137,8,239)','rgb(234,20,147)','rgb(233,19,148)','rgb(238,24,139)','rgb(254,88,62)','rgb(179,212,1)','rgb(1,169,191)','rgb(253,95,55)','rgb(186,1,206)','rgb(202,190,3)','rgb(165,2,222)','rgb(21,109,235)','rgb(61,254,57)','rgb(3,156,202)','rgb(254,83,66)','rgb(52,252,66)','rgb(203,3,189)','rgb(155,229,3)','rgb(8,139,216)','rgb(55,63,253)','rgb(167,221,1)','rgb(159,3,226)','rgb(42,248,78)','rgb(145,6,235)','rgb(116,17,247)','rgb(242,30,129)','rgb(25,103,238)','rgb(9,218,135)','rgb(240,133,28)','rgb(248,113,42)','rgb(227,14,158)','rgb(70,48,254)','rgb(53,65,252)','rgb(3,201,158)','rgb(224,162,13)','rgb(136,239,9)','rgb(130,11,242)','rgb(5,147,210)','rgb(63,55,254)','rgb(22,236,107)','rgb(6,212,143)','rgb(38,247,82)','rgb(226,14,159)','rgb(2,163,197)','rgb(149,5,232)','rgb(48,251,71)','rgb(192,200,1)','rgb(147,234,5)','rgb(92,253,32)','rgb(196,196,2)','rgb(214,7,176)','rgb(218,171,9)','rgb(175,1,214)','rgb(171,1,218)','rgb(20,111,234)','rgb(219,169,9)','rgb(1,191,170)','rgb(170,1,219)','rgb(1,173,187)','rgb(5,210,147)','rgb(95,253,30)','rgb(58,253,59)','rgb(27,100,240)','rgb(206,185,4)','rgb(252,100,52)','rgb(1,188,173)','rgb(229,16,154)','rgb(228,157,15)','rgb(253,92,58)','rgb(49,251,69)','rgb(3,204,154)','rgb(254,66,84)','rgb(235,21,145)','rgb(6,144,212)','rgb(231,151,18)','rgb(73,46,254)','rgb(250,47,105)','rgb(2,160,200)','rgb(88,34,254)','rgb(253,59,91)','rgb(81,40,254)','rgb(194,1,198)','rgb(244,124,34)','rgb(143,6,236)','rgb(200,192,2)','rgb(180,1,211)','rgb(37,246,84)','rgb(2,196,164)','rgb(105,23,251)','rgb(110,249,20)','rgb(69,254,49)','rgb(101,252,26)','rgb(236,23,142)','rgb(113,248,19)','rgb(45,74,250)','rgb(222,165,11)','rgb(254,77,72)','rgb(59,59,253)','rgb(118,247,16)','rgb(162,224,2)','rgb(85,254,36)','rgb(249,109,44)','rgb(14,123,226)','rgb(33,90,244)','rgb(251,49,104)','rgb(4,205,153)','rgb(50,68,251)','rgb(246,37,120)'];
 
