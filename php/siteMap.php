@@ -171,7 +171,7 @@
 					"description" => "lorem",
 					"full-name" => "Edit Account",
 					"login-required" => true,
-					"onClose" => "postUserUpdates(]"
+					"onClose" => "postUserUpdates()"
 				],
 				"contact" => [
 					"full-name" => "Contact",
@@ -187,7 +187,7 @@
 					"full-name" => "Login",
 					"description" => "lorem",
 					"login-required" => false,
-					"onOpen" => "$('#scoutid'].focus(]"
+					"onOpen" => "$('#scoutid'].focus()"
 				],
 				"navigation" => [
 					"full-name" => "Navigation",
