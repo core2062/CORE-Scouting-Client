@@ -8,7 +8,7 @@ $starttime = (float)$sec + (float)$micro;
 //add back when database is secured: include 'vars.php';  - assigns variables for DB & other sensitive info (not put on github)
 
 //connect to mongoDB
-$m = new Mongo();
+$m = new Mongo();//TODO: make this fail gracefully
 $db = $m->selectDB("csd");
 
 require 'php/base.php';
@@ -23,7 +23,7 @@ if (isset($_GET['dev'])) {
 require 'php/path.php';
 
 if(globalVar('devMode')){
-	require 'firephp/fb.php';
+	require 'dev/firephp/fb.php';
 	ob_start();
 
 	error_reporting( E_ALL );
