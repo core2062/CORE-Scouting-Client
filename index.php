@@ -140,31 +140,60 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 	}
 }
 
-//TODO: move? only needed in dev mode
-require 'dev/lessphp/lessc.inc.php';
-function compileLess(){
-	$handle = opendir('../less');
+if($vars['devMode']){
+	//TODO: move? only needed in dev mode
+	require 'dev/lessphp/lessc.inc.php';
+	function compileLess(){
+		$handle = opendir('less');
 
-	/* This is the correct way to loop over the directory. */
-	while (false !== ($entry = readdir($handle))) {
-		if ($entry != "." && $entry != "..") {
-			try {
-				lessc::ccompile('less/$entry', 'css/$entry');
-			} catch (exception $ex) {
-				logger($ex->getMessage());
+		/* This is the correct way to loop over the directory. */
+		while (false !== ($entry = readdir($handle))) {
+			if ($entry != "." && $entry != "..") {
+				preg_match('/[a-z]*\./', $entry, $entry);//cut off file extension
+				try {
+					lessc::ccompile('less/' . $entry[0] . 'less', 'css/' . $entry[0] . 'css');
+				} catch (exception $ex) {
+					logger($ex->getMessage());
+				}
 			}
 		}
 	}
+	compileLess();
 }
-compileLess();
 
 require 'php/jsminplus.php';
 
 //TODO: rewrite below html to PATH
+echo '<!DOCTYPE html>';
+/*
+$path = [
+	'html',//TODO: add manifest="manifest.mf" + make file
+	[
+		'head',
+		[
+			'meta',
+			'http-equiv' => "Content-Type",
+			'content' => "text/html",
+			'charset' => "utf-8"
+		],
+		['title', 'CSD'],
+		[
+			'link#favicon',
+			'href' => 'favicon.ico',
+			'rel' => 'shortcut icon',
+		],
+		'<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/style-ie.css" /><![endif]-->',
+		['style', embed('css/', '.css')],
+		//TODO: add meta tags for bookmarks and/or for search engines
+	],
+	[
+		'body#body'
+	]
+]*/
 ?>
 
 <!DOCTYPE html>
-<html> <!--TODO: add  manifest="manifest.mf" + make file-->
+<html> <!--TODO: add manifest="manifest.mf" + make file-->
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
 <title>CSD</title>
