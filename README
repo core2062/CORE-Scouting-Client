@@ -54,6 +54,7 @@ ramblings:
     /font: contains all font files
     /tmp: contains temporary files cached to speed up various functions
     /html: contains html & path files which are called by index.php
+    /dev: just for development, if global devmode = false then nothing here should be called
 
 
 

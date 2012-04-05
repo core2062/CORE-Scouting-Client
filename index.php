@@ -17,7 +17,6 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 	require 'php/siteMap.php';
 	if($vars['devMode'] == true) fb($pages);
 
-
 //options
 	//defaults
 	$vars['disableCache'] = false;
@@ -140,6 +139,24 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 		send_reg($html, false, false);
 	}
 }
+
+//TODO: move? only needed in dev mode
+require 'dev/lessphp/lessc.inc.php';
+function compileLess(){
+	$handle = opendir('../less');
+
+	/* This is the correct way to loop over the directory. */
+	while (false !== ($entry = readdir($handle))) {
+		if ($entry != "." && $entry != "..") {
+			try {
+				lessc::ccompile('less/$entry', 'css/$entry');
+			} catch (exception $ex) {
+				logger($ex->getMessage());
+			}
+		}
+	}
+}
+compileLess();
 
 require 'php/jsminplus.php';
 

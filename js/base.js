@@ -345,13 +345,11 @@ function modalClose(runScript) {//if runScript is defined then the script won't 
 	function bakeCookie(name, value) {
 		var expires = new Date();
 		expires.setTime(expires.getTime() + (15552000000));
-		//set cookie, or if value is blank, set it to be removed
-		if(value === ''){
+		if(value === ''){//set cookie, or if value is blank, set it to be removed
 			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 		} else {
 			document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
 		}
-		console.log(document.cookie);
 	}
 
 	function eatCookie(name) {
