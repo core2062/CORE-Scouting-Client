@@ -1,41 +1,45 @@
 <?php
-$path = ['div.navigation-c',
-	['table',
-		['tbody',
-			['tr',
-				['td',
-					'style' => "padding-right:80px;",
-					'class' => "accordion",
-					function(){
-						$var = [];
-						$len = count($pages);
-						for($i=0; $i < $len; $i++) {
-							$var[] = ['p',$pages[$i]['full-name']];
-							foreach($pages[$i]['subpages'] as $key => $value) {
-								$var[] =
-								['li',
-									['a',
-										'href' => '#' . $key,
-										$value['full-name']
-									]
-								];
+$path = [
+	['div.navigation-c',
+		['table',
+			['tbody',
+				['tr',
+					['td',
+						'style' => "padding-right:80px",
+						'class' => "accordion",
+						function(){
+							global $pages;
+
+							$var = [];
+							$len = count($pages);
+							for($i=0; $i < $len; $i++) {
+								$var[] = ['p', $pages[$i]['full-name']];
+								foreach($pages[$i]['subpages'] as $key => $value) {
+									$var[] =
+									['li',
+										['a',
+											'href' => '#' . $key,
+											$value['full-name']
+										]
+									];
+								}
+								foreach($pages[$i]['modals'] as $key => $value) {
+									$var[] =
+									['li',
+										['a',
+											'href' => '#' . $key,
+											$value['full-name']
+										]
+									];
+								}
 							}
-							foreach($pages[$i]['modals'] as $key => $value) {
-								$var[] =
-								['li',
-									['a',
-										'href' => '#' . $key,
-										$value['full-name']
-									]
-								];
-							}
+							return $var;
 						}
-						return $var;
-					}
-				],
-				['td',
-					'style' => 'width:100%',
-					['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page'
+					],
+					['td',
+						'style' => 'width:100%',
+						['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page'
+						]
 					]
 				]
 			]
@@ -51,8 +55,8 @@ $path = ['div.navigation-c',
 		['li.clearIcon',
 			['input#scoutid',
 				'type' => 'text',
-				['span']
-			]
+			],
+			['span']
 		],
 		['li',
 			['label',
@@ -64,8 +68,8 @@ $path = ['div.navigation-c',
 			['input#pword',
 				'type' => 'password',
 				'onkeypress' => "var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();",
-				['span']
-			]
+			],
+			['span']
 		]
 	],
 	['ul.contact-c'
