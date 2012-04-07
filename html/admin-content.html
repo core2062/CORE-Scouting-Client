@@ -1,60 +1,47 @@
 <?php
 
-$path = [
-	'ul.mongo-c',
+$path = ['ul.mongo-c',
 	'style' => "display:none",
-	[
-		'li',
-		[
-			'fieldset',
+	['li',
+		['fieldset',
 			['legend','Data Feed'],
-			[
-				'ul',
-				[
-					'li',
+			['ul',
+				['li',
 					['label','Update:'],
-					[
-						'button',
+					['button',
 						'title' => 'get the TPID, team number, and profiles of all teams',
 						'onclick' => "adminRequest('getTeams')",
 						'Get Teams'
 					],
-					[
-						'button',
+					['button',
 						'title' => 'get the EID, and event info for all competitions',
 						'onclick' => "adminRequest('getEvents')",
 						'Get Events'
 					],
-					[
-						'button',
+					['button',
 						'title' => 'update the FMS database by pulling from twitter',
 						'onclick' => "adminRequest('updateFMS')",
 						'Update FMS'
 					],
-					[
-						'button',
+					['button',
 						'title' => 'do all analysis',
 						'onclick' => "adminRequest('compile')",
 						'Compile'
 					],
-					[
-						'button',
+					['button',
 						'title' => 'rebuild the collection holding partly analyzed scouting data',
 						'onclick' => "adminRequest('rebuildAnalysisScouting')",
 						'Rebuild Scouting Analysis'
 					]
 				],
-				[
-					'li',
+				['li',
 					['label','Export:'],
-					[
-						'button',
+					['button',
 						'onclick' => "adminRequest('export')",
 						'All'
 					],
 					['label','Import:'],
-					[
-						'button',
+					['button',
 						'onclick' => "adminRequest('import')",
 						'All'
 					]
@@ -62,28 +49,21 @@ $path = [
 			]
 		]
 	],
-	[
-		'li',
-		[
-			'fieldset',
+	['li',
+		['fieldset',
 			['legend','Site'],
-			[
-				'ul',
-				[
-					'li',
+			['ul',
+				['li',
 					['label','Clean:'],
-					[
-						'button',
+					['button',
 						'onclick' => "adminRequest('clearTmp')",
 						'Temporary Files'
 					],
-					[
-						'button',
+					['button',
 						'onclick' => "adminRequest('clearLog')",
 						'DB Log'
 					],
-					[
-						'button',
+					['button',
 						'onclick' => "adminRequest('resetDB')",
 						'Reset/Setup DB'
 					]
