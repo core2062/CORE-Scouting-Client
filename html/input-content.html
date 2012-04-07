@@ -4,67 +4,51 @@
 // make content scroll when its height exceeds height of sidebar?
 
 $path = [
-	[
-		'ul.robot-c',
+	['ul.robot-c',
 		'style' => "display:none",
-		[
-			'li',
-			[
-				'fieldset',
+		['li',
+			['fieldset',
 				['legend','Basic Info'],
-				[
-					'ul.stacked',
-					[
-						'li',
-						[
-							'label',
+				['ul.stacked',
+					['li',
+						['label',
 							'for' => 'disabledOrNoShow',
 							'Disabled/No Show:'
 						],
-						[
-							'input#disabledOrNoShow',
+						['input#disabledOrNoShow',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'crossesBump',
 							'Crosses Bump:'
 						],
-						[
-							'input#crossesBump',
+						['input#crossesBump',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'picksUpBalls',
 							'Picks Up Balls:'
 						],
-						[
-							'input#picksUpBalls',
+						['input#picksUpBalls',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'manipulatesBridge',
 							'Manip-s Bridge:'
 						],
-						[
-							'input#manipulatesBridge',
+						['input#manipulatesBridge',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
@@ -73,79 +57,60 @@ $path = [
 				]
 			]
 		],
-		[
-			'li',
-			[
-				'fieldset',
+		['li',
+			['fieldset',
 				['legend','Hybrid'],
-				[
-					'ul.stacked.hybrid',
-					[
-						'li',
-						[
-							'label',
+				['ul.stacked.hybrid',
+					['li',
+						['label',
 							'for' => 'getsBallsOffBridge',
 							'Balls-Bridge:'
 						],
-						[
-							'input#getsBallsOffBridge',
+						['input#getsBallsOffBridge',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'usesKinect',
 							'Uses Kinect:'
 						],
-						[
-							'input#usesKinect',
+						['input#usesKinect',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					]
 				],
-				[
-					'ul.stacked.hml',
-					[
-						'li',
-						[
-							'label',
+				['ul.stacked.hml',
+					['li',
+						['label',
 							'for' => 'hybridHigh',
 							'High:'
 						],
-						[
-							'input#hybridHigh',
+						['input#hybridHigh',
 							'style' => "width:40px",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'hybridMiddle',
 							'Middle:'
 						],
-						[
-							'input#hybridMiddle',
+						['input#hybridMiddle',
 							'style' => "width:40px",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'hybridBottom',
 							'Bottom:'
 						],
-						[
-							'input#hybridBottom',
+						['input#hybridBottom',
 							'style' => "width:40px",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
@@ -153,151 +118,116 @@ $path = [
 				],
 			]
 		],
-		[
-			'li',
-			[
-				'fieldset',
+		['li',
+			['fieldset',
 				['legend','Teleop'],
-				[
-					'ul.stacked.hybrid',
-					[
-						'li',
-						[
-							'label',
+				['ul.stacked.hybrid',
+					['li',
+						['label',
 							'for' => 'attemptBalance',
 							'Attempt- Bal-:'
 						],
-						[
-							'input#attemptBalance',
+						['input#attemptBalance',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'robotsOnBridge',
 							'# On Bridge:'
 						],
-						[
-							'input#robotsOnBridge',
+						['input#robotsOnBridge',
 							'type' => 'text',
 							'style' => "width:40px;",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'balanceSuccess',
 							'Bal- Success:'
 						],
-						[
-							'input#balanceSuccess',
+						['input#balanceSuccess',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'coopertition',
 							'Coopertition:'
 						],
-						[
-							'input#coopertition',
+						['input#coopertition',
 							'type' => 'checkbox',
 							'data-labelOn' => "Yes",
 							'data-labelOff' => "No"
 						]
 					]
 				],
-				[
-					'ul.stacked.hml',
-					[
-						'li',
-						[
-							'label',
+				['ul.stacked.hml',
+					['li',
+						['label',
 							'for' => 'teleopHigh',
 							'High:'
 						],
-						[
-							'input#teleopHigh',
+						['input#teleopHigh',
 							'style' => "width:40px",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'teleopMiddle',
 							'Middle:'
 						],
-						[
-							'input#teleopMiddle',
+						['input#teleopMiddle',
 							'style' => "width:40px",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'teleopBottom',
 							'Bottom:'
 						],
-						[
-							'input#teleopBottom',
+						['input#teleopBottom',
 							'style' => "width:40px",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					]
 				],
-				[
-					'ul.stacked.hybrid',
-					[
-						'li',
-						[
-							'label',
+				['ul.stacked.hybrid',
+					['li',
+						['label',
 							'for' => 'totalShots',
 							'Shots Taken:'
 						],
-						[
-							'input#totalShots',
+						['input#totalShots',
 							'type' => 'text',
 							'style' => "width:40px;",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'fouls',
 							'Fouls:'
 						],
-						[
-							'input#fouls',
+						['input#fouls',
 							'type' => 'text',
 							'style' => "width:40px;",
 							'onkeypress' => "return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'techFouls',
 							'Tech Fouls:'
 						],
-						[
-							'input#techFouls',
+						['input#techFouls',
 							'type' => 'text',
 							'style' => "width:40px;",
 							'onkeypress' => "return limitInput(event, 'number')"
@@ -307,104 +237,79 @@ $path = [
 			]
 		]
 	],
-	[// tracking
-		'ul.tracking-c',
+	['ul.tracking-c',// tracking
 		'style' => 'display:none',
-		[
-			'li',
-			[
-				'li',
-				[
-					'fieldset',
+		['li',
+			['li',
+				['fieldset',
 					'style' => 'min-width:300px',
 					['legend','Tracking'],
-					[
-						'ul',
-						[
-							'canvas#canvas',
+					['ul',
+						['canvas#canvas',
 							'onclick' => 'canvasClick(event)'
 						],
-						[
-							'div#scoreContainer',
-							[
-								'button#top',
+						['div#scoreContainer',
+							['button#top',
 								'onclick' => "scoreSelect('top')",
 								'top'
 							],
-							[
-								'button#middle',
+							['button#middle',
 								'onclick' => "scoreSelect('middle')",
 								'middle'
 							],
-							[
-								'button#bottom',
+							['button#bottom',
 								'onclick' => "scoreSelect('bottom')",
 								'bottom'
 							]
 						],
 						['br'],
-						[
-							'div#typeContainer',
-							[
-								'button#hybrid',
+						['div#typeContainer',
+							['button#hybrid',
 								'onclick' => "typeSelect('hybrid')",
 								'hybrid'
 							],
-							[
-								'button#teleop',
+							['button#teleop',
 								'onclick' => "typeSelect('teleop')",
 								'teleop'
 							]
 						],
-						[
-							'button',
+						['button',
 							'style' => 'float:right; margin: 5px; margin-right: -15px',
 							'onclick' => 'addEntry()',
 							'Add'
 						],
-						[
-							'table#trackingDisplay'
+						['table#trackingDisplay'
 						]
 					]
 				]
 			]
 		]
 	],
-	[//Pit
-		'ul.pit-c',
+	['ul.pit-c',//Pit
 		'style' => 'display:none',
-		[
-			'li',
-			[
-				'fieldset',
+		['li',
+			['fieldset',
 				'style' => 'min-width:300px;',
 				['legend','Robot Design'],
-				[
-					'ul',
-					[
-						'li',
-						[
-							'label',
+				['ul',
+					['li',
+						['label',
 							'for' => 'drive',
 							'Drive:'
 						],
-						[
-							'select#drive',
+						['select#drive',
 							'size' => '1',
 							'style' => 'width:150px',
 							['option', 'value' => 'mecanum', 'Mecanum'],
 							['option', 'value' => 'add value here', 'add value here']
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'inspected',
 							'Inspected:'
 						],
-						[
-							'select#inspected',
+						['select#inspected',
 							'size' => 1,
 							'style' => 'width:100px',
 							['option','value' => 'true','Yes'],
@@ -415,20 +320,14 @@ $path = [
 			]
 		]
 	],
-	[//mutual
-		'ul.tracking-c.robot-c.pit-c',
+	['ul.tracking-c.robot-c.pit-c',//mutual
 		'style' => 'display:none',
-		[
-			'li',
-			[
-				'fieldset',
+		['li',
+			['fieldset',
 				['legend','Relevant Comments'],
-				[
-					'ul',
-					[
-						'li',
-						[
-							'textarea#comments',
+				['ul',
+					['li',
+						['textarea#comments',
 							'style' => 'min-width:400px; min-height:40px',
 							'title' => 'use line breaks (enter key) to seperate comments'
 						]
