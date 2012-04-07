@@ -59,10 +59,17 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 
 
 	// Accordion
-	//TODO: finish Accordion for nav modal
+	var allPanels = $('.accordion > ul').hide();
+
 	$('.accordion > p').click(function() {
-		console.log('bitches');
-		console.log($(this).next());
+		$target =  $(this).next();
+
+		if(!$target.hasClass('active')){
+			allPanels.removeClass('active').slideUp();
+			$target.addClass('active').slideDown();
+		}
+
+		return false;
 	});
 
 
