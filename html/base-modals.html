@@ -9,10 +9,11 @@ $path = [
 						function(){
 							global $pages;
 
-							$var = [];
+							$return = [];
 							$len = count($pages);
 							for($i=0; $i < $len; $i++) {
-								$var[] = ['p', $pages[$i]['full-name']];
+								$return[] = ['p', $pages[$i]['full-name']];
+								$var = ['ul'];
 								foreach($pages[$i]['subpages'] as $key => $value) {
 									$var[] =
 									['li',
@@ -31,8 +32,10 @@ $path = [
 										]
 									];
 								}
+								$return[] = $var;
 							}
-							return $var;
+							fb($return);
+							return $return;
 						}
 					],
 					['td',
