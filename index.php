@@ -192,7 +192,6 @@ $path = [
 ]*/
 ?>
 
-<!DOCTYPE html>
 <html> <!--TODO: add manifest="manifest.mf" + make file-->
 <head>
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
