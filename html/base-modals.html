@@ -33,8 +33,8 @@ $path = ['div.navigation-c',
 						return $var;
 					}
 				],
-				['td'
-					'style'='width:100%',
+				['td',
+					'style' => 'width:100%',
 					['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page'
 					]
 				]
@@ -42,26 +42,26 @@ $path = ['div.navigation-c',
 		]
 	],
 	['ul.login-c',
-		['li'
-			['label'
+		['li',
+			['label',
 				'for' => 'scoutid',
 				'ScoutID:'
 			]
 		],
-		['li.clearIcon'
-			['input#scoutid'
+		['li.clearIcon',
+			['input#scoutid',
 				'type' => 'text',
 				['span']
 			]
 		],
-		['li'
-			['label'
+		['li',
+			['label',
 				'for' => 'pword',
 				'Password:'
 			]
 		],
-		['li.clearIcon'
-			['input#pword'
+		['li.clearIcon',
+			['input#pword',
 				'type' => 'password',
 				'onkeypress' => "var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();",
 				['span']
@@ -75,8 +75,8 @@ $path = ['div.navigation-c',
 	['ul.credits-c'
 		//TODO: finish modal
 	],
-	['ul.contact-c'
-		['li'
+	['ul.contact-c',
+		['li',
 			['label',
 				'for' => 'fadeEffects',
 				'Fade Effects:'
@@ -87,7 +87,7 @@ $path = ['div.navigation-c',
 				'title' => 'this controls the transitions between pages. disabling this might make the site run faster'
 			]
 		],
-		['li'
+		['li',
 			['label',
 				'for' => 'verboseMode',
 				'Verbose Mode:'
