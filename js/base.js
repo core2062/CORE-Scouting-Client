@@ -190,6 +190,8 @@ function nav() {
 		open login modal if needed for page
 	*/
 
+	//TODO: make nav change the accordion that is open in the nav modal to the current page
+
 	if (location.hash.substring(1) === "") {
 		location.hash = '#front-page';//default page
 		return;
