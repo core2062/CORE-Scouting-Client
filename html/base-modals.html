@@ -1,81 +1,108 @@
-<div class="navigation-c">
-	<table>
-	<tbody>
+<?php
+$path = ['div.navigation-c',
+	['table',
+		['tbody',
+			['tr',
+				['td',
+					'style' => "padding-right:80px;",
+					'class' => "accordion",
+					function(){
+						$var = [];
+						$len = count($pages);
+						for($i=0; $i < $len; $i++) {
+							$var[] = ['p',$pages[$i]['full-name']];
+							foreach($pages[$i]['subpages'] as $key => $value) {
+								$var[] =
+								['li',
+									['a',
+										'href' => '#' . $key,
+										$value['full-name']
+									]
+								];
+							}
+							foreach($pages[$i]['modals'] as $key => $value) {
+								$var[] =
+								['li',
+									['a',
+										'href' => '#' . $key,
+										$value['full-name']
+									]
+								];
+							}
+						}
+						return $var;
+					}
+				],
+				['td'
+					'style'='width:100%',
+					['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page'
+					]
+				]
+			]
+		]
+	],
+	['ul.login-c',
+		['li'
+			['label'
+				'for' => 'scoutid',
+				'ScoutID:'
+			]
+		],
+		['li.clearIcon'
+			['input#scoutid'
+				'type' => 'text',
+				['span']
+			]
+		],
+		['li'
+			['label'
+				'for' => 'pword',
+				'Password:'
+			]
+		],
+		['li.clearIcon'
+			['input#pword'
+				'type' => 'password',
+				'onkeypress' => "var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();",
+				['span']
+			]
+		]
+	],
+	['ul.contact-c'
+		//TODO: finish modal
+		//messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
+	],
+	['ul.credits-c'
+		//TODO: finish modal
+	],
+	['ul.contact-c'
+		['li'
+			['label',
+				'for' => 'fadeEffects',
+				'Fade Effects:'
+			],
+			['input#fadeEffects',
+				'type' => 'checkbox',
+				'onchange' => "updateUser('fade',this.checked)",
+				'title' => 'this controls the transitions between pages. disabling this might make the site run faster'
+			]
+		],
+		['li'
+			['label',
+				'for' => 'verboseMode',
+				'Verbose Mode:'
+			],
+			['input#verboseMode',
+				'type' => 'checkbox',
+				'onchange' => "updateUser('verbose',this.checked)",
+				'title' => 'this determines if non-crucial messages are displayed'
+			]
+		]
+	]
+];
 
-	<!-- TODO: make sections collapsible - like tree or accordion -->
-
-	<tr>
-		<td style="padding-right:80px;" class="accordion">
-			<?php
-			$len = count($pages);
-			for($i=0; $i < $len; $i++) {
-				echo "<p>" . ucwords(preg_replace('/\-/',' ',$pages[$i]['full-name'])) . "</p>" . "<ul>";
-				foreach($pages[$i]['subpages'] as $k => $v) {
-					echo '<li><a href="#' . $k . '">' . ucwords(preg_replace('/\-/',' ',$k)) . '</a></li>';
-				}
-				foreach($pages[$i]['modals'] as $k => $v) {
-					echo '<li><a href="#' . $k . '">' . ucwords(preg_replace('/\-/',' ',$k)) . '</a></li>';
-				}
-				echo "</ul>";
-			}
-			?>
-		</td>
-		<td style="width:100%;">
-			<p>the preview for the page goes here... it's activated on-hover from the links on the left, and shows a thumbnail + description for the page</p>
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-
-<ul class="login-c">
-	<li><label for="scoutid">ScoutID:</label></li>
-	<li class="clearIcon"><input type="text" id="scoutid"/><span></span></li>
-
-	<li><label for="pword">Password:</label></li>
-	<li class="clearIcon"><input type="password" id="pword" onkeypress="var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();"><span></span></li>
-</ul>
-
-<ul class="contact-c">
-	<li>
-		<label for="to">To:</label>
-	</li>
-	<li>
-		<select onchange="if (document.getElementById('to').value == 'One_Scout') {document.getElementById('ToScoutList').style.visibility = 'visible'} else {document.getElementById('ToScoutList').style.visibility = 'hidden'};" size="1" id="to">
-			<option value="Scout_Leader">Scout Leader</option>
-			<option value="Full_Team">Full Team</option>
-			<option value="Admin">Admin</option>
-			<option value="One_Scout">One Scout</option>
-		</select>
-	</li>
-		<span id="ToScoutList" style="visibility:hidden;">
-			<li>
-				<label for="toScout">Scout ID:</label>
-				<input id="toScout" type="text" value="" style="width:120px"/>
-			</li>
-		</span>
-	<li>
-		<textarea style="width:400px; height:135px;"></textarea>
-	</li>
-	<li>
-		<p style="font-size:11px; display: inline-block; margin:0px; vertical-align:middle;">
-			messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
-		</p>
-	</li>
-</ul>
-
-<ul class="credits-c">
-	<!-- TODO: finish modal -->
-</ul>
-
-<ul class="account-c">
-	<li>
-		<label class="label" for="fadeEffects">Fade Effects:</label>
-		<input type="checkbox" id="fadeEffects" onchange="updateUser('fade',this.checked)" title="this controls the transitions between pages. disabling this might make the site run faster" />
-	</li>
-
-	<li>
-		<label class="label" for="verboseMode">Verbose Mode:</label>
-		<input type="checkbox" id="verboseMode" onchange="updateUser('verbose',this.checked)" title="this determines if non-crucial messages are displayed" />
-	</li>
-</ul>
+$len = count($path);
+for ($i=0; $i < $len; $i++) { 
+	echo path($path[$i]);
+}
+?>
