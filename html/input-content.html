@@ -5,8 +5,7 @@
 
 $path = [
 	[
-		'ul',
-		'class' => "robot-c",
+		'ul.robot-c',
 		'style' => "display:none",
 		[
 			'li',
@@ -14,8 +13,7 @@ $path = [
 				'fieldset',
 				['legend','Basic Info'],
 				[
-					'ul',
-					'class' => 'stacked',
+					'ul.stacked',
 					[
 						'li',
 						[
@@ -81,8 +79,7 @@ $path = [
 				'fieldset',
 				['legend','Hybrid'],
 				[
-					'ul',
-					'class' => 'stacked hybrid',
+					'ul.stacked.hybrid',
 					[
 						'li',
 						[
@@ -113,8 +110,7 @@ $path = [
 					]
 				],
 				[
-					'ul',
-					'class' => 'stacked hml',
+					'ul.stacked.hml',
 					[
 						'li',
 						[
@@ -163,8 +159,7 @@ $path = [
 				'fieldset',
 				['legend','Teleop'],
 				[
-					'ul',
-					'class' => 'stacked hybrid',
+					'ul.stacked.hybrid',
 					[
 						'li',
 						[
@@ -223,8 +218,7 @@ $path = [
 					]
 				],
 				[
-					'ul',
-					'class' => 'stacked hml',
+					'ul.stacked.hml',
 					[
 						'li',
 						[
@@ -266,8 +260,7 @@ $path = [
 					]
 				],
 				[
-					'ul',
-					'class' => 'stacked hybrid',
+					'ul.stacked.hybrid',
 					[
 						'li',
 						[
@@ -315,8 +308,7 @@ $path = [
 		]
 	],
 	[// tracking
-		'ul',
-		'class' => 'tracking-c',
+		'ul.tracking-c',
 		'style' => 'display:none',
 		[
 			'li',
@@ -377,6 +369,72 @@ $path = [
 				]
 			]
 		]
+	],
+	[//Pit
+		'ul.pit-c',
+		'style' => 'display:none'
+		[
+			'li',
+			[
+				'fieldset',
+				'style' => 'min-width:300px;',
+				['legend','Robot Design'],
+				[
+					'ul',
+					[
+						'li',
+						[
+							'label',
+							'for' => 'drive',
+							'Drive:'
+						],
+						[
+							'select#drive',
+							'size' => '1',
+							'style' => 'width:150px',
+							['option', 'value' => 'mecanum', 'Mecanum'],
+							['option', 'value' => 'add value here', 'add value here']
+						]
+					],
+					[
+						'li',
+						[
+							'label',
+							'for' => 'inspected',
+							'Inspected:'
+						],
+						[
+							'select#inspected',
+							'size' => 1,
+							'style' => 'width:100px',
+							['option','value' => 'true','Yes'],
+							['option','value' => 'false','No']
+						]
+					]
+				]
+			]
+		]
+	],
+	[//mutual
+		'ul.tracking-c.robot-c.pit-c','style' => 'display:none'
+		[
+			'li'
+			[
+				'fieldset'
+				['legend','Relevant Comments']
+				[
+					'ul'
+					[
+						'li',
+						[
+							'textarea#comments',
+							'style' => 'min-width:400px; min-height:40px',
+							'title' => 'use line breaks (enter key) to seperate comments'
+						]
+					]
+				]
+			]
+		]
 	]
 ];
 
@@ -384,44 +442,5 @@ $len = count($path);
 for ($i=0; $i < $len; $i++){ 
 	echo path($path[$i]);
 }
+
 ?>
-
-
-<!-- Pit -->
-<ul class="pit-c" style="display:none">
-	<li>
-		<fieldset style="min-width:300px;">
-			<legend>Robot Design</legend>
-			<ul>
-				<li>
-					<label for="drive">Drive:</label>
-					<select id="drive" size="1" style="width:150px">
-						<option value="mecanum">Mecanum</option>
-						<option value="add value here">add value here</option>
-					</select>
-				</li>
-				<li>
-					<label for="inspected">Inspected:</label>
-					<select id="inspected" size="1" style="width:100px">
-						<option value="true">Yes</option>
-						<option value="false">No</option>
-					</select>
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-</ul>
-
-<ul class="tracking-c robot-c pit-c" style="display:none">
-	<li>
-		<fieldset>
-			<legend>Relevant Comments</legend>
-			<ul>
-				<li>
-					<textarea id="comments" style="min-width:400px; min-height:40px;" id="comments" title="use line breaks (enter key) to seperate comments"></textarea>
-					<!-- additional comments - if robot gets damaged tell how -->
-				</li>
-			</ul>
-		</fieldset>
-	</li>
-</ul>
