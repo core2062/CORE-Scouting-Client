@@ -1,22 +1,33 @@
-<ul class="front-page-c" style="display:none;">
-    <li>
-	<fieldset style="min-width:212px;">
-	    <legend>Meta</legend>
-	    <ul>
-			<li>Scouts:</li><br/>
-			<li>Scouts:</li><br/>
-			<li>Scouts:</li>
-	    </ul>
-	</fieldset>
-    </li>
+<?php
+$path =
+['ul.front-page-c',
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			'style' => 'min-width:212px',
+			['legend','Meta'],
+			['ul',
+				['li', 'Scouts:'],
+				['br'],
+				['li', 'Scouts:'],
+				['br'],
+				['li', 'Scouts:']
+			]
+		]
+	],
+	['li',
+		['fieldset',
+			'style' => 'min-width:212px',
+			['legend','Database'],
+			['ul',
+				['li', 'Version: alpha'],
+				['br'],
+				['li', 'Entries:'],
+			]
+		]
+	]
+];
 
-	<li>
-	<fieldset style="min-width:212px;">
-	    <legend>Database</legend>
-	    <ul>
-			<li>Version: alpha</li><br/>
-			<li>Next Update:</li>
-	    </ul>
-	</fieldset>
-    </li>
-</ul>
+echo path($path);
+
+?>
