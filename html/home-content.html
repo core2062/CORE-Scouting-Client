@@ -1,84 +1,65 @@
 <?php
 
 $path = [
-	[
-		'span',
+	['span',
 		'class' => 'front-page-c',
 		'style' => 'display: none',
-		[
-			'p',
+		['p',
 			'style' => 'font-size:250px; margin:auto; display:table;',
 			['span','id' => 'bigC','C'],
 			['span','style' => 'margin:-120px;','id' => 'bigS','S'],
 			['span','id' => 'bigD','D']
 		]
 	],
-	[
-		'span',
+	['span',
 		'class' => 'synopsis-c',
 		'style' => 'display: none'
 	],
-	[
-		'span',
+	['span',
 		'class' => 'guided-tour-c',
 		'style' => 'display: none'
 	],
-	[
-		'span',
+	['span',
 		'class' => 'signup-c',
 		'style' => 'display: none',
-		[
-			'li',
-			[
-				'fieldset',
-				[
-					'legend',
+		['li',
+			['fieldset',
+				['legend',
 					'Basic Info'
 				],
-				[
-					'p',
+				['p',
 					'this section is required'
 				],
-				[
-					'ul',
+				['ul',
 					'class' => 'stacked',
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'fName',
 							'First Name:'
 						],
-						[
-							'input',
+						['input',
 							'type' => 'text',
 							'id' => 'fName',
 							'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'lName',
 							'Last Name:'
 						],
-						[
-							'input',
+						['input',
 							'type' => 'text',
 							'id' => 'lName',
 							'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'signupTeamNum',
 							'Team Number:'
 						],
-						[
-							'input',
+						['input',
 							'maxlength' => 4,
 							'style' => 'width:50px;',
 							'type' => 'text',
@@ -86,15 +67,12 @@ $path = [
 							'onkeypress' => "displayScoutID(); return limitInput(event, 'number')"
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'previewScoutID',
 							'ScoutID:'
 						],
-						[
-							'input',
+						['input',
 							'type' => 'text',
 							'readonly' => 'readonly',
 							'title' => 'you cannot change this',
@@ -102,33 +80,26 @@ $path = [
 						]
 					]
 				],
-				[
-					'ul',
+				['ul',
 					'class' => 'stacked',
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							'for' => 'signupPassword',
 							'Password:'
 						],
-						[
-							'input',
+						['input',
 							'type' => 'password',
 							'id' => 'signupPassword'
 							//TODO: add hinting for strength of password
 						]
 					],
-					[
-						'li',
-						[
-							'label',
+					['li',
+						['label',
 							//'class' => 'label',
 							'for' => 'signupPassword',
 							'Show:'
 						],
-						[
-							'input',
+						['input',
 							'type' => 'checkbox',
 							'data-labelOn' => 'Yes',
 							'data-labelOff' => 'No',
@@ -138,18 +109,13 @@ $path = [
 							//TODO: fix bug when ibutton fails to show correct value after page reload
 						]
 					],
-					[
-						'br'
-					],
-					[
-						'li',
-						[
-							'label',
+					['br'],
+					['li',
+						['label',
 							'for' => 'email',
 							'Email:'
 						],
-						[
-							'input',
+						['input',
 							'type' => 'text',
 							'id' => 'email'
 						]
@@ -159,8 +125,7 @@ $path = [
 			]
 		]
 	],
-	[
-		'span',
+	['span',
 		'class' => 'donate-c',
 		'style' => 'display: none'
 	]
