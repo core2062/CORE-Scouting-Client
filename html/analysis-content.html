@@ -1,44 +1,46 @@
 <?php
 $path = 
-[['ul',
-	'class' => 'member-c',
-	'style' => "display:none",
-	['li',
-		['fieldset',
-			['legend','Compile'],
-			['ul',
-				['li',
-					['label','Update:'],
-					['button',
-						'title' => 'do all analysis',
-						'onclick' => "analyRequest('compile')",
-						'Compile'
-					],
-					['button',
-						'title' => 'rebuild the collection holding partly analyzed scouting data',
-						'onclick' => "analyRequest('rebuildAnalysisScouting')",
-						'Rebuild Scouting Analysis'
+[
+	['ul',
+		'class' => 'member-c',
+		'style' => "display:none",
+		['li',
+			['fieldset',
+				['legend','Compile'],
+				['ul',
+					['li',
+						['label','Update:'],
+						['button',
+							'title' => 'do all analysis',
+							'onclick' => "analyRequest('compile')",
+							'Compile'
+						],
+						['button',
+							'title' => 'rebuild the collection holding partly analyzed scouting data',
+							'onclick' => "analyRequest('rebuildAnalysisScouting')",
+							'Rebuild Scouting Analysis'
+						]
 					]
 				]
 			]
 		]
-	]
-],
-['ul',
-	'class' => 'data-liberation-c',
-	'style' => "display:none",
-	['li',
-		['legend','Export:'],
-		['button',
-			'onclick' => "analyRequest('export')",
-			'All'	
+	],
+	['ul',
+		'class' => 'data-liberation-c',
+		'style' => "display:none",
+		['li',
+			['legend','Export:'],
+			['button',
+				'onclick' => "analyRequest('export')",
+				'All'	
+			]
 		]
 	]
-]];
+];
 
 //echo path($path, "analysis-content");
 $len = count($path);
 for ($i=0; $i < $len; $i++) { 
-	echo path($path[$i],"analysis-content ".$i);
+	echo path($path[$i]);
 }
 ?>
