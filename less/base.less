@@ -1105,10 +1105,7 @@
 // Nav Modal
 	div.navigation-c {
 		@navPreviewWidth: 300px;
-
 		min-width: 250px + @navPreviewWidth;
-
-		padding: .5em 1em;
 		position: relative;
 
 		p {
@@ -1116,21 +1113,8 @@
 			width: 100%;
 		}
 
-		#navPreview {
-			width: @navPreviewWidth;
-			float: right;
-			position: absolute;
-			right: 0;
-			height: 100%;
-			display: inline;
-
-			p {
-				position: absolute;
-				bottom: 0;
-			}
-		}
-
 		#navAccordion{
+			padding: .5em 1em;
 			display: inline-block;
 			padding-right: @navPreviewWidth;
 
@@ -1163,6 +1147,20 @@
 					color:white;
 					background-color: @liteText;
 				}
+			}
+		}
+
+		#navPreview {
+			width: @navPreviewWidth;
+			float: right;
+			position: absolute;
+			right: 0;
+			height: 100%;
+			display: inline;
+
+			p {
+				position: absolute;
+				bottom: 0;
 			}
 		}
 	}
