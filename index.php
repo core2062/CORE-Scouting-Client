@@ -280,10 +280,10 @@ $path = [
 
 
 <!-- START Modals -->
-<div class="modal-aligner">
-	<div class="modal-wrapper">
+<div id="modal-aligner">
+	<div id="modal-wrapper">
 		<div style="display: none;" id="modal-container">
-			<div class="modal-titlebar">
+			<div id="modal-titlebar">
 				<span id="modal-title">Title</span>
 
 				<a onclick="modalClose();" class="close"> <!--TODO: remove the extra a tag ?-->
