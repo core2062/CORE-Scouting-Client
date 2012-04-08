@@ -152,7 +152,7 @@ if($vars['devMode']){
 				preg_match('/[a-z]*\./', $entry, $entry);//cut off file extension
 				if(!empty($entry)){//checks if it has no file extension (like a directory)
 					try {
-						lessc::ccompile('less/' . $entry[0] . 'less', 'css/' . $entry[0] . 'css');
+						lessc::ccompile('less/' . $entry[0] . 'less', 'tmp/css/' . $entry[0] . 'css');
 					} catch (exception $ex) {
 						logger($ex->getMessage());
 					}
@@ -203,7 +203,7 @@ $path =
 <![endif]-->
 <style>
 	<?php
-		embed('css/', '.css');
+		embed('tmp/css/', '.css');
 		//TODO: add in csstidy + fix gradient support
 	?>
 </style>
@@ -349,11 +349,11 @@ for($i=0; $i < $len; $i++){
 
 $javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
 
-$javascript .= file_get_contents("js/libraries.js");
+$javascript .= file_get_contents("tmp/js/libraries.js");
 
 $len = count($embedded);
 for ($i = 0; $i < $len; ++$i) {
-	$file = 'js/' . $embedded[$i] . '.js';
+	$file = 'tmp/js/' . $embedded[$i] . '.js';
 
 	if (file_exists($file) == true) {
 		$javascript .= file_get_contents($file);
