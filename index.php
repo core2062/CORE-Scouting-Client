@@ -150,13 +150,17 @@ if($vars['devMode']){
 		while (false !== ($entry = readdir($handle))) {
 			if ($entry != "." && $entry != "..") {
 				preg_match('/[a-z]*\./', $entry, $entry);//cut off file extension
-				try {
-					lessc::ccompile('less/' . $entry[0] . 'less', 'css/' . $entry[0] . 'css');
-				} catch (exception $ex) {
-					logger($ex->getMessage());
+				if(!empty($entry)){//checks if it has no file extension (like a directory)
+					try {
+						lessc::ccompile('less/' . $entry[0] . 'less', 'css/' . $entry[0] . 'css');
+					} catch (exception $ex) {
+						logger($ex->getMessage());
+					}
 				}
+
 			}
 		}
+		closedir($handle);
 	}
 	compileLess();
 }
