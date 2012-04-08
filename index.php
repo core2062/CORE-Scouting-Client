@@ -108,13 +108,13 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 
 		$len = count($embedded);
 		for ($i = 0; $i < $len; ++$i) {
-			$file = 'css/' . $embedded[$i] . '.css';
+			$file = 'tmp/css/' . $embedded[$i] . '.css';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
 		for ($i = 0; $i < $len; ++$i) {
-			$file = 'js/' . $embedded[$i] . '.js';
+			$file = 'tmp/js/' . $embedded[$i] . '.js';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
@@ -154,7 +154,7 @@ if($vars['devMode']){
 					try {
 						lessc::ccompile('less/' . $entry[0] . 'less', 'tmp/css/' . $entry[0] . 'css');
 					} catch (exception $ex) {
-						logger($ex->getMessage());
+						logger($ex->getMessage(),true);
 					}
 				}
 
