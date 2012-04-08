@@ -1,49 +1,40 @@
 <?php
 $path = [
 	['div.navigation-c',
-		['table',
-			['tbody',
-				['tr',
-					['td.accordion',
-						'style' => "padding-right:80px",
-						function(){
-							global $pages;
+		['#navAccordion',
+			function(){
+				global $pages;
 
-							$return = [];
-							$len = count($pages);
-							for($i=0; $i < $len; $i++) {
-								$return[] = ['p', $pages[$i]['full-name']];
-								$var = ['ul'];
-								foreach($pages[$i]['subpages'] as $key => $value) {
-									$var[] =
-									['li',
-										['a',
-											'href' => '#' . $key,
-											$value['full-name']
-										]
-									];
-								}
-								foreach($pages[$i]['modals'] as $key => $value) {
-									$var[] =
-									['li',
-										['a',
-											'href' => '#' . $key,
-											$value['full-name']
-										]
-									];
-								}
-								$return[] = $var;
-							}
-							return $return;
-						}
-					],
-					['td',
-						'style' => 'width:100%',
-						['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page'
-						]
-					]
-				]
-			]
+				$return = [];
+				$len = count($pages);
+				for($i=0; $i < $len; $i++) {
+					$return[] = ['p', $pages[$i]['full-name']];
+					$var = ['ul'];
+					foreach($pages[$i]['subpages'] as $key => $value) {
+						$var[] =
+						['li',
+							['a',
+								'href' => '#' . $key,
+								$value['full-name']
+							]
+						];
+					}
+					foreach($pages[$i]['modals'] as $key => $value) {
+						$var[] =
+						['li',
+							['a',
+								'href' => '#' . $key,
+								$value['full-name']
+							]
+						];
+					}
+					$return[] = $var;
+				}
+				return $return;
+			}
+		],
+		['#navPreview',
+			['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page']
 		]
 	],
 	['ul.login-c',
