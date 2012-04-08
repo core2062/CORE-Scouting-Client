@@ -988,7 +988,7 @@
 
 
 // Modals
-	.modal-aligner {
+	#modal-aligner {
 		position: absolute;
 		top:0;
 		left:0;
@@ -998,13 +998,14 @@
 		visibility: hidden;
 	}
 
-	.modal-wrapper {
+	#modal-wrapper {
 		vertical-align:middle;
-		display:table-cell;
+		text-align:center;
+		display: table-cell;
 		visibility: hidden;
 	}
 
-	.modal-titlebar {
+	#modal-titlebar {
 		padding: 0.7em 1em 0.6em 1em;
 		position: relative;
 		border: none;
@@ -1019,11 +1020,6 @@
 			margin: .1em 16px .2em 0;
 			font-size: 14px;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-			/* done with js to support multiple words
-			&:first-letter {
-				text-transform: uppercase;
-			}
-			*/
 		}
 
 		.close {
@@ -1055,18 +1051,26 @@
 		}
 	}
 
+	.icon-closethick {
+		width: 15px;
+		height: 15px;
+	}
+
+
 	#modal-container {
+		text-align: left;//reset from modal wrapper
 		visibility: visible;
 		background: @form_bgcolor;
 		border: 1px solid #B6B6B6;
 		color: @liteText;
 		.border-radius (3px);
-		position: relative;
+		position: relative;//needed for z-index to work
 		z-index: 1001;
-		width: 700px;
-		margin: auto; //centers it horizontally
+		//width: 700px;
+		margin: auto; //centers it horizontally - NO WORK
 		margin-top: 70px;
 		margin-bottom: 20px;
+		display: inline-block;
 		.box-shadow(0 2px 12px rgba(0,0,0,0.6));
 
 		ul {
@@ -1099,21 +1103,58 @@
 
 
 // Nav Modal
-	div.navigation-c table {
+	div.navigation-c {
+		@navPreviewWidth: 300px;
+
+		min-width: 250px + @navPreviewWidth;
+
 		padding: .5em 1em;
+		position: relative;
+
+		p {
+			display: block;
+			width: 100%;
+		}
+
+		#navPreview {
+			width: @navPreviewWidth;
+			float: right;
+			position: absolute;
+			right: 0;
+			height: 100%;
+			display: inline;
+
+			p {
+				position: absolute;
+				bottom: 0;
+			}
+		}
+
+		#navAccordion{
+			display: inline-block;
+			padding-right: @navPreviewWidth;
+
+			p {//accordian labels
+				padding: 3px 0;
+				cursor: pointer;
+			}
+		}
 
 		ul {
 			margin: 5px 0 15px 0;
-			padding-left: 20px;
+			padding-left: 15px;
 
 			li {
 				display: list-item;
 				margin: 6px;
 				list-style: square;
-				margin: 0 0 0 40px;
+				margin: 0 0 0 10px;
 				white-space:nowrap;
 
 				a {
+					text-decoration: none;
+					padding: 2px;
+					.border-radius(3px);
 					color: @liteText;
 				}
 
@@ -1124,16 +1165,6 @@
 				}
 			}
 		}
-
-		p {
-			display: block;
-			margin-top: 5px;
-		}
-	}
-
-	.icon-closethick {
-		width: 15px;
-		height: 15px;
 	}
 
 
