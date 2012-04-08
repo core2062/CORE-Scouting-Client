@@ -170,19 +170,16 @@ require 'php/jsminplus.php';
 //TODO: rewrite below html to PATH
 echo '<!DOCTYPE html>';
 /*
-$path = [
-	'html',//TODO: add manifest="manifest.mf" + make file
-	[
-		'head',
-		[
-			'meta',
+$path =
+['html',//TODO: add manifest="manifest.mf" + make file
+	['head',
+		['meta',
 			'http-equiv' => "Content-Type",
 			'content' => "text/html",
 			'charset' => "utf-8"
 		],
 		['title', 'CSD'],
-		[
-			'link#favicon',
+		['link#favicon',
 			'href' => 'favicon.ico',
 			'rel' => 'shortcut icon',
 		],
@@ -190,8 +187,8 @@ $path = [
 		['style', embed('css/', '.css')],
 		//TODO: add meta tags for bookmarks and/or for search engines
 	],
-	[
-		'body#body'
+	['body#body'
+	
 	]
 ]*/
 ?>
