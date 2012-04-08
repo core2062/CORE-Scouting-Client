@@ -1,0 +1,79 @@
+div.center div.jGrowl-notification, div.center div.jGrowl-closer {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+div#jGrowl-container {
+	z-index: 1000;
+	position: relative;
+	vertical-align: bottom;
+	width: 100%;
+	max-width: 250px;
+}
+
+div.jGrowl {
+	color: #fff;
+	font-size: 12px;
+
+	h1 {
+		font-size: 14px;
+		margin: 0;
+		font-weight: normal;
+	}
+
+	div.jGrowl-notification, div.jGrowl-closer {
+		background-color: #000;
+		padding: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		font-size: 1em;
+		text-align: left;
+		display: none;
+		.opacity (.8);
+		.border-radius (3px);
+	}
+
+	div.jGrowl-notification {
+		min-height: 10px;
+		min-width: 175px;
+		margin-left: 10px;
+		margin-right: 10px;
+
+		div.jGrowl-header {
+			font-weight: bold;
+			font-size: .85em;
+		}
+
+		div.jGrowl-close {
+			float: right;
+			font-weight: bold;
+			font-size: 1em;
+			cursor: pointer;
+		}
+	}
+
+	div.jGrowl-closer {
+		margin-left: 10px;
+		margin-right: 10px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		cursor: pointer;
+		font-size: .9em;
+		font-weight: bold;
+		text-align: center;
+	}
+}
+
+.error {
+	background-color:#B20000 !important;
+}
+.message {
+	background-color:#000066 !important;
+}
+
+// Hide jGrowl if page is printed
+@media print {
+	div.jGrowl {
+		display:none;
+	}
+}
