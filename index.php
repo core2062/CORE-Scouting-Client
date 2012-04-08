@@ -146,7 +146,6 @@ if($vars['devMode']){
 	function compileLess(){
 		$handle = opendir('less');
 
-		/* This is the correct way to loop over the directory. */
 		while (false !== ($entry = readdir($handle))) {
 			if ($entry != "." && $entry != "..") {
 				preg_match('/[a-z]*\./', $entry, $entry);//cut off file extension
@@ -156,6 +155,29 @@ if($vars['devMode']){
 					} catch (exception $ex) {
 						logger($ex->getMessage(),true);
 					}
+				}
+
+			}
+		}
+		closedir($handle);
+	}
+	compileLess();
+
+	function compileLess(){//TODO: test this
+		$handle = opendir('less');
+
+		while (false !== ($entry = readdir($handle))) {
+			if ($entry != "." && $entry != "..") {
+				preg_match('/\.(coffee|js)/', $entry, $extension);//get file extension
+				$extension = $extension[1];//only want 1st backreferance
+				preg_match('/[a-z]*\./', $entry, $entry);//cut off file extension
+				if(!empty($entry)){//checks if it has no file extension (like a directory)
+					if($extension == 'coffee'){
+						$output = exec('coffee coffee/' . $entry . '.coffee -o tmp/js');
+					} else {
+						$output = exec('cp coffee/' . $entry . '.js tmp/js');
+					}
+					
 				}
 
 			}

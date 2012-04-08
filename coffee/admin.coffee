@@ -1,3 +1,4 @@
+`
 function adminRequest(request){
 	post('process.php','{"request": "admin", "subRequest": "' + request + '"}', true);
 }
@@ -10,3 +11,4 @@ function export(){
 	});
 }
 */
+`
