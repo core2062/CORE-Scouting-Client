@@ -1,4 +1,5 @@
-//counter code - used to display time entries in db, and other stats
+#counter code - used to display time entries in db, and other stats
+`
 /*
 function updateStats(){
 	if (!isNaN(totalUsersRate) && !isNaN(paidUsersRate) && totalUsersRate > 0 && paidUsersRate > 0){
@@ -161,3 +162,4 @@ function postSignup(){//this function will interfere with logged in users... sig
 	post('signup.php','');//all data is in cookie
 	logout();//remove stuff from cookie & user object (in a standard way)
 }
+`
