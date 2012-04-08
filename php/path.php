@@ -10,7 +10,7 @@ $pathOptions =[
 	'extraSpace' => true,//if you want path to add extra space between tags (for browser compatibility)
 	'indent' => true,
 	'showErrors' => true,
-	'manualNormalize' => true //increase performance by only running normalize functions when needed
+	'manualNormalize' => false //increase performance by only running normalize functions when needed
 ];
 
 function getIdAndClasses(&$array){
