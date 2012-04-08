@@ -59,9 +59,9 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 
 
 	// Accordion
-	var allPanels = $('.accordion > ul').hide();
+	var allPanels = $('#navAccordion > ul').hide();
 
-	$('.accordion > p').click(function() {
+	$('#navAccordion > p').click(function() {
 		$target =  $(this).next();
 
 		if(!$target.hasClass('active')){
