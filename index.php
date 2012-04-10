@@ -162,29 +162,6 @@ if($vars['devMode']){
 		closedir($handle);
 	}
 	compileLess();
-
-	function compileLess(){//TODO: test this
-		$handle = opendir('less');
-
-		while (false !== ($entry = readdir($handle))) {
-			if ($entry != "." && $entry != "..") {
-				preg_match('/\.(coffee|js)/', $entry, $extension);//get file extension
-				$extension = $extension[1];//only want 1st backreferance
-				preg_match('/[a-z]*\./', $entry, $entry);//cut off file extension
-				if(!empty($entry)){//checks if it has no file extension (like a directory)
-					if($extension == 'coffee'){
-						$output = exec('coffee coffee/' . $entry . '.coffee -o tmp/js');
-					} else {
-						$output = exec('cp coffee/' . $entry . '.js tmp/js');
-					}
-					
-				}
-
-			}
-		}
-		closedir($handle);
-	}
-	compileLess();
 }
 
 require 'php/jsminplus.php';
@@ -354,10 +331,10 @@ function embed($folder, $extension) {
 	}
 }
 
-$html = ob_get_contents();
+$html = ob_get_contents();//TODO: remove after PATH conversion
 ob_clean();//fix to prevent send_reg from putting the entire page in the log
 
-if ($vars['devMode'] == false) {
+if ($vars['devMode'] == false) {//TODO: remove after PATH conversion
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
 	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
 	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags (this causes some weird issues)
@@ -369,20 +346,23 @@ for($i=0; $i < $len; $i++){
 	unset($pages[$i]['embedded']);
 }
 
-$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
+//embed javascript - TODO: test and fix
+$javascript = '`var pages = ' . json_encode($pages) . ';`';//embed pages (backticks to pass through coffee script compiler)
 
-$javascript .= file_get_contents("tmp/js/libraries.js");
+$coffeeFiles;
 
 $len = count($embedded);
-for ($i = 0; $i < $len; ++$i) {
-	$file = 'tmp/js/' . $embedded[$i] . '.js';
+for($i = 0; $i < $len; ++$i){
+	$file = 'coffee/' . $embedded[$i] . '.coffee';
 
 	if (file_exists($file) == true) {
-		$javascript .= file_get_contents($file);
+		$coffeeFiles .= ' ' . $file;
 	}
 }
 
-if ($vars['devMode'] == false){
+$javascript .= exec('coffee' . $coffeeFiles . ' -j -p -b');
+
+if($vars['devMode'] == false){
 	$javascript = JSMinPlus::minify($javascript);
 }
 
@@ -391,7 +371,7 @@ $html .= $javascript . '</script></body></html>';
 //optimize css here
 //TODO: use php to base64 images
 
-$html = trim($html);
+$html = trim($html);//remove a little more whitespace
 
 //cache data to temporary file (unless it is disabled)
 if($vars['disableCache'] == false){
