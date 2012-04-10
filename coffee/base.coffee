@@ -26,30 +26,30 @@
 
 # Designer: Sean Lang
 
+
 #jQuery v1.7.1 - Includes Sizzle.js
-require 'jquery'
+#= require ./base/jquery'
 
 #Tipsy
-require 'tipsy'
+#= require ./base/tipsy'
 
 #Chosen Select Box
-require 'chosen'
+#= require ./base/chosen
 #$("select").chosen();
 
 #ToggleJS
-require 'toggle'
+#= require ./base/toggle
 #$(":checkbox").toggleSwitch();
 
 #jGrowl
-require 'jgrowl'
+#= require ./base/jgrowl
 
 #json2js
-require 'json2js'
+require './base/json2js'
 
+console.log 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
 `
-console.log('Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.');
-
-// Google +1 Button
+# Google +1 Button
 /*
 (function () {
 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -58,13 +58,13 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 })();
 */
 
-//TODO: float google +1 button left w/out 4px overhang
-//TODO: make startup script to warn bad browsers
-//TODO: add stuff to prefetch subpages???
+#TODO: float google +1 button left w/out 4px overhang
+#TODO: make startup script to warn bad browsers
+#TODO: add stuff to prefetch subpages???
 
 
-//UI Event Handlers
-	//set fieldset class on focus
+#UI Event Handlers
+	#set fieldset class on focus
 	$("input, textarea").focus(function () {
 		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
 	});
@@ -74,7 +74,7 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 	});
 
 
-	//script for clear input icon
+	#script for clear input icon
 	$(".clearIcon span").click(function () {
 		var input = this.previousSibling;
 		input.value = '';
@@ -82,7 +82,7 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 	});
 
 
-	// Accordion
+	# Accordion
 	var allPanels = $('#navAccordion > ul').hide();
 
 	$('#navAccordion > p').click(function() {
@@ -97,7 +97,7 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 	});
 
 
-// global vars
+# global vars
 	var current = {
 		"index": "",
 		"type": "",
@@ -117,7 +117,7 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 		"nav": []
 	};
 
-	var defaultUser = {//default user object for user who isn't logged in (no cookie is stored for this user)
+	var defaultUser = {#default user object for user who isn't logged in (no cookie is stored for this user)
 		"_id": "Guest",
 		"permission": 1,
 		"token": "",
@@ -132,13 +132,13 @@ console.log('Hello and welcome to the CSD, a intuitive scouting database and ana
 		}
 	};
 
-function fixFavicon() { //fixes favicon bug in firefox -- remove in future
+function fixFavicon() { #fixes favicon bug in firefox -- remove in future
 	$('#favicon').remove();
 	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
 }
 
 function getMissedPosts(){
-	//console.log(missedPost);
+	#console.log(missedPost);
 	var i = 0;
 	var missedPosts = [];
 	while(true){
@@ -167,7 +167,7 @@ $(document).ready(function() {
 	user = eatCookie('user');
 	if (user !== '') {
 		window.user = eval('(' + user + ')');
-		updateUserBar();//userbar is setup for guest by default
+		updateUserBar();#userbar is setup for guest by default
 	} else {
 		window.user = defaultUser;
 	}
@@ -177,7 +177,7 @@ $(document).ready(function() {
 	buildCache();
 	nav();
 	
-	//add error message for old browsers
+	#add error message for old browsers
 });
 
 function buildCache() {
@@ -198,11 +198,11 @@ function buildCache() {
 }
 
 
-//rewrite this to use HTML5 pushState()
+#rewrite this to use HTML5 pushState()
 window.onpopstate = function(event) {
-	// if nav() is failing, check browser support for this
+	# if nav() is failing, check browser support for this
 	console.log(event);
-	fixFavicon(); //remove this in future
+	fixFavicon(); #remove this in future
 	nav();
 };
 
@@ -214,10 +214,10 @@ function nav() {
 		open login modal if needed for page
 	*/
 
-	//TODO: make nav change the accordion that is open in the nav modal to the current page
+	#TODO: make nav change the accordion that is open in the nav modal to the current page
 
 	if (location.hash.substring(1) === "") {
-		location.hash = '#front-page';//default page
+		location.hash = '#front-page';#default page
 		return;
 	}
 
@@ -235,7 +235,7 @@ function nav() {
 	current.index = '';
 
 	var len = pages.length;
-	for (var i = 0; i < len; i++) { //TODO: add catching?
+	for (var i = 0; i < len; i++) { #TODO: add catching?
 		if (typeof pages[i].subpages[current.subpage] !== 'undefined') {
 			current.index = i;
 			current.type = 'subpages';
@@ -244,7 +244,7 @@ function nav() {
 		}
 	}
 
-	if (current.index === '') { // TODO: merge with subpage search ?
+	if (current.index === '') { # TODO: merge with subpage search ?
 		for (i = 0; i < len; i++) {
 			if (typeof pages[i].modals[current.subpage] !== 'undefined') {
 				current.index = i;
@@ -254,27 +254,27 @@ function nav() {
 		}
 	}
 
-	if (current.index === '') { //page cannot be found, select default page
-		window.location = '#front-page';//default page
+	if (current.index === '') { #page cannot be found, select default page
+		window.location = '#front-page';#default page
 		return;
 	}
 	
-	//check if page has been downloaded yet (add functionality later)
-	//download if it hasn't been
+	#check if page has been downloaded yet (add functionality later)
+	#download if it hasn't been
 
 	var fadetime = 500;
 
-	if (prev.subpage === "") { // if this is the first page
+	if (prev.subpage === "") { # if this is the first page
 		if (current.type == 'modals') {
-			//fade in page
+			#fade in page
 			$('.front-page-c').fadeIn(fadetime / 4);
 			
-			//show navbar
-			//$(cache.nav).css('display','none'); - nothing is shown in the beginning
+			#show navbar
+			#$(cache.nav).css('display','none'); - nothing is shown in the beginning
 			$('.home-n').css('display','inline');
 			$('#front-page-r').attr('checked', true);
 			
-			//set variables
+			#set variables
 			current.lastSub = 'front-page';
 			prev.index = 2;
 			prev.subpage = 'front-page';
@@ -287,15 +287,15 @@ function nav() {
 	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
 
 
-	//start page changers
-	if (current.type == "subpages"){ //sub-pages
+	#start page changers
+	if (current.type == "subpages"){ #sub-pages
 		
-		//change navbar (no fade)
+		#change navbar (no fade)
 		$(cache.nav).css('display','none');
 		$('.' + pages[current.index].name + '-n').css('display','inline');
 		$('#' + current.subpage + '-r').attr('checked', true);
 
-		if (prev.type == 'subpages') { //sub-pages
+		if (prev.type == 'subpages') { #sub-pages
 			if(user.prefs.fade === true){
 				$(cache.subpages).fadeOut(fadetime).promise().done(function() {
 					$('.' + current.subpage + '-c').fadeIn(fadetime);
@@ -304,8 +304,8 @@ function nav() {
 				$(cache.subpages).css('display','none');
 				$('.' + current.subpage + '-c').css('display','inline');
 			}
-		} else { //modals
-			if (prev.lastSub == current.subpage) { //don't fade out sub-page if is is already under the modal
+		} else { #modals
+			if (prev.lastSub == current.subpage) { #don't fade out sub-page if is is already under the modal
 				if(user.prefs.fade === true){
 					$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
 				} else {
@@ -322,10 +322,10 @@ function nav() {
 				}
 			}
 		}
-	} else { //modal
+	} else { #modal
 		document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
 
-		if (prev.type == 'subpages'){ //subpages
+		if (prev.type == 'subpages'){ #subpages
 			if(user.prefs.fade === true){
 				$(cache['modals']).hide().promise().done(function() {
 					$('#overlay').fadeIn(40);
@@ -335,7 +335,7 @@ function nav() {
 				$(cache['modals']).css('display','none');
 				$('#overlay, .' + current.subpage + '-c, #modal-container').css('display','block');
 			}
-		} else { //modals
+		} else { #modals
 			if(user.prefs.fade === true){
 				$(cache.modals).fadeOut(fadetime).promise().done(function() {
 					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
@@ -348,7 +348,7 @@ function nav() {
 	}
 	
 	if(pages[current.index][current.type][current.subpage]['login-required'] === true && eatCookie('user') === ''){
-		//TODO: figure out a way to do this without a timeout & without screwing up the page below
+		#TODO: figure out a way to do this without a timeout & without screwing up the page below
 		setTimeout("window.location = '#login'", fadetime*2);
 		return;
 	}
@@ -364,9 +364,9 @@ function nav() {
 	}
 }
 
-//site functions
-function modalClose(runScript) {//if runScript is defined then the script won't be run (define as false)
-	//TODO: expanding the bottom code to work on all page types
+#site functions
+function modalClose(runScript) {#if runScript is defined then the script won't be run (define as false)
+	#TODO: expanding the bottom code to work on all page types
 	if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== 'undefined' && typeof(runScript) === 'undefined'){
 		eval(pages[current.index]['modals'][current.subpage]['onClose']);
 	}
@@ -374,11 +374,11 @@ function modalClose(runScript) {//if runScript is defined then the script won't 
 	window.location = '#' + current.lastSub;
 }
 
-//Cookie Handling Functions
+#Cookie Handling Functions
 	function bakeCookie(name, value) {
 		var expires = new Date();
 		expires.setTime(expires.getTime() + (15552000000));
-		if(value === ''){//set cookie, or if value is blank, set it to be removed
+		if(value === ''){#set cookie, or if value is blank, set it to be removed
 			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 		} else {
 			document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
@@ -411,10 +411,10 @@ function getToken(password) {
 	scoutidInput = document.getElementById('scoutid');
 	pwordInput = document.getElementById('pword');
 
-	user._id = scoutidInput.value; //put in user object (scoutid in user object != logged in)
-	pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
+	user._id = scoutidInput.value; #put in user object (scoutid in user object != logged in)
+	pword = pwordInput.value; #limited to this function (can't be recovered after being typed in)
 
-	scoutidInput.value = ''; //remove them from inputs
+	scoutidInput.value = ''; #remove them from inputs
 	pwordInput.value = '';
 
 	if (user._id === '') {
@@ -429,10 +429,10 @@ function getToken(password) {
 		var json = post('login.php', '{"_id":"' + user._id + '","pword":"' + pword + '"}');
 
 		if (json.token) {
-			//store stuff in temporary user object
+			#store stuff in temporary user object
 			user = json;
 
-			bakeCookie('user', $.toJSON(user)); //store user object in cookie
+			bakeCookie('user', $.toJSON(user)); #store user object in cookie
 
 			updateUserBar();
 			
@@ -445,22 +445,22 @@ function getToken(password) {
 			});
 		}
 	}
-	window.location = '#login';//will only be run at error due to above return
+	window.location = '#login';#will only be run at error due to above return
 }
 
-function callLogout(){//tells server to logout & runs logout function
+function callLogout(){#tells server to logout & runs logout function
 	post('process.php','{"request":"logout"}');
-	//recheck current page in navbar, radio button hasn't been set yet so timeout is needed
+	#recheck current page in navbar, radio button hasn't been set yet so timeout is needed
 	setTimeout("$('#' + current.subpage + '-r').attr('checked', true)",1);
 	logout();
 }
 
-function logout() {	//just removes the cookie & user object
-	//must be separate from other functions so it can be called from script returned by post() or manually by user
+function logout() {	#just removes the cookie & user object
+	#must be separate from other functions so it can be called from script returned by post() or manually by user
 
-	window.user = defaultUser;//reset to generic user object
+	window.user = defaultUser;#reset to generic user object
 
-	bakeCookie('user', '');//remove user object cookie
+	bakeCookie('user', '');#remove user object cookie
 	
 	updateUserBar();
 	
@@ -469,15 +469,15 @@ function logout() {	//just removes the cookie & user object
 	}
 }
 
-function updateUserBar(){//also updates account modal
+function updateUserBar(){#also updates account modal
 	var loginLabel = document.getElementById('login-r-label');
 
-	if(eatCookie('user') !== ''){//logged in
+	if(eatCookie('user') !== ''){#logged in
 		$('#login').css('display','none');
 		$('#logout').css('display','inline');
 		loginLabel.setAttribute('original-title','Logout');
 		loginLabel.setAttribute('onclick',"callLogout()");
-	} else {//not logged in
+	} else {#not logged in
 		$('#logout').css('display','none');
 		$('#login').css('display','inline');
 		loginLabel.setAttribute('original-title','Login');
@@ -486,13 +486,13 @@ function updateUserBar(){//also updates account modal
 
 	document.getElementById('scoutName').innerHTML = $.trim(user.info.fName + ' ' + user.info.lName);
 
-	//account modal
+	#account modal
 	$('#fadeEffects').toggleSwitch("toggle", user.prefs.fade);
 	$('#verboseMode').toggleSwitch("toggle", user.prefs.verbose);
 }
 
-function updateUser(key, value){//newObject does not need to be a full user object
-	//user = jQuery.extend(true, user, userUpdates);//CONSIDER using this in login so only non-default stuff needs to be sent
+function updateUser(key, value){#newObject does not need to be a full user object
+	#user = jQuery.extend(true, user, userUpdates);#CONSIDER using this in login so only non-default stuff needs to be sent
 	user.prefs[key] = value;
 	if(eatCookie('user') !== ''){
 		bakeCookie('user', $.toJSON(user));
@@ -500,14 +500,14 @@ function updateUser(key, value){//newObject does not need to be a full user obje
 }
 
 function postUserUpdates(){
-	if(eatCookie('user') !== ''){//only run if logged in
-		post('process.php', '{"request": "updateUser"}');//PHP gets user object from cookie
+	if(eatCookie('user') !== ''){#only run if logged in
+		post('process.php', '{"request": "updateUser"}');#PHP gets user object from cookie
 	}
 	modalClose(false);
-	//TODO: add checking in postUserUpdates() to see if user object is different
+	#TODO: add checking in postUserUpdates() to see if user object is different
 }
 
-//general functions
+#general functions
 String.prototype.titleCase = function () {
 	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
@@ -522,15 +522,15 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-function limitInput(e, limit) { //used for limiting form input
+function limitInput(e, limit) { #used for limiting form input
 	var unicode = e.charCode ? e.charCode : e.keyCode;
-	if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { //if the key isn't the backspace key or tab or l/r arrow
-		if ((unicode < 48 || unicode > 57) && limit == 'number') { //if not a number
-			return false; //disable key press
+	if (unicode != 8 && unicode != 9 && unicode != 37 && unicode != 39) { #if the key isn't the backspace key or tab or l/r arrow
+		if ((unicode < 48 || unicode > 57) && limit == 'number') { #if not a number
+			return false; #disable key press
 		}
 
-		if ((unicode < 65 || unicode > 90) && (unicode < 97 || unicode > 122) && limit == 'letter') { //if not a letter
-			return false; //disable key press
+		if ((unicode < 65 || unicode > 90) && (unicode < 97 || unicode > 122) && limit == 'letter') { #if not a letter
+			return false; #disable key press
 		}
 	}
 }
@@ -577,10 +577,10 @@ function post(filename, json, async, saveRequest){
 		data: 'data=' + json,
 		async: async,
 		success: function(data){
-			if(async) postSuccess(data);//else, the function below will be called (async posts can't return anything)
+			if(async) postSuccess(data);#else, the function below will be called (async posts can't return anything)
 		},
 		error: function(jqXHR){
-			//will trigger even if verbose is off
+			#will trigger even if verbose is off
 			$('#jGrowl-container').jGrowl('AJAX Error: ' + jqXHR.status + '<br />' + jqXHR.statusText + '.', {
 				sticky: true,
 				theme: 'error'
@@ -596,16 +596,16 @@ function post(filename, json, async, saveRequest){
 }
 
 function postSuccess(data){
-	if(data.charAt(0) == '{'){//not a flawless way to detect if it is json
+	if(data.charAt(0) == '{'){#not a flawless way to detect if it is json
 		json = eval('(' + data + ')');
 	} else {
 		json = {};
 		json.error = 'valid json was not returned';
 	}
 	
-	//console.log(json);//TODO: remove before production
+	#console.log(json);#TODO: remove before production
 	
-	if(json.script){//script must be run before error returns (like for logout function)
+	if(json.script){#script must be run before error returns (like for logout function)
 		eval(json.script);
 	}
 	
@@ -613,7 +613,7 @@ function postSuccess(data){
 		$('#jGrowl-container').jGrowl('error: ' + json.error, {
 			theme: 'error'
 		});
-		return false; //this means error
+		return false; #this means error
 	}
 	
 	if(json.message && user.prefs.verbose === true){
@@ -623,15 +623,15 @@ function postSuccess(data){
 		delete json.message;
 	}
 
-	//try to submit any requests that failed before
+	#try to submit any requests that failed before
 	if(missedPosts.length !== 0){
 		var lastMissedPost = missedPosts.length - 1;
 		post(missedPosts[lastMissedPost].filename, missedPosts[lastMissedPost].json, true, true);
-		missedPosts.remove(0);//it will be re-added if it fails to submit
+		missedPosts.remove(0);#it will be re-added if it fails to submit
 		bakeCookie('missedPost' + lastMissedPost, "");
 	}
 	
-	return json;//if nothing is returned assume error
+	return json;#if nothing is returned assume error
 }
 
 function saveMissedRequest(filename, json){
@@ -650,20 +650,20 @@ function saveMissedRequest(filename, json){
 }
 
 
-//TODO: replace with something better, like downloadify or just a modal
+#TODO: replace with something better, like downloadify or just a modal
 
 var colorList = ['rgb(97,28,252)','rgb(11,223,129)','rgb(27,98,240)','rgb(109,250,21)','rgb(40,247,81)','rgb(1,166,194)','rgb(197,2,196)','rgb(207,4,184)','rgb(210,181,5)','rgb(183,1,208)','rgb(140,7,237)','rgb(12,128,223)','rgb(7,142,213)','rgb(35,87,245)','rgb(15,228,121)','rgb(46,72,250)','rgb(250,106,47)','rgb(19,112,233)','rgb(76,43,254)','rgb(26,101,239)','rgb(217,172,8)','rgb(28,96,241)','rgb(158,227,3)','rgb(102,251,25)','rgb(205,187,4)','rgb(174,1,216)','rgb(228,15,156)','rgb(252,52,99)','rgb(252,99,53)','rgb(31,243,93)','rgb(125,244,13)','rgb(153,4,230)','rgb(230,152,17)','rgb(29,95,242)','rgb(10,219,134)','rgb(245,122,35)','rgb(152,231,4)','rgb(107,250,22)','rgb(209,183,5)','rgb(137,8,239)','rgb(234,20,147)','rgb(233,19,148)','rgb(238,24,139)','rgb(254,88,62)','rgb(179,212,1)','rgb(1,169,191)','rgb(253,95,55)','rgb(186,1,206)','rgb(202,190,3)','rgb(165,2,222)','rgb(21,109,235)','rgb(61,254,57)','rgb(3,156,202)','rgb(254,83,66)','rgb(52,252,66)','rgb(203,3,189)','rgb(155,229,3)','rgb(8,139,216)','rgb(55,63,253)','rgb(167,221,1)','rgb(159,3,226)','rgb(42,248,78)','rgb(145,6,235)','rgb(116,17,247)','rgb(242,30,129)','rgb(25,103,238)','rgb(9,218,135)','rgb(240,133,28)','rgb(248,113,42)','rgb(227,14,158)','rgb(70,48,254)','rgb(53,65,252)','rgb(3,201,158)','rgb(224,162,13)','rgb(136,239,9)','rgb(130,11,242)','rgb(5,147,210)','rgb(63,55,254)','rgb(22,236,107)','rgb(6,212,143)','rgb(38,247,82)','rgb(226,14,159)','rgb(2,163,197)','rgb(149,5,232)','rgb(48,251,71)','rgb(192,200,1)','rgb(147,234,5)','rgb(92,253,32)','rgb(196,196,2)','rgb(214,7,176)','rgb(218,171,9)','rgb(175,1,214)','rgb(171,1,218)','rgb(20,111,234)','rgb(219,169,9)','rgb(1,191,170)','rgb(170,1,219)','rgb(1,173,187)','rgb(5,210,147)','rgb(95,253,30)','rgb(58,253,59)','rgb(27,100,240)','rgb(206,185,4)','rgb(252,100,52)','rgb(1,188,173)','rgb(229,16,154)','rgb(228,157,15)','rgb(253,92,58)','rgb(49,251,69)','rgb(3,204,154)','rgb(254,66,84)','rgb(235,21,145)','rgb(6,144,212)','rgb(231,151,18)','rgb(73,46,254)','rgb(250,47,105)','rgb(2,160,200)','rgb(88,34,254)','rgb(253,59,91)','rgb(81,40,254)','rgb(194,1,198)','rgb(244,124,34)','rgb(143,6,236)','rgb(200,192,2)','rgb(180,1,211)','rgb(37,246,84)','rgb(2,196,164)','rgb(105,23,251)','rgb(110,249,20)','rgb(69,254,49)','rgb(101,252,26)','rgb(236,23,142)','rgb(113,248,19)','rgb(45,74,250)','rgb(222,165,11)','rgb(254,77,72)','rgb(59,59,253)','rgb(118,247,16)','rgb(162,224,2)','rgb(85,254,36)','rgb(249,109,44)','rgb(14,123,226)','rgb(33,90,244)','rgb(251,49,104)','rgb(4,205,153)','rgb(50,68,251)','rgb(246,37,120)'];
 
 function colorBackground(){
 	var i = Math.floor(Math.random()*colorList.length);
 
-	if(i > colorList.length - 6) i = 0;//not really random, but easy and quick
+	if(i > colorList.length - 6) i = 0;#not really random, but easy and quick
 
 	bodyElement.style.backgroundColor = colorList[i];
 	cElement.setAttribute('fill', colorList[i+1] + ' !important');
 	sElement.style.fill = colorList[i+2] + '!important';
 	dElement.style.fill = colorList[i+3] + '!important';
-	//TODO: make above work w/ css
+	#TODO: make above work w/ css
 
 	if(current.subpage == 'front-page'){
 		bigcElement.style.color = colorList[i+4];
@@ -682,5 +682,4 @@ function rainbow(seizureMode){
 	window.dElement = document.getElementById('d');
 	window.startTime2 = new Date();
 	setInterval("colorBackground()",150);
-}
-`
+}`
