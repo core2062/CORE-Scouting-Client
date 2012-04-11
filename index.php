@@ -232,7 +232,6 @@ $path =
 				echo $css->print->plain();
 			}
 			getCSS()
-			//TODO: add in csstidy + fix gradient support
 		?>
 	</style>
 	<!--TODO: add meta tags for bookmarks and/or for search engines -->
