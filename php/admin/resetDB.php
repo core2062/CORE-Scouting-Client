@@ -14,7 +14,7 @@
 	}
 	
 	$m = new Mongo();
-	$m->selectDb("csd")->execute("function(){}");//creates database csd
+	$m->selectDB("csd")->execute("function(){}");//creates database csd
 	$db = $m->selectDB("csd");
 
 	require '../base.php';

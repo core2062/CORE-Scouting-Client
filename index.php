@@ -164,8 +164,6 @@ if($vars['devMode']){
 	compileLess();
 }
 
-require 'php/jsminplus.php';
-
 //TODO: rewrite below html to PATH
 echo '<!DOCTYPE html>';
 /*
@@ -194,19 +192,50 @@ $path =
 
 <html> <!--TODO: add manifest="manifest.mf" + make file-->
 <head>
-<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
-<title>CSD</title>
-<link href="favicon.ico" rel="shortcut icon" id="favicon"/>
-<!--[if lt IE 9]>
-<link rel="stylesheet" type="text/css" href="css/style-ie.css" />
-<![endif]-->
-<style>
-	<?php
-		embed('tmp/css/', '.css');
-		//TODO: add in csstidy + fix gradient support
-	?>
-</style>
-<!--TODO: add meta tags for bookmarks and/or for search engines -->
+	<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+	<title>CSD</title>
+	<link href="favicon.ico" rel="shortcut icon" id="favicon"/>
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="css/style-ie.css" />
+	<![endif]-->
+	<style>
+		<?php
+			function getCSS(){
+				global $embedded;
+				global $pages;
+				global $vars;
+
+				$putBackLater = ob_get_contents();
+				ob_clean();//this part of the script uses the output buffer to hold the unprocessed css temporarly
+
+				$embeddedLen = count($embedded);
+				for ($embeddedIndex = 0; $embeddedIndex < $embeddedLen; ++$embeddedIndex) {
+					$file = 'tmp/css/' . $embedded[$embeddedIndex] . '.css';
+
+					if(file_exists($file)){
+						require($file);
+						if($vars['devMode']) logger($file . ' was embedded', true);
+					} else {
+						if($vars['devMode']) logger($file . ' is non-existent', true);
+					}
+				}
+
+				$cssCode = ob_get_contents();
+				ob_clean();
+				echo $putBackLater;
+
+				require('dev/csstidy/class.csstidy.php');
+
+				$css = new csstidy();
+				//$css->set_cfg('remove_last_;',TRUE);
+				$css->parse($cssCode);
+				echo $css->print->plain();
+			}
+			getCSS()
+			//TODO: add in csstidy + fix gradient support
+		?>
+	</style>
+	<!--TODO: add meta tags for bookmarks and/or for search engines -->
 </head>
 <body id="body">
 
@@ -347,26 +376,56 @@ for($i=0; $i < $len; $i++){
 }
 
 //embed javascript - TODO: test and fix
-$javascript = '`var pages = ' . json_encode($pages) . ';`';//embed pages (backticks to pass through coffee script compiler)
-
-$coffeeFiles;
-
-$len = count($embedded);
-for($i = 0; $i < $len; ++$i){
-	$file = 'coffee/' . $embedded[$i] . '.coffee';
-
-	if (file_exists($file) == true) {
-		$coffeeFiles .= ' ' . $file;
+//TODO: rewrite get coffee so it doesn't use the output buffer
+function getCoffee($file){//this function can be called in the coffee files to get other dependancies
+	preg_match('/\.(coffee|js)/', $file, $fileExtension);//get file extension
+	$fileExtension = $fileExtension[1];
+	$file = 'coffee/' . $file;
+	require $file;
+	if($fileExtension == 'js'){
+		return '`' . ob_get_contents() . '`';//use backticks to pass js through coffee script compiler
+	} else {
+		return ob_get_contents();//use backticks to pass js through coffee script compiler
 	}
 }
 
-$javascript .= exec('coffee' . $coffeeFiles . ' -j -p -b');
+function embedJavaScript(){
+	global $embedded;
+	global $pages;
+	global $vars;
 
-if($vars['devMode'] == false){
-	$javascript = JSMinPlus::minify($javascript);
+	$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
+	$coffeeFiles = '';
+
+	ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
+
+	$len = count($embedded);
+	for($i = 0; $i < $len; ++$i){
+		$file = $embedded[$i] . '.coffee';
+
+		if (file_exists($file) == true) {
+			$tmpFile = 'tmp/coffee/' . $file;
+			fileWrite($tmpFile, getCoffee($file));
+			$coffeeFiles .= ' ' . $tmpFile;
+			ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
+		}
+	}		
+
+	exec('/home/sean/bin/coffee -j -p' . $coffeeFiles, $output);
+	$javascript .= implode("\n",$output);
+
+	$cwd = getcwd();
+	system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+
+	if($vars['devMode'] == false){
+		require 'php/jsminplus.php';
+		$javascript = JSMinPlus::minify($javascript);
+	}
+
+	return $javascript;
 }
 
-$html .= $javascript . '</script></body></html>';
+$html .= embedJavaScript() . '</script></body></html>';
 
 //optimize css here
 //TODO: use php to base64 images
@@ -375,9 +434,7 @@ $html = trim($html);//remove a little more whitespace
 
 //cache data to temporary file (unless it is disabled)
 if($vars['disableCache'] == false){
-	$fp = fopen($filename, "w+");
-	fwrite($fp, $html);
-	fclose($fp);
+	fileWrite($filename, $html);
 }
 
 send_reg($html, false, false);
