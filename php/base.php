@@ -53,6 +53,12 @@ function logger($message, $fbDisplay = false){
 	error_log($message . ", at " . $duration . "\n", 3, "tmp/log");
 }
 
+function fileWrite($filename, $contents){
+	$fp = fopen($filename, "w+");
+	fwrite($fp, $contents);
+	fclose($fp);
+}
+
 //global return functions
 function send_error($error_text, $error = '', $script = ''){
 	global $db;
