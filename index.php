@@ -398,6 +398,9 @@ function embedJavaScript(){
 
 	ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
 
+	$cwd = getcwd();
+	mkdir($cwd . "/tmp/coffee");
+
 	$len = count($embedded);
 	for($i = 0; $i < $len; ++$i){
 		$file = $embedded[$i] . '.coffee';
@@ -415,18 +418,18 @@ function embedJavaScript(){
 
 	$javascript .= implode("\n",$output);
 
-	//$cwd = getcwd();
-	//system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+	system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 
-	if($vars['devMode'] == false){
-		require 'php/jsminplus.php';
-		$javascript = JSMinPlus::minify($javascript);
-	}
+	#if($vars['devMode'] == false){
+		require 'dev/jsminplus.php';
+		$minified = JSMinPlus::minify($javascript);
+		fb($minified);
+	#}
 
 	return $javascript;
 }
 
-$html .= embedJavaScript() . '</script></body></html>';
+$html .= embedJavaScript() . "\n</script></body></html>";
 
 //TODO: use php to base64 images
 
