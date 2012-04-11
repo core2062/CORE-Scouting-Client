@@ -1,7 +1,7 @@
-// global vars for errorcheck(), actual values assigned later
+# global vars for errorcheck(), actual values assigned later
 `
-var errornum = 0; //# of inputs with errors
-var inputnum = 0; //# of inputs filled
+var errornum = 0; // of inputs with errors
+var inputnum = 0; // of inputs filled
 
 //get all inputs & assign variable
 

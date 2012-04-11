@@ -1,6 +1,5 @@
 #counter code - used to display time entries in db, and other stats
-`
-/*
+###
 function updateStats(){
 	if (!isNaN(totalUsersRate) && !isNaN(paidUsersRate) && totalUsersRate > 0 && paidUsersRate > 0){
 		totalUsers += totalUsersRate;
@@ -83,9 +82,10 @@ function addThousandSeparator(nStr){
 	}
 	return x1;
 }
-*/
+###
 
-//signup stuff
+#signup stuff
+`
 var fName = document.getElementById('fName');
 var lName = document.getElementById('lName');
 var signupTeamNum = document.getElementById('signupTeamNum');
