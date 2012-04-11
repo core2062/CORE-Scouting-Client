@@ -402,19 +402,21 @@ function embedJavaScript(){
 	for($i = 0; $i < $len; ++$i){
 		$file = $embedded[$i] . '.coffee';
 
-		if (file_exists($file) == true) {
+		if (file_exists('coffee/' . $file) == true) {
 			$tmpFile = 'tmp/coffee/' . $file;
-			fileWrite($tmpFile, getCoffee($file));
+			$fileContents = getCoffee($file);
+			file_put_contents($tmpFile, $fileContents);
 			$coffeeFiles .= ' ' . $tmpFile;
 			ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
 		}
 	}		
+	fb('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles);
+	exec('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles, $output);//not sure why join requires a file... this doesn't get anything written to it but it must be there
 
-	exec('/home/sean/bin/coffee -j -p' . $coffeeFiles, $output);
 	$javascript .= implode("\n",$output);
 
-	$cwd = getcwd();
-	system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+	//$cwd = getcwd();
+	//system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 
 	if($vars['devMode'] == false){
 		require 'php/jsminplus.php';
@@ -426,7 +428,6 @@ function embedJavaScript(){
 
 $html .= embedJavaScript() . '</script></body></html>';
 
-//optimize css here
 //TODO: use php to base64 images
 
 $html = trim($html);//remove a little more whitespace

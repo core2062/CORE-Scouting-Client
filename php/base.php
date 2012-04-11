@@ -6,20 +6,20 @@ function globalVar($name, $update = null){//consider adding ability to set var h
 
 	if(!isset($update)){
 		$return = $db->globalVar->findOne(
-			array(
+			[
 				'_id' => $name
-			)
+			]
 		);
 	} else {
 		$return = $db->globalVar->update(
-			array(
+			[
 				'_id' => $name
-			),
-			array(
-				'$set' => array(
+			],
+			[
+				'$set' => [
 					'value' => $update
-				)
-			),
+				]
+			],
 			true
 		);
 	}
@@ -44,7 +44,7 @@ function logger($message, $fbDisplay = false){
 	list($micro, $sec) = explode(" ",microtime());
 	$duration = (float)$sec + (float)$micro - $starttime;
 
-	$log[] = array($message, $duration);
+	$log[] = [$message, $duration];
 
 	if($fbDisplay == true && $vars['devMode'] == true){
 		fb($message);
@@ -78,7 +78,7 @@ function send_error($error_text, $error = '', $script = ''){
 	logger("script ended with error, output buffer=" . ob_get_contents());
 
 	$db->log->insert(
-		array(
+		[
 			'type' => 'error',
 			'errorcode' => $error,
 			'place' => $place,
@@ -87,7 +87,7 @@ function send_error($error_text, $error = '', $script = ''){
 			'log' => $log,
 			'vars' => $vars,
 			'user' => $user
-		)
+		]
 	);
 
 	ob_clean (); //empty output buffer, stuff below is only thing sent
