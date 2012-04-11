@@ -48,15 +48,17 @@
 require './base/json2js'
 
 console.log 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
-`
+
+###
 # Google +1 Button
-/*
+`
 (function () {
 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
 	po.src = 'https://apis.google.com/js/plusone.js';
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 })();
-*/
+`
+###
 
 #TODO: float google +1 button left w/out 4px overhang
 #TODO: make startup script to warn bad browsers
@@ -65,6 +67,7 @@ console.log 'Hello and welcome to the CSD, a intuitive scouting database and ana
 
 #UI Event Handlers
 	#set fieldset class on focus
+`
 	$("input, textarea").focus(function () {
 		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
 	});
