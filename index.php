@@ -426,7 +426,7 @@ function embedJavaScript(){
 
 	$javascript .= implode("\n",$output);
 
-	//system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+	system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 
 	if($vars['devMode'] == false){//TODO: finish fixing this
 		require 'dev/jsminplus.php';
