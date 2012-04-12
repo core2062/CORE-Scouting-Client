@@ -82,6 +82,9 @@ empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["refer
 
 	sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 
+	$embedded = array_diff($embedded,['base']);//remove base
+	array_unshift($embedded,'base');//put it back in at beginning of array
+
 	$filename = $embedded[0];
 	$len = count($embedded);
 	for ($i = 1; $i < $len; ++$i) {
@@ -166,8 +169,8 @@ if($vars['devMode']){
 
 //TODO: rewrite below html to PATH
 echo '<!DOCTYPE html>';
-/*
-$path =
+
+$main =
 ['html',//TODO: add manifest="manifest.mf" + make file
 	['head',
 		['meta',
@@ -181,26 +184,8 @@ $path =
 			'rel' => 'shortcut icon',
 		],
 		'<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/style-ie.css" /><![endif]-->',
-		['style', embed('css/', '.css')],
-		//TODO: add meta tags for bookmarks and/or for search engines
-	],
-	['body#body'
-	
-	]
-]*/
-?>
-
-<html> <!--TODO: add manifest="manifest.mf" + make file-->
-<head>
-	<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
-	<title>CSD</title>
-	<link href="favicon.ico" rel="shortcut icon" id="favicon"/>
-	<!--[if lt IE 9]>
-	<link rel="stylesheet" type="text/css" href="css/style-ie.css" />
-	<![endif]-->
-	<style>
-		<?php
-			function getCSS(){
+		['style',
+			function (){
 				global $embedded;
 				global $pages;
 				global $vars;
@@ -229,117 +214,125 @@ $path =
 				$css = new csstidy();
 				//$css->set_cfg('remove_last_;',TRUE);
 				$css->parse($cssCode);
-				echo $css->print->plain();
+				return $css->print->plain();
 			}
-			getCSS()
-		?>
-	</style>
-	<!--TODO: add meta tags for bookmarks and/or for search engines -->
-</head>
-<body id="body">
+		],
+		//TODO: add meta tags for bookmarks and/or for search engines
+	],
+	['body#body',
+		['table#layout',
+			['tr.head',//top bar
+				['td',
+					'colspan'=>2,
+					function(){
+						global $pages;
+						include('html/navbar.html');
+					},
+					['hr', 'style'=>"margin:10px 145px 10px 10px"],
+				]
+			],
+			['tr',
+				['td#content',
+					['noscript',
+						['p',
+							'Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can\'t really do anything until you enable it. If you don\'t know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.'
+						]
+					],
+					function(){embed('html/', '-content.html');}
+				],
+				['td#sidebar',
+					'style'=>'max-height:100%',
+					function(){embed('html/', '-sidebar.html');},
+					['div#jGrowl-container.jGrowl bottom-right']
+					//TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?)
+					//TODO: create classes of jGrowl notifications to close selectively
+				],
+				['tr.foot',
+					['td',
+						'colspan'=>2,
+						['.g-plusone','data-size'=>"medium",'callback'=>"plusone()",'data-href'=>"www.urlofmysite.com"],//Google +1 Button
+						//TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag
+						['#progressbar',
+							['#progressbar-value'],
+							['#errorbar-value']
+						],
+						['div',
+							'style'=>"left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center",
+							['p','CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;' . date('Y') . ' - version:' . $version]
+						]
+					]
+				]
+			]
+		],
+		['#modal-aligner',
+			['#modal-wrapper',
+				['#modal-container',
+					'style'=>"display: none",
+					['#modal-titlebar',
+						['span#modal-title','Title'],
+						['a.close',//remove the extra a tag ?
+							'onclick'=>'modalClose()',
+							['span.icon icon-closethick']
+						]
+					],
+					function(){embed('html/', '-modals.html');},
+					['#modal-buttons',
+						['button.navigation-c.contact-c.credits-c.edit-account-c','type'=>"button",'style'=>"display: none",'onclick'=>"modalClose()",'Close'],
+						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>'getToken()','Login'],
+						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#signup'",'Create Account'],
+						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#documentation'",'Help'],
+						['button.account-c','type'=>"button",'style'=>"display: none",'onclick'=>'modalClose()','Save'],
+						['button.contact-c','type'=>"button",'style'=>"display: none",'onclick'=>'sendMessage()','Send']
+					]
+				]
+			]
+		],
+		['#overlay','onclick'=>'modalClose()'],
+		['script',
+			'type'=>"text/javascript",
+			function(){
+				global $embedded;
+				global $pages;
+				global $vars;
 
+				$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
+				$coffeeFiles = '';
 
+				ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
 
-<!-- START Layout -->
-<table id="layout">
+				$cwd = getcwd();
+				mkdir($cwd . "/tmp/coffee");
 
-	<!-- START Top-Bar -->
-	<tr class="head">
-		<td colspan="2">
+				$len = count($embedded);
+				for($i = 0; $i < $len; ++$i){
+					$file = $embedded[$i] . '.coffee';
 
-			<?php
-				include('html/navbar.html');
-			?>
+					if (file_exists('coffee/' . $file) == true) {
+						$tmpFile = 'tmp/coffee/' . $file;
+						$fileContents = getCoffee($file);
+						file_put_contents($tmpFile, $fileContents);
+						$coffeeFiles .= ' ' . $tmpFile;
+						ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
+					}
+				}		
 
-			<hr style="margin:10px 145px 10px 10px" />
+				exec('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles, $output);//not sure why join requires a file... this doesn't get anything written to it but it must be there
 
-		</td>
-	</tr>
-	<!-- END Top-Bar -->
+				$javascript .= implode("\n",$output);
 
-	<!-- START Content -->
-	<tr>
-		<td id="content">
-			<noscript>
-				<p>Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.</p>
-			</noscript>
+				system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 
-			<?php
-				embed('html/', '-content.html');
-			?>
+				#if($vars['devMode'] == false){//TODO: finish fixing this
+					require 'dev/jsminplus.php';
+					$javascript = JSMinPlus::minify($javascript);
+				#}
 
-		</td>
+				return $javascript;
+			}
+		]
+	]
+];
 
-		<td id="sidebar" style="max-height:100%;">
-
-			<?php
-				embed('html/', '-sidebar.html');
-			?>
-
-			<div id="jGrowl-container" class="jGrowl bottom-right"></div>
-			<!--TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?) -->
-			<!-- TODO: create classes of jGrowl notifications to close selectively -->
-		</td>
-	</tr>
-	<!-- END Content -->
-
-	<!-- START Bottom Bar -->
-	<tr class="foot">
-		<td colspan="2">
-
-			<!-- Google +1 Button -->
-			<div class="g-plusone" data-size="medium" callback="plusone();" data-href="www.urlofmysite.com"></div>
-			<!-- TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag -->
-
-			<div id="progressbar">
-				<div id="progressbar-value"></div>
-				<div id="errorbar-value"></div>
-			</div>
-
-			<div style="left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center;">
-				<p>CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;<?php echo date('Y');?> - version: <?php echo $version;?></p>
-			</div>
-		</td>
-	</tr>
-	<!-- END Bottom Bar -->
-
-</table>
-<!-- END Layout -->
-
-
-<!-- START Modals -->
-<div id="modal-aligner">
-	<div id="modal-wrapper">
-		<div style="display: none;" id="modal-container">
-			<div id="modal-titlebar">
-				<span id="modal-title">Title</span>
-
-				<a onclick="modalClose();" class="close"> <!--TODO: remove the extra a tag ?-->
-					<span class="icon icon-closethick"></span>
-				</a>
-			</div>
-
-			<?php
-				embed('html/', '-modals.html');
-			?>
-
-			<div id="modal-buttons">
-				<button type="button" style="display: none;" class="navigation-c contact-c credits-c edit-account-c" onclick="modalClose();">Close</button>
-				<button type="button" style="display: none;" class="login-c" onclick="getToken();">Login</button>
-				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#signup'">Create Account</button>
-				<button type="button" style="display: none;" class="login-c" onclick="window.location = '#documentation'">Help</button><!-- TODO: make help button work -->
-				<button type="button" style="display: none;" class="account-c" onclick="modalClose()">Save</button>
-				<button type="button" style="display: none;" class="contact-c" onclick="sendMessage()">Send</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="overlay" onclick="modalClose();"></div>
-<!-- END Modals -->
-
-<script type="text/javascript">
-<?php
 
 function embed($folder, $extension) {
 	global $embedded;
@@ -359,8 +352,7 @@ function embed($folder, $extension) {
 	}
 }
 
-$html = ob_get_contents();//TODO: remove after PATH conversion
-ob_clean();//fix to prevent send_reg from putting the entire page in the log
+$html = path($main);
 
 if ($vars['devMode'] == false) {//TODO: remove after PATH conversion
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
@@ -395,49 +387,6 @@ function getCoffee($file){//this function can be called in the coffee files to g
 		return $fileContents;//use backticks to pass js through coffee script compiler
 	}
 }
-
-function embedJavaScript(){
-	global $embedded;
-	global $pages;
-	global $vars;
-
-	$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
-	$coffeeFiles = '';
-
-	ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
-
-	$cwd = getcwd();
-	mkdir($cwd . "/tmp/coffee");
-
-	$len = count($embedded);
-	for($i = 0; $i < $len; ++$i){
-		$file = $embedded[$i] . '.coffee';
-
-		if (file_exists('coffee/' . $file) == true) {
-			$tmpFile = 'tmp/coffee/' . $file;
-			$fileContents = getCoffee($file);
-			file_put_contents($tmpFile, $fileContents);
-			$coffeeFiles .= ' ' . $tmpFile;
-			ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
-		}
-	}		
-
-	exec('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles, $output);//not sure why join requires a file... this doesn't get anything written to it but it must be there
-
-	$javascript .= implode("\n",$output);
-
-	system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
-
-	if($vars['devMode'] == false){//TODO: finish fixing this
-		require 'dev/jsminplus.php';
-		$minified = JSMinPlus::minify($javascript);
-		fb($minified);
-	}
-
-	return $javascript;
-}
-
-$html .= embedJavaScript() . "\n</script></body></html>";
 
 //TODO: use php to base64 images
 
