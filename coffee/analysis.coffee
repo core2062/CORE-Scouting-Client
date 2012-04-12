@@ -1,5 +1,5 @@
 #TableSorter
-require 'analysis/tablesorter'
+<?php echo getCoffee('analysis/tablesorter.js'); ?>
 
 #jLinq
-require 'analysis/jlinq'
+<?php echo getCoffee('analysis/jlinq.js'); ?>
