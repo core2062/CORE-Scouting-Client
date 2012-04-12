@@ -28,24 +28,24 @@
 
 
 #jQuery v1.7.1 - Includes Sizzle.js
-#= require ./base/jquery'
+<?php echo getCoffee('base/jquery.js'); ?>
 
 #Tipsy
-#= require ./base/tipsy'
+<?php echo getCoffee('base/tipsy.js'); ?>
 
 #Chosen Select Box
-#= require ./base/chosen
+<?php echo getCoffee('base/chosen.js'); ?>
 #$("select").chosen();
 
 #ToggleJS
-#= require ./base/toggle
+<?php echo getCoffee('base/toggle.js'); ?>
 #$(":checkbox").toggleSwitch();
 
 #jGrowl
-#= require ./base/jgrowl
+<?php echo getCoffee('base/jgrowl.js'); ?>
 
 #json2js
-require './base/json2js'
+<?php echo getCoffee('base/json2js.js'); ?>
 
 console.log 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
 
@@ -66,249 +66,232 @@ console.log 'Hello and welcome to the CSD, a intuitive scouting database and ana
 
 
 #UI Event Handlers
-	#set fieldset class on focus
-`
-	$("input, textarea").focus(function () {
-		$(this).parentsUntil($("form"), "fieldset").addClass('focus');
-	});
+$("input, textarea").focus ->
+	$(this).parentsUntil($("form"), 'fieldset').addClass 'focus' #set fieldset class on focus
 
-	$("input, textarea").focusout(function () {
-		$(this).parentsUntil($("form"), "fieldset").removeClass('focus');
-	});
+$("input, textarea").focusout ->
+	$(this).parentsUntil($("form"), 'fieldset').removeClass 'focus'
 
+$(".clearIcon span").click -> #clear input icon
+	input = @previousSibling
+	input.value = ""
+	input.focus()
 
-	#script for clear input icon
-	$(".clearIcon span").click(function () {
-		var input = this.previousSibling;
-		input.value = '';
-		input.focus();
-	});
-
-
-	# Accordion
-	var allPanels = $('#navAccordion > ul').hide();
-
-	$('#navAccordion > p').click(function() {
-		$target =  $(this).next();
-
-		if(!$target.hasClass('active')){
-			allPanels.removeClass('active').slideUp();
-			$target.addClass('active').slideDown();
-		}
-
-		return false;
-	});
-
+# accordion
+allPanels = $("#navAccordion > ul").hide()
+$("#navAccordion > p").click ->
+	$target = $(this).next()
+	unless $target.hasClass("active")
+		allPanels.removeClass("active").slideUp()
+		$target.addClass("active").slideDown()
+	false
 
 # global vars
-	var current = {
-		"index": "",
-		"type": "",
-		"lastSub": "",
-		"subpage": ""
-	};
-	var prev = {
-		"index": "",
-		"type": "",
-		"lastSub": "",
-		"subpage": ""
-	};
+current =
+	index: ""
+	type: ""
+	lastSub: ""
+	subpage: ""
 
-	var cache = {
-		"subpages": [],
-		"modals": [],
-		"nav": []
-	};
+prev =
+	index: ""
+	type: ""
+	lastSub: ""
+	subpage: ""
 
-	var defaultUser = {#default user object for user who isn't logged in (no cookie is stored for this user)
-		"_id": "Guest",
-		"permission": 1,
-		"token": "",
-		"info":{
-			"fName": "Guest",
-			"lName": "",
-			"team": 0
-		},
-		"prefs": {
-			"fade": true,
-			"verbose": true
-		}
-	};
+cache =
+	subpages: []
+	modals: []
+	nav: []
 
-function fixFavicon() { #fixes favicon bug in firefox -- remove in future
-	$('#favicon').remove();
-	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo('head');
-}
+defaultUser = #default user object for user who isn't logged in (no cookie is stored for this user)
+	_id: "Guest"
+	permission: 1
+	token: ""
+	info:
+		fName: "Guest"
+		lName: ""
+		team: 0
+	prefs:
+		fade: true
+		verbose: true
 
-function getMissedPosts(){
-	#console.log(missedPost);
-	var i = 0;
-	var missedPosts = [];
-	while(true){
-		var missedPost = eatCookie('missedPost' + i);
-		if (missedPost !== '') {
-			missedPosts[i] = eval('(' + missedPost + ')');
-			i++;
-		} else {
-			return missedPosts;
-		}
-	}
-}
+fixFavicon = -> #fixes favicon bug in firefox -- remove in future
+	$("#favicon").remove()
+	$('<link href="favicon.ico" rel="shortcut icon" id="favicon"/>').appendTo "head"
 
-$(document).ready(function() {
-	
-	$('a[title], label[title], button[title], textarea[title]').tipsy();
-	$('input[title]').tipsy({
-		trigger: 'focus',
-		gravity: 'w'
-	});
-	$('.toggle-container[title]').tipsy({
-		trigger: 'hover',
-		gravity: 'w'
-	});
+getMissedPosts = ->
+	i = 0
+	missedPosts = []
+	loop
+		missedPost = eatCookie("missedPost" + i)
+		if missedPost isnt ""
+			missedPosts[i] = eval('(' + missedPost + ')')
+			i++
+		else
+			return missedPosts
 
-	user = eatCookie('user');
-	if (user !== '') {
-		window.user = eval('(' + user + ')');
-		updateUserBar();#userbar is setup for guest by default
-	} else {
-		window.user = defaultUser;
-	}
+buildCache = ->
+	len = pages.length
+	i = 0
 
-	missedPosts = getMissedPosts();
+	while i < len
+		cache.nav.push pages[i].name
+		for e of pages[i].subpages
+			cache.subpages.push e
+		for e of pages[i].modals
+			cache.modals.push e
+		i++
+	cache.subpages = "." + cache.subpages.join("-c, .") + "-c"
+	cache.modals = "." + cache.modals.join("-c, .") + "-c"
+	cache.nav = "." + cache.nav.join("-n, .") + "-n"
 
-	buildCache();
-	nav();
-	
+$(document).ready ->
+	$("a[title], label[title], button[title], textarea[title]").tipsy()
+	$("input[title]").tipsy
+		trigger: "focus"
+		gravity: "w"
+
+	$(".toggle-container[title]").tipsy
+		trigger: "hover"
+		gravity: "w"
+
+	user = eatCookie("user")
+	if user isnt ""
+		window.user = eval("(" + user + ")")
+		updateUserBar()
+	else
+		window.user = defaultUser
+	missedPosts = getMissedPosts()
+	buildCache()
+	nav()
+
 	#add error message for old browsers
-});
 
-function buildCache() {
-	var len = pages.length;
+window.onpopstate = (event) -> #rewrite this to use HTML5 pushState()
+	console.log event
+	fixFavicon()
+	nav()
 
-	for (var i = 0; i < len; i++) {
-		cache.nav.push(pages[i].name);
-		for (var e in pages[i].subpages) {
-			cache.subpages.push(e);
-		}
-		for (e in pages[i].modals) {
-			cache.modals.push(e);
-		}
-	}
-	cache.subpages = '.' + cache.subpages.join("-c, .") + '-c';
-	cache.modals = '.' + cache.modals.join("-c, .") + '-c';
-	cache.nav = '.' + cache.nav.join("-n, .") + '-n';
-}
-
-
-#rewrite this to use HTML5 pushState()
-window.onpopstate = function(event) {
-	# if nav() is failing, check browser support for this
-	console.log(event);
-	fixFavicon(); #remove this in future
-	nav();
-};
-
-function nav() {
-	/*
+nav = ->
+	###
 	Navigation Function:
 		this function handles all page transitions and applies all page specific options
 		page specific options and data needed for displaying pages is stored in the JSON object 'pages'
 		open login modal if needed for page
-	*/
+	###
 
 	#TODO: make nav change the accordion that is open in the nav modal to the current page
 
-	if (location.hash.substring(1) === "") {
-		location.hash = '#front-page';#default page
-		return;
-	}
+	if location.hash.substring(1) is ""
+		location.hash = "#front-page" #default page
+		return
 
-	prev.index = current.index;
-	prev.type = current.type;
-	prev.lastSub = current.lastSub;
-	prev.subpage = current.subpage;
+	prev.index = current.index
+	prev.type = current.type
+	prev.lastSub = current.lastSub
+	prev.subpage = current.subpage
 
-	if (current.subpage == location.hash.substring(1) && current.subpage !== "") {
-		return;
-	}
+	return if current.subpage is location.hash.substring(1) and current.subpage isnt ""
+	current.subpage = location.hash.substring(1).toLowerCase()
+	current.index = ""
+	len = pages.length
+	i = 0
 
-	current.subpage = location.hash.substring(1).toLowerCase();
+	while i < len #TODO: add catching?
+		if typeof pages[i].subpages[current.subpage] isnt "undefined"
+			current.index = i
+			current.type = "subpages"
+			current.lastSub = current.subpage
+			break
+		i++
 
-	current.index = '';
+	if current.index is "" #TODO: merge with subpage search ?
+		i = 0
+		while i < len
+			if typeof pages[i].modals[current.subpage] isnt "undefined"
+				current.index = i
+				current.type = "modals"
+				break
+			i++
+	if current.index is "" #page cannot be found, select default page
+		window.location = "#front-page" #default page
+		return
 
-	var len = pages.length;
-	for (var i = 0; i < len; i++) { #TODO: add catching?
-		if (typeof pages[i].subpages[current.subpage] !== 'undefined') {
-			current.index = i;
-			current.type = 'subpages';
-			current.lastSub = current.subpage;
-			break;
-		}
-	}
-
-	if (current.index === '') { # TODO: merge with subpage search ?
-		for (i = 0; i < len; i++) {
-			if (typeof pages[i].modals[current.subpage] !== 'undefined') {
-				current.index = i;
-				current.type = 'modals';
-				break;
-			}
-		}
-	}
-
-	if (current.index === '') { #page cannot be found, select default page
-		window.location = '#front-page';#default page
-		return;
-	}
-	
 	#check if page has been downloaded yet (add functionality later)
 	#download if it hasn't been
 
-	var fadetime = 500;
+	fadetime = 500
+	if prev.subpage is "" #if this is the first page
+		if current.type is "modals" #fade in page
+			$(".front-page-c").fadeIn fadetime / 4
+			$(".home-n").css "display", "inline" #show navbar
+			#$(cache.nav).css('display','none'); not needed - nothing is shown in the beginning
+			$("#front-page-r").attr "checked", true
 
-	if (prev.subpage === "") { # if this is the first page
-		if (current.type == 'modals') {
-			#fade in page
-			$('.front-page-c').fadeIn(fadetime / 4);
-			
-			#show navbar
-			#$(cache.nav).css('display','none'); - nothing is shown in the beginning
-			$('.home-n').css('display','inline');
-			$('#front-page-r').attr('checked', true);
-			
 			#set variables
-			current.lastSub = 'front-page';
-			prev.index = 2;
-			prev.subpage = 'front-page';
-		}
-		prev.type = "subpages";
-	}
+			current.lastSub = "front-page"
+			prev.index = 2
+			prev.subpage = "front-page"
 
-	document.title = pages[current.index]['full-name'].replace(/\-/,' ').titleCase() + ' - ' + current['subpage'].replace(/\-/g,' ').titleCase();
-	document.getElementById('body').style.minWidth = pages[current.index].minWidth;
-	document.getElementById('progressbar').style.display = pages[current.index].progressbar;
+		prev.type = "subpages"
 
+	document.title = pages[current.index]["full-name"].replace(/\-/, " ").titleCase() + " - " + current["subpage"].replace(/\-/g, " ").titleCase()
+	document.getElementById("body").style.minWidth = pages[current.index].minWidth
+	document.getElementById("progressbar").style.display = pages[current.index].progressbar
 
 	#start page changers
-	if (current.type == "subpages"){ #sub-pages
-		
+	if current.type is "subpages" #sub-pages
 		#change navbar (no fade)
-		$(cache.nav).css('display','none');
-		$('.' + pages[current.index].name + '-n').css('display','inline');
-		$('#' + current.subpage + '-r').attr('checked', true);
+		$(cache.nav).css "display", "none"
+		$("." + pages[current.index].name + "-n").css "display", "inline"
+		$("#" + current.subpage + "-r").attr "checked", true
+		if prev.type is "subpages" #sub-pages
+			if user.prefs.fade is true
+				$(cache.subpages).fadeOut(fadetime).promise().done ->
+					$("." + current.subpage + "-c").fadeIn fadetime
+			else
+				$(cache.subpages).css "display", "none"
+				$("." + current.subpage + "-c").css "display", "inline"
+		else #modals
+			if prev.lastSub is current.subpage #don't fade out sub-page if is is already under the modal
+				if user.prefs.fade is true
+					$("#overlay, #modal-container, " + cache.modals).fadeOut fadetime
+				else
+					$("#overlay, #modal-container, " + cache.modals).css "display", "none"
+			else
+				if user.prefs.fade is true
+					$("#overlay, #modal-container, " + cache.subpages + ", " + cache.modals).fadeOut(fadetime).promise().done ->
+						$("." + current.subpage + "-c").fadeIn fadetime
+				else
+					$("#overlay, #modal-container, " + cache.subpages + ", " + cache.modals).css "display", "none"
+					$("." + current.subpage + "-c").css "display", "inline"
+	else
+		document.getElementById("modal-title").innerHTML = pages[current.index]["modals"][current.subpage]["full-name"].replace(/\-/, " ").titleCase()
+		if prev.type is "subpages"
+			if user.prefs.fade is true
+				$(cache["modals"]).hide().promise().done ->
+					$("#overlay").fadeIn 40
+					$("." + current.subpage + "-c, #modal-container").fadeIn fadetime
+			else
+				$(cache["modals"]).css "display", "none"
+				$("#overlay, ." + current.subpage + "-c, #modal-container").css "display", "block"
+		else
+			if user.prefs.fade is true
+				$(cache.modals).fadeOut(fadetime).promise().done ->
+					$("." + current.subpage + "-c, #modal-container").fadeIn fadetime
+			else
+				$(cache.modals).css "display", "none"
+				$("." + current.subpage + "-c, #modal-container").css "display", "inline"
+	if pages[current.index][current.type][current.subpage]["login-required"] is true and eatCookie("user") is ""
+		setTimeout "window.location = '#login'", fadetime * 2
+		return
+	eval pages[current.index][current.type][current.subpage]["onOpen"] if typeof pages[current.index][current.type][current.subpage]["onOpen"] isnt `undefined`
 
-		if (prev.type == 'subpages') { #sub-pages
-			if(user.prefs.fade === true){
-				$(cache.subpages).fadeOut(fadetime).promise().done(function() {
-					$('.' + current.subpage + '-c').fadeIn(fadetime);
-				});
-			} else {
-				$(cache.subpages).css('display','none');
-				$('.' + current.subpage + '-c').css('display','inline');
-			}
-		} else { #modals
-			if (prev.lastSub == current.subpage) { #don't fade out sub-page if is is already under the modal
+`
+
+		} else { //
+			if (prev.lastSub == current.subpage) { //
 				if(user.prefs.fade === true){
 					$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
 				} else {
@@ -325,10 +308,10 @@ function nav() {
 				}
 			}
 		}
-	} else { #modal
+	} else { //modal
 		document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
 
-		if (prev.type == 'subpages'){ #subpages
+		if (prev.type == 'subpages'){ //subpages
 			if(user.prefs.fade === true){
 				$(cache['modals']).hide().promise().done(function() {
 					$('#overlay').fadeIn(40);
@@ -338,7 +321,7 @@ function nav() {
 				$(cache['modals']).css('display','none');
 				$('#overlay, .' + current.subpage + '-c, #modal-container').css('display','block');
 			}
-		} else { #modals
+		} else { //modals
 			if(user.prefs.fade === true){
 				$(cache.modals).fadeOut(fadetime).promise().done(function() {
 					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
@@ -351,7 +334,7 @@ function nav() {
 	}
 	
 	if(pages[current.index][current.type][current.subpage]['login-required'] === true && eatCookie('user') === ''){
-		#TODO: figure out a way to do this without a timeout & without screwing up the page below
+		//TODO: figure out a way to do this without a timeout & without screwing up the page below
 		setTimeout("window.location = '#login'", fadetime*2);
 		return;
 	}
@@ -367,9 +350,9 @@ function nav() {
 	}
 }
 
-#site functions
-function modalClose(runScript) {#if runScript is defined then the script won't be run (define as false)
-	#TODO: expanding the bottom code to work on all page types
+//site functions
+function modalClose(runScript) {//if runScript is defined then the script won't be run (define as false)
+	//TODO: expanding the bottom code to work on all page types
 	if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== 'undefined' && typeof(runScript) === 'undefined'){
 		eval(pages[current.index]['modals'][current.subpage]['onClose']);
 	}
@@ -377,11 +360,11 @@ function modalClose(runScript) {#if runScript is defined then the script won't b
 	window.location = '#' + current.lastSub;
 }
 
-#Cookie Handling Functions
+//Cookie Handling Functions
 	function bakeCookie(name, value) {
 		var expires = new Date();
 		expires.setTime(expires.getTime() + (15552000000));
-		if(value === ''){#set cookie, or if value is blank, set it to be removed
+		if(value === ''){//set cookie, or if value is blank, set it to be removed
 			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 		} else {
 			document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
@@ -414,10 +397,10 @@ function getToken(password) {
 	scoutidInput = document.getElementById('scoutid');
 	pwordInput = document.getElementById('pword');
 
-	user._id = scoutidInput.value; #put in user object (scoutid in user object != logged in)
-	pword = pwordInput.value; #limited to this function (can't be recovered after being typed in)
+	user._id = scoutidInput.value; //put in user object (scoutid in user object != logged in)
+	pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
 
-	scoutidInput.value = ''; #remove them from inputs
+	scoutidInput.value = ''; //remove them from inputs
 	pwordInput.value = '';
 
 	if (user._id === '') {
@@ -432,10 +415,10 @@ function getToken(password) {
 		var json = post('login.php', '{"_id":"' + user._id + '","pword":"' + pword + '"}');
 
 		if (json.token) {
-			#store stuff in temporary user object
+			//store stuff in temporary user object
 			user = json;
 
-			bakeCookie('user', $.toJSON(user)); #store user object in cookie
+			bakeCookie('user', $.toJSON(user)); //store user object in cookie
 
 			updateUserBar();
 			
@@ -448,7 +431,7 @@ function getToken(password) {
 			});
 		}
 	}
-	window.location = '#login';#will only be run at error due to above return
+	window.location = '#login';//will only be run at error due to above return
 }
 
 function callLogout(){#tells server to logout & runs logout function
