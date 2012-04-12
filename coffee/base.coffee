@@ -440,7 +440,7 @@ json2table = (json) ->
 	table += "</tbody>"
 	table
 
-post = (filename, json, async, saveRequest) ->
+post = (filename, json, async, saveRequest) -> #TODO: remove filename param by migrating all requests to one file
 	async = (if (typeof async is "undefined") then false else async)
 	saveRequest = (if (typeof saveRequest is "undefined") then false else saveRequest)
 	###
