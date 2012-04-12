@@ -212,9 +212,8 @@ $main =
 				require('dev/csstidy/class.csstidy.php');
 
 				$css = new csstidy();
-				//$css->set_cfg('remove_last_;',TRUE);
 				$css->parse($cssCode);
-				return $css->print->plain();
+				return [$css->print->plain()];
 			}
 		],
 		//TODO: add meta tags for bookmarks and/or for search engines

@@ -160,7 +160,21 @@ function pathError($errorText){
 	echo 'error: ' . $errorText;
 }
 
-/*
+function pathErrorCheck(){
+	//TODO: check for duplicate ids
+}
+
+$referanceHoldingVar = '';
+function pathFind($query,$array){
+
+
+	//find stuff
+
+	$GLOBALS['arrayGetter'] =& $array['turtle'][0];
+	return 'arrayGetter';
+}
+
+
 $fish = [
 	'turtle' => [1,2,3],
 	'buffalo' => [4,5,6]
@@ -168,15 +182,14 @@ $fish = [
 
 $arrayGetter = 0;
 
-function getStuff(){
-	global $fish;
+function getStuff($array){
 
 	//find stuff
 
-	$GLOBALS['arrayGetter'] =& $fish['turtle'][0];
+	$GLOBALS['arrayGetter'] =& $array['turtle'][0];
 	return 'arrayGetter';
 }
 
-${getStuff()} = 300;
-*/
+${getStuff($fish)} = 300;
+
 ?>
