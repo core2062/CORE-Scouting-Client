@@ -377,14 +377,22 @@ for($i=0; $i < $len; $i++){
 //embed javascript - TODO: test and fix
 //TODO: rewrite get coffee so it doesn't use the output buffer
 function getCoffee($file){//this function can be called in the coffee files to get other dependancies
+	$file = 'coffee/' . $file;
+
+	$oldOutputBuffer = ob_get_contents();
+	ob_clean();
+	require $file;
+	$fileContents = ob_get_contents();
+	ob_clean();
+	echo $oldOutputBuffer;//put the old contents back
+
 	preg_match('/\.(coffee|js)/', $file, $fileExtension);//get file extension
 	$fileExtension = $fileExtension[1];
-	$file = 'coffee/' . $file;
-	require $file;
+	
 	if($fileExtension == 'js'){
-		return '`' . ob_get_contents() . '`';//use backticks to pass js through coffee script compiler
+		return '`' . $fileContents . '`';//use backticks to pass js through coffee script compiler
 	} else {
-		return ob_get_contents();//use backticks to pass js through coffee script compiler
+		return $fileContents;//use backticks to pass js through coffee script compiler
 	}
 }
 
@@ -413,18 +421,18 @@ function embedJavaScript(){
 			ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
 		}
 	}		
-	fb('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles);
+
 	exec('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles, $output);//not sure why join requires a file... this doesn't get anything written to it but it must be there
 
 	$javascript .= implode("\n",$output);
 
-	system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+	//system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 
-	#if($vars['devMode'] == false){
+	if($vars['devMode'] == false){//TODO: finish fixing this
 		require 'dev/jsminplus.php';
 		$minified = JSMinPlus::minify($javascript);
 		fb($minified);
-	#}
+	}
 
 	return $javascript;
 }

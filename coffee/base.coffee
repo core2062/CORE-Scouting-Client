@@ -266,7 +266,7 @@ nav = ->
 				else
 					$("#overlay, #modal-container, " + cache.subpages + ", " + cache.modals).css "display", "none"
 					$("." + current.subpage + "-c").css "display", "inline"
-	else
+	else #modal
 		document.getElementById("modal-title").innerHTML = pages[current.index]["modals"][current.subpage]["full-name"].replace(/\-/, " ").titleCase()
 		if prev.type is "subpages"
 			if user.prefs.fade is true
@@ -284,121 +284,83 @@ nav = ->
 				$(cache.modals).css "display", "none"
 				$("." + current.subpage + "-c, #modal-container").css "display", "inline"
 	if pages[current.index][current.type][current.subpage]["login-required"] is true and eatCookie("user") is ""
+		#TODO: figure out a way to do this without a timeout & without screwing up the page below
 		setTimeout "window.location = '#login'", fadetime * 2
 		return
-	eval pages[current.index][current.type][current.subpage]["onOpen"] if typeof pages[current.index][current.type][current.subpage]["onOpen"] isnt `undefined`
-
-`
-
-		} else { //
-			if (prev.lastSub == current.subpage) { //
-				if(user.prefs.fade === true){
-					$('#overlay, #modal-container, ' + cache.modals).fadeOut(fadetime);
-				} else {
-					$('#overlay, #modal-container, ' + cache.modals).css('display','none');
-				}
-			} else {
-				if(user.prefs.fade === true){
-					$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).fadeOut(fadetime).promise().done(function() {
-						$('.' + current.subpage + '-c').fadeIn(fadetime);
-					});
-				} else {
-					$('#overlay, #modal-container, ' + cache.subpages + ', ' + cache.modals).css('display','none');
-					$('.' + current.subpage + '-c').css('display','inline');
-				}
-			}
-		}
-	} else { //modal
-		document.getElementById('modal-title').innerHTML = pages[current.index]['modals'][current.subpage]['full-name'].replace(/\-/,' ').titleCase();
-
-		if (prev.type == 'subpages'){ //subpages
-			if(user.prefs.fade === true){
-				$(cache['modals']).hide().promise().done(function() {
-					$('#overlay').fadeIn(40);
-					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
-				});
-			} else {
-				$(cache['modals']).css('display','none');
-				$('#overlay, .' + current.subpage + '-c, #modal-container').css('display','block');
-			}
-		} else { //modals
-			if(user.prefs.fade === true){
-				$(cache.modals).fadeOut(fadetime).promise().done(function() {
-					$('.' + current.subpage + '-c, #modal-container').fadeIn(fadetime);
-				});
-			} else {
-				$(cache.modals).css('display','none');
-				$('.' + current.subpage + '-c, #modal-container').css('display','inline');
-			}
-		}
-	}
-	
-	if(pages[current.index][current.type][current.subpage]['login-required'] === true && eatCookie('user') === ''){
-		//TODO: figure out a way to do this without a timeout & without screwing up the page below
-		setTimeout("window.location = '#login'", fadetime*2);
-		return;
-	}
-	/*
+	###
 	else:
 		assume logged in, if token is wrong error will be returned by process later
 		other wise there would be too many login checks
 		on error returned from process.php, token is removed
-	*/
-	
-	if(typeof pages[current.index][current.type][current.subpage]['onOpen'] !== undefined){
-		eval(pages[current.index][current.type][current.subpage]['onOpen']);
-	}
-}
+	###
+	eval pages[current.index][current.type][current.subpage]["onOpen"] if typeof pages[current.index][current.type][current.subpage]["onOpen"] isnt `undefined`
 
-//site functions
-function modalClose(runScript) {//if runScript is defined then the script won't be run (define as false)
-	//TODO: expanding the bottom code to work on all page types
-	if(typeof pages[current.index]['modals'][current.subpage]['onClose'] !== 'undefined' && typeof(runScript) === 'undefined'){
-		eval(pages[current.index]['modals'][current.subpage]['onClose']);
-	}
+#site functions
+modalClose = (runScript) -> #if runScript is defined then the script won't be run (define as false)
+	eval pages[current.index]["modals"][current.subpage]["onClose"] if typeof pages[current.index]["modals"][current.subpage]["onClose"] isnt "undefined" and typeof (runScript) is "undefined"
+	window.location = "#" + current.lastSub
 
-	window.location = '#' + current.lastSub;
-}
+#cookie handling functions
+bakeCookie = (name, value) ->
+	expires = new Date()
+	expires.setTime expires.getTime() + (15552000000)
+	if value is "" #set cookie, or if value is blank, set it to be removed
+		document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"
+	else
+		document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/"
 
-//Cookie Handling Functions
-	function bakeCookie(name, value) {
-		var expires = new Date();
-		expires.setTime(expires.getTime() + (15552000000));
-		if(value === ''){//set cookie, or if value is blank, set it to be removed
-			document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-		} else {
-			document.cookie = name + "=" + value + "; expires=" + expires.toGMTString() + "; path=/";
-		}
-	}
+eatCookie = (name) ->
+	nameEQ = name + "="
+	ca = document.cookie.split(";")
+	cookieValue = ""
+	i = 0
 
-	function eatCookie(name) {
-		var nameEQ = name + "=";
-		var ca = document.cookie.split(';');
-		var cookieValue = "";
-		for (var i = 0; i < ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) == ' ') c = c.substring(1);
-			if (c.indexOf(nameEQ) === 0) {
-				cookieValue = c.substring(nameEQ.length);
-				break;
-			}
-		}
-		return cookieValue;
-	}
+	while i < ca.length
+		c = ca[i]
+		c = c.substring(1) while c.charAt(0) is " "
+		if c.indexOf(nameEQ) is 0
+			cookieValue = c.substring(nameEQ.length)
+			break
+		i++
+	cookieValue
 
-function getToken(password) {
-	/*
-	this function handles:
+getToken = (password) ->
+	###
+		this function handles:
 		getting token & user object from login
 		calling login.php
 		
 	must be separate from other functions so it can be called directly from login modal
-	*/
-	scoutidInput = document.getElementById('scoutid');
-	pwordInput = document.getElementById('pword');
+	###
+	scoutidInput = document.getElementById("scoutid")
+	pwordInput = document.getElementById("pword")
+	user._id = scoutidInput.value #put in user object (scoutid in user object != logged in)
+	pword = pwordInput.value #limited to this function (can't be recovered after being typed in)
+	scoutidInput.value = ""
+	pwordInput.value = ""
+	if user._id is ""
+		$("#jGrowl-container").jGrowl "scoutID is blank",
+			theme: "error"
+	else if pword is ""
+		$("#jGrowl-container").jGrowl "password is blank",
+			theme: "error"
+	else
+		json = post("login.php", "{\"_id\":\"" + user._id + "\",\"pword\":\"" + pword + "\"}")
+		if json.token
+			user = json
+			bakeCookie "user", $.toJSON(user)
+			updateUserBar()
+			modalClose()
+			return
+		else if json isnt false
+			$("#jGrowl-container").jGrowl "server did not respond properly",
+				theme: "error"
+	window.location = "#login"
 
-	user._id = scoutidInput.value; //put in user object (scoutid in user object != logged in)
-	pword = pwordInput.value; //limited to this function (can't be recovered after being typed in)
+`
+
+	user._id = scoutidInput.value; 
+	pword = pwordInput.value; 
 
 	scoutidInput.value = ''; //remove them from inputs
 	pwordInput.value = '';
@@ -503,9 +465,9 @@ Array.prototype.has = function(checkObj){
 };
 
 Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
+	var rest = this.slice((to || from) + 1 || this.length);
+	this.length = from < 0 ? this.length + from : from;
+	return this.push.apply(this, rest);
 };
 
 function limitInput(e, limit) { #used for limiting form input
