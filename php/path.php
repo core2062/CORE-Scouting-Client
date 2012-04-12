@@ -166,7 +166,7 @@ function pathErrorCheck(){
 
 $referanceHoldingVar = '';
 function pathFind($query,$array){
-
+ 
 
 	//find stuff
 
