@@ -20,8 +20,6 @@ if (isset($_GET['dev'])) {
 	$vars['devMode'] = globalVar('devMode');
 }
 
-require 'php/path.php';
-
 if(globalVar('devMode')){
 	require 'dev/firephp/fb.php';
 	ob_start();
