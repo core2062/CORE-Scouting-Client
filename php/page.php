@@ -1,4 +1,13 @@
 <?php
+/*
+	this script will be used to send pages to the browser in a json format which can be used by the client side js to add to the DOM... so the entire page doesn't need to be downloaded at the start.
+
+	NOTICE!!!!!!!!!!!!!!!!!!!
+	this script is old and will not work because it was never updated to work with PATH & the new page-piece-getting-system
+
+	compleating this is very low priority 
+*/
+
 // ex: http://localhost/CSD/page.php?pages={"0":"input", "1":"home"}
 //TODO make sure this page's result gets cached by the browser
 
