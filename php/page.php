@@ -5,7 +5,7 @@
 	NOTICE!!!!!!!!!!!!!!!!!!!
 	this script is old and will not work because it was never updated to work with PATH & the new page-piece-getting-system
 
-	compleating this is very low priority 
+	completing this is very low priority 
 */
 
 // ex: http://localhost/CSD/page.php?pages={"0":"input", "1":"home"}
