@@ -12,30 +12,30 @@ $navbar[] =
 				$len = count($pages);
 				for($i=0; $i<$len; $i++){
 					$first = true;
-					foreach($pages[$i]['subpages'] as $k => $v) {
-						$navPiece =
-						['span.'.$pages[$i]['name'].'-n',
-							'style'=>"display: none"
-						];
+					$navPiece =
+					['span.'.$pages[$i]['name'].'-n',
+						'style'=>"display: none"
+					];
+					foreach($pages[$i]['subpages'] as $key => $value) {
 						$navPiece[] =
-						['input#'.$k.'-r',
+						['input#'.$key.'-r',
 							'type'=>'radio',
 							'name'=>'navbar'
 						];
 						if($first){
-							$navPiece[] = ['label.first#'.$k.'-l',
-								'for'=>$k.'-r',
-								'onclick'=>"window.location = '#".$k."'",
-								'title'=> $pages[$i]['subpages'][$k]['full-name'],
-								ucwords(preg_replace('/\-/',' ',$k))
+							$navPiece[] = ['label.first#'.$key.'-l',
+								'for'=>$key.'-r',
+								'onclick'=>"window.location = '#".$key."'",
+								'title'=> $pages[$i]['subpages'][$key]['full-name'],
+								ucwords(preg_replace('/\-/',' ',$key))
 							];
 							$first = false;
 						} else {
-							$navPiece[] = ['label#'.$k.'-l',
-								'for'=>$k.'-r',
-								'onclick'=>"window.location = '#".$k."'",
-								'title'=> $pages[$i]['subpages'][$k]['full-name'],
-								ucwords(preg_replace('/\-/',' ',$k))
+							$navPiece[] = ['label#'.$key.'-l',
+								'for'=>$key.'-r',
+								'onclick'=>"window.location = '#".$key."'",
+								'title'=> $pages[$i]['subpages'][$key]['full-name'],
+								ucwords(preg_replace('/\-/',' ',$key))
 							];
 						}
 					}
@@ -68,20 +68,20 @@ $navbar[] =
 		],
 		['li.buttonset',
 			['input#account-r','type'=>"radio",'name'=>"navbar",'onclick'=>"window.location=>'#account'"],
-			['label','class'=>"first",'for'=>"account-r",'name'=>"navbar",'title'=>"Account Settings",'id'=>"scoutName",'Guest'],
-			['input','type'=>"radio",'id'=>"login-r",'name'=>"navbar"],
-			['label','for'=>"login-r",'id'=>"login-r-label",'title'=>"Login",'name'=>"navbar",'onclick'=>"window.location=>'#login'",
-				['svg','id'=>"login",'version'=>1.1,'xmlns'=>"http://www.w3.org/2000/svg",
+			['label.first#scoutName','for'=>"account-r",'name'=>"navbar",'title'=>"Account Settings",'Guest'],
+			['input#login-r','type'=>"radio",'name'=>"navbar"],
+			['label#login-r-label','for'=>"login-r",'title'=>"Login",'name'=>"navbar",'onclick'=>"window.location=>'#login'",
+				['svg#login','version'=>1.1,'xmlns'=>"http://www.w3.org/2000/svg",
 					['path','d'=>"m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"],
 					['path','d'=>"m0,9.9h7.07l-2.83,2.83h4.24l4.24-4.24-4.24-4.24h-4.24l2.83,2.83h-7.07v2.83z"]
 				],
-				['svg','id'=>"logout",'version'=>1.1,'xmlns'=>"http://www.w3.org/2000/svg",'style'=>"display:none",
+				['svg#logout','version'=>1.1,'xmlns'=>"http://www.w3.org/2000/svg",'style'=>"display:none",
 					['path','d'=>"m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"],
 					['path','d'=>"m12.7,9.9-7.07,0,2.83,2.83-4.24,0l-4.22-4.22,4.24-4.23h4.24l-2.83,2.83h7.07v2.83z"]
 				]
 			],
 			['input','type'=>"radio",'name'=>"navbar"],
-			['label','class'=>"last",'title'=>"Training",
+			['label.last','title'=>"Training",
 				['svg','version'=>1.1,'viewBox'=>"0 0 32 28",
 					['path','d'=>"M16,4c0,0-4-4-16-4v24c12.1,0,16,4,16,4s3.9-4,16-4V0C20,0,16,4,16,4z M4,4c5,0.4,8.2,1.6,10,2.6v16c-1.8-0.95-4.9-2.1-10-2.6V4z M28,20.1c-5,0.4-8.2,1.6-10,2.6V6.6C19.8,5.6,22.9,4.4,28,4V20.1z"]
 				]
@@ -105,7 +105,7 @@ $navbar[] =
 			]
 		],
 		['li',
-			['button','type'=>"button",'onclick'=>"postSignup()",'class'=>"signup-c local",'title'=>"submit signup form",'Submit']
+			['button.signup-c.local','type'=>"button",'onclick'=>"postSignup()",'title'=>"submit signup form",'Submit']
 		]
 	],
 	['a#logo','href'=>"#home",'title'=>"CORE 2062 Scouting Database",
