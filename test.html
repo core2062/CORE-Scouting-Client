@@ -1,97 +1,97 @@
-
 <ul id="navbar">
 	<li class="buttonset">
-		<span style="display: none" class="home-n">
-			<input type="radio" name="navbar" id="front-page-r"/>
-			<label for="front-page-r" onclick="window.location = '#front-page'" title="Front Page" id="front-page-l" class="first">Front Page</label>
-			<input type="radio" name="navbar" id="synopsis-r"/>
-			<label for="synopsis-r" onclick="window.location = '#synopsis'" title="Synopsis" id="synopsis-l">Synopsis</label>
-			<input type="radio" name="navbar" id="tour-r"/>
-			<label for="tour-r" onclick="window.location = '#tour'" title="Guided Tour" id="tour-l">Tour</label>
-			<input type="radio" name="navbar" id="signup-r"/>
-			<label for="signup-r" onclick="window.location = '#signup'" title="Signup" id="signup-l">Signup</label>
+		<span class="home-n" style="display: none;">
+			<input id="front-page-r" name="navbar" type="radio">
+			<label for="front-page-r" id="front-page-l" onclick="window.location = '#front-page'" class="first" title="Front Page">Front Page</label>
+			<input id="synopsis-r" name="navbar" type="radio">
+			<label for="synopsis-r" id="synopsis-l" onclick="window.location = '#synopsis'" title="Synopsis">Synopsis</label>
+			<input checked="checked" id="tour-r" name="navbar" type="radio">
+			<label for="tour-r" id="tour-l" onclick="window.location = '#tour'" title="Guided Tour">Tour</label>
+			<input id="signup-r" name="navbar" type="radio">
+			<label for="signup-r" id="signup-l" onclick="window.location = '#signup'" title="Signup">Signup</label>
 		</span>
-		<span style="display: none" class="admin-n">
-			<input type="radio" name="navbar" id="mongo-r"/>
-			<label for="mongo-r" onclick="window.location = '#mongo'" title="Manage MongoDB" id="mongo-l" class="first">Mongo</label>
+		<span class="admin-n" style="display: none;">
+			<input id="mongo-r" name="navbar" type="radio">
+			<label for="mongo-r" id="mongo-l" onclick="window.location = '#mongo'" class="first" title="Manage MongoDB">Mongo</label>
 		</span>
-		<span style="display: none" class="input-n">
-			<input type="radio" name="navbar" id="tracking-r"/>
-			<label for="tracking-r" onclick="window.location = '#tracking'" title="Tracking Scouting" id="tracking-l" class="first">Tracking</label>
-			<input type="radio" name="navbar" id="pit-r"/>
-			<label for="pit-r" onclick="window.location = '#pit'" title="Pit Scouting" id="pit-l">Pit</label>
-			<input type="radio" name="navbar" id="robot-r"/>
-			<label for="robot-r" onclick="window.location = '#robot'" title="Robot Scouting" id="robot-l">Robot</label>
+		<span class="input-n" style="display: none;">
+			<input id="tracking-r" name="navbar" type="radio">
+			<label for="tracking-r" id="tracking-l" onclick="window.location = '#tracking'" class="first" title="Tracking Scouting">Tracking</label>
+			<input id="pit-r" name="navbar" type="radio">
+			<label for="pit-r" id="pit-l" onclick="window.location = '#pit'" title="Pit Scouting">Pit</label>
+			<input id="robot-r" name="navbar" type="radio">
+			<label for="robot-r" id="robot-l" onclick="window.location = '#robot'" title="Robot Scouting">Robot</label>
 		</span>
-		<span style="display: none" class="analysis-n">
-			<input type="radio" name="navbar" id="public-r"/>
-			<label for="public-r" onclick="window.location = '#public'" title="Public Analysis" id="public-l" class="first">Public</label>
-			<input type="radio" name="navbar" id="member-r"/>
-			<label for="member-r" onclick="window.location = '#member'" title="Member Analysis" id="member-l">Member</label>
-			<input type="radio" name="navbar" id="data-liberation-r"/>
-			<label for="data-liberation-r" onclick="window.location = '#data-liberation'" title="Data Liberation" id="data-liberation-l">Data Liberation</label>
+		<span class="analysis-n" style="display: none;">
+			<input id="public-r" name="navbar" type="radio">
+			<label for="public-r" id="public-l" onclick="window.location = '#public'" class="first" title="Public Analysis">Public</label>
+			<input id="member-r" name="navbar" type="radio">
+			<label for="member-r" id="member-l" onclick="window.location = '#member'" title="Member Analysis">Member</label> <input id="data-liberation-r" name="navbar" type="radio">
+			<label for="data-liberation-r" id="data-liberation-l" onclick="window.location = '#data-liberation'" title="Data Liberation">Data Liberation</label>
 		</span>
-		<span style="display: none" class="team-leader-n">
-			<input type="radio" name="navbar" id="manage-r"/>
-			<label for="manage-r" onclick="window.location = '#manage'" title="Manage Scouting" id="manage-l" class="first">Manage</label>
-			<input type="radio" name="navbar" id="contribution-r"/>
-			<label for="contribution-r" onclick="window.location = '#contribution'" title="View Contribution" id="contribution-l">Contribution</label>
-			<input type="radio" name="navbar" id="team-r"/>
-			<label for="team-r" onclick="window.location = '#team'" title="View Team Members" id="team-l">Team</label>
+		<span class="team-leader-n" style="display: none;">
+			<input id="manage-r" name="navbar" type="radio">
+			<label for="manage-r" id="manage-l" onclick="window.location = '#manage'" class="first" title="Manage Scouting">Manage</label>
+			<input id="contribution-r" name="navbar" type="radio">
+			<label for="contribution-r" id="contribution-l" onclick="window.location = '#contribution'" title="View Contribution">Contribution</label>
+			<input id="team-r" name="navbar" type="radio">
+			<label for="team-r" id="team-l" onclick="window.location = '#team'" title="View Team Members">Team</label>
 		</span>
-		<span style="display: none" class="help-n">
-			<input type="radio" name="navbar" id="training-r"/>
-			<label for="training-r" onclick="window.location = '#training'" title="Manage Training" id="training-l" class="first">Training</label>
-			<input type="radio" name="navbar" id="documentation-r"/>
-			<label for="documentation-r" onclick="window.location = '#documentation'" title="Documentation" id="documentation-l">Documentation</label>
-			<input type="radio" name="navbar" id="forum-r"/>
-			<label for="forum-r" onclick="window.location = '#forum'" title="Forum" id="forum-l">Forum</label>
+		<span class="help-n" style="display: none;">
+			<input id="training-r" name="navbar" type="radio">
+			<label for="training-r" id="training-l" onclick="window.location = '#training'" class="first" title="Manage Training">Training</label>
+			<input id="documentation-r" name="navbar" type="radio">
+			<label for="documentation-r" id="documentation-l" onclick="window.location = '#documentation'" title="Documentation">Documentation</label>
+			<input id="forum-r" name="navbar" type="radio">
+			<label for="forum-r" id="forum-l" onclick="window.location = '#forum'" title="Forum">Forum</label>
 		</span>
-		<span style="display: none" class="base-n"></span>
-		<input type="radio" name="navbar" onclick="window.location='#navigation'" id="navigation-r"/>
-		<label for="navigation-r" title="Navigation" class="last">
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28">
-				<circle cx="2" cy="2" r="2"/>
-				<circle cx="2" cy="10" r="2"/>
-				<circle cx="2" cy="18" r="2"/>
-				<circle cx="2" cy="26" r="2"/>
-				<rect x="8" width="24" height="4"/>
-				<rect x="8" y="8" width="24" height="4"/>
-				<rect x="8" y="16" width="24" height="4"/>
-				<rect x="8" y="24" width="24" height="4"/>
-			</svg>
+		<span class="base-n" style="display: none;"></span>
+		<input id="navigation-r" name="navbar" onclick="window.location = '#navigation'" type="radio">
+		<label for="navigation-r" class="last" title="Navigation">
+		   <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28">
+			   <circle cx="2" cy="2" r="2"></circle>
+			   <circle cx="2" cy="10" r="2"></circle>
+			   <circle cx="2" cy="18" r="2"></circle>
+			   <circle cx="2" cy="26" r="2"></circle>
+			   <rect x="8" width="24" height="4"></rect>
+			   <rect x="8" y="8" width="24" height="4"></rect>
+			   <rect x="8" y="16" width="24" height="4"></rect>
+			   <rect x="8" y="24" width="24" height="4"></rect>
+		   </svg>
 		</label>
 	</li>
 	<li class="buttonset">
-		<input type="radio" name="navbar" onclick="window.location=>'#account'" id="account-r"/>
-		<label for="account-r" name="navbar" title="Account Settings" id="scoutName" class="first">Guest</label>
-		<input type="radio" name="navbar" id="login-r"/>
-		<label for="login-r" title="Login" name="navbar" onclick="window.location=>'#login'" id="login-r-label">
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" id="login">
-				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
-				<path d="m0,9.9h7.07l-2.83,2.83h4.24l4.24-4.24-4.24-4.24h-4.24l2.83,2.83h-7.07v2.83z"/>
+		<input id="account-r" name="navbar" onclick="window.location = '#account'" type="radio">
+		<label class="first" for="account-r" name="navbar" title="Account Settings" id="scoutName">Guest</label>
+
+		<input id="login-r" name="navbar" type="radio">
+		<label for="login-r" id="login-r-label" title="Login" name="navbar" onclick="window.location = '#login'">
+			<svg id="login" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"></path>
+				<path d="m0,9.9h7.07l-2.83,2.83h4.24l4.24-4.24-4.24-4.24h-4.24l2.83,2.83h-7.07v2.83z"></path>
 			</svg>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" style="display:none" id="logout">
-				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"/>
-				<path d="m12.7,9.9-7.07,0,2.83,2.83-4.24,0l-4.22-4.22,4.24-4.23h4.24l-2.83,2.83h7.07v2.83z"/>
+			<svg id="logout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="display:none">
+				<path d="m4.31,0v2.79h9.9v11.3h-9.9v2.87h12.7v-17h-12.7z"></path>
+				<path d="m12.7,9.9-7.07,0,2.83,2.83-4.24,0l-4.22-4.22,4.24-4.23h4.24l-2.83,2.83h7.07v2.83z"></path>
 			</svg>
 		</label>
-		<input type="radio" name="navbar"/>
-		<label title="Training" class="last">
+
+		<input name="navbar" type="radio">
+		<label class="last" title="Training">
 			<svg version="1.1" viewBox="0 0 32 28">
-				<path d="M16,4c0,0-4-4-16-4v24c12.1,0,16,4,16,4s3.9-4,16-4V0C20,0,16,4,16,4z M4,4c5,0.4,8.2,1.6,10,2.6v16c-1.8-0.95-4.9-2.1-10-2.6V4z M28,20.1c-5,0.4-8.2,1.6-10,2.6V6.6C19.8,5.6,22.9,4.4,28,4V20.1z"/>
+					<path d="M16,4c0,0-4-4-16-4v24c12.1,0,16,4,16,4s3.9-4,16-4V0C20,0,16,4,16,4z M4,4c5,0.4,8.2,1.6,10,2.6v16c-1.8-0.95-4.9-2.1-10-2.6V4z M28,20.1c-5,0.4-8.2,1.6-10,2.6V6.6C19.8,5.6,22.9,4.4,28,4V20.1z"></path>
 			</svg>
 		</label>
 	</li>
 	<li>
-		<button type="button" title="Submit" onclick="submitData()" id="submit" class="input-n local">
+		<button type="button" title="Submit" onclick="submitData()" class="input-n local" id="submit">
 			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
-				<path d="M24,4c-0.38,0-0.74,0-1.1,0.11-1-2.5-4-4.1-7-4.1s-5.6,1.7-6.9,4.1c-0.4,0-0.7-0.1-1.1-0.1-4.4,0-8,3.6-8,8s3.6,8,8,8h16c4.4,0,8-3.6,8-8s-4-8-8-8zm0,12h-16c-2.2,0-4-1.8-4-4s1.9-3.9,4-3.9c0,0.9,0.2,1.8,0.5,2.9l3.7-1.4v-1.6c0-2.2,1.8-4,4-4,1.3,0,2.5,0.64,3.2,1.6-2,1.5-3,3.8-3,6.4h4c0-2.2,1.8-4,4-4s4,1.8,4,4-2,4-4,4z"/>
-				<polygon points="18,26,22,26,16,20,10,26,14,26,14,32,18,32"/>
+				<path d="M24,4c-0.38,0-0.74,0-1.1,0.11-1-2.5-4-4.1-7-4.1s-5.6,1.7-6.9,4.1c-0.4,0-0.7-0.1-1.1-0.1-4.4,0-8,3.6-8,8s3.6,8,8,8h16c4.4,0,8-3.6,8-8s-4-8-8-8zm0,12h-16c-2.2,0-4-1.8-4-4s1.9-3.9,4-3.9c0,0.9,0.2,1.8,0.5,2.9l3.7-1.4v-1.6c0-2.2,1.8-4,4-4,1.3,0,2.5,0.64,3.2,1.6-2,1.5-3,3.8-3,6.4h4c0-2.2,1.8-4,4-4s4,1.8,4,4-2,4-4,4z"></path>
+				<polygon points="18,26,22,26,16,20,10,26,14,26,14,32,18,32"></polygon>
 			</svg>
 		</button>
 	</li>
 	<li>
-		<button type="button" onclick="postSignup()" title="submit signup form" class="signup-c local">Submit</button>
+		<button type="button" onclick="postSignup()" class="signup-c local" title="submit signup form">Submit</button>
 	</li>
 </ul>
