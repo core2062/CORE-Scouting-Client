@@ -315,7 +315,7 @@ $html->path =
 
 				system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 
-				#if($vars['devMode'] == false){//TODO: finish fixing this
+				#if($vars['devMode'] == false){
 					require 'dev/jsminplus.php';
 					$javascript = JSMinPlus::minify($javascript);
 				#}
