@@ -1,5 +1,10 @@
 <?php
+/*
+	NOTICE!!!!!!!!!!!!!!!!!!!
+	this script is REALLY old and will do absolutly nothing because it was never updated to mongo or even moved to the older XML based client to server communication that was used before i switched to JSON... it is only here because it contains the structure of the mail system i was making (and might actually finish one day)
 
+	compleating this is very low priority 
+*/
 
 
 //get more parameters
