@@ -8,6 +8,10 @@ $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
 require 'php/init.php';//TODO: add error reporting if mongodb is down
+require 'php/path.php';
+
+$html = new path;
+
 
 //TODO: add function to check if db is setup (can be commented out later)
 
@@ -170,7 +174,7 @@ if($vars['devMode']){
 //TODO: rewrite below html to PATH
 echo '<!DOCTYPE html>';
 
-$main =
+$html->path =
 ['html',//TODO: add manifest="manifest.mf" + make file
 	['head',
 		['meta',
@@ -183,8 +187,8 @@ $main =
 			'href' => 'favicon.ico',
 			'rel' => 'shortcut icon',
 		],
-		'<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/style-ie.css" /><![endif]-->',
-		['style',
+		'<!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/style-ie.css" /><![endif]-->',//TODO: add IE style sheet (low priority)
+		['style#:style',
 			function (){
 				global $embedded;
 				global $pages;
@@ -220,15 +224,8 @@ $main =
 	],
 	['body#body',
 		['table#layout',
-			['tr.head',//top bar
-				['td',
-					'colspan'=>2,
-					function(){
-						global $pages;
-						include('html/navbar.html');
-					},
-					['hr', 'style'=>"margin:10px 145px 10px 10px"],
-				]
+			['tr#head',//top bar
+				//TODO:put navbar here
 			],
 			['tr',
 				['td#content',
@@ -246,7 +243,7 @@ $main =
 					//TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?)
 					//TODO: create classes of jGrowl notifications to close selectively
 				],
-				['tr.foot',
+				['tr#foot',
 					['td',
 						'colspan'=>2,
 						['.g-plusone','data-size'=>"medium",'callback'=>"plusone()",'data-href'=>"www.urlofmysite.com"],//Google +1 Button
@@ -274,7 +271,7 @@ $main =
 							['span.icon icon-closethick']
 						]
 					],
-					function(){embed('html/', '-modals.html');},
+					//TODO: make modal content go here
 					['#modal-buttons',
 						['button.navigation-c.contact-c.credits-c.edit-account-c','type'=>"button",'style'=>"display: none",'onclick'=>"modalClose()",'Close'],
 						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>'getToken()','Login'],
@@ -326,11 +323,14 @@ $main =
 					$javascript = JSMinPlus::minify($javascript);
 				#}
 
-				return $javascript;
+				return [$javascript];
 			}
 		]
 	]
 ];
+
+include('html/navbar.html');
+
 
 
 function embed($folder, $extension) {
@@ -351,7 +351,7 @@ function embed($folder, $extension) {
 	}
 }
 
-$html = path($main);
+$html = $html->compile();
 
 if ($vars['devMode'] == false) {//TODO: remove after PATH conversion
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
