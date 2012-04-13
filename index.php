@@ -138,7 +138,7 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 	}
 
 	//code to get cached file and send it
-	if (cacheCheck() === true) {
+	if(cacheCheck() === true){
 		$html = file_get_contents($filename);
 		fb('cached');
 
@@ -234,12 +234,12 @@ $html->path =
 							'Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can\'t really do anything until you enable it. If you don\'t know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.'
 						]
 					],
-					function(){embed('html/', '-content.html');}
+					//TODO: put content here
 				],
 				['td#sidebar',
 					'style'=>'max-height:100%',
-					function(){embed('html/', '-sidebar.html');},
-					['div#jGrowl-container.jGrowl bottom-right']
+					//TODO:put sidebar stuff here
+					['#jGrowl-container.jGrowl bottom-right']
 					//TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?)
 					//TODO: create classes of jGrowl notifications to close selectively
 				],
@@ -331,7 +331,8 @@ $html->path =
 
 include('html/navbar.html');
 
-
+$content = &$html->find('#content');
+$sidebar = &$html->find('#sidebar');
 
 function embed($folder, $extension) {
 	global $embedded;
