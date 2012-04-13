@@ -1,43 +1,38 @@
 <?php
-$path = 
-[
-	['ul.member-c',
-		'style' => "display:none",
-		['li',
-			['fieldset',
-				['legend','Compile'],
-				['ul',
-					['li',
-						['label','Update:'],
-						['button',
-							'title' => 'do all analysis',
-							'onclick' => "analyRequest('compile')",
-							'Compile'
-						],
-						['button',
-							'title' => 'rebuild the collection holding partly analyzed scouting data',
-							'onclick' => "analyRequest('rebuildAnalysisScouting')",
-							'Rebuild Scouting Analysis'
-						]
+$content[] =
+['ul.member-c',
+	'style' => "display:none",
+	['li',
+		['fieldset',
+			['legend','Compile'],
+			['ul',
+				['li',
+					['label','Update:'],
+					['button',
+						'title' => 'do all analysis',
+						'onclick' => "analyRequest('compile')",
+						'Compile'
+					],
+					['button',
+						'title' => 'rebuild the collection holding partly analyzed scouting data',
+						'onclick' => "analyRequest('rebuildAnalysisScouting')",
+						'Rebuild Scouting Analysis'
 					]
 				]
-			]
-		]
-	],
-	['ul.data-liberation-c',
-		'style' => "display:none",
-		['li',
-			['legend','Export:'],
-			['button',
-				'onclick' => "analyRequest('export')",
-				'All'	
 			]
 		]
 	]
 ];
 
-$len = count($path);
-for ($i=0; $i < $len; $i++) { 
-	echo path($path[$i]);
-}
+$content[] =
+['ul.data-liberation-c',
+	'style' => "display:none",
+	['li',
+		['legend','Export:'],
+		['button',
+			'onclick' => "analyRequest('export')",
+			'All'	
+		]
+	]
+];
 ?>

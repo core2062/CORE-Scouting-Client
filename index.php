@@ -171,9 +171,6 @@ if($vars['devMode']){
 	compileLess();
 }
 
-//TODO: rewrite below html to PATH
-echo '<!DOCTYPE html>';
-
 $html->path =
 ['html',//TODO: add manifest="manifest.mf" + make file
 	['head',
@@ -352,7 +349,7 @@ function embed($folder, $extension) {
 	}
 }
 
-$html = $html->compile();
+$html = '<!DOCTYPE html>' . $html->compile();
 
 if ($vars['devMode'] == false) {//TODO: remove after PATH conversion
 	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
