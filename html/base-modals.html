@@ -1,104 +1,107 @@
 <?php
-$path = [
-	['.navigation-c',
-		['#navAccordion',
-			function(){
-				global $pages;
 
-				$return = [];
-				$len = count($pages);
-				for($i=0; $i < $len; $i++) {
-					$return[] = ['p', $pages[$i]['full-name']];
-					$var = ['ul'];
-					foreach($pages[$i]['subpages'] as $key => $value) {
-						$var[] =
-						['li',
-							['a',
-								'href' => '#' . $key,
-								$value['full-name']
-							]
-						];
-					}
-					foreach($pages[$i]['modals'] as $key => $value) {
-						$var[] =
-						['li',
-							['a',
-								'href' => '#' . $key,
-								$value['full-name']
-							]
-						];
-					}
-					$return[] = $var;
+$modalContent =
+['.navigation-c',
+	['#navAccordion',
+		function(){
+			global $pages;
+
+			$return = [];
+			$len = count($pages);
+			for($i=0; $i < $len; $i++) {
+				$return[] = ['p', $pages[$i]['full-name']];
+				$var = ['ul'];
+				foreach($pages[$i]['subpages'] as $key => $value) {
+					$var[] =
+					['li',
+						['a',
+							'href' => '#' . $key,
+							$value['full-name']
+						]
+					];
 				}
-				return $return;
+				foreach($pages[$i]['modals'] as $key => $value) {
+					$var[] =
+					['li',
+						['a',
+							'href' => '#' . $key,
+							$value['full-name']
+						]
+					];
+				}
+				$return[] = $var;
 			}
-		],
-		['#navPreview',
-			['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page']
-		]
+			return $return;
+		}
 	],
-	['ul.login-c',
-		['li',
-			['label',
-				'for' => 'scoutid',
-				'ScoutID:'
-			]
-		],
-		['li.clearIcon',
-			['input#scoutid',
-				'type' => 'text',
-			],
-			['span']
-		],
-		['li',
-			['label',
-				'for' => 'pword',
-				'Password:'
-			]
-		],
-		['li.clearIcon',
-			['input#pword',
-				'type' => 'password',
-				'onkeypress' => "var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();",
-			],
-			['span']
-		]
-	],
-	['ul.contact-c'
-		//TODO: finish modal
-		//messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
-	],
-	['ul.credits-c'
-		//TODO: finish modal
-	],
-	['ul.account-c',
-		['li',
-			['label',
-				'for' => 'fadeEffects',
-				'Fade Effects:'
-			],
-			['input#fadeEffects',
-				'type' => 'checkbox',
-				'onchange' => "updateUser('fade',this.checked)",
-				'title' => 'this controls the transitions between pages. disabling this might make the site run faster'
-			]
-		],
-		['li',
-			['label',
-				'for' => 'verboseMode',
-				'Verbose Mode:'
-			],
-			['input#verboseMode',
-				'type' => 'checkbox',
-				'onchange' => "updateUser('verbose',this.checked)",
-				'title' => 'this determines if non-crucial messages are displayed'
-			]
-		]
+	['#navPreview',
+		['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page']
 	]
 ];
 
-$len = count($path);
-for ($i=0; $i < $len; $i++) { 
-	echo path($path[$i]);
-}
+$modalContent =
+['ul.login-c',
+	['li',
+		['label',
+			'for' => 'scoutid',
+			'ScoutID:'
+		]
+	],
+	['li.clearIcon',
+		['input#scoutid',
+			'type' => 'text',
+		],
+		['span']
+	],
+	['li',
+		['label',
+			'for' => 'pword',
+			'Password:'
+		]
+	],
+	['li.clearIcon',
+		['input#pword',
+			'type' => 'password',
+			'onkeypress' => "var unicode = event.charCode ? event.charCode : event.keyCode; if(unicode == 13) getToken();",
+		],
+		['span']
+	]
+];
+
+$modalContent =
+['ul.contact-c'
+	//TODO: finish modal
+	//messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
+];
+
+$modalContent =
+['ul.credits-c'
+	//TODO: finish modal
+];
+
+$modalContent =
+['ul.account-c',
+	['li',
+		['label',
+			'for' => 'fadeEffects',
+			'Fade Effects:'
+		],
+		['input#fadeEffects',
+			'type' => 'checkbox',
+			'onchange' => "updateUser('fade',this.checked)",
+			'title' => 'this controls the transitions between pages. disabling this might make the site run faster'
+		]
+	],
+	['li',
+		['label',
+			'for' => 'verboseMode',
+			'Verbose Mode:'
+		],
+		['input#verboseMode',
+			'type' => 'checkbox',
+			'onchange' => "updateUser('verbose',this.checked)",
+			'title' => 'this determines if non-crucial messages are displayed'
+		]
+	]
+];
 ?>

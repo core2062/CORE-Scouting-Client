@@ -1,8 +1,7 @@
 <?php
 
 $path = [
-	['span',
-		'class' => 'front-page-c',
+	['span.front-page-c',
 		'style' => 'display: none',
 		['p',
 			'style' => 'font-size:250px; margin:auto; display:table;',
@@ -11,16 +10,13 @@ $path = [
 			['span','id' => 'bigD','D']
 		]
 	],
-	['span',
-		'class' => 'synopsis-c',
+	['span.synopsis-c',
 		'style' => 'display: none'
 	],
-	['span',
-		'class' => 'guided-tour-c',
+	['span.guided-tour-c',
 		'style' => 'display: none'
 	],
-	['span',
-		'class' => 'signup-c',
+	['span.signup-c',
 		'style' => 'display: none',
 		['li',
 			['fieldset',
@@ -30,8 +26,7 @@ $path = [
 				['p',
 					'this section is required'
 				],
-				['ul',
-					'class' => 'stacked',
+				['ul.stacked',
 					['li',
 						['label',
 							'for' => 'fName',
@@ -80,8 +75,7 @@ $path = [
 						]
 					]
 				],
-				['ul',
-					'class' => 'stacked',
+				['ul.stacked',
 					['li',
 						['label',
 							'for' => 'signupPassword',
@@ -115,9 +109,8 @@ $path = [
 							'for' => 'email',
 							'Email:'
 						],
-						['input',
-							'type' => 'text',
-							'id' => 'email'
+						['input#email',
+							'type' => 'text'
 						]
 					]
 
@@ -125,8 +118,7 @@ $path = [
 			]
 		]
 	],
-	['span',
-		'class' => 'donate-c',
+	['span.donate-c',
 		'style' => 'display: none'
 	]
 ];

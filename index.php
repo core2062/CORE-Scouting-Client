@@ -257,19 +257,19 @@ $html->path =
 				]
 			]
 		],
-		['#modal-aligner',
-			['#modal-wrapper',
-				['#modal-container',
+		['#modalAligner',
+			['#modalWrapper',
+				['#modalContainer',
 					'style'=>"display: none",
-					['#modal-titlebar',
-						['span#modal-title','Title'],
+					['#modalTitlebar',
+						['span#modalTitle','Title'],
 						['a.close',//remove the extra a tag ?
 							'onclick'=>'modalClose()',
 							['span.icon icon-closethick']
 						]
 					],
-					//TODO: make modal content go here
-					['#modal-buttons',
+					['temp#modalContent'],
+					['#modalButtons',
 						['button.navigation-c.contact-c.credits-c.edit-account-c','type'=>"button",'style'=>"display: none",'onclick'=>"modalClose()",'Close'],
 						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>'getToken()','Login'],
 						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#signup'",'Create Account'],
@@ -330,6 +330,8 @@ include('html/navbar.html');
 
 $content = &$html->find('#content');
 $sidebar = &$html->find('#sidebar');
+$modalContent = &$html->find('#modalContent');
+$modalButtons = &$html->find('#modalButtons');
 
 function embed($folder, $extension) {
 	global $embedded;
