@@ -8,13 +8,63 @@ $type = 'page-gen';//changed if page is loaded from cache
 $version = 'alpha';
 
 require 'php/init.php';//TODO: add error reporting if mongodb is down
+
+/*
+if (file_exists($filename) == true && $vars['disableCache'] == false){
+
+	//function to check if files have been modified
+	function cacheCheck() {//FIXME: this is broken
+		global $embedded;
+		global $filename;
+
+		$cache_date = filemtime($filename);
+
+		//sadly, navbar does not use the same naming scheme as the rest of the files (check separately)
+		if (filemtime('path/navbar.path') > $cache_date) {return false;}
+
+		$len = count($embedded);
+		for ($i = 0; $i < $len; ++$i) {
+			$file = 'tmp/css/' . $embedded[$i] . '.css';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
+			}
+		}
+		for ($i = 0; $i < $len; ++$i) {
+			$file = 'coffee/' . $embedded[$i] . '.coffee';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
+			}
+		}
+		for ($i = 0; $i < $len; ++$i) {
+			$file = 'path/' . $embedded[$i] . '.path';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
+			}
+		}
+		return true;
+	}
+
+	//code to get cached file and send it
+	if(cacheCheck() === true){
+		$html = file_get_contents($filename);
+		fb('cached');
+
+		$type = 'page-cache';
+		send_reg($html, false, false);
+	}
+}
+*/
+
+
+
+
+
+
 require 'php/path.php';
 
 $html = new path;
 $html->options['indent'] = true;
 $html->options['manualNormalize'] = true;
-
-//TODO: add function to check if db is setup (can be commented out later)
 
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
@@ -97,51 +147,6 @@ for ($i = 1; $i < $len; ++$i) {
 $filename = 'tmp/pages/' . $filename . '-index';
 logger("filename = " . $filename);
 
-/*
-if (file_exists($filename) == true && $vars['disableCache'] == false){
-
-	//function to check if files have been modified
-	function cacheCheck() {//FIXME: this is broken
-		global $embedded;
-		global $filename;
-
-		$cache_date = filemtime($filename);
-
-		//sadly, navbar does not use the same naming scheme as the rest of the files (check separately)
-		if (filemtime('path/navbar.path') > $cache_date) {return false;}
-
-		$len = count($embedded);
-		for ($i = 0; $i < $len; ++$i) {
-			$file = 'tmp/css/' . $embedded[$i] . '.css';
-			if (file_exists($file)) {
-				if (filemtime($file) > $cache_date) {return false;}
-			}
-		}
-		for ($i = 0; $i < $len; ++$i) {
-			$file = 'coffee/' . $embedded[$i] . '.coffee';
-			if (file_exists($file)) {
-				if (filemtime($file) > $cache_date) {return false;}
-			}
-		}
-		for ($i = 0; $i < $len; ++$i) {
-			$file = 'path/' . $embedded[$i] . '.path';
-			if (file_exists($file)) {
-				if (filemtime($file) > $cache_date) {return false;}
-			}
-		}
-		return true;
-	}
-
-	//code to get cached file and send it
-	if(cacheCheck() === true){
-		$html = file_get_contents($filename);
-		fb('cached');
-
-		$type = 'page-cache';
-		send_reg($html, false, false);
-	}
-}
-*/
 
 if($vars['devMode']){
 	//TODO: move? only needed in dev mode
@@ -164,7 +169,32 @@ if($vars['devMode']){
 		}
 		closedir($handle);
 	}
+	function compileCoffee(){
+		global $embedded;
+		require 'dev/jsminplus.php';
+
+		$cwd = getcwd();
+		mkdir($cwd . "/tmp/js");
+		mkdir($cwd . "/tmp/coffee");
+
+		$len = count($embedded);
+		for($i = 0; $i < $len; ++$i){
+			$coffeeFile = 'coffee/' . $embedded[$i] . '.coffee';
+			$jsFile = 'tmp/js/' . $embedded[$i] . '.js';
+			$tmpFile = 'tmp/coffee/' . $embedded[$i] . '.coffee';
+
+			if(file_exists($coffeeFile) && (!file_exists($jsFile) || filemtime($coffeeFile) > filemtime($jsFile))) {
+				file_put_contents($tmpFile, getCoffee($embedded[$i] . '.coffee'));
+				exec('/home/sean/bin/coffee -cbo tmp/js/ ' . $tmpFile);
+				JSMinPlus::minify(file_get_contents($jsFile), $jsFile);
+			}
+		}
+
+		system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+	}
+
 	compileLess();
+	compileCoffee();
 }
 
 $html->path =
@@ -213,17 +243,14 @@ $html->path =
 	],
 	['body#body',
 		['table#layout',
-			['tr#head',//top bar
-				//TODO:put navbar here
-			],
+			['tr#head'],
 			['tr',
 				['td#content',
 					['noscript',
 						['p',
 							'Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can\'t really do anything until you enable it. If you don\'t know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.'
 						]
-					],
-					//TODO: put content here
+					]
 				],
 				['td#sidebar',
 					'style'=>'max-height:100%',
@@ -271,7 +298,6 @@ $html->path =
 			function(){
 				global $embedded;
 				global $pages;
-				global $vars;
 				
 				//remove extra stuff from $pages
 				$len = count($pages);
@@ -280,33 +306,12 @@ $html->path =
 				}
 
 				$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
-				$coffeeFiles = '';
-
-				$cwd = getcwd();
-				mkdir($cwd . "/tmp/coffee");
 
 				$len = count($embedded);
 				for($i = 0; $i < $len; ++$i){
-					$file = $embedded[$i] . '.coffee';
-
-					if (file_exists('coffee/' . $file) == true) {
-						$tmpFile = 'tmp/coffee/' . $file;
-						$fileContents = getCoffee($file);
-						file_put_contents($tmpFile, $fileContents);
-						$coffeeFiles .= ' ' . $tmpFile;
-					}
-				}		
-
-				exec('/home/sean/bin/coffee -pj tmp/coffee' . $coffeeFiles, $output);//not sure why join requires a file... this doesn't get anything written to it but it must be there
-
-				$javascript .= implode("\n",$output);
-
-				system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
-
-				#if($vars['devMode'] == false){
-					require 'dev/jsminplus.php';
-					$javascript = JSMinPlus::minify($javascript);
-				#}
+					$jsFile = 'tmp/js/' . $embedded[$i] . '.js';
+					if(file_exists($jsFile)) $javascript .= file_get_contents($jsFile);
+				}
 
 				return [$javascript];
 			}

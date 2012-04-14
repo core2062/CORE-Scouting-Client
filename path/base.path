@@ -71,9 +71,9 @@ $modalContent[] =
 $modalButtons[] =
 ['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>'getToken()','Login'];
 $modalButtons[] =
-['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#signup'",'Create Account'];
+['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location='#signup'",'Create Account'];
 $modalButtons[] =
-['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#documentation'",'Help'];
+['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location='#documentation'",'Help'];
 
 $modalContent[] =
 ['ul.contact-c'

@@ -69,7 +69,7 @@ $navbar[] =
 			],
 		],
 		['li.buttonset',
-			['input#account-r','type'=>"radio",'name'=>"navbar",'onclick'=>"window.location=>'#account'"],
+			['input#account-r','type'=>"radio",'name'=>"navbar",'onclick'=>"window.location='#account'"],
 			['label#scoutName.first','for'=>"account-r",'name'=>"navbar",'title'=>"Account Settings",'Guest'],
 			['input#login-r','type'=>"radio",'name'=>"navbar"],
 			['label#login-r-label','for'=>"login-r",'title'=>"Login",'name'=>"navbar",'onclick'=>"window.location=>'#login'",
