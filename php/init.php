@@ -8,7 +8,7 @@ $starttime = (float)$sec + (float)$micro;
 //add back when database is secured: include 'vars.php';  - assigns variables for DB & other sensitive info (not put on github)
 
 //connect to mongoDB
-$m = new Mongo();//TODO: make this fail gracefully
+$m = new Mongo();//TODO: make this fail gracefully / add function to check if db is setup (can be commented out later)
 $db = $m->selectDB("csd");
 
 require 'php/base.php';
