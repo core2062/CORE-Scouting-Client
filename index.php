@@ -186,7 +186,8 @@ if($vars['devMode']){
 				system("rm -rf " . $cwd . "/" . $jsFile);
 				file_put_contents($tmpFile, getCoffee($embedded[$i] . '.coffee'));
 				exec('/home/sean/bin/coffee -cbo tmp/js/ ' . $tmpFile);
-				file_put_contents($jsFile, JSMinPlus::minify(file_get_contents($jsFile)) . ';');//needs semi-colon because files will be joined later
+				//comment out below line to stop minification
+				//file_put_contents($jsFile, JSMinPlus::minify(file_get_contents($jsFile)) . ';');//needs semi-colon because files will be joined later
 			}
 		}
 
