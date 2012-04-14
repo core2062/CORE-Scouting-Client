@@ -129,6 +129,35 @@ $content[] =
 	'style' => 'display: none'
 ];
 
+$sidebar[] =
+['ul.front-page-c',
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			'style' => 'min-width:212px',
+			['legend','Meta'],
+			['ul',
+				['li', 'Scouts:'],
+				['br'],
+				['li', 'Scouts:'],
+				['br'],
+				['li', 'Scouts:']
+			]
+		]
+	],
+	['li',
+		['fieldset',
+			'style' => 'min-width:212px',
+			['legend','Database'],
+			['ul',
+				['li', 'Version: alpha'],
+				['br'],
+				['li', 'Entries:'],
+			]
+		]
+	]
+];
+
 ?>
 
 <!-- optional info is temporarly removed... will work on it later
