@@ -12,6 +12,7 @@ require 'php/path.php';
 
 $html = new path;
 $html->options['indent'] = true;
+$html->options['manualNormalize'] = true;
 
 //TODO: add function to check if db is setup (can be commented out later)
 
@@ -186,24 +187,19 @@ $html->path =
 				global $pages;
 				global $vars;
 
-				$putBackLater = ob_get_contents();
-				ob_clean();//this part of the script uses the output buffer to hold the unprocessed css temporarly
+				$cssCode = '';
 
 				$embeddedLen = count($embedded);
 				for ($embeddedIndex = 0; $embeddedIndex < $embeddedLen; ++$embeddedIndex) {
 					$file = 'tmp/css/' . $embedded[$embeddedIndex] . '.css';
 
 					if(file_exists($file)){
-						require($file);
+						$cssCode .= file_get_contents($file);
 						if($vars['devMode']) logger($file . ' was embedded', true);
 					} else {
 						if($vars['devMode']) logger($file . ' is non-existent', true);
 					}
 				}
-
-				$cssCode = ob_get_contents();
-				ob_clean();
-				echo $putBackLater;
 
 				require('dev/csstidy/class.csstidy.php');
 
@@ -286,8 +282,6 @@ $html->path =
 				$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
 				$coffeeFiles = '';
 
-				ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
-
 				$cwd = getcwd();
 				mkdir($cwd . "/tmp/coffee");
 
@@ -300,7 +294,6 @@ $html->path =
 						$fileContents = getCoffee($file);
 						file_put_contents($tmpFile, $fileContents);
 						$coffeeFiles .= ' ' . $tmpFile;
-						ob_clean();//this part of the script uses the output buffer to hold the unprocessed coffee script temporarly
 					}
 				}		
 
@@ -321,13 +314,15 @@ $html->path =
 	]
 ];
 
+$html->normalize();//get rid of shorthands in above basic template
+
 require('path/navbar.path');
 
 //set vars for needed parts of page (used to append content to these areas)
-$content = &$html->find('#content');
-$sidebar = &$html->find('#sidebar');
-$modalContent = &$html->find('#modalContent');
-$modalButtons = &$html->find('#modalButtons');
+$content =& $html->find('#content');
+$sidebar =& $html->find('#sidebar');
+$modalContent =& $html->find('#modalContent');
+$modalButtons =& $html->find('#modalButtons');
 
 $len = count($embedded);
 for($i = 0; $i < $len; ++$i){
@@ -340,13 +335,17 @@ for($i = 0; $i < $len; ++$i){
 	}
 }
 
+//fb($content);
+
+$html->normalize();//normalize for compile
 $html = '<!DOCTYPE html>' . $html->compile();
 
 //embed javascript - TODO: test and fix
 //TODO: rewrite get coffee so it doesn't use the output buffer
-function getCoffee($file){//this function can be called in the coffee files to get other dependancies
+function getCoffee($file){//this function can be called in the coffee files to get other dependencies
 	$file = 'coffee/' . $file;
 
+	//TODO: find a better way of doing the below stuff that doesn't f with the output buffer
 	$oldOutputBuffer = ob_get_contents();
 	ob_clean();
 	require $file;
@@ -355,7 +354,7 @@ function getCoffee($file){//this function can be called in the coffee files to g
 	echo $oldOutputBuffer;//put the old contents back
 
 	preg_match('/\.(coffee|js)/', $file, $fileExtension);//get file extension
-	$fileExtension = $fileExtension[1];
+	$fileExtension = $fileExtension[1];//normalize
 	
 	if($fileExtension == 'js'){
 		return '`' . $fileContents . '`';//use backticks to pass js through coffee script compiler
