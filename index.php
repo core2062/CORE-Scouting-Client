@@ -386,7 +386,7 @@ $html = trim($html);//remove a little more whitespace
 
 //cache data to temporary file (unless it is disabled)
 if($vars['disableCache'] == false){
-	fileWrite($filename, $html);
+	file_put_contents($filename, $html);
 }
 
 send_reg($html, false, false);
