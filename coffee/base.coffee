@@ -163,7 +163,7 @@ $(document).ready ->
 		updateUserBar()
 	else
 		window.user = defaultUser
-	missedPosts = getMissedPosts()
+	window.missedPosts = getMissedPosts()
 	buildCache()
 	nav()
 
