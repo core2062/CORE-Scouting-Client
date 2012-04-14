@@ -3,334 +3,234 @@
 // TODO: make list of field sets sortable?
 // make content scroll when its height exceeds height of sidebar?
 
-$path = [
-	['ul.robot-c',
-		'style' => "display:none",
-		['li',
-			['fieldset',
-				['legend','Basic Info'],
-				['ul.stacked',
-					['li',
-						['label',
-							'for' => 'disabledOrNoShow',
-							'Disabled/No Show:'
-						],
-						['input#disabledOrNoShow',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
+$content[] =
+['ul.robot-c',
+	'style' => "display:none",
+	['li',
+		['fieldset',
+			['legend','Basic Info'],
+			['ul.stacked',
+				['li',
+					['label',
+						'for' => 'disabledOrNoShow',
+						'Disabled/No Show:'
 					],
-					['li',
-						['label',
-							'for' => 'crossesBump',
-							'Crosses Bump:'
-						],
-						['input#crossesBump',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'picksUpBalls',
-							'Picks Up Balls:'
-						],
-						['input#picksUpBalls',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'manipulatesBridge',
-							'Manip-s Bridge:'
-						],
-						['input#manipulatesBridge',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
-					]
-				]
-			]
-		],
-		['li',
-			['fieldset',
-				['legend','Hybrid'],
-				['ul.stacked.hybrid',
-					['li',
-						['label',
-							'for' => 'getsBallsOffBridge',
-							'Balls-Bridge:'
-						],
-						['input#getsBallsOffBridge',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'usesKinect',
-							'Uses Kinect:'
-						],
-						['input#usesKinect',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
+					['input#disabledOrNoShow',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
 					]
 				],
-				['ul.stacked.hml',
-					['li',
-						['label',
-							'for' => 'hybridHigh',
-							'High:'
-						],
-						['input#hybridHigh',
-							'style' => "width:40px",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
+				['li',
+					['label',
+						'for' => 'crossesBump',
+						'Crosses Bump:'
 					],
-					['li',
-						['label',
-							'for' => 'hybridMiddle',
-							'Middle:'
-						],
-						['input#hybridMiddle',
-							'style' => "width:40px",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'hybridBottom',
-							'Bottom:'
-						],
-						['input#hybridBottom',
-							'style' => "width:40px",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
+					['input#crossesBump',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
 					]
 				],
-			]
-		],
-		['li',
-			['fieldset',
-				['legend','Teleop'],
-				['ul.stacked.hybrid',
-					['li',
-						['label',
-							'for' => 'attemptBalance',
-							'Attempt- Bal-:'
-						],
-						['input#attemptBalance',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
+				['li',
+					['label',
+						'for' => 'picksUpBalls',
+						'Picks Up Balls:'
 					],
-					['li',
-						['label',
-							'for' => 'robotsOnBridge',
-							'# On Bridge:'
-						],
-						['input#robotsOnBridge',
-							'type' => 'text',
-							'style' => "width:40px;",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'balanceSuccess',
-							'Bal- Success:'
-						],
-						['input#balanceSuccess',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'coopertition',
-							'Coopertition:'
-						],
-						['input#coopertition',
-							'type' => 'checkbox',
-							'data-labelOn' => "Yes",
-							'data-labelOff' => "No"
-						]
+					['input#picksUpBalls',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
 					]
 				],
-				['ul.stacked.hml',
-					['li',
-						['label',
-							'for' => 'teleopHigh',
-							'High:'
-						],
-						['input#teleopHigh',
-							'style' => "width:40px",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
+				['li',
+					['label',
+						'for' => 'manipulatesBridge',
+						'Manip-s Bridge:'
 					],
-					['li',
-						['label',
-							'for' => 'teleopMiddle',
-							'Middle:'
-						],
-						['input#teleopMiddle',
-							'style' => "width:40px",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'teleopBottom',
-							'Bottom:'
-						],
-						['input#teleopBottom',
-							'style' => "width:40px",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
-					]
-				],
-				['ul.stacked.hybrid',
-					['li',
-						['label',
-							'for' => 'totalShots',
-							'Shots Taken:'
-						],
-						['input#totalShots',
-							'type' => 'text',
-							'style' => "width:40px;",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'fouls',
-							'Fouls:'
-						],
-						['input#fouls',
-							'type' => 'text',
-							'style' => "width:40px;",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'techFouls',
-							'Tech Fouls:'
-						],
-						['input#techFouls',
-							'type' => 'text',
-							'style' => "width:40px;",
-							'onkeypress' => "return limitInput(event, 'number')"
-						]
+					['input#manipulatesBridge',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
 					]
 				]
 			]
 		]
 	],
-	['ul.tracking-c',// tracking
-		'style' => 'display:none',
-		['li',
-			['li',
-				['fieldset',
-					'style' => 'min-width:300px',
-					['legend','Tracking'],
-					['ul',
-						['canvas#canvas',
-							'onclick' => 'canvasClick(event)'
-						],
-						['#scoreContainer',
-							['button#top',
-								'onclick' => "scoreSelect('top')",
-								'top'
-							],
-							['button#middle',
-								'onclick' => "scoreSelect('middle')",
-								'middle'
-							],
-							['button#bottom',
-								'onclick' => "scoreSelect('bottom')",
-								'bottom'
-							]
-						],
-						['br'],
-						['#typeContainer',
-							['button#hybrid',
-								'onclick' => "typeSelect('hybrid')",
-								'hybrid'
-							],
-							['button#teleop',
-								'onclick' => "typeSelect('teleop')",
-								'teleop'
-							]
-						],
-						['button',
-							'style' => 'float:right; margin: 5px; margin-right: -15px',
-							'onclick' => 'addEntry()',
-							'Add'
-						],
-						['table#trackingDisplay'
-						]
-					]
-				]
-			]
-		]
-	],
-	['ul.pit-c',//Pit
-		'style' => 'display:none',
-		['li',
-			['fieldset',
-				'style' => 'min-width:300px;',
-				['legend','Robot Design'],
-				['ul',
-					['li',
-						['label',
-							'for' => 'drive',
-							'Drive:'
-						],
-						['select#drive',
-							'size' => '1',
-							'style' => 'width:150px',
-							['option', 'value' => 'mecanum', 'Mecanum'],
-							['option', 'value' => 'add value here', 'add value here']
-						]
+	['li',
+		['fieldset',
+			['legend','Hybrid'],
+			['ul.stacked.hybrid',
+				['li',
+					['label',
+						'for' => 'getsBallsOffBridge',
+						'Balls-Bridge:'
 					],
-					['li',
-						['label',
-							'for' => 'inspected',
-							'Inspected:'
-						],
-						['select#inspected',
-							'size' => 1,
-							'style' => 'width:100px',
-							['option','value' => 'true','Yes'],
-							['option','value' => 'false','No']
-						]
+					['input#getsBallsOffBridge',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'usesKinect',
+						'Uses Kinect:'
+					],
+					['input#usesKinect',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
 					]
 				]
-			]
+			],
+			['ul.stacked.hml',
+				['li',
+					['label',
+						'for' => 'hybridHigh',
+						'High:'
+					],
+					['input#hybridHigh',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'hybridMiddle',
+						'Middle:'
+					],
+					['input#hybridMiddle',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'hybridBottom',
+						'Bottom:'
+					],
+					['input#hybridBottom',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				]
+			],
 		]
 	],
-	['ul.tracking-c.robot-c.pit-c',//mutual
-		'style' => 'display:none',
-		['li',
-			['fieldset',
-				['legend','Relevant Comments'],
-				['ul',
-					['li',
-						['textarea#comments',
-							'style' => 'min-width:400px; min-height:40px',
-							'title' => 'use line breaks (enter key) to seperate comments'
-						]
+	['li',
+		['fieldset',
+			['legend','Teleop'],
+			['ul.stacked.hybrid',
+				['li',
+					['label',
+						'for' => 'attemptBalance',
+						'Attempt- Bal-:'
+					],
+					['input#attemptBalance',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'robotsOnBridge',
+						'# On Bridge:'
+					],
+					['input#robotsOnBridge',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'balanceSuccess',
+						'Bal- Success:'
+					],
+					['input#balanceSuccess',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'coopertition',
+						'Coopertition:'
+					],
+					['input#coopertition',
+						'type' => 'checkbox',
+						'data-labelOn' => "Yes",
+						'data-labelOff' => "No"
+					]
+				]
+			],
+			['ul.stacked.hml',
+				['li',
+					['label',
+						'for' => 'teleopHigh',
+						'High:'
+					],
+					['input#teleopHigh',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'teleopMiddle',
+						'Middle:'
+					],
+					['input#teleopMiddle',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'teleopBottom',
+						'Bottom:'
+					],
+					['input#teleopBottom',
+						'style' => "width:40px",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				]
+			],
+			['ul.stacked.hybrid',
+				['li',
+					['label',
+						'for' => 'totalShots',
+						'Shots Taken:'
+					],
+					['input#totalShots',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'fouls',
+						'Fouls:'
+					],
+					['input#fouls',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'techFouls',
+						'Tech Fouls:'
+					],
+					['input#techFouls',
+						'type' => 'text',
+						'style' => "width:40px;",
+						'onkeypress' => "return limitInput(event, 'number')"
 					]
 				]
 			]
@@ -338,9 +238,109 @@ $path = [
 	]
 ];
 
-$len = count($path);
-for ($i=0; $i < $len; $i++){ 
-	echo path($path[$i]);
-}
+$content[] =
+['ul.tracking-c',// tracking
+	'style' => 'display:none',
+	['li',
+		['li',
+			['fieldset',
+				'style' => 'min-width:300px',
+				['legend','Tracking'],
+				['ul',
+					['canvas#canvas',
+						'onclick' => 'canvasClick(event)'
+					],
+					['#scoreContainer',
+						['button#top',
+							'onclick' => "scoreSelect('top')",
+							'top'
+						],
+						['button#middle',
+							'onclick' => "scoreSelect('middle')",
+							'middle'
+						],
+						['button#bottom',
+							'onclick' => "scoreSelect('bottom')",
+							'bottom'
+						]
+					],
+					['br'],
+					['#typeContainer',
+						['button#hybrid',
+							'onclick' => "typeSelect('hybrid')",
+							'hybrid'
+						],
+						['button#teleop',
+							'onclick' => "typeSelect('teleop')",
+							'teleop'
+						]
+					],
+					['button',
+						'style' => 'float:right; margin: 5px; margin-right: -15px',
+						'onclick' => 'addEntry()',
+						'Add'
+					],
+					['table#trackingDisplay'
+					]
+				]
+			]
+		]
+	]
+];
+
+$content[] =
+['ul.pit-c',//Pit
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			'style' => 'min-width:300px;',
+			['legend','Robot Design'],
+			['ul',
+				['li',
+					['label',
+						'for' => 'drive',
+						'Drive:'
+					],
+					['select#drive',
+						'size' => '1',
+						'style' => 'width:150px',
+						['option', 'value' => 'mecanum', 'Mecanum'],
+						['option', 'value' => 'add value here', 'add value here']
+					]
+				],
+				['li',
+					['label',
+						'for' => 'inspected',
+						'Inspected:'
+					],
+					['select#inspected',
+						'size' => 1,
+						'style' => 'width:100px',
+						['option','value' => 'true','Yes'],
+						['option','value' => 'false','No']
+					]
+				]
+			]
+		]
+	]
+];
+
+$content[] =
+['ul.tracking-c.robot-c.pit-c',//mutual
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			['legend','Relevant Comments'],
+			['ul',
+				['li',
+					['textarea#comments',
+						'style' => 'min-width:400px; min-height:40px',
+						'title' => 'use line breaks (enter key) to seperate comments'
+					]
+				]
+			]
+		]
+	]
+];
 
 ?>

@@ -1,132 +1,134 @@
 <?php
 
-$path = [
-	['span.front-page-c',
-		'style' => 'display: none',
-		['p',
-			'style' => 'font-size:250px; margin:auto; display:table;',
-			['span','id' => 'bigC','C'],
-			['span','style' => 'margin:-120px;','id' => 'bigS','S'],
-			['span','id' => 'bigD','D']
-		]
-	],
-	['span.synopsis-c',
-		'style' => 'display: none'
-	],
-	['span.guided-tour-c',
-		'style' => 'display: none'
-	],
-	['span.signup-c',
-		'style' => 'display: none',
-		['li',
-			['fieldset',
-				['legend',
-					'Basic Info'
-				],
-				['p',
-					'this section is required'
-				],
-				['ul.stacked',
-					['li',
-						['label',
-							'for' => 'fName',
-							'First Name:'
-						],
-						['input',
-							'type' => 'text',
-							'id' => 'fName',
-							'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'lName',
-							'Last Name:'
-						],
-						['input',
-							'type' => 'text',
-							'id' => 'lName',
-							'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'signupTeamNum',
-							'Team Number:'
-						],
-						['input',
-							'maxlength' => 4,
-							'style' => 'width:50px;',
-							'type' => 'text',
-							'id' => 'signupTeamNum',
-							'onkeypress' => "displayScoutID(); return limitInput(event, 'number')"
-						]
-					],
-					['li',
-						['label',
-							'for' => 'previewScoutID',
-							'ScoutID:'
-						],
-						['input',
-							'type' => 'text',
-							'readonly' => 'readonly',
-							'title' => 'you cannot change this',
-							'id' => 'previewScoutID'
-						]
-					]
-				],
-				['ul.stacked',
-					['li',
-						['label',
-							'for' => 'signupPassword',
-							'Password:'
-						],
-						['input',
-							'type' => 'password',
-							'id' => 'signupPassword'
-							//TODO: add hinting for strength of password
-						]
-					],
-					['li',
-						['label',
-							//'class' => 'label',
-							'for' => 'signupPassword',
-							'Show:'
-						],
-						['input',
-							'type' => 'checkbox',
-							'data-labelOn' => 'Yes',
-							'data-labelOff' => 'No',
-							'title' => 'show your password above',
-							'id' => 'signupPassword',
-							'onchange' => "if(this.checked == true){signupPassword.type = 'text'} else {signupPassword.type = 'password'}"
-							//TODO: fix bug when ibutton fails to show correct value after page reload
-						]
-					],
-					['br'],
-					['li',
-						['label',
-							'for' => 'email',
-							'Email:'
-						],
-						['input#email',
-							'type' => 'text'
-						]
-					]
-
-				]
-			]
-		]
-	],
-	['span.donate-c',
-		'style' => 'display: none'
+$content[] =
+['span.front-page-c',
+	'style' => 'display: none',
+	['p',
+		'style' => 'font-size:250px; margin:auto; display:table;',
+		['span','id' => 'bigC','C'],
+		['span','style' => 'margin:-120px;','id' => 'bigS','S'],
+		['span','id' => 'bigD','D']
 	]
 ];
 
-$len = count($path);
-for ($i=0; $i < $len; $i++) { 
-	echo path($path[$i]);
-}
+$content[] =
+['span.synopsis-c',
+	'style' => 'display: none'
+];
+
+$content[] =
+['span.guided-tour-c',
+	'style' => 'display: none'
+];
+
+$content[] =
+['span.signup-c',
+	'style' => 'display: none',
+	['li',
+		['fieldset',
+			['legend',
+				'Basic Info'
+			],
+			['p',
+				'this section is required'
+			],
+			['ul.stacked',
+				['li',
+					['label',
+						'for' => 'fName',
+						'First Name:'
+					],
+					['input',
+						'type' => 'text',
+						'id' => 'fName',
+						'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'lName',
+						'Last Name:'
+					],
+					['input',
+						'type' => 'text',
+						'id' => 'lName',
+						'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'signupTeamNum',
+						'Team Number:'
+					],
+					['input',
+						'maxlength' => 4,
+						'style' => 'width:50px;',
+						'type' => 'text',
+						'id' => 'signupTeamNum',
+						'onkeypress' => "displayScoutID(); return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'previewScoutID',
+						'ScoutID:'
+					],
+					['input',
+						'type' => 'text',
+						'readonly' => 'readonly',
+						'title' => 'you cannot change this',
+						'id' => 'previewScoutID'
+					]
+				]
+			],
+			['ul.stacked',
+				['li',
+					['label',
+						'for' => 'signupPassword',
+						'Password:'
+					],
+					['input',
+						'type' => 'password',
+						'id' => 'signupPassword'
+						//TODO: add hinting for strength of password
+					]
+				],
+				['li',
+					['label',
+						'for' => 'signupPassword',
+						'Show:'
+					],
+					['input',
+						'type' => 'checkbox',
+						'data-labelOn' => 'Yes',
+						'data-labelOff' => 'No',
+						'title' => 'show your password above',
+						'id' => 'signupPassword',
+						'onchange' => "if(this.checked == true){signupPassword.type = 'text'} else {signupPassword.type = 'password'}"
+						//TODO: fix bug when ibutton fails to show correct value after page reload
+					]
+				],
+				['br'],
+				['li',
+					['label',
+						'for' => 'email',
+						'Email:'
+					],
+					['input#email',
+						'type' => 'text'
+					]
+				]
+
+			]
+		]
+	]
+];
+
+$content[] =
+['span.donate-c',
+	'style' => 'display: none'
+];
+
 ?>
 
 <!-- optional info is temporarly removed... will work on it later
