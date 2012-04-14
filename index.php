@@ -335,8 +335,6 @@ for($i = 0; $i < $len; ++$i){
 	}
 }
 
-//fb($content);
-
 $html->normalize();//normalize for compile
 $html = '<!DOCTYPE html>' . $html->compile();
 

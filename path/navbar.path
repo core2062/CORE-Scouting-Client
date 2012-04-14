@@ -1,11 +1,7 @@
 <?php
 //add background to navbar parts, like github?
 
-logger('begin navbar');
-
 $navbar = &$html->find('#head');
-
-logger('found navbar location in PATH (normalization done)');
 
 $navbar[] =
 ['td',
@@ -133,5 +129,4 @@ $navbar[] =
 	],
 	['hr','style'=>'margin:10px 145px 10px 10px']
 ];
-logger('navbar done');
 ?>
