@@ -12,7 +12,6 @@ require 'php/path.php';
 
 $html = new path;
 
-
 //TODO: add function to check if db is setup (can be commented out later)
 
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
@@ -352,12 +351,6 @@ function embed($folder, $extension) {
 }
 
 $html = '<!DOCTYPE html>' . $html->compile();
-
-if ($vars['devMode'] == false) {//TODO: remove after PATH conversion
-	$html = preg_replace('/<!--(.|\s)*?-->/', '', $html); //removes comments
-	$html = preg_replace('/\s+/', ' ',$html); //removes double spaces, indents, and line breaks
-	//$html = preg_replace('/\s</', '<',$html); // removes spaces between tags (this causes some weird issues)
-}
 
 //remove extra stuff from $pages
 $len = count($pages);
