@@ -256,33 +256,33 @@ nav = ->
 		else #modals
 			if prev.lastSub is current.subpage #don't fade out sub-page if is is already under the modal
 				if user.prefs.fade is true
-					$("#overlay, #modal-container, " + cache.modals).fadeOut fadetime
+					$("#overlay, #modalContainer, " + cache.modals).fadeOut fadetime
 				else
-					$("#overlay, #modal-container, " + cache.modals).css "display", "none"
+					$("#overlay, #modalContainer, " + cache.modals).css "display", "none"
 			else
 				if user.prefs.fade is true
-					$("#overlay, #modal-container, " + cache.subpages + ", " + cache.modals).fadeOut(fadetime).promise().done ->
+					$("#overlay, #modalContainer, " + cache.subpages + ", " + cache.modals).fadeOut(fadetime).promise().done ->
 						$("." + current.subpage + "-c").fadeIn fadetime
 				else
-					$("#overlay, #modal-container, " + cache.subpages + ", " + cache.modals).css "display", "none"
+					$("#overlay, #modalContainer, " + cache.subpages + ", " + cache.modals).css "display", "none"
 					$("." + current.subpage + "-c").css "display", "inline"
 	else #modal
-		document.getElementById("modal-title").innerHTML = pages[current.index]["modals"][current.subpage]["full-name"].replace(/\-/, " ").titleCase()
+		document.getElementById("modalTitle").innerHTML = pages[current.index]["modals"][current.subpage]["full-name"].replace(/\-/, " ").titleCase()
 		if prev.type is "subpages"
 			if user.prefs.fade is true
 				$(cache["modals"]).hide().promise().done ->
 					$("#overlay").fadeIn 40
-					$("." + current.subpage + "-c, #modal-container").fadeIn fadetime
+					$("." + current.subpage + "-c, #modalContainer").fadeIn fadetime
 			else
 				$(cache["modals"]).css "display", "none"
-				$("#overlay, ." + current.subpage + "-c, #modal-container").css "display", "block"
+				$("#overlay, ." + current.subpage + "-c, #modalContainer").css "display", "block"
 		else
 			if user.prefs.fade is true
 				$(cache.modals).fadeOut(fadetime).promise().done ->
-					$("." + current.subpage + "-c, #modal-container").fadeIn fadetime
+					$("." + current.subpage + "-c, #modalContainer").fadeIn fadetime
 			else
 				$(cache.modals).css "display", "none"
-				$("." + current.subpage + "-c, #modal-container").css "display", "inline"
+				$("." + current.subpage + "-c, #modalContainer").css "display", "inline"
 	if pages[current.index][current.type][current.subpage]["login-required"] is true and eatCookie("user") is ""
 		#TODO: figure out a way to do this without a timeout & without screwing up the page below
 		setTimeout "window.location = '#login'", fadetime * 2
