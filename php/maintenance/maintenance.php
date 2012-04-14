@@ -12,6 +12,7 @@ function clearTmp(){
 	system("rm -rf " . $cwd . "/tmp");
 	mkdir($cwd . "/tmp/pages", 0777, true);
 	mkdir($cwd . "/tmp/backup");
+	mkdir($cwd . "/tmp/js");
 	mkdir($cwd . "/tmp/db/getTPIDs", 0777, true);
 	mkdir($cwd . "/tmp/db/getTeamProfiles");
 	mkdir($cwd . "/tmp/db/getEvents");
