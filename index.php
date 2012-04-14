@@ -11,6 +11,7 @@ require 'php/init.php';//TODO: add error reporting if mongodb is down
 require 'php/path.php';
 
 $html = new path;
+$html->options['indent'] = true;
 
 //TODO: add function to check if db is setup (can be commented out later)
 
@@ -208,6 +209,7 @@ $html->path =
 
 				$css = new csstidy();
 				$css->parse($cssCode);
+				
 				return [$css->print->plain()];
 			}
 		],
