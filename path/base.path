@@ -1,5 +1,4 @@
 <?php
-
 $modalContent[] =
 ['.navigation-c',
 	['#navAccordion',
@@ -38,6 +37,8 @@ $modalContent[] =
 		['p','the preview for the page goes here... it\'s activated on-hover from the links on the left, and shows a thumbnail + description for the page']
 	]
 ];
+$modalButtons[] =
+['button.navigation-c.contact-c.credits-c.edit-account-c','type'=>"button",'style'=>"display: none",'onclick'=>"modalClose()",'Close'];
 
 $modalContent[] =
 ['ul.login-c',
@@ -67,12 +68,20 @@ $modalContent[] =
 		['span']
 	]
 ];
+$modalButtons[] =
+['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>'getToken()','Login'];
+$modalButtons[] =
+['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#signup'",'Create Account'];
+$modalButtons[] =
+['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#documentation'",'Help'];
 
 $modalContent[] =
 ['ul.contact-c'
 	//TODO: finish modal
 	//messages will be sent as both a on-screen notification and a email (if emails are enabled by the user you are messaging)
 ];
+$modalButtons[] =
+['button.contact-c','type'=>"button",'style'=>"display: none",'onclick'=>'sendMessage()','Send'];
 
 $modalContent[] =
 ['ul.credits-c'
@@ -104,4 +113,6 @@ $modalContent[] =
 		]
 	]
 ];
+$modalButtons[] =
+['button.account-c','type'=>"button",'style'=>"display: none",'onclick'=>'modalClose()','Save'];
 ?>

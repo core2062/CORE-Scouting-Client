@@ -17,100 +17,96 @@ $html = new path;
 empty($_SERVER["HTTP_REFERER"]) ? $vars["referrer"] = "not found" : $vars["referrer"] = $_SERVER["HTTP_REFERER"];
 
 //get site-map
-	require 'php/siteMap.php';
-	if($vars['devMode'] == true) fb($pages);
+require 'php/siteMap.php';
+if($vars['devMode'] == true) fb($pages);
 
 //options
-	//defaults
-	$vars['disableCache'] = false;
+$vars['disableCache'] = false;
 
-	if($vars['devMode'] == true){
-		$vars['disableCache'] = true;//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
-		logger('dev mode enabled');
-	}
+if($vars['devMode'] == true){
+	$vars['disableCache'] = true;//the cache will prevent some changes from appearing (because not everything is checked for modifications) & also, it cuts down on time (since developing involves changing & refreshing many times)
+	logger('dev mode enabled');
+}
 
-	function checkForUser(){
-		global $db;
-		global $vars;
-		global $pages;
+function checkForUser(){
+	global $db;
+	global $vars;
+	global $pages;
 
-		if(empty($_COOKIE['user']) == false){
+	if(empty($_COOKIE['user']) == false){
 
-			//variables_order must contain "C" in php.ini
-			$user = json_decode($_COOKIE['user'], true);
+		//variables_order must contain "C" in php.ini
+		$user = json_decode($_COOKIE['user'], true);
 
-			//if user object is wrong, return & move on with guest-level functionality
+		//if user object is wrong, return & move on with guest-level functionality
 
-			if(empty($user['_id']) == true || empty($user['token']) == true) {
-				logger("checkForUser failed while getting basic parameters");
-				return;
-			}
+		if(empty($user['_id']) == true || empty($user['token']) == true) {
+			logger("checkForUser failed while getting basic parameters");
+			return;
+		}
 
-			//check user & assign user object
-			$user = $db->user->findOne(
-				array(
-					'_id' => $user['_id']
-				)
-			);
+		//check user & assign user object
+		$user = $db->user->findOne(
+			array(
+				'_id' => $user['_id']
+			)
+		);
 
-			if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $user['token']) {//validate user object
-				logger("checkForUser failed on user object validation");
-				unset($user);
-				return;
-			}
+		if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $user['token']) {//validate user object
+			logger("checkForUser failed on user object validation");
+			unset($user);
+			return;
+		}
 
-			//embed admin page if admin
-			if($user['permission'] == 9){
-				$pages[1]['embedded'] = true;//show admin page
-				$pages[1]['hidden'] = false;
-				logger("admin page loaded");
-				$vars['disableCache'] = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
-			}
+		//embed admin page if admin
+		if($user['permission'] == 9){
+			$pages[1]['embedded'] = true;//show admin page
+			$pages[1]['hidden'] = false;
+			logger("admin page loaded");
+			$vars['disableCache'] = true;//cache will only hold general pages for now... pages w/ user specific changes are not cached
 		}
 	}
-	checkForUser();
+}
+checkForUser();
 
 
 //set vars for embedded pages & filename
-	$len = count($pages);
-	for($i=0; $i < $len; $i++){
-		if($pages[$i]['hidden'] == true){
-			unset($pages[$i]);
-		} elseif($pages[$i]['embedded'] == true) {
-			$embedded[] = $pages[$i]['name'];
-		}
+$len = count($pages);
+for($i=0; $i < $len; $i++){
+	if($pages[$i]['hidden'] == true){
+		unset($pages[$i]);
+	} elseif($pages[$i]['embedded'] == true) {
+		$embedded[] = $pages[$i]['name'];
 	}
+}
 
-	$pages = array_values($pages);//reindex from unsetting
+$pages = array_values($pages);//reindex from unsetting
 
-	sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
+sort($embedded); //make sure that filename being searched for in cache is same, regardless of request order
 
-	$embedded = array_diff($embedded,['base']);//remove base
-	array_unshift($embedded,'base');//put it back in at beginning of array
+$embedded = array_diff($embedded,['base']);//remove base
+array_unshift($embedded,'base');//put it back in at beginning of array
 
-	$filename = $embedded[0];
-	$len = count($embedded);
-	for ($i = 1; $i < $len; ++$i) {
-		$filename .= "," . $embedded[$i];
-	}
-	$filename = 'tmp/pages/' . $filename . '-index';
-	logger("filename = " . $filename);
+$filename = $embedded[0];
+$len = count($embedded);
+for ($i = 1; $i < $len; ++$i) {
+	$filename .= "," . $embedded[$i];
+}
+$filename = 'tmp/pages/' . $filename . '-index';
+logger("filename = " . $filename);
 
-
-if (file_exists($filename) == true && $vars['disableCache'] == false){//also, check if cache has been disabled
+/*
+if (file_exists($filename) == true && $vars['disableCache'] == false){
 
 	//function to check if files have been modified
-	function cacheCheck() {
+	function cacheCheck() {//FIXME: this is broken
 		global $embedded;
 		global $filename;
 
 		$cache_date = filemtime($filename);
 
 		//sadly, navbar does not use the same naming scheme as the rest of the files (check separately)
-		if (filemtime('html/navbar.html') > $cache_date) {return false;}
-
-		$htmlparts = array('navbar', 'content', 'sidebar', 'modals');
-		$parts_length = count($htmlparts);
+		if (filemtime('path/navbar.path') > $cache_date) {return false;}
 
 		$len = count($embedded);
 		for ($i = 0; $i < $len; ++$i) {
@@ -120,17 +116,15 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 			}
 		}
 		for ($i = 0; $i < $len; ++$i) {
-			$file = 'tmp/js/' . $embedded[$i] . '.js';
+			$file = 'coffee/' . $embedded[$i] . '.coffee';
 			if (file_exists($file)) {
 				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
-		for ($e = 0; $e < $parts_length; ++$e) {
-			for ($i = 0; $i < $len; ++$i) {
-				$file = 'html/' . $embedded[$i] . '-' . $htmlparts[$e] . '.html';
-				if (file_exists($file)) {
-					if (filemtime($file) > $cache_date) {return false;}
-				}
+		for ($i = 0; $i < $len; ++$i) {
+			$file = 'path/' . $embedded[$i] . '.path';
+			if (file_exists($file)) {
+				if (filemtime($file) > $cache_date) {return false;}
 			}
 		}
 		return true;
@@ -145,6 +139,7 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){//also, ch
 		send_reg($html, false, false);
 	}
 }
+*/
 
 if($vars['devMode']){
 	//TODO: move? only needed in dev mode
@@ -268,14 +263,7 @@ $html->path =
 						]
 					],
 					['temp#modalContent'],
-					['#modalButtons',
-						['button.navigation-c.contact-c.credits-c.edit-account-c','type'=>"button",'style'=>"display: none",'onclick'=>"modalClose()",'Close'],
-						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>'getToken()','Login'],
-						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#signup'",'Create Account'],
-						['button.login-c','type'=>"button",'style'=>"display: none",'onclick'=>"window.location = '#documentation'",'Help'],
-						['button.account-c','type'=>"button",'style'=>"display: none",'onclick'=>'modalClose()','Save'],
-						['button.contact-c','type'=>"button",'style'=>"display: none",'onclick'=>'sendMessage()','Send']
-					]
+					['#modalButtons']
 				]
 			]
 		],
@@ -286,6 +274,12 @@ $html->path =
 				global $embedded;
 				global $pages;
 				global $vars;
+				
+				//remove extra stuff from $pages
+				$len = count($pages);
+				for($i=0; $i < $len; $i++){
+					unset($pages[$i]['embedded']);
+				}
 
 				$javascript = 'var pages = ' . json_encode($pages) . ';';//embed pages
 				$coffeeFiles = '';
@@ -325,38 +319,26 @@ $html->path =
 	]
 ];
 
-include('html/navbar.html');
+require('path/navbar.path');
 
+//set vars for needed parts of page (used to append content to these areas)
 $content = &$html->find('#content');
 $sidebar = &$html->find('#sidebar');
 $modalContent = &$html->find('#modalContent');
 $modalButtons = &$html->find('#modalButtons');
 
-function embed($folder, $extension) {
-	global $embedded;
-	global $pages;
-	global $vars;
-
-	$embeddedLen = count($embedded);
-	for ($embeddedIndex = 0; $embeddedIndex < $embeddedLen; ++$embeddedIndex) {
-		$file = $folder . $embedded[$embeddedIndex] . $extension;
-
-		if(file_exists($file)){
-			require($file);
-			if($vars['devMode']) logger($file . ' was embedded', true);
-		} else {
-			if($vars['devMode']) logger($file . ' is non-existent', true);
-		}
+$len = count($embedded);
+for($i = 0; $i < $len; ++$i){
+	$includeFile = 'path/' . $embedded[$i] . '.path';
+	if (file_exists($includeFile)){
+		require($includeFile);
+		if($vars['devMode']) logger($includeFile . ' was embedded', true);
+	} else {
+		if($vars['devMode']) logger($includeFile . ' is non-existent', true);
 	}
 }
 
 $html = '<!DOCTYPE html>' . $html->compile();
-
-//remove extra stuff from $pages
-$len = count($pages);
-for($i=0; $i < $len; $i++){
-	unset($pages[$i]['embedded']);
-}
 
 //embed javascript - TODO: test and fix
 //TODO: rewrite get coffee so it doesn't use the output buffer
@@ -381,8 +363,6 @@ function getCoffee($file){//this function can be called in the coffee files to g
 }
 
 //TODO: use php to base64 images
-
-$html = trim($html);//remove a little more whitespace
 
 //cache data to temporary file (unless it is disabled)
 if($vars['disableCache'] == false){

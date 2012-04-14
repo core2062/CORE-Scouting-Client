@@ -343,4 +343,90 @@ $content[] =
 	]
 ];
 
+$sidebar[] =
+['ul.robot-c.tracking-c',
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			'style' => 'width:225px',
+			['legend', 'Match Signup'],
+			['ul#inputSidebar',
+				['li',
+					['label',
+						'for' => 'matchNum',
+						'Match Number:'
+					],
+					['input#matchNum',
+						'type' => 'number',
+						'style' => 'width:40px',
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'matchType',
+						'Type:'
+					],
+					['select#matchType',
+						'style' => 'width:130px',
+						'size' => 1,
+						['option', 'value' => "p", 'Practice'],
+						['option', 'value' => "q", 'Qualification'],
+						['option', 'value' => "e", 'Elimination']
+					]
+				],
+				['br'],
+				['br'],
+				['li',
+					['label',
+						'for' => 'teamNum',
+						'Team Number:'
+					],
+					['input#teamNum',
+						'type' => 'number',
+						'style' => 'width:60px',
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				],
+				['li',
+					['label',
+						'for' => 'allianceColor',
+						'Color:'
+					],
+					['select#allianceColor',
+						'style' => 'width:75px',
+						'size' => 1,
+						['option', 'value' => "r", 'Red'],
+						['option', 'value' => "b", 'Blue']
+					]
+				]
+			]
+		]
+	]
+];
+
+$sidebar[] =
+['ul.pit-c',
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			'style' => 'width:225px',
+			['legend', 'Match Signup'],
+			['ul#inputSidebar',
+				['li',
+					['label',
+						'for' => 'pitTeamNum',
+						'Team Number:'
+					],
+					['input#pitTeamNum',
+						'type' => 'number',
+						'style' => 'width:60px',
+						'onkeypress' => "return limitInput(event, 'number')"
+					]
+				]
+			]
+		]
+	]
+];
+
 ?>
