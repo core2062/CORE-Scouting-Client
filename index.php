@@ -186,11 +186,11 @@ if($vars['devMode']){
 				system("rm -rf " . $cwd . "/" . $jsFile);
 				file_put_contents($tmpFile, getCoffee($embedded[$i] . '.coffee'));
 				exec('/home/sean/bin/coffee -cbo tmp/js/ ' . $tmpFile);
-				JSMinPlus::minify(file_get_contents($jsFile), $jsFile);
+				file_put_contents($jsFile, JSMinPlus::minify(file_get_contents($jsFile)) . ';');//needs semi-colon because files will be joined later
 			}
 		}
 
-		//system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+		system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 	}
 
 	compileLess();
