@@ -26,20 +26,21 @@
 
 # Designer: Sean Lang
 
-
 #jQuery v1.7.1 - Includes Sizzle.js
-<?php echo getCoffee('base/jquery.js'); ?>
+<?php echo getCoffee('base/jquery.js'); ?>#NOTICE: one line of whitespace is needed after each PHP part 
 
 #Tipsy
 <?php echo getCoffee('base/tipsy.js'); ?>
 
 #Chosen Select Box
 <?php echo getCoffee('base/chosen.js'); ?>
-#$("select").chosen();
+
+$("select").chosen()
 
 #ToggleJS
 <?php echo getCoffee('base/toggle.js'); ?>
-#$(":checkbox").toggleSwitch();
+
+$(":checkbox").toggleSwitch()
 
 #jGrowl
 <?php echo getCoffee('base/jgrowl.js'); ?>

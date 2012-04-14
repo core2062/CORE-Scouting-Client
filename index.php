@@ -174,7 +174,6 @@ if($vars['devMode']){
 		require 'dev/jsminplus.php';
 
 		$cwd = getcwd();
-		mkdir($cwd . "/tmp/js");
 		mkdir($cwd . "/tmp/coffee");
 
 		$len = count($embedded);
@@ -183,14 +182,15 @@ if($vars['devMode']){
 			$jsFile = 'tmp/js/' . $embedded[$i] . '.js';
 			$tmpFile = 'tmp/coffee/' . $embedded[$i] . '.coffee';
 
-			if(file_exists($coffeeFile) && (!file_exists($jsFile) || filemtime($coffeeFile) > filemtime($jsFile))) {
+			if(file_exists($coffeeFile) && (!file_exists($jsFile) || (file_exists($jsFile) && filemtime($coffeeFile) > filemtime($jsFile)))) {
+				system("rm -rf " . $cwd . "/" . $jsFile);
 				file_put_contents($tmpFile, getCoffee($embedded[$i] . '.coffee'));
 				exec('/home/sean/bin/coffee -cbo tmp/js/ ' . $tmpFile);
 				JSMinPlus::minify(file_get_contents($jsFile), $jsFile);
 			}
 		}
 
-		system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
+		//system("rm -rf " . $cwd . "/tmp/coffee");//remove temporary coffee files
 	}
 
 	compileLess();
