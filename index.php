@@ -3,11 +3,17 @@
 	This script handles all requests for pages that come from the user (requests that come from js are over in other php scripts, depending on their type). It is responsible for interpreting the request, pulling all parts of the UI together, and sending it out.
 */
 
+require 'php/init.php';//TODO: add error reporting if mongodb is down
+
 $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
-$version = 'alpha';
-
-require 'php/init.php';//TODO: add error reporting if mongodb is down
+$site = [
+	'status' => 'fully operational',
+	'version' => 'alpha',
+	'db' => [
+		'totalEntries' => $db->analysisScouting->count()
+	]
+];
 
 /*
 if (file_exists($filename) == true && $vars['disableCache'] == false){
@@ -54,11 +60,6 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){
 	}
 }
 */
-
-
-
-
-
 
 require 'php/path.php';
 
@@ -182,12 +183,32 @@ if($vars['devMode']){
 			$jsFile = 'tmp/js/' . $embedded[$i] . '.js';
 			$tmpFile = 'tmp/coffee/' . $embedded[$i] . '.coffee';
 
-			if(file_exists($coffeeFile) && (!file_exists($jsFile) || (file_exists($jsFile) && filemtime($coffeeFile) > filemtime($jsFile)))) {
-				system("rm -rf " . $cwd . "/" . $jsFile);
-				file_put_contents($tmpFile, getCoffee($embedded[$i] . '.coffee'));
-				exec('/home/sean/bin/coffee -cbo tmp/js/ ' . $tmpFile);
-				//comment out below line to stop minification
-				//file_put_contents($jsFile, JSMinPlus::minify(file_get_contents($jsFile)) . ';');//needs semi-colon because files will be joined later
+			if(file_exists($coffeeFile)){
+				$compile = false;//default
+
+				if(!file_exists($jsFile) || (file_exists($jsFile) && filemtime($coffeeFile) > filemtime($jsFile))){
+					$compile = true;
+				} else {	
+					$dir = 'coffee/' . $embedded[$i];
+					if(is_dir($dir)){					
+						$handle = opendir($dir);
+
+						while (false !== ($entry = readdir($handle)) && !$compile) {
+							if($entry != "." && $entry != ".."){
+								if(filemtime($dir . '/' . $entry) > filemtime($jsFile)) $compile = true;
+							}
+						}
+						closedir($handle);
+					}
+				}
+
+				if($compile){
+					system("rm -rf " . $cwd . "/" . $jsFile);
+					file_put_contents($tmpFile, getCoffee($embedded[$i] . '.coffee'));
+					exec('/home/sean/bin/coffee -cbo tmp/js/ ' . $tmpFile);
+					//comment out below line to stop minification
+					//file_put_contents($jsFile, JSMinPlus::minify(file_get_contents($jsFile)) . ';');//needs semi-colon because files will be joined later
+				}
 			}
 		}
 
@@ -255,7 +276,7 @@ $html->path =
 				],
 				['td#sidebar',
 					'style'=>'max-height:100%',
-					//TODO:put sidebar stuff here
+					['temp#sidebarContainer'],
 					['#jGrowl-container.jGrowl bottom-right']
 					//TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?)
 					//TODO: create classes of jGrowl notifications to close selectively
@@ -271,7 +292,7 @@ $html->path =
 						],
 						['div',
 							'style'=>"left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center",
-							['p','CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;' . date('Y') . ' - version:' . $version]
+							['p','CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;' . date('Y') . ' - version:' . $site['version']]
 						]
 					]
 				]
@@ -326,7 +347,7 @@ require('path/navbar.path');
 
 //set vars for needed parts of page (used to append content to these areas)
 $content =& $html->find('#content');
-$sidebar =& $html->find('#sidebar');
+$sidebar =& $html->find('#sidebarContainer');
 $modalContent =& $html->find('#modalContent');
 $modalButtons =& $html->find('#modalButtons');
 
