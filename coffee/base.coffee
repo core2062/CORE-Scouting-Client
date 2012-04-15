@@ -296,8 +296,7 @@ nav = ->
 	###
 	eval pages[current.index][current.type][current.subpage]["onOpen"] if typeof pages[current.index][current.type][current.subpage]["onOpen"] isnt `undefined`
 	unless current.subpage is 'navigation' 
-		$("#navAccordion > p:contains(" + current.subpage.titleCase() + ")").trigger('click')
-		console.log pages[current.index].fullName
+		$("#navAccordion > p:contains(" + pages[current.index].fullName + ")").trigger('click')#open accordian for current page group
 
 #site functions
 modalClose = (runScript) -> #if runScript is defined then the script won't be run (define as false)
