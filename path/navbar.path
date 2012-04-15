@@ -28,7 +28,7 @@ $navbar[] =
 							$navPiece[] = ['label.first#'.$key.'-l',
 								'for'=>$key.'-r',
 								'onclick'=>"window.location = '#".$key."'",
-								'title'=> $pages[$i]['subpages'][$key]['full-name'],
+								'title'=> $pages[$i]['subpages'][$key]['fullName'],
 								ucwords(preg_replace('/\-/',' ',$key))
 							];
 							$first = false;
@@ -36,7 +36,7 @@ $navbar[] =
 							$navPiece[] = ['label#'.$key.'-l',
 								'for'=>$key.'-r',
 								'onclick'=>"window.location = '#".$key."'",
-								'title'=> $pages[$i]['subpages'][$key]['full-name'],
+								'title'=> $pages[$i]['subpages'][$key]['fullName'],
 								ucwords(preg_replace('/\-/',' ',$key))
 							];
 						}

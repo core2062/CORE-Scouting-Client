@@ -8,25 +8,25 @@
 			"description" => "lorem",
 			"embedded" => true,
 			"hidden" => false,
-			"full-name" => "Home",
+			"fullName" => "Home",
 			"subpages" => [
 				"front-page" => [
-					"full-name" => "Front Page",
+					"fullName" => "Front Page",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"synopsis" => [
-					"full-name" => "Synopsis",
+					"fullName" => "Synopsis",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"tour" => [
-					"full-name" => "Guided Tour",
+					"fullName" => "Guided Tour",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"signup" => [
-					"full-name" => "Signup",
+					"fullName" => "Signup",
 					"description" => "lorem",
 					"login-required" => false
 				]
@@ -40,10 +40,10 @@
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => true,
-			"full-name" => "Administrative",
+			"fullName" => "Administrative",
 			"subpages" => [
 				"mongo" => [
-					"full-name" => "Manage MongoDB",
+					"fullName" => "Manage MongoDB",
 					"description" => "lorem",
 					"login-required" => false
 				]
@@ -57,20 +57,20 @@
 			"description" => "lorem",
 			"embedded" => true,
 			"hidden" => false,
-			"full-name" => "Input",
+			"fullName" => "Input",
 			"subpages" => [
 				"tracking" => [
 					"description" => "lorem",
-					"full-name" => "Tracking Scouting",
+					"fullName" => "Tracking Scouting",
 					"login-required" => true
 				],
 				"pit" => [
-					"full-name" => "Pit Scouting",
+					"fullName" => "Pit Scouting",
 					"description" => "lorem",
 					"login-required" => true
 				],
 				"robot" => [
-					"full-name" => "Robot Scouting",
+					"fullName" => "Robot Scouting",
 					"description" => "lorem",
 					"login-required" => true
 				]
@@ -84,20 +84,20 @@
 			"description" => "lorem",
 			"embedded" => true,
 			"hidden" => false,
-			"full-name" => "Analysis",
+			"fullName" => "Analysis",
 			"subpages" => [
 				"public" => [
-					"full-name" => "Public Analysis",
+					"fullName" => "Public Analysis",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"member" => [
-					"full-name" => "Member Analysis",
+					"fullName" => "Member Analysis",
 					"description" => "lorem",
 					"login-required" => true
 				],
 				"data-liberation" => [
-					"full-name" => "Data Liberation",
+					"fullName" => "Data Liberation",
 					"description" => "lorem",
 					"login-required" => true
 				]
@@ -111,20 +111,20 @@
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => false,
-			"full-name" => "Team Leader",
+			"fullName" => "Team Leader",
 			"subpages" => [
 				"manage" => [
-					"full-name" => "Manage Scouting",
+					"fullName" => "Manage Scouting",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"contribution" => [
-					"full-name" => "View Contribution",
+					"fullName" => "View Contribution",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"team" => [
-					"full-name" => "View Team Members",
+					"fullName" => "View Team Members",
 					"description" => "lorem",
 					"login-required" => false
 				]
@@ -138,20 +138,20 @@
 			"description" => "lorem",
 			"embedded" => false,
 			"hidden" => false,
-			"full-name" => "Help",
+			"fullName" => "Help",
 			"subpages" => [
 				"training" => [
-					"full-name" => "Manage Training",
+					"fullName" => "Manage Training",
 					"description" => "lorem",
 					"login-required" => true
 				],
 				"documentation" => [
-					"full-name" => "Documentation",
+					"fullName" => "Documentation",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"forum" => [
-					"full-name" => "Forum",
+					"fullName" => "Forum",
 					"description" => "lorem",
 					"login-required" => true
 				]
@@ -165,32 +165,32 @@
 			"description" => "",
 			"embedded" => true,
 			"hidden" => false,
-			"full-name" => "Other",
+			"fullName" => "Other",
 			"modals" => [
 				"account" => [
 					"description" => "lorem",
-					"full-name" => "Edit Account",
+					"fullName" => "Edit Account",
 					"login-required" => true,
 					"onClose" => "postUserUpdates()"
 				],
 				"contact" => [
-					"full-name" => "Contact",
+					"fullName" => "Contact",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"credits" => [
-					"full-name" => "Credits",
+					"fullName" => "Credits",
 					"description" => "lorem",
 					"login-required" => false
 				],
 				"login" => [
-					"full-name" => "Login",
+					"fullName" => "Login",
 					"description" => "lorem",
 					"login-required" => false,
 					"onOpen" => "$('#scoutid'].focus()"
 				],
 				"navigation" => [
-					"full-name" => "Navigation",
+					"fullName" => "Navigation",
 					"description" => "lorem",
 					"login-required" => false
 				]

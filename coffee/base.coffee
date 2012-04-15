@@ -237,7 +237,7 @@ nav = ->
 
 		prev.type = "subpages"
 
-	document.title = pages[current.index]["full-name"].replace(/\-/, " ").titleCase() + " - " + current["subpage"].replace(/\-/g, " ").titleCase()
+	document.title = pages[current.index].fullName.replace(/\-/, " ").titleCase() + " - " + current["subpage"].replace(/\-/g, " ").titleCase()
 	document.getElementById("body").style.minWidth = pages[current.index].minWidth
 	document.getElementById("progressbar").style.display = pages[current.index].progressbar
 
@@ -268,7 +268,7 @@ nav = ->
 					$("#overlay, #modalContainer, " + cache.subpages + ", " + cache.modals).css "display", "none"
 					$("." + current.subpage + "-c").css "display", "inline"
 	else #modal
-		document.getElementById("modalTitle").innerHTML = pages[current.index]["modals"][current.subpage]["full-name"].replace(/\-/, " ").titleCase()
+		document.getElementById("modalTitle").innerHTML = pages[current.index]["modals"][current.subpage].fullName.replace(/\-/, " ").titleCase()
 		if prev.type is "subpages"
 			if user.prefs.fade is true
 				$(cache["modals"]).hide().promise().done ->
@@ -295,6 +295,9 @@ nav = ->
 		on error returned from process.php, token is removed
 	###
 	eval pages[current.index][current.type][current.subpage]["onOpen"] if typeof pages[current.index][current.type][current.subpage]["onOpen"] isnt `undefined`
+	unless current.subpage is 'navigation' 
+		$("#navAccordion > p:contains(" + current.subpage.titleCase() + ")").trigger('click')
+		console.log pages[current.index].fullName
 
 #site functions
 modalClose = (runScript) -> #if runScript is defined then the script won't be run (define as false)
