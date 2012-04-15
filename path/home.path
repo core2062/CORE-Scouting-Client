@@ -5,9 +5,36 @@ $content[] =
 	'style' => 'display: none',
 	['p',
 		'style' => 'font-size:250px; margin:auto; display:table;',
-		['span','id' => 'bigC','C'],
-		['span','style' => 'margin:-120px;','id' => 'bigS','S'],
-		['span','id' => 'bigD','D']
+		['span#bigC','C'],
+		['span#bigS','style' => 'margin:-120px;','S'],
+		['span#bigD','D']
+	]
+];
+$sidebar[] =
+['ul.front-page-c',
+	'style' => 'display:none',
+	['li',
+		['fieldset',
+			'style' => 'min-width:260px',
+			['legend','Meta'],
+			['ul',
+				['li',
+					'status: ',
+					['span#siteStatus',$site['status'],]
+				],
+				['br'],
+				['li', 'version: ' . $site['version']]
+			]
+		]
+	],
+	['li',
+		['fieldset',
+			'style' => 'min-width:260px',
+			['legend','Database'],
+			['ul',
+				['li', 'scouting entries: ' . $site['db']['totalEntries']],
+			]
+		]
 	]
 ];
 
@@ -38,9 +65,8 @@ $content[] =
 						'for' => 'fName',
 						'First Name:'
 					],
-					['input',
+					['input#fName',
 						'type' => 'text',
-						'id' => 'fName',
 						'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
 					]
 				],
@@ -49,9 +75,8 @@ $content[] =
 						'for' => 'lName',
 						'Last Name:'
 					],
-					['input',
+					['input#lName',
 						'type' => 'text',
-						'id' => 'lName',
 						'onkeypress' => "displayScoutID(); return limitInput(event, 'letter')"
 					]
 				],
@@ -60,11 +85,10 @@ $content[] =
 						'for' => 'signupTeamNum',
 						'Team Number:'
 					],
-					['input',
+					['input#signupTeamNum',
 						'maxlength' => 4,
 						'style' => 'width:50px;',
 						'type' => 'text',
-						'id' => 'signupTeamNum',
 						'onkeypress' => "displayScoutID(); return limitInput(event, 'number')"
 					]
 				],
@@ -73,11 +97,10 @@ $content[] =
 						'for' => 'previewScoutID',
 						'ScoutID:'
 					],
-					['input',
+					['input#previewScoutID',
 						'type' => 'text',
 						'readonly' => 'readonly',
 						'title' => 'you cannot change this',
-						'id' => 'previewScoutID'
 					]
 				]
 			],
@@ -87,9 +110,8 @@ $content[] =
 						'for' => 'signupPassword',
 						'Password:'
 					],
-					['input',
+					['input#signupPassword',
 						'type' => 'password',
-						'id' => 'signupPassword'
 						//TODO: add hinting for strength of password
 					]
 				],
@@ -98,12 +120,11 @@ $content[] =
 						'for' => 'signupPassword',
 						'Show:'
 					],
-					['input',
+					['input#signupPassword',
 						'type' => 'checkbox',
 						'data-labelOn' => 'Yes',
 						'data-labelOff' => 'No',
 						'title' => 'show your password above',
-						'id' => 'signupPassword',
 						'onchange' => "if(this.checked == true){signupPassword.type = 'text'} else {signupPassword.type = 'password'}"
 						//TODO: fix bug when ibutton fails to show correct value after page reload
 					]
@@ -129,34 +150,6 @@ $content[] =
 	'style' => 'display: none'
 ];
 
-$sidebar[] =
-['ul.front-page-c',
-	'style' => 'display:none',
-	['li',
-		['fieldset',
-			'style' => 'min-width:212px',
-			['legend','Meta'],
-			['ul',
-				['li', 'Scouts:'],
-				['br'],
-				['li', 'Scouts:'],
-				['br'],
-				['li', 'Scouts:']
-			]
-		]
-	],
-	['li',
-		['fieldset',
-			'style' => 'min-width:212px',
-			['legend','Database'],
-			['ul',
-				['li', 'Version: alpha'],
-				['br'],
-				['li', 'Entries:'],
-			]
-		]
-	]
-];
 
 ?>
 
