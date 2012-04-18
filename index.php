@@ -61,7 +61,7 @@ if (file_exists($filename) == true && $vars['disableCache'] == false){
 }
 */
 
-require 'php/path.php';
+require 'php/path/path.php';
 
 $html = new path;
 $html->options['indent'] = true;
