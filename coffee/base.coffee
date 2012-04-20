@@ -38,7 +38,7 @@
 $("select").chosen()
 
 #ToggleJS
-<?php echo getCoffee('base/toggle.js'); ?>
+<?php echo getCoffee('base/toggleJS/toggle.coffee'); ?>
 
 $(":checkbox").toggleSwitch()
 
