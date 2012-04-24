@@ -63,7 +63,7 @@ console.log 'Hello and welcome to the CSD, a intuitive scouting database and ana
 
 #TODO: float google +1 button left w/out 4px overhang
 #TODO: make startup script to warn bad browsers
-#TODO: add stuff to prefetch subpages???
+#TODO: add stuff to prefetch subpages
 
 
 #UI Event Handlers

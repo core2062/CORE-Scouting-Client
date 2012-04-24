@@ -7,6 +7,7 @@ require 'php/init.php';//TODO: add error reporting if mongodb is down
 
 $place = 'index.php';
 $type = 'page-gen';//changed if page is loaded from cache
+
 $site = [
 	'status' => 'fully operational',
 	'version' => 'alpha',
@@ -14,6 +15,8 @@ $site = [
 		'totalEntries' => $db->analysisScouting->count()
 	]
 ];
+
+$site['db']['health'] = globalVar()
 
 /*
 if (file_exists($filename) == true && $vars['disableCache'] == false){
