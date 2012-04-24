@@ -5,11 +5,15 @@
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//add back when database is secured: include 'vars.php';  - assigns variables for DB & other sensitive info (not put on github)
-
 //connect to mongoDB
-$m = new Mongo();//TODO: make this fail gracefully / add function to check if db is setup (can be commented out later)
-$db = $m->selectDB("csd");
+if(class_exists('Mongo')){
+	$m = new Mongo();
+	$db = $m->selectDB("csd");
+	//$site['mongo'] = true;
+} else {//mongo is not defined
+	//$site['mongo'] = false;
+	die('mongo is not running');//make better code to deal with mongo not being defined
+}
 
 require 'php/base.php';
 

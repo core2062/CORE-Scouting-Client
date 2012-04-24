@@ -20,7 +20,10 @@ $sidebar[] =
 			['ul',
 				['li',
 					'status: ',
-					['span#siteStatus',$site['status'],]
+					['span#siteStatus',
+						'class' => $site['status'] == 'fully operational' ? '' : 'error',
+						$site['status']
+					]
 				],
 				['br'],
 				['li', 'version: ' . $site['version']]
