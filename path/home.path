@@ -36,6 +36,7 @@ $sidebar[] =
 			['legend','Database'],
 			['ul',
 				['li', 'scouting entries: ' . $site['db']['totalEntries']],
+				['li', 'health: ' . round($site['db']['health'] * 100, 2) . '%']
 			]
 		]
 	]

@@ -56,12 +56,14 @@ function analysisScoutingRebuild(){
 }
 
 function writeErrors($errors, $obj){//declare this function as part of entryAnalysis to allow it to access its vars ????
+	fb((string)$obj['_id']);
 	if(count($errors) != 0){
 		globalVarAppend('analysisScoutingErrors', [
-			$obj['matchType'] . $obj['matchNum'] => [
-				$obj['teamNum'] => [
-					$obj['inputType'] => $errors
-				]
+			(string)$obj['_id'] => [
+				'match' => $obj['matchType'] . $obj['matchNum'],
+				'inputType' => $obj['inputType'],
+				'team' => $obj['teamNum'],
+				'errors' => $errors
 			]
 		]);
 	}
