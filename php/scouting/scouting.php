@@ -2,7 +2,7 @@
 
 //get teams from event db
 $teams = [4371,167,967,3352,2040,81,4296,4143,2115,1736,2039,2481,868,135,3184,4174,2169,48,93,2202,3197,1716,2194,2506,1091,706,3692,1306,1675,1714,1732,1864,2830,3963,4095,4247,930,269,2826,1259,171,1652,3418,3596,537,3381,2077,2062];
-$teams = array_diff($teams, globalVar('blacklist'));
+//$teams = array_diff($teams, globalVar('blacklist')); //probably shouldn't use blacklist here
 sort($teams);
 /*     ((:?[0-9])?(:?[0-9])?(:?[0-9])?(:?[0-9])?)</a>(:?(?!41vwsY18B13D)(:?.|\n))*41vwsY18echo">     */
 
