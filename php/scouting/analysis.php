@@ -56,7 +56,6 @@ function analysisScoutingRebuild(){
 }
 
 function writeErrors($errors, $obj){//declare this function as part of entryAnalysis to allow it to access its vars ????
-	fb((string)$obj['_id']);
 	if(count($errors) != 0){
 		globalVarAppend('analysisScoutingErrors', [
 			(string)$obj['_id'] => [
@@ -98,11 +97,13 @@ function entryAnalysis($obj){
 	} else if(!in_array($obj["teamNum"], $teams)){//check for incorrect teamNum
 		$errors[] = 'wrong teamNum';
 		$obj['meta']['use'] = false;
-	} else if(in_array($obj['teamNum'], globalVar('blacklist'))){//remove blacklisted teams
+	}
+/*probably shouldn't even be using blacklisting+""
+	if(in_array($obj['teamNum'], globalVar('blacklist'))){//remove blacklisted teams
 		$errors[] = 'blacklisted team';
 		$obj['meta']['use'] = false;
 	}
-
+*/
 	if(!$obj['meta']['use']){
 		$errors[] =  'data is not usable';
 		writeErrors($errors, $obj);//need to write out errors here before return

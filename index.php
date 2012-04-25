@@ -269,9 +269,9 @@ $html->path =
 	],
 	['body#body',
 		['table#layout',
-			['tr#head'],
+			['tr#head'],//navbar goes here
 			['tr',
-				['td#content',
+				['td#content',//other content will be appended later
 					['noscript',
 						['p',
 							'Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can\'t really do anything until you enable it. If you don\'t know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.'
@@ -369,7 +369,15 @@ for($i = 0; $i < $len; ++$i){
 $html->normalize();//normalize for compile
 $html = '<!DOCTYPE html>' . $html->compile();
 
-//embed javascript - TODO: test and fix
+//TODO: use php to base64 images
+
+//cache data to temporary file (unless it is disabled)
+if($vars['disableCache'] == false){
+	file_put_contents($filename, $html);
+}
+
+send_reg($html, false, false);
+
 //TODO: rewrite get coffee so it doesn't use the output buffer
 function getCoffee($file){//this function can be called in the coffee files to get other dependencies
 	$file = 'coffee/' . $file;
@@ -391,13 +399,4 @@ function getCoffee($file){//this function can be called in the coffee files to g
 		return $fileContents;//use backticks to pass js through coffee script compiler
 	}
 }
-
-//TODO: use php to base64 images
-
-//cache data to temporary file (unless it is disabled)
-if($vars['disableCache'] == false){
-	file_put_contents($filename, $html);
-}
-
-send_reg($html, false, false);
 ?>

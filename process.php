@@ -20,6 +20,8 @@ Permission Levels:
 	7 =
 	8 =
 	9 = admin : everything
+
+	TODO: replace permissions system with something better
 */
 
 //set place & type (for logging)
@@ -66,108 +68,108 @@ if (empty($json) == true) {//post can send the string undefined if given no data
 
 $input = array_merge(json_decode($json, true), $input);
 
+//TODO: change switch into a dynamic way of calling functions, or something better
+
 // request switch
 switch ($input['request']) {
-case "poll": //for match signup, mail poll, other?
+	case "poll": //for match signup, mail poll, other?
 
-	send_error('this part is not finished');
+		send_error('this part is not finished');
+		/*
+
+		//get more parameters
+		$checksignup=$_POST["s"]; // =1 for yes, =0 for no
+		$competition=$_POST["c"];
+		$matchnum=$_POST["m"];
+
+		// clean parameters
+		$checksignup = mysql_real_escape_string($checksignup);
+		$competition = mysql_real_escape_string($competition);
+		$matchnum = mysql_real_escape_string($matchnum);
+
+
+		// BEGIN MESSAGE POLL
+
+
+		// check for mail
+
+
+		//delete message after getting it
+
+
+		// END MESSAGE POLL
+		// BEGIN MATCH SIGNUP POLL
+
+		if ($checksignup == 1) {
+			//check if team leader
+			//check for who has signed up for match
+		}
+
+		*/
+
+	break;
+	case "input":
+		//user is not banned based on above check, therefore user has needed permissions
+
+		require 'php/input.php';
+
+	break;
+	case "mail":
+
+		send_error('this part is not finished');
+		require 'php/mail.php';
+		
+		//encode chars to remove HTML or JS
+		
+	break;
+	case "query":
 	/*
-
-	//get more parameters
-	$checksignup=$_POST["s"]; // =1 for yes, =0 for no
-	$competition=$_POST["c"];
-	$matchnum=$_POST["m"];
-
-	// clean parameters
-	$checksignup = mysql_real_escape_string($checksignup);
-	$competition = mysql_real_escape_string($competition);
-	$matchnum = mysql_real_escape_string($matchnum);
-
-
-	// BEGIN MESSAGE POLL
-
-
-	// check for mail
-
-
-	//delete message after getting it
-
-
-	// END MESSAGE POLL
-	// BEGIN MATCH SIGNUP POLL
-
-	if ($checksignup == 1) {
-		//check if team leader
-		//check for who has signed up for match
-	}
-
+		if ($user['permission'] < 3) {
+			send_error('Invalid Permissions');
+		}
 	*/
+		require 'php/query.php';
 
-break;
-case "input":
-	//user is not banned based on above check, therefore user has needed permissions
+	break;
+	case "scout-leader":
+		if ($user['permission'] != 2 && $user['permission'] != 4) {
+			send_error('invalid permissions - scout-leader only','');
+		}
 
-	require 'php/input.php';
+		send_error('this part is not finished');
 
-break;
-case "mail":
+	break;
+	case "admin":
+		if ($user['permission'] < 9) {
+			send_error('invalid permissions - admin only');
+		}
 
-	send_error('this part is not finished');
-	require 'php/mail.php';
-	
-	//encode chars to remove HTML or JS
-	
-break;
-case "query":
-	if ($user['permission'] < 3) {
-		send_error('Invalid Permissions');
-	}
+		require 'php/admin/admin.php';
 
-	send_error('this part is not finished');
-	require 'php/query.php';
+	break;
+	case "logout":
+		logout();
 
-break;
-case "scout-leader":
-	if ($user['permission'] != 2 && $user['permission'] != 4) {
-		send_error('invalid permissions - scout-leader only','');
-	}
-
-	send_error('this part is not finished');
-
-break;
-case "admin":
-	if ($user['permission'] < 9) {
-		send_error('invalid permissions - admin only');
-	}
-
-	require 'php/admin/admin.php';
-
-break;
-case "logout":
-
-	logout();
-
-break;
-case "updateUser":
-	
-	//TODO: if moved to cookie-less sub-domain, make partial pref update (not sending all prefs, because not all have not changed)
-	$db->user->update(
-		[
-			'_id' => $user['_id']
-		],
-		[
-			'$set' => [
-				'prefs' => $input['user']['prefs']
+	break;
+	case "updateUser":
+		//TODO: if moved to cookie-less sub-domain, make partial pref update (not sending all prefs, because not all have not changed)
+		$db->user->update(
+			[
+				'_id' => $user['_id']
+			],
+			[
+				'$set' => [
+					'prefs' => $input['user']['prefs']
+				]
 			]
-		]
-	);
-	//TODO: check for error in prefs update?
+		);
+		//TODO: check for error in prefs update?
 
-	send_reg(['message' => 'preferences updated successfully']);
+		send_reg(['message' => 'preferences updated successfully']);
 
-break;
-default:
-	send_error('invalid request type');
+	break;
+	default:
+		send_error('invalid request type');
 }
 
 

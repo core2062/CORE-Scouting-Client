@@ -29,9 +29,6 @@
 #jQuery v1.7.1 - Includes Sizzle.js
 <?php echo getCoffee('base/jquery.js'); ?>#NOTICE: one line of whitespace is needed after each PHP part 
 
-#Tipsy
-<?php echo getCoffee('base/tipsy.js'); ?>
-
 #Chosen Select Box
 <?php echo getCoffee('base/chosen.js'); ?>
 
@@ -41,6 +38,18 @@ $("select").chosen()
 <?php echo getCoffee('base/toggleJS/toggle.coffee'); ?>
 
 $(":checkbox").toggleSwitch()
+
+#Tipsy
+<?php echo getCoffee('base/tipsy.js'); ?>
+
+$("a[title], label[title], button[title], textarea[title]").tipsy()
+$("input[title]").tipsy
+	trigger: "focus"
+	gravity: "w"
+
+$(".toggle-container[title]").tipsy
+	trigger: "hover"
+	gravity: "w"
 
 #jGrowl
 <?php echo getCoffee('base/jgrowl.js'); ?>
@@ -147,16 +156,7 @@ buildCache = ->
 	cache.modals = "." + cache.modals.join("-c, .") + "-c"
 	cache.nav = "." + cache.nav.join("-n, .") + "-n"
 
-$(document).ready ->
-	$("a[title], label[title], button[title], textarea[title]").tipsy()
-	$("input[title]").tipsy
-		trigger: "focus"
-		gravity: "w"
-
-	$(".toggle-container[title]").tipsy
-		trigger: "hover"
-		gravity: "w"
-
+$ ->
 	user = eatCookie("user")
 	if user isnt ""
 		window.user = eval("(" + user + ")")

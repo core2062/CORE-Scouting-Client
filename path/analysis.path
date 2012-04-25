@@ -4,26 +4,25 @@ $content[] =
 	'style' => "display:none",
 	['li',
 		['fieldset',
-			['legend','Compile'],
-			['ul',
-				['li',
-					['label','Update:'],
-					['button',
-						'title' => 'do all analysis',
-						'onclick' => "analyRequest('compile')",
-						'Compile'
-					],
-					['button',
-						'title' => 'rebuild the collection holding partly analyzed scouting data',
-						'onclick' => "analyRequest('rebuildAnalysisScouting')",
-						'Rebuild Scouting Analysis'
-					]
-				]
-			]
+			['legend','Data'],
+			['ul']
 		]
 	]
 ];
 
+$sidebar[] = ['ul.member-c',
+	'style' => "display:none",
+	['li',
+		['fieldset',
+			['legend','Query'],
+			['ul',
+				['label', 'for'=>'queryTeamNum', 'data-defaultText'=>'Team Num:'],
+				['input#queryTeamNum', ]
+			]
+		]
+	]
+];
+/*
 $content[] =
 ['ul.data-liberation-c',
 	'style' => "display:none",
@@ -35,4 +34,5 @@ $content[] =
 		]
 	]
 ];
+*/
 ?>
