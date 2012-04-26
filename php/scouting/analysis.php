@@ -35,12 +35,12 @@ function analysisScoutingRebuild(){
 
 	$db->analysisScouting->remove([]);//clear out analysisScouting
 	globalVar('analysisScoutingErrors',[]);
-
+/*
 	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'tracking'], globalVar('analysisQueryLimits')));//process tracking info
 	foreach($cursor as $obj){
 		entryAnalysis($obj);
 	}
-
+*/
 	//FIXER
 	/*
 	$cursor = $db->sourceScouting->find([]);//process robot info
