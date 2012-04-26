@@ -5,7 +5,15 @@
 list($micro, $sec) = explode(" ",microtime());
 $starttime = (float)$sec + (float)$micro;
 
-//connect to mongoDB
+//dependencies
+if (!version_compare(PHP_VERSION, "5.4")) {//TODO: test php version check
+	die("you're gonna need php 5.4 to run this, sorry");
+}
+if (!class_exists("Mongo")) {
+	die("you're gonna need the php_mongo module to run this, sorry");
+}
+
+//connect to mongoDB TODO: FIX THIS
 if(class_exists('Mongo')){
 	$m = new Mongo();
 	$db = $m->selectDB("csd");
