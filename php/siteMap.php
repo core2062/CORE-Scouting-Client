@@ -187,7 +187,7 @@
 					"fullName" => "Login",
 					"description" => "lorem",
 					"login-required" => false,
-					"onOpen" => "$('#scoutid'].focus()"
+					"onOpen" => "$('#scoutid').focus()"
 				],
 				"navigation" => [
 					"fullName" => "Navigation",
