@@ -90,6 +90,12 @@ $content[] =
 						'for' => 'hybridHigh',
 						'High:'
 					],
+					[
+						'button',
+						'onclick' => "increase('hybridHigh');return false;",
+						'class' => "icon plus",
+						'+'
+					],
 					['input#hybridHigh',
 						'style' => "width:40px",
 						'onkeypress' => "return limitInput(event, 'number')"
@@ -100,6 +106,12 @@ $content[] =
 						'for' => 'hybridMiddle',
 						'Middle:'
 					],
+					[
+						'button',
+						'onclick' => "increase('hybridMiddle');return false;",
+						'class' => "icon plus",
+						'+'
+					],
 					['input#hybridMiddle',
 						'style' => "width:40px",
 						'onkeypress' => "return limitInput(event, 'number')"
@@ -109,6 +121,12 @@ $content[] =
 					['label',
 						'for' => 'hybridBottom',
 						'Bottom:'
+					],
+					[
+						'button',
+						'onclick' => "increase('hybridBottom');return false;",
+						'class' => "icon plus",
+						'+'
 					],
 					['input#hybridBottom',
 						'style' => "width:40px",
@@ -173,6 +191,12 @@ $content[] =
 						'for' => 'teleopHigh',
 						'High:'
 					],
+					[
+						'button',
+						'onclick' => "increase('teleopHigh');return false;",
+						'class' => "icon plus",
+						'+'
+					],
 					['input#teleopHigh',
 						'style' => "width:40px",
 						'onkeypress' => "return limitInput(event, 'number')"
@@ -183,6 +207,12 @@ $content[] =
 						'for' => 'teleopMiddle',
 						'Middle:'
 					],
+					[
+						'button',
+						'onclick' => "increase('teleopMiddle');return false;",
+						'class' => "icon plus",
+						'+'
+					],
 					['input#teleopMiddle',
 						'style' => "width:40px",
 						'onkeypress' => "return limitInput(event, 'number')"
@@ -192,6 +222,12 @@ $content[] =
 					['label',
 						'for' => 'teleopBottom',
 						'Bottom:'
+					],
+					[
+						'button',
+						'onclick' => "increase('teleopBottom');return false;",
+						'class' => "icon plus",
+						'+'
 					],
 					['input#teleopBottom',
 						'style' => "width:40px",
@@ -205,6 +241,12 @@ $content[] =
 						'for' => 'totalShots',
 						'Shots Taken:'
 					],
+					[
+						'button',
+						'onclick' => "increase('totalShots');return false;",
+						'class' => "icon plus",
+						'+'
+					],
 					['input#totalShots',
 						'type' => 'text',
 						'style' => "width:40px;",
@@ -216,6 +258,12 @@ $content[] =
 						'for' => 'fouls',
 						'Fouls:'
 					],
+					[
+						'button',
+						'onclick' => "increase('fouls');return false;",
+						'class' => "icon plus",
+						'+'
+					],
 					['input#fouls',
 						'type' => 'text',
 						'style' => "width:40px;",
@@ -226,6 +274,12 @@ $content[] =
 					['label',
 						'for' => 'techFouls',
 						'Tech Fouls:'
+					],
+					[
+						'button',
+						'onclick' => "increase('techFouls');return false;",
+						'class' => "icon plus",
+						'+'
 					],
 					['input#techFouls',
 						'type' => 'text',
