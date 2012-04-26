@@ -15,7 +15,7 @@ $input['data']['meta'] = array(
 	'scoutid' => $user['_id'],
 	'time' => $starttime,
 	'type' => $input['inputType'],
-	'eventCode' => 'WI',
+	'eventCode' => 'SL',
 	'use' => true //default
 );
 
