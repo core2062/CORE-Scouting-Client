@@ -96,6 +96,15 @@ $("#navAccordion > p").click ->
 		$target.addClass("active").slideDown()
 	false
 
+#expiriment with default text
+###
+$('input[data-defaultText]').each (index, value) ->
+	console.log 'theheh'
+	console.log this
+	console.log index
+	console.log value
+	this.value = this.dataset.defaultText
+###
 # global vars
 current =
 	index: ""
@@ -125,6 +134,8 @@ defaultUser = #default user object for user who isn't logged in (no cookie is st
 	prefs:
 		fade: true
 		verbose: true
+
+user = {} #so coffeescript sees that this is defined (it isn't seeing the window.user)
 
 fixFavicon = -> #fixes favicon bug in firefox -- remove in future
 	$("#favicon").remove()
@@ -157,12 +168,12 @@ buildCache = ->
 	cache.nav = "." + cache.nav.join("-n, .") + "-n"
 
 $ ->
-	user = eatCookie("user")
-	if user isnt ""
-		window.user = eval("(" + user + ")")
-		updateUserBar()
+	userCookie = eatCookie("user")
+	if userCookie isnt ""
+		window.user = eval("(" + userCookie + ")")
 	else
 		window.user = defaultUser
+	updateUserBar()
 	window.missedPosts = getMissedPosts()
 	buildCache()
 	nav()
@@ -335,8 +346,8 @@ getToken = (password) ->
 		
 	must be separate from other functions so it can be called directly from login modal
 	###
-	scoutidInput = document.getElementById("scoutid")
-	pwordInput = document.getElementById("pword")
+	scoutidInput = document.getElementById "scoutid"
+	pwordInput = document.getElementById "pword"
 	user._id = scoutidInput.value #put in user object (scoutid in user object != logged in)
 	pword = pwordInput.value #limited to this function (can't be recovered after being typed in)
 	scoutidInput.value = "" #remove them from inputs
