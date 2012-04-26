@@ -17,7 +17,7 @@ $site = [
 ];
 
 //determines health based on percent of entries without errors
-$site['db']['health'] = 1 - count(globalVar('analysisScoutingErrors')) / $site['db']['totalEntries'];
+$site['db']['health'] = $site['db']['totalEntries'] !== 0 ? 1 - count(globalVar('analysisScoutingErrors')) / $site['db']['totalEntries'] : 0;
 
 /*
 if (file_exists($filename) == true && $vars['disableCache'] == false){
