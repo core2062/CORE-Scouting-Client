@@ -27,7 +27,7 @@ $db->sourceScouting->insert(
 	$input['data']
 );
 
-logger($input['data']['inputType'] . ' data from match ' . $input['data']['matchNum'] . ' was submitted by ' . $input['data']['meta']['scoutid']);
+logger($input['data']['inputType'] . ' data from match ' . $input['data']['matchNum'] . ' was submitted by ' . $input['data']['meta']['scoutid'], false, true);
 
 require "php/scouting/analysis.php";
 entryAnalysis($input['data']);

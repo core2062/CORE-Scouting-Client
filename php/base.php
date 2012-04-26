@@ -36,7 +36,8 @@ function globalVarAppend($name, $newData){
 //logging function
 $log = []; //start log - used for general logging (any messages that are not recorded by anything else)
 
-function logger($message, $fbDisplay = false){
+function logger($message, $fbDisplay = false, $event = false){
+	//event determines if the message is written to the event log
 	global $log;
 	global $starttime;
 	global $vars;
@@ -50,7 +51,11 @@ function logger($message, $fbDisplay = false){
 		fb($message);
 	}
 
-	error_log($message . ", at " . $duration . "\n", 3, "tmp/log");
+	if($event == true){
+		error_log($message . ", at " . $duration . "\n", 3, "tmp/eventLog");//event log holds user-friendly messages on what is going on
+	} else {
+		error_log($message . ", at " . $duration . "\n", 3, "tmp/log");//log holds everything else (mostly for dev stuff)
+	}
 }
 
 //global return functions
