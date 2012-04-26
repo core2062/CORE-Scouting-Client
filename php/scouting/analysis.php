@@ -49,7 +49,7 @@ function analysisScoutingRebuild(){
 		$db->sourceScouting->update(['_id' => $obj['_id']],$obj);//insert new one
 	}
 	*/
-	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'robot'], globalVar('analysisQueryLimits')));//process robot info
+	$cursor = $db->sourceScouting->find(array_merge(['inputType' => 'robot', 'meta.eventCode' => 'SL'], globalVar('analysisQueryLimits')));//process robot info
 	foreach($cursor as $obj){
 		entryAnalysis($obj);
 	}

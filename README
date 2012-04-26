@@ -60,6 +60,8 @@ ramblings:
 
 	--- main TODO ---
 
+	make blank default value for select boxes blank (and add error checking to prevent this from being submitted)
+
 	performance
 		add gzip to server
 		move all js scripts & static resources to cookie-less sub-domain
