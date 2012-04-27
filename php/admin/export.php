@@ -44,7 +44,6 @@
 	//robot scouting sheets
 	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
 	foreach ($cursor as $obj) {
-		unset($obj['meta']);
 		unset($obj['_id']);
 		unset($obj['inputType']);
 
@@ -65,7 +64,6 @@
 	//robot scouting sheets
 	$cursor = $db->analysisScouting->find(['inputType' => 'tracking']);
 	foreach($cursor as $obj) {
-		unset($obj['meta']);
 		unset($obj['_id']);
 		unset($obj['inputType']);
 		unset($obj['shots']);
