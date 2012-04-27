@@ -33,6 +33,7 @@ $content[] =
 					]
 				],
 				['li',
+					'style' => 'display:none',
 					['label',
 						'for' => 'picksUpBalls',
 						'Picks Up Balls:'
@@ -449,9 +450,9 @@ $sidebar[] =
 						'Color:'
 					],
 					['select#allianceColor',
-						'style' => 'width:75px',
+						'style' => 'width:100px',
 						'size' => 1,
-						['option', 'value' => '', 'team color'],
+						['option', 'value' => '', 'colour'],
 						['option', 'value' => 'r', 'red'],
 						['option', 'value' => 'b', 'blue']
 					]
