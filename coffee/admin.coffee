@@ -1,5 +1,8 @@
 
-#Coffee Table
+#coffee script compiler
+<?php echo getCoffee('admin/coffeeScript.js'); ?>
+
+#coffee table
 <?php echo getCoffee('admin/coffeeTable.coffee'); ?>
 
 adminRequest = (request) ->
