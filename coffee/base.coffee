@@ -74,7 +74,7 @@ console.log 'Hello and welcome to the CSD, a intuitive scouting database and ana
 #TODO: make startup script to warn bad browsers
 #TODO: add stuff to prefetch subpages
 
-#error logger
+#error logger TODO: test error logger
 window.onerror = (msg, url, line) ->
 	$("#jGrowl-container").jGrowl 'errorMsg:' + msg + ' on line ' + line,
 		theme: "error"

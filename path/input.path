@@ -424,9 +424,10 @@ $sidebar[] =
 					['select#matchType',
 						'style' => 'width:130px',
 						'size' => 1,
-						['option', 'value' => "p", 'Practice'],
-						['option', 'value' => "q", 'Qualification'],
-						['option', 'value' => "e", 'Elimination']
+						['option', 'value' => '', 'match type'],
+						['option', 'value' => "p", 'practice'],
+						['option', 'value' => "q", 'qualification'],
+						['option', 'value' => "e", 'elimination']
 					]
 				],
 				['br'],
@@ -450,8 +451,9 @@ $sidebar[] =
 					['select#allianceColor',
 						'style' => 'width:75px',
 						'size' => 1,
-						['option', 'value' => "r", 'Red'],
-						['option', 'value' => "b", 'Blue']
+						['option', 'value' => '', 'team color'],
+						['option', 'value' => 'r', 'red'],
+						['option', 'value' => 'b', 'blue']
 					]
 				]
 			]
