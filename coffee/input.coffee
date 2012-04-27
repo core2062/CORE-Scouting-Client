@@ -109,6 +109,8 @@ input =
 
 #TODO: add class for hidden sub-pages -- use for signup page during login
 
+#TODO: fix issue with not warning about blank team num
+
 #add fields to input object for use later
 `
 for(var i in input){
@@ -120,13 +122,13 @@ for(var i in input){
 	}
 }
 
-###
+/*
 function getValues(){
 	for(var i in input){
 		input[i].inputValue = input[i].elementNode[input[i].valueGetter];
 	}
 }
-###
+*/
 
 function submitData(){
 	//document.getElementById('submit').disabled = true;//prevent 2x press (team will be cleared so it will error-out if submitted 2x)
