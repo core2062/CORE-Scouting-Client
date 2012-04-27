@@ -59,6 +59,8 @@ function logger($message, $fbDisplay = false, $event = false){
 }
 
 //global return functions
+
+//TODO: combine into one send function ... and probably put in a class
 function send_error($error_text, $error = '', $script = ''){
 	global $db;
 	global $starttime;
@@ -69,7 +71,7 @@ function send_error($error_text, $error = '', $script = ''){
 	global $place;
 	
 	if($script != ''){//if a script is defined, record it
-		$log[] = 'script defined: ' . $script;
+		logger('script defined: ' . $script);
 	}
 
 	if($error == "") $error = $error_text;
@@ -107,6 +109,10 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	global $user;
 	global $type;
 	global $place;
+
+	if($script != ''){//if a script is defined, record it
+		logger('script defined: ' . $script);
+	}
 
 	logger("script ended, output buffer=" . ob_get_contents());
 
