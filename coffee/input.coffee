@@ -1,120 +1,116 @@
 # global vars for errorcheck(), actual values assigned later
+errornum = 0 #of inputs with errors
+inputnum = 0 #of inputs filled
+
+#get all inputs & assign variable
+
+#id of each element to get data from
+input =
+	drive:
+		categories: ["p"]
+	comments:
+		categories: ["r", "t", "p"]
+		defaultValue: ''
+	matchNum:
+		categories: ["r", "t"]
+	
+	matchType:
+		categories: ["r", "t"]
+		defaultValue: 'p'
+	
+	teamNum:
+		categories: ["r", "t"]
+		defaultValue: ''
+	
+	pitTeamNum:#this is really just a pain
+		categories: ["p"]
+		defaultValue: ''
+	
+	allianceColor:
+		categories: ["r","t"]
+		defaultValue: 'red'
+	
+	disabledOrNoShow:
+		categories: ["r"]
+		defaultValue: false
+	
+	crossesBump:
+		categories: ["r"]
+		defaultValue: false
+	
+	picksUpBalls:
+		categories: ["r"]
+		defaultValue: false
+	
+	manipulatesBridge:
+		categories: ["r"]
+		defaultValue: false
+	
+	getsBallsOffBridge:
+		categories: ["r"]
+		defaultValue: false
+	
+	usesKinect:
+		categories: ["r"]
+		defaultValue: false
+	
+	hybridHigh:
+		categories: ["r"]
+		defaultValue: ''
+	
+	hybridMiddle:
+		categories: ["r"]
+		defaultValue: ''
+	
+	hybridBottom:
+		categories: ["r"]
+		defaultValue: ''
+	
+	attemptBalance:
+		categories: ["r"]
+		defaultValue: false
+	
+	robotsOnBridge:
+		categories: ["r"]
+		defaultValue: ''
+	
+	balanceSuccess:
+		categories: ["r"]
+		defaultValue: false
+	
+	coopertition:
+		categories: ["r"]
+		defaultValue: false
+	
+	teleopHigh:
+		categories: ["r"]
+		defaultValue: ''
+	
+	teleopMiddle:
+		categories: ["r"]
+		defaultValue: ''
+	
+	teleopBottom:
+		categories: ["r"]
+		defaultValue: ''
+	
+	totalShots:
+		categories: ["r"]
+		defaultValue: ''
+	
+	fouls:
+		categories: ["r"]
+		defaultValue: ''
+	
+	techFouls:
+		categories: ["r"]
+		defaultValue: ''
+
+
+#TODO: add class for hidden sub-pages -- use for signup page during login
+
+#add fields to input object for use later
 `
-var errornum = 0; //of inputs with errors
-var inputnum = 0; //of inputs filled
-
-//get all inputs & assign variable
-
-//id of each element to get data from
-var input = {
-	"drive": {
-		"categories": ["p"]
-	},
-	"comments": {
-		"categories": ["r", "t", "p"],
-		"defaultValue": ''
-	},
-	"matchNum": {
-		"categories": ["r", "t"]
-	},
-	"matchType": {
-		"categories": ["r", "t"],
-		"defaultValue": 'p'
-	},
-	"teamNum": {
-		"categories": ["r", "t"],
-		"defaultValue": ''
-	},
-	"pitTeamNum": {//this is really just a pain
-		"categories": ["p"],
-		"defaultValue": ''
-	},
-	"allianceColor": {
-		"categories": ["r","t"],
-		"defaultValue": 'red'
-	},
-	"disabledOrNoShow": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"crossesBump": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"picksUpBalls": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"manipulatesBridge": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"getsBallsOffBridge": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"usesKinect": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"hybridHigh": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"hybridMiddle": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"hybridBottom": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"attemptBalance": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"robotsOnBridge": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"balanceSuccess": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"coopertition": {
-		"categories": ["r"],
-		"defaultValue": false
-	},
-	"teleopHigh": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"teleopMiddle": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"teleopBottom": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"totalShots": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"fouls": {
-		"categories": ["r"],
-		"defaultValue": ''
-	},
-	"techFouls": {
-		"categories": ["r"],
-		"defaultValue": ''
-	}
-};
-
-
-//TODO: add class for hidden sub-pages -- use for signup page during login
-
-//add fields to input object for use later
 for(var i in input){
 	input[i].elementNode = document.getElementById(i);
 	if(input[i].elementNode.type == "checkbox"){
@@ -124,13 +120,13 @@ for(var i in input){
 	}
 }
 
-/*
+###
 function getValues(){
 	for(var i in input){
 		input[i].inputValue = input[i].elementNode[input[i].valueGetter];
 	}
 }
-*/
+###
 
 function submitData(){
 	//document.getElementById('submit').disabled = true;//prevent 2x press (team will be cleared so it will error-out if submitted 2x)
