@@ -42,7 +42,7 @@
 	unset($csv);
 */
 	//robot scouting sheets
-	$cursor = $db->analysisScouting->find(['inputType' => 'robot', 'meta.eventCode' => 'SL']);
+	$cursor = $db->analysisScouting->find(['inputType' => 'robot']);
 	foreach ($cursor as $obj) {
 		unset($obj['meta']);
 		unset($obj['_id']);
@@ -63,7 +63,7 @@
 	unset($csv);
 
 	//robot scouting sheets
-	$cursor = $db->analysisScouting->find(['inputType' => 'tracking', 'meta.eventCode' => 'SL']);
+	$cursor = $db->analysisScouting->find(['inputType' => 'tracking']);
 	foreach($cursor as $obj) {
 		unset($obj['meta']);
 		unset($obj['_id']);
