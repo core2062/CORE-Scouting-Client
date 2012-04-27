@@ -110,10 +110,6 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	global $type;
 	global $place;
 
-	if($script != ''){//if a script is defined, record it
-		logger('script defined: ' . $script);
-	}
-
 	logger("script ended, output buffer=" . ob_get_contents());
 
 	/*$db->log->insert(
