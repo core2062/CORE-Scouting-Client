@@ -1,9 +1,11 @@
 
 #coffee script compiler
-<?php echo getCoffee('admin/coffeeScript.js'); ?>
+<?php //echo getCoffee('admin/coffeeScript.js'); ?>
+
+#TODO: get coffeeScript source to avoid backtick issues
 
 #coffee table
-<?php echo getCoffee('admin/coffeeTable.coffee'); ?>
+<?php //echo getCoffee('admin/coffeeTable.coffee'); ?>
 
 adminRequest = (request) ->
 	post "process.php", '{"request": "admin", "subRequest": "' + request + '"}', true

@@ -19,7 +19,7 @@
 		$csv[] = toFlatArray($obj);
 	}
 */
-	/*
+/*
 		total number of balances
 
 		next level of importance:
@@ -27,13 +27,13 @@
 		# matches doa
 		penalty points incurred
 		total bump crossings
-1		hybrid score separated from teleop score
+		hybrid score separated from teleop score
 
 		nice to have
 
 		longest shot made (could be represented in feet or in increments like fender, key, front court, half court...)
 		best balance (single, double, etc)
-	*/
+*/
 /*
 	$fp = fopen('tmp/db/export/compiledTeam.csv', "w+");
 	fwrite($fp, toCSV($csv));

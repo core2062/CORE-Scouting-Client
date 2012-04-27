@@ -1,4 +1,4 @@
-/**
+/*
  * CoffeeScript Compiler v1.1.2
  * http://coffeescript.org
  *
