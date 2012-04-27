@@ -11,13 +11,13 @@ if(!empty($input['inputType'])){
 }
 
 //for all types of input
-$input['data']['meta'] = array(
+$input['data']['meta'] = [
 	'scoutid' => $user['_id'],
 	'time' => $starttime,
 	'type' => $input['inputType'],
 	'eventCode' => 'SL',
 	'use' => true //default
-);
+];
 
 foreach ($input['data'] as $key => $value) {
 	if(is_numeric($value)) $input['data'][$key] = $input['data'][$key] + 0;//change type of vars if they are actually numbers
@@ -32,5 +32,5 @@ logger($input['data']['inputType'] . ' data from match ' . $input['data']['match
 require "php/scouting/analysis.php";
 entryAnalysis($input['data']);
 
-send_reg(array('message' => 'data submitted sucessfully'));
+send_reg(['message' => 'data submitted sucessfully']);
 ?>
