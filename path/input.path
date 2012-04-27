@@ -63,6 +63,7 @@ $content[] =
 			['legend','Hybrid'],
 			['ul.stacked.hybrid',
 				['li',
+					'style' => 'display:none',
 					['label',
 						'for' => 'getsBallsOffBridge',
 						'Balls-Bridge:'
@@ -74,6 +75,7 @@ $content[] =
 					]
 				],
 				['li',
+					'style' => 'display:none',
 					['label',
 						'for' => 'usesKinect',
 						'Uses Kinect:'
