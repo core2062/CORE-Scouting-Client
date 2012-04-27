@@ -4,14 +4,6 @@
 
 # Default widget settings.
 defaults =
-
-	# Automatically load jQuery and CoffeeScript if not found in page
-	autoload_coffee_script : false
-	autoload_jquery : false
-	# URLs of CoffeeScript and jQuery files to load 
-	coffeescript_js: ''
-	jquery_js: ''
-
 	# Persist the history using localStorage
 	local_storage: true
 	# Key to persist data with in localStorage
@@ -84,10 +76,6 @@ deferred = false
 loaded = false
 showing_multi_line = false
 history_index = 0
-loaded_scripts =
-	jquery_js : false
-	coffeescript_js : false
-
 
 ###
 Track the input history with a list of objects like this...
@@ -102,46 +90,42 @@ Track the input history with a list of objects like this...
 history = []
 
 
-# ## Main functions
+# Main functions
 
-# ### init
-###
-Loads settings, and initiates the rendering of the widget and loading of
-previous history from localStorage.
-###
+# init
+#Loads settings, and initiates the rendering of the widget and loading of previous history from localStorage.
 init = (opts={}) ->
-	if loaded_scripts.jquery_js and loaded_scripts.coffeescript_js
-		# Use $ even if jQuery is in no-conflict mode
-		$ = window.jQuery
+	# Use $ even if jQuery is in no-conflict mode
+	$ = window.jQuery
 
-		# If window.console isn't present, and the widget is set to adopt log
-		# and dir methods, create a console object with those methods and pass
-		# them through to the internal log and dir methods.
-		if (settings.adopt_log or settings.adopt_dir) and not window.console?
-			window.console = {}
-			if settings.adopt_log
-				window.console.log = (args...) ->
-					ctLog(args...)
-			if settings.adopt_dir
-				window.console.dir = (args...) ->
-					ctDir(args...)
+	# If window.console isn't present, and the widget is set to adopt log
+	# and dir methods, create a console object with those methods and pass
+	# them through to the internal log and dir methods.
+	if (settings.adopt_log or settings.adopt_dir) and not window.console?
+		window.console = {}
+		if settings.adopt_log
+			window.console.log = (args...) ->
+				ctLog(args...)
+		if settings.adopt_dir
+			window.console.dir = (args...) ->
+				ctDir(args...)
 
-		# Alias log and dir for shorter typing
-		window.log = ctLog
-		window.dir = ctDir
+	# Alias log and dir for shorter typing
+	window.log = ctLog
+	window.dir = ctDir
 
-		# Apply the ID from settings to the template HTML and CSS.
-		template = template.replace(/__ID__/g, settings.widget_id)
-		renderWidget()
+	# Apply the ID from settings to the template HTML and CSS.
+	template = template.replace(/__ID__/g, settings.widget_id)
+	renderWidget()
 
-		# Load previous history if localStorage is enabled by settings.
-		if settings.local_storage
-			loadFromStorage()
+	# Load previous history if localStorage is enabled by settings.
+	if settings.local_storage
+		loadFromStorage()
 
-		loaded = true
+	loaded = true
 	return loaded
 
-# ### ctLog
+# ctLog
 ###
 Log one or more values to the CoffeeTable widget. Used as the implementation of
 `console.log` if `settings.adopt_log` is `true` and `console.log` is not already
@@ -154,7 +138,7 @@ ctLog = (args...) ->
 			execute("'log: #{ output }'")
 	return
 
-# ### ctDir
+# ctDir
 ###
 Dir one or more values to the CoffeeTable widget. Used as the implementation of
 `console.dir` if `settings.adopt_dir` is `true` and `console.dir` is not already
@@ -165,7 +149,7 @@ ctDir = (args...) ->
 		execute(arg, false, true)
 	return
 
-# ### ctExec
+# ctExec
 ###
 Takes in one or more strings of CoffeeScript code, which is then executed, in
 order, by the widget. Returns the result of each execution in a list.
@@ -176,7 +160,7 @@ ctExec = (args...) ->
 
 
 
-# ### buildAutosuggest
+# buildAutosuggest
 ###
 Generate the auto-suggest list based on the object represented by the
 supplied text. Done by iterating over the objects loaded, starting with
@@ -227,7 +211,7 @@ buildAutosuggest = (text, e) ->
 		catch e
 
 
-# ### renderAutosuggest
+# renderAutosuggest
 ###
 Build and show the ul for the auto-suggest matched items.
 ###
@@ -248,11 +232,8 @@ renderAutosuggest = (working_items, match_list) ->
 	resizeWidget()
 
 
-# ### loadFromStorage
-###
-If localStorage is supported, try loading previous command history.
-Throws an error if called when localStorage is not supported.
-###
+# loadFromStorage
+#If localStorage is supported, try loading previous command history. Throws an error if called when localStorage is not supported.
 loadFromStorage = ->
 	if not localStorage?
 		throw 'localStorage not supported by this browser. History will not be persisted.'
@@ -269,7 +250,7 @@ loadFromStorage = ->
 			execute(entry_source, not settings.replay_on_load) for entry_source in previous_data
 
 
-# ### replayHistory
+# replayHistory
 ###
 Clear the display of the history and excute each item in the history.
 ###
@@ -286,7 +267,7 @@ replayHistory = ->
 	for entry_source in entries_to_replay
 		execute(entry_source)
 
-# ### expandObject
+# expandObject
 ###
 Given an element and result item, enumerate the properties of the result into
 lists that can be expanded, recursively if the property is itself and object.
@@ -358,7 +339,7 @@ expandObject = (li, result) ->
 			li.addClass('open')
 			assembleList(result, li)
 
-# ### execute
+# execute
 ###
 Compile and evaluate the specified CoffeeScript source string. Optionally,
 the execution can be a dry run and the source will not actually be executed.
@@ -464,7 +445,7 @@ execute = (source, dry_run=false, do_dir=false) ->
 		
 		return result
 
-# ### clearHistory
+# clearHistory
 ###
 Empty the history in memory, disk, and page.
 ###
@@ -489,7 +470,7 @@ clearHistory = ->
 	$els.replay_history.hide()
 
 
-# ### renderInstructions
+# renderInstructions
 ###
 Show instructions for how to use the widget, depending on multi-line setting.
 ###
@@ -502,7 +483,7 @@ renderInstructions = ->
 		$els.instructions.text(instructions)
 
 
-# ### loadPrevious
+# loadPrevious
 ###
 Given a history index to load, set the current source input to the source of
 that entry. Supports going either direction through the history; pass `true`
@@ -531,7 +512,7 @@ loadPrevious = (forward=false, target_index) ->
 		$els.textarea.selectionEnd = 0
 
 
-# ### toggleMultiline
+# toggleMultiline
 ###
 Switch between single-line and multi-line modes, disabling auto-suggest if in
 multi-line mode.
@@ -553,7 +534,7 @@ toggleMultiLine = ->
 	renderInstructions()
 
 
-# ### resizeWidget
+# resizeWidget
 ###
 Set the max-height and max-width of the widget and auto-suggest list to keep
 it visible in the window. (Being absolutely positioned, it does not affect the
@@ -568,7 +549,7 @@ resizeWidget = ->
 	$els.history_list.css('max-height',height)
 
 
-# ### renderWidget
+# renderWidget
 ###
 Build and display the widget elements.
 ###
@@ -607,7 +588,7 @@ renderWidget = ->
 	resizeWidget()
 
 
-# ### bindEvents
+# bindEvents
 ###
 Setup the various events for the control elements.
 ###
@@ -689,10 +670,8 @@ bindEvents = ->
 	$(window).resize ->
 		resizeWidget()
 
-# ### unloadWidget
-###
-Remove the widget element from the DOM and clear the `CoffeeTable` object.
-###
+# unloadWidget
+# Remove the widget element from the DOM and clear the `CoffeeTable` object.
 unloadWidget = () ->
 	$els?.widget.remove()
 	window.CoffeeTable = null
@@ -700,7 +679,7 @@ unloadWidget = () ->
 
 
 
-# ## Export the API
+# Export the API
 
 # Reassign the API functions
 window.CoffeeTable =
@@ -739,72 +718,21 @@ window.CoffeeTable =
 		return ctExec(args...)
 
 
-# ## Loading
+# Loading
 
-# ### setSettings
-###
-Load the default settings and apply user overrides.
-###
+# setSettings
+#Load the default settings and apply user overrides.
 setSettings = (opts) ->
 	settings = defaults
 	for key, value of opts
 		settings[key] = value
 
-
-# ### loadScript
-###
-Helper for loading external scripts.
-###
-loadScript = (script_name) ->
-	# Do all the traversing and manipulation directly, since jQuery may not
-	# be available yet.
-	head = document.getElementsByTagName('head')[0]
-	script = document.createElement('script')
-	script.type = 'application/javascript'
-	script.src = settings[script_name]
-	script.async = true
-	script.onload = ->
-		loaded_scripts[script_name] = true
-		init()
-	head.appendChild(script)
-
-
-# ### preInit
-###
-Helper for prepping settings and checking if dependencies are loaded.
-###
-preInit = ->
-	active = false
-
-	# Check if jQuery and CoffeeScript have already been loaded.
-	loaded_scripts.jquery_js = window.jQuery?
-	loaded_scripts.coffeescript_js = window.CoffeeScript?
-
-	# If the scripts haven't been loaded, load them, or throw an error if
-	# loading is disabled in settings.
-	if not loaded_scripts.coffeescript_js
-		if not settings.autoload_coffee_script
-			throw 'CoffeeTable requires coffee_script.js'
-		else
-			loadScript('coffeescript_js')
-	if not loaded_scripts.jquery_js
-		if not settings.autoload_jquery
-			throw 'CoffeeTable requires jQuery'
-		else
-			loadScript('jquery_js')
-
-	# Try init here (in case the scripts are already loaded).
-	init()
-
-
-# ### DOM ready event
-###
-Automatically load dependencies and initialize the widget, unless deferred.
-###
+# DOM ready event
+#Automatically load dependencies and initialize the widget, unless deferred.
 document.addEventListener('DOMContentLoaded', ->
 	document.removeEventListener('DOMContentLoaded', arguments.callee, false)
 	if not deferred and not loaded
 		setSettings()
-		preInit()
+		active = false
+		init()
 , false)
-

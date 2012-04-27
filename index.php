@@ -380,6 +380,8 @@ send_reg($html, false, false);
 
 //TODO: rewrite get coffee so it doesn't use the output buffer
 function getCoffee($file){//this function can be called in the coffee files to get other dependencies
+	global $vars;
+
 	$file = 'coffee/' . $file;
 
 	//TODO: find a better way of doing the below stuff that doesn't f with the output buffer
@@ -389,6 +391,8 @@ function getCoffee($file){//this function can be called in the coffee files to g
 	$fileContents = ob_get_contents();
 	ob_clean();
 	echo $oldOutputBuffer;//put the old contents back
+
+	if($vars['devMode']) logger($file . ' was embedded', true);
 
 	preg_match('/\.(coffee|js)/', $file, $fileExtension);//get file extension
 	$fileExtension = $fileExtension[1];//normalize
