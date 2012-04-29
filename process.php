@@ -1,27 +1,10 @@
 <?php
 /*
 
-This script handles:
-	validation for logged in users (based on tokens)
-	getting the user object
-	checking permissions
-	pointing to the correct script depending on the request type
-	general use functions
-	and error/success logging
-
-Permission Levels:
-	0 = banned : can't do anything
-	1 = scout : input access
-	2 = low scout-leader : access scout-leader stuff, & level 1 permissions
-	3 = analyzer : access data from analysis, download data for team, & level 1 permissions
-	4 = high scout-leader : level 1-3 permissions
-	5 =
-	6 =
-	7 =
-	8 =
-	9 = admin : everything
+This script acts as a console that checks permissions and requests (and their arguments) to the correct command
 
 	TODO: replace permissions system with something better
+	TODO: make a request object (holds everything, like vars and send functions)
 */
 
 //set place & type (for logging)
@@ -75,37 +58,7 @@ switch ($input['request']) {
 	case "poll": //for match signup, mail poll, other?
 
 		send_error('this part is not finished');
-		/*
-
-		//get more parameters
-		$checksignup=$_POST["s"]; // =1 for yes, =0 for no
-		$competition=$_POST["c"];
-		$matchnum=$_POST["m"];
-
-		// clean parameters
-		$checksignup = mysql_real_escape_string($checksignup);
-		$competition = mysql_real_escape_string($competition);
-		$matchnum = mysql_real_escape_string($matchnum);
-
-
-		// BEGIN MESSAGE POLL
-
-
-		// check for mail
-
-
-		//delete message after getting it
-
-
-		// END MESSAGE POLL
-		// BEGIN MATCH SIGNUP POLL
-
-		if ($checksignup == 1) {
-			//check if team leader
-			//check for who has signed up for match
-		}
-
-		*/
+		//get new stats, check for mail, get match signup stuff
 
 	break;
 	case "input":
