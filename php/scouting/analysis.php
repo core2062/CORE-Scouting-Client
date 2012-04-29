@@ -86,24 +86,19 @@ function entryAnalysis($obj){
 
 	if(empty($obj['matchNum'])){
 		$errors[] = 'no matchNum';
-		$obj['matchNum'] = -1;//temporary fix for writeErrors function
+		$obj['matchNum'] = false;//temporary fix for writeErrors function
 		$obj['meta']['use'] = false;
 	}
 	
 	if(empty($obj['teamNum'])){
 		$errors[] = 'no teamNum';
-		$obj['teamNum'] = -1;//temporary fix for writeErrors function
+		$obj['teamNum'] = false;//temporary fix for writeErrors function
 		$obj['meta']['use'] = false;
 	} else if(!in_array($obj["teamNum"], $teams)){//check for incorrect teamNum
 		$errors[] = 'wrong teamNum';
 		$obj['meta']['use'] = false;
 	}
-/*probably shouldn't even be using blacklisting+""
-	if(in_array($obj['teamNum'], globalVar('blacklist'))){//remove blacklisted teams
-		$errors[] = 'blacklisted team';
-		$obj['meta']['use'] = false;
-	}
-*/
+	
 	if(!$obj['meta']['use']){
 		$errors[] =  'data is not usable';
 		writeErrors($errors, $obj);//need to write out errors here before return
