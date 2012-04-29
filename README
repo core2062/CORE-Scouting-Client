@@ -61,6 +61,10 @@ ramblings:
 	--- main TODO ---
 
 	make blank default value for select boxes blank (and add error checking to prevent this from being submitted)
+	general alert/action modal
+	rewrite permissions
+	rewrite authentication
+	poll function
 
 	performance
 		add gzip to server
