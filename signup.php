@@ -21,7 +21,7 @@ $input = json_decode($input, true);
 
 //build list of required inputs
 $objects = array('info', 'account');
-$required = array();//initialize empty
+$required = [];//initialize empty
 
 $len = sizeof($objects);
 for($i = 0; $i < $len; $i++){
@@ -42,31 +42,31 @@ for($i = 0; $i < $len; $i++){
 }
 
 //transfer all stuff into a new object to prevent storing any extra values & do default check
-$input = array(
+$input = [
 	'permission' => 1, // TODO: make system to assign higher permissions automatically
 
-	"info"=> array(
+	"info"=> [
 		"fName"=> $input['info']['fName'],
 		"lName"=> $input['info']['lName'],
 		"team"=> (int)$input['info']['team']
-	),
+	],
 
-	"prefs"=> array(
+	"prefs"=> [
 		"fade"=> checkDefault($input['prefs']['fade'], true),
 		"verbose"=> checkDefault($input['prefs']['verbose'], true)
-	),
+	],
 
-	"account"=> array(
+	"account"=> [
 		"pword"=> $input['account']['pword'],
 		"email"=> $input['account']['email']
-	),
+	],
 	
-	"opt"=> array(
+	"opt"=> [
 		"zip"=> checkDefault($input['opt']['zip'], ''),
 		"browser"=> checkDefault($input['opt']['browser'], ''),
 		"gender"=> checkDefault($input['opt']['gender'], '')
-	)
-);
+	]
+];
 
 $array = str_split($input['info']['fName']);
 foreach($array as $char) {
