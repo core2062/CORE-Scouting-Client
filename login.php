@@ -18,12 +18,12 @@ if ($input['pword'] == "") {
 }
 
 $user = $db->user->findOne(
-	array(
+	[
 		'_id' => $input['_id']
-	),
-	array(
+	],
+	[
 		'stats' => 0
-	)
+	]
 );
 
 fb($user);
@@ -44,32 +44,31 @@ $user['token'] = uniqid("",true);
 $vars['token'] = $user['token'];//for logging ... fix?
 
 $db->user->update(
-	array(
+	[
 		'ip' => $vars['ip']
-	),
-	array(
-		'$unset'=> array(
+	],
+	[
+		'$unset'=> [
 			'stats.ip' => 1,
 			'token' => 1
-		)
-	)
+		]
+	]
 );//zero out ip & token for users w/ same ip
 
 $db->user->update(
-	array(
+	[
 		'_id' => $input['_id']
-	),
-	array(
-		'$set' => array(
+	],
+	[
+		'$set' => [
 			'token' => $user['token'],
-			'stats' => array(
+			'stats' => [
 				'ip' => $vars['ip'],
 				'logintime' => $starttime
-			)
-		)
-	)
+			]
+		]
+	]
 );//set ip & token for user logging in
-
 
 unset($user['account'], $user['stats'], $user['opt']);//remove stuff I don't want sent to browser
 
@@ -79,7 +78,7 @@ $endtime = (float)$sec + (float)$micro;
 $total_time = ($endtime - $starttime);
 
 $db->log->insert(
-	array(
+	[
 		'type' => 'token-gen',
 		'place' => 'login.php',
 		'time' => $starttime,
@@ -87,11 +86,11 @@ $db->log->insert(
 		'input' => $input,
 		'log' => $log,
 		'vars' => $vars
-	)
+	]
 );
 
 $user['message'] = 'login complete';//put message in user variable (easiest way)
 
-ob_clean (); //empty output buffer
+ob_clean(); //empty output buffer
 die(json_encode($user));
 ?>

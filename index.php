@@ -12,7 +12,7 @@ $site = [
 	'status' => 'fully operational',
 	'version' => 'alpha',
 	'db' => [
-		'totalEntries' => $db->analysisScouting->count()
+		'totalEntries' => $db->analysisScouting->find(array_merge(['meta.eventCode' => 'SL'], globalVar('analysisQueryLimits')))->count(),
 	]
 ];
 
@@ -104,9 +104,9 @@ function checkForUser(){
 
 		//check user & assign user object
 		$user = $db->user->findOne(
-			array(
+			[
 				'_id' => $user['_id']
-			)
+			]
 		);
 
 		if($user['stats']['ip'] !== $vars['ip'] || $user['permission'] == 0 || $user['token'] !== $user['token']) {//validate user object
