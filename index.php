@@ -12,7 +12,7 @@ $site = [
 	'status' => 'fully operational',
 	'version' => 'alpha',
 	'db' => [
-		'totalEntries' => $db->analysisScouting->find(array_merge(['meta.eventCode' => 'SL'], globalVar('analysisQueryLimits')))->count(),
+		'totalEntries' => $db->sourceScouting->count(array_merge(['meta.eventCode' => 'SL'], globalVar('analysisQueryLimits'))),
 	]
 ];
 

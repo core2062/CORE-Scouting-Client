@@ -12,6 +12,9 @@ if (version_compare(PHP_VERSION, '5.4') != 1) {
 if (!class_exists("Mongo")) {
 	die("you're gonna need the php_mongo module to run this, sorry");
 }
+if(`ps -C mongod` == "  PID TTY          TIME CMD\n"){//test if mongod is running
+	die("it doesn't look like mongod is running... you should look into this, try running mongod and view the output");
+}
 
 //connect to mongoDB TODO: FIX THIS
 if(class_exists('Mongo')){
