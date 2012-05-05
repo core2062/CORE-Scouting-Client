@@ -16,15 +16,9 @@ if(`ps -C mongod` == "  PID TTY          TIME CMD\n"){//test if mongod is runnin
 	die("it doesn't look like mongod is running... you should look into this, try running mongod and view the output");
 }
 
-//connect to mongoDB TODO: FIX THIS
-if(class_exists('Mongo')){
-	$m = new Mongo();
-	$db = $m->selectDB("csd");
-	//$site['mongo'] = true;
-} else {//mongo is not defined
-	//$site['mongo'] = false;
-	die('mongo is not running');//make better code to deal with mongo not being defined
-}
+//define mongo
+$m = new Mongo();
+$db = $m->selectDB("csd");
 
 require 'php/base.php';
 
