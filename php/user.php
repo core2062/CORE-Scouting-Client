@@ -61,13 +61,7 @@ class user {
 		}
 		
 	}
-	public function canDo($action){//determines if user is allowed to do a particular action (returns true or false)
-		if in_array($action, $this->$data['permissions']){
-			return true;
-		} else {
-			return false;
-		}
-	}
+
 	public function logout($error_message = ''){//must be function to let it be called from other areas in script
 		// delete token & ip for active user
 		$this->$data['stats']['ip'] = '';
