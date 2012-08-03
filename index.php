@@ -12,12 +12,14 @@ $site = [
 	'status' => 'fully operational',
 	'version' => 'alpha',
 	'db' => [
-		'totalEntries' => $db->sourceScouting->count(array_merge(['meta.eventCode' => 'SL'], globalVar('analysisQueryLimits'))),
+		'totalEntries' => 1000
+		//'totalEntries' => $db->sourceScouting->count(array_merge(['meta.eventCode' => 'SL'], globalVar('analysisQueryLimits'))),
 	]
 ];
 
 //determines health based on percent of entries without errors
-$site['db']['health'] = $site['db']['totalEntries'] !== 0 ? 1 - count(globalVar('analysisScoutingErrors')) / $site['db']['totalEntries'] : 0;
+//$site['db']['health'] = $site['db']['totalEntries'] !== 0 ? 1 - count(globalVar('analysisScoutingErrors')) / $site['db']['totalEntries'] : 0;
+$site['db']['health'] = 1;
 
 /*
 if (file_exists($filename) == true && $vars['disableCache'] == false){
@@ -85,6 +87,7 @@ if($vars['devMode'] == true){
 	logger('dev mode enabled');
 }
 
+/*
 function checkForUser(){
 	global $db;
 	global $vars;
@@ -125,7 +128,7 @@ function checkForUser(){
 	}
 }
 checkForUser();
-
+*/
 
 //set vars for embedded pages & filename
 $len = count($pages);

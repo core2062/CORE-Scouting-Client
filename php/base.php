@@ -1,38 +1,6 @@
 <?php
 //This script handles: basic functions needed for almost all scripts
 
-function globalVar($name, $update = null){//consider adding ability to set var here too
-	global $db;
-
-	if(!isset($update)){
-		$return = $db->globalVar->findOne(
-			[
-				'_id' => $name
-			]
-		);
-	} else {
-		$return = $db->globalVar->update(
-			[
-				'_id' => $name
-			],
-			[
-				'$set' => [
-					'value' => $update
-				]
-			],
-			true
-		);
-	}
-	return $return['value'];
-}
-
-function globalVarAppend($name, $newData){
-	if(count($newData) != 0){
-		$newData = array_merge(globalVar($name), $newData);
-		globalVar($name, $newData);
-	}
-}
-
 //logging function
 $log = []; //start log - used for general logging (any messages that are not recorded by anything else)
 
@@ -133,18 +101,4 @@ function send_reg($return = '',$enableEncode = true, $logReturn = true){
 	die($return);
 }
 
-//general functions
-function array_add($arrays){//parameter (arrays) is a array of the arrays to be added (must all have same keys)
-	//TODO: make this recursive
-	$numOfArrays = count($arrays);
-	$keys = array_keys($arrays[0]);
-	$numOfKeys = count($keys);
-	for($i=0; $i < $numOfKeys; $i++){
-		$sum[$keys[$i]] = 0;
-		for($e=0; $e < $numOfArrays; $e++){ 
-			$sum[$keys[$i]] = $sum[$keys[$i]] + $arrays[$e][$keys[$i]];
-		}
-	}
-	return $sum;
-}
 ?>

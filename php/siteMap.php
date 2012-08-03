@@ -1,6 +1,5 @@
 <?php
-	//CONSIDER: move sitemap data to mongoDB if requred
-	//TODO: replace sitemap with function which scans html directory and gets config from existing files (low importance]
+	//TODO: replace sitemap with function which scans html directory and gets config from existing files (low importance)
 
 	$pages = [
 		[

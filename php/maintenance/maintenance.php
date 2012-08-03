@@ -6,7 +6,7 @@
 function clearTmp(){
 	/* if not working:
 	sudo chmod -R 775 /var/www/
-	sudo chown -R sean:www-data /var/www/
+	sudo chown -R slang:www-data /var/www/
 	*/
 
 	//TODO: fix file permissions below
@@ -16,16 +16,8 @@ function clearTmp(){
 
 	mkdir($cwd . "/tmp");
 	mkdir($cwd . "/tmp/pages");
-	mkdir($cwd . "/tmp/backup");
 	mkdir($cwd . "/tmp/css");
 	mkdir($cwd . "/tmp/js");
-	mkdir($cwd . "/tmp/db");
-	mkdir($cwd . "/tmp/db/getTPIDs");
-	mkdir($cwd . "/tmp/db/getTeamProfiles");
-	mkdir($cwd . "/tmp/db/getEvents");
-	mkdir($cwd . "/tmp/db/updateFMS");
-	mkdir($cwd . "/tmp/db/export");
 }
 
-//TODO: add functions for export/import of data into JSON files
 ?>
