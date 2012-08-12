@@ -6,6 +6,5 @@ import os
 
 #filesystem
 CWD = os.path.dirname(__file__) + '/'  # get current working directory (top level of the csd server folder)
-TEMPLATE_DIR = CWD + 'template/'
-#LESS_DIR = CWD + 'less/'
-TMP_DIR = CWD + 'tmp/'  # holds temporary files, should be empty, directory must already exist
+TEMPLATE_DIR = CWD + 'resources/template/'
+STATIC_DIR = CWD + 'static/'
