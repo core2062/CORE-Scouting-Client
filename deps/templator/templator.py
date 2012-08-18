@@ -949,15 +949,15 @@ class Template(BaseTemplate):
 			p = ext(p)
 		return p
 
+	def get_source_line(self, filename, lineno):
+		try:
+			lines = open(filename).read().splitlines()
+			return lines[lineno]
+		except:
+			return None
+
 	def compile_template(self, template_string, filename):
 		code = Template.generate_code(template_string, filename, parser=self.create_parser())
-
-		def get_source_line(filename, lineno):
-			try:
-				lines = open(filename).read().splitlines()
-				return lines[lineno]
-			except:
-				return None
 
 		try:
 			# compile the code first to report the errors, if any, with the filename
@@ -966,7 +966,7 @@ class Template(BaseTemplate):
 			# display template line that caused the error along with the traceback.
 			try:
 				e.msg += '\n\nTemplate traceback:\n    File %s, line %s\n        %s' % \
-					(repr(e.filename), e.lineno, get_source_line(e.filename, e.lineno - 1))
+					(repr(e.filename), e.lineno, self.get_source_line(e.filename, e.lineno - 1))
 			except:
 				pass
 			raise
@@ -1000,13 +1000,13 @@ class CompiledTemplate(Template):
 class Render:
 	"""The most preferred way of using templates.
 
-		render = web.template.render('templates')
-		print render.foo()
+		render = web.template.Render('templates')
+		print Render.foo()
 
 	Optional parameter can be `base` can be used to pass output of
 	every template through the base template.
 
-		render = web.template.render('templates', base='layout')
+		render = web.template.Render('templates', base='layout')
 	"""
 	def __init__(self, loc='templates', cache=None, base=None, **keywords):
 		self._loc = loc
@@ -1141,7 +1141,8 @@ class SecurityError(Exception):
 
 # Enumerate all the allowed AST nodes
 ALLOWED_AST_NODES = [
-	"Add", "And",
+	"Add",
+	"And",
 #   "AssAttr",
 	"AssList",
 	"AssName",
