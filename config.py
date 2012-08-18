@@ -6,5 +6,5 @@ import os
 
 #filesystem
 CWD = os.path.dirname(__file__) + '/'  # get current working directory (top level of the csd server folder)
-TEMPLATE_DIR = CWD + 'resources/template/'
+TEMPLATE_DIR = CWD + 'templates/'
 STATIC_DIR = CWD + 'static/'
