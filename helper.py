@@ -1,4 +1,4 @@
-import templator
+from deps.templator import templator
 from config import TEMPLATE_DIR
 from subprocess import Popen, PIPE, CalledProcessError
 
@@ -10,6 +10,7 @@ def render_template(filename, *args, **kwargs):
 	"""
 	content = open(TEMPLATE_DIR + filename + '.html').read()
 	template = templator.Template(content)
+
 	return str(template(*args, **kwargs))  # without the str flask will try to call it? .. odd stuff
 
 
