@@ -1,0 +1,43 @@
+$def with ()
+
+$var full_name: Manage MongoDB
+$var description: lorem
+$var login_required: False
+
+$var content:
+	<ul style="display:none" class="mongo-c">
+		<li>
+			<fieldset>
+				<legend>Data Feed</legend>
+				<ul>
+					<li>
+						<label>Update:</label>
+						<button title="get the TPID, team number, and profiles of all teams" onclick="adminRequest('getTeams')">Get Teams</button>
+						<button title="get the EID, and event info for all competitions" onclick="adminRequest('getEvents')">Get Events</button>
+						<button title="update the FMS database by pulling from twitter" onclick="adminRequest('updateFMS')">Update FMS</button>
+						<button title="do all analysis" onclick="adminRequest('compile')">Compile</button>
+						<button title="rebuild the collection holding partly analyzed scouting data" onclick="adminRequest('rebuildAnalysisScouting')">Rebuild Scouting Analysis</button>
+					</li>
+					<li>
+						<label>Export:</label>
+						<button onclick="adminRequest('export')">All</button>
+						<label>Import:</label>
+						<button onclick="adminRequest('import')">All</button>
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+		<li>
+			<fieldset>
+				<legend>Site</legend>
+				<ul>
+					<li>
+						<label>Clean:</label>
+						<button onclick="adminRequest('clearTmp')">Temporary Files</button>
+						<button onclick="adminRequest('clearLog')">DB Log</button>
+						<button onclick="adminRequest('resetDB')">Reset/Setup DB</button>
+					</li>
+				</ul>
+			</fieldset>
+		</li>
+	</ul>
