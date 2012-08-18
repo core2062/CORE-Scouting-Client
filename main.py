@@ -1,9 +1,10 @@
 from flask import Flask, send_from_directory
 from config import STATIC_DIR
-from helper import compile_coffee
-import evenless
+from helper import compile_coffee, render_template
+from deps.evenless import evenless
 
 app = Flask(__name__)
+app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')  # for jade templating
 
 #if app.debug:
 #	helper.compile_less()
@@ -31,7 +32,7 @@ def favicon():
 
 @app.route('/')
 def index():
-	return helper.render_template('index', 'world!')
+	return render_template('hello.html', name=name)
 
 if __name__ == "__main__":
 	app.run(
