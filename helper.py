@@ -33,42 +33,16 @@ def compile_coffee(code):
 
 
 def compile_jade(file_name, pretty=False):
-	""""""
-	cmd = ['jade']  # the base command (the "<" sends the file & output over stdio)
+	"""compile a jade file in the template directory and return the resulting HTML"""
+	file_path = TEMPLATE_DIR + file_name
+
+	cmd = ['jade']  # the base command
 
 	if pretty:
 		cmd += ['--pretty']  # add pretty option if requested
 
-	cmd += ['<', TEMPLATE_DIR + file_name]  # add the file that is being compiled (and add in template directory)
+	cmd += ['--path', file_path]
+
+	cmd += ['<', file_path]  # add the file that is being compiled in the template directory (the "<" sends the file & output over stdio)
 
 	return check_output(' '.join(cmd), shell=True)
-
-# Usage: jade [options] [dir|file ...]
-
-# Options:
-
-#   -h, --help         output usage information
-#   -V, --version      output the version number
-#   -o, --obj <str>    javascript options object
-#   -O, --out <dir>    output the compiled html to <dir>
-#   -p, --path <path>  filename used to resolve includes
-#   -P, --pretty       compile pretty html output
-#   -c, --client       compile for client-side runtime.js
-#   -D, --no-debug     compile without debugging (smaller functions)
-
-# Examples:
-
-#   # translate jade the templates dir
-#   $ jade templates
-
-#   # create {foo,bar}.html
-#   $ jade {foo,bar}.jade
-
-#   # jade over stdio
-#   $ jade < my.jade > my.html
-
-#   # jade over stdio
-#   $ echo "h1 Jade!" | jade
-
-#   # foo, bar dirs rendering to /tmp
-#   $ jade foo bar --out /tmp
