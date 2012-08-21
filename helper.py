@@ -1,17 +1,17 @@
-from deps.templator import templator
+#from deps.templator import templator
 from config import TEMPLATE_DIR
 from subprocess import Popen, PIPE, CalledProcessError, check_output
 
 
-def render_template(filename, *args, **kwargs):
-	"""
-	shortcut function to render template
-	filename is the name of the template, without the .html extension or the path to the template folder
-	"""
-	content = open(TEMPLATE_DIR + filename + '.html').read()
-	template = templator.Template(content)
+# def render_template(filename, *args, **kwargs):
+# 	"""
+# 	shortcut function to render template
+# 	filename is the name of the template, without the .html extension or the path to the template folder
+# 	"""
+# 	content = open(TEMPLATE_DIR + filename + '.html').read()
+# 	template = templator.Template(content)
 
-	return str(template(*args, **kwargs))  # without the str flask will try to call it? .. odd stuff
+# 	return str(template(*args, **kwargs))  # without the str flask will try to call it? .. odd stuff
 
 
 def compile_coffee(code):
