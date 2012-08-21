@@ -1,134 +1,134 @@
 // Mixins
-.border-radius (@radius) {
-  -webkit-border-radius: @radius;
-  -moz-border-radius: @radius;
-  border-radius: @radius;
+border_radius(@radius) {
+  -webkit-border-radius: @radius
+  -moz-border-radius: @radius
+  border-radius: @radius
 }
 
-.box-shadow (@shadow) {
-  -moz-box-shadow: @shadow;
-  -webkit-box-shadow: @shadow;
-  box-shadow: @shadow;
+box_shadow(@shadow) {
+  -moz-box-shadow: @shadow
+  -webkit-box-shadow: @shadow
+  box-shadow: @shadow
 }
 
 .advanced-gradent (@gradent1, @gradent2) {
-  background-image: -webkit-linear-gradient(top, @gradent1, @gradent2);
-  background-image: -moz-linear-gradient(top, @gradent1, @gradent2);
-  background-image: -ms-linear-gradient(top, @gradent1 @gradent2);
-  background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{gradent1}), to(@{gradent2})";
-  background-image: -o-linear-gradient(top, @gradent1, @gradent2);
-  background-image: linear-gradient(top, @gradent1, @gradent2);
+  background-image: -webkit-linear-gradient(top, @gradent1, @gradent2)
+  background-image: -moz-linear-gradient(top, @gradent1, @gradent2)
+  background-image: -ms-linear-gradient(top, @gradent1 @gradent2)
+  background-image: "-webkit-gradient(linear, 0% 0%, 0% 100%, from(@{gradent1}), to(@{gradent2})"
+  background-image: -o-linear-gradient(top, @gradent1, @gradent2)
+  background-image: linear-gradient(top, @gradent1, @gradent2)
 }
  
 .opacity (@opacity) {
-  @opacity_percent: @opacity * 10;
-  -moz-opacity: @opacity;
-  filter:alpha(opacity=@opacity_percent);
-  opacity: @opacity;
+  @opacity_percent: @opacity * 10
+  -moz-opacity: @opacity
+  filter:alpha(opacity=@opacity_percent)
+  opacity: @opacity
 }
 
 // Style
 .toggle-container {
-	display: inline-block;
-	vertical-align: middle;
+	display: inline-block
+	vertical-align: middle
 	
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-o-user-select: none
+	user-select: none
   
-	height: 23px;
-	position: relative;
-	cursor: pointer;
-	overflow: hidden;
+	height: 23px
+	position: relative
+	cursor: pointer
+	overflow: hidden
 	// set max width to that of sprite
-	max-width: 400px;
+	max-width: 400px
 	// set default width based on ON/OFF labels
-	width: 89px;
+	width: 89px
 
 	input {
-		position: absolute;
-		top: 0;
-		right: 0;// hide the element
-		.opacity(0);
+		position: absolute
+		top: 0
+		right: 0// hide the element
+		opacity(0)
 		// allow checking of input if visible
-		-moz-user-input: enabled !important;
+		-moz-user-input: enabled !important
 	}
 	label {
-		margin-left: auto;//reset
-		cursor: inherit;
-		font-size: 1em !important;
-		line-height: 23px;
+		margin-left: auto//reset
+		cursor: inherit
+		font-size: 1em !important
+		line-height: 23px
 	}
 }
 
 .toggle-container, .toggle-handle {
-  .border-radius(3px);
+  border_radius(3px)
 }
 
 // create an outline when button gets focus via keyboard
 .toggle-focus {
   label {
     // we must use border, since outline doesn't work in IE
-    border: 1px dotted #666 !important;
+    border: 1px dotted #666 !important
   }
 
   div.toggle-label-on span label {
     // use white for more contrast
-    border-color: #fff !important;
+    border-color: #fff !important
   }
 }
 
 .toggle-handle {
-	display: block;
-	cursor: inherit;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 0;.advanced-gradent(#d8d8d8, #f6f6f6);
-	.box-shadow(0 0 2px #000 inset);
-	z-index: 2;//set default width based on ON/OFF labels
-	width: 33px;
-	height: 100%;
+	display: block
+	cursor: inherit
+	position: absolute
+	top: 0
+	left: 0
+	width: 0advanced_gradent(#d8d8d8, #f6f6f6)
+	box_shadow(0 0 2px #000 inset)
+	z-index: 2//set default width based on ON/OFF labels
+	width: 33px
+	height: 100%
 }
 
 div.toggle-label-on, div.toggle-label-off {
-	white-space: nowrap;
-	font-size: 17px;
-	line-height: 17px;
-	font-weight: bold;
-	text-transform: uppercase;
-	cursor: inherit;
-	display: block;
-	height: 23px;
-	position: absolute;
-	width: auto;
-	top: 0;
-	overflow: hidden;
+	white-space: nowrap
+	font-size: 17px
+	line-height: 17px
+	font-weight: bold
+	text-transform: uppercase
+	cursor: inherit
+	display: block
+	height: 23px
+	position: absolute
+	width: auto
+	top: 0
+	overflow: hidden
 }
 
 div.toggle-label-on {
-	.advanced-gradent(#3061a8, #83b3f2);
-	color: #fff;
-	text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.4);
-	left: 0;
-	width: 100%;
+	advanced_gradent(#3061a8, #83b3f2)
+	color: #fff
+	text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.4)
+	left: 0
+	width: 100%
 	
 	span {
-		padding-left: 5px;
+		padding-left: 5px
 	}
 }
 
 div.toggle-label-off {
-	color: #7c7c7c;
-	.advanced-gradent(#adadad, #fff);
-	text-shadow: 0 -1px 2px rgba(153, 153, 153, 0.4);
-	text-align: right;
-	right: 0;
-	width: 100%;
+	color: #7c7c7c
+	advanced_gradent(#adadad, #fff)
+	text-shadow: 0 -1px 2px rgba(153, 153, 153, 0.4)
+	text-align: right
+	right: 0
+	width: 100%
 	
 	span {
-		padding-right: 5px;
+		padding-right: 5px
 	}
 }

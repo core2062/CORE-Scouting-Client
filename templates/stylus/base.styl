@@ -1,4 +1,4 @@
-@import "libraries.less"
+@import "libraries"
 
 // //toggleJS
 // @import "base/toggle.less"
@@ -124,42 +124,43 @@ ul.stacked
 td#content > ul, td#sidebar > ul 
 	display inline // for forms 
 
-@legendHeight 20px
+legend_height = 20px
+
 legend 
 	//TODO cleanup legend style & make better
 	font-size 18px
 	text-shadow 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7)
-	.background()
-	.text()
+	background()
+	text()
 
 	margin-left -10px
-	margin-bottom -@legendHeight
+	margin-bottom -legend_height
 	padding 0 10px
-	line-height @legendHeight
+	line-height legend_height
 	border-top 1px solid #B6B6B6
 
 	//below is fix for chrome
 	position relative
-	top 10px 
+	top 10px
 
-fieldset 
+fieldset
 	background form_bgcolor
 	position relative
 	padding 1px
-	padding @legendHeight 10px 0
+	padding legend_height 10px 0
 	margin 10px
 	display inline
 	vertical-align middle
 	border 1px solid #B6B6B6
-	.box-shadow(0 0 5px #000)
+	box_shadow(0 0 5px #000)
 
-	> p 
+	> p
 		position absolute
 		right 15px
 		font-size 11px
-		margin-top -@legendHeight + 4
+		margin-top -1 * legend_height + 4
 
-	ul 
+	ul
 		margin 10px
 
 		li first-child label 
@@ -168,10 +169,10 @@ fieldset
 	&.focus legend 
 		color #1c4257
 		border-color #7096ab
-		.backgroundHighlight()
+		background_highlight()
 
 fieldset, legend 
-	.border-radius-br(8px) 
+	border_radius_br(8px) 
 
 label 
 	font-weight 400
@@ -188,7 +189,7 @@ input, textarea
 	border none
 	background-repeat repeat
 	background-image stripe
-	.box-shadow(inset 0 0 6px #000)
+	box_shadow(inset 0 0 6px #000)
 	width 150px
 	height line_height
 	padding 2px 5px 1px 5px
@@ -196,7 +197,7 @@ input, textarea
 	vertical-align middle
 	font-family font_list
 	font-size 15px
-	.border-radius(5px) 
+	border_radius(5px) 
 
 input[readonly='readonly']  //disabled input
 	background-color #D4D4D4
@@ -207,12 +208,12 @@ textarea
 	resize none 
 
 input:focus, textarea:focus  // TODO extend blue shadow to select box & any other inputs
-	.box-shadow (inset 0 0 4px d_blue_color) 
+	box_shadow(inset 0 0 4px d_blue_color) 
 
 //Clear Input Icon
 .clearIcon 
 	span 
-		.opacity(0.7)
+		opacity(0.7)
 		background-image clear_input_icon
 		height 25px
 		width 25px
@@ -224,7 +225,7 @@ input:focus, textarea:focus  // TODO extend blue shadow to select box & any othe
 		top 0
 
 		&:hover 
-			.opacity(1)
+			opacity(1)
 
 	input 
 		padding-right 34px
@@ -232,7 +233,7 @@ input:focus, textarea:focus  // TODO extend blue shadow to select box & any othe
 // Links
 p 
 	a 
-		.border-radius(0.25em)
+		border_radius(0.25em)
 		border 1px solid transparent
 		color #336699
 		margin 0 -0.2em
@@ -245,16 +246,16 @@ p
 			text-decoration none
 			background #ededed
 			text-shadow 0 1px 0 rgba(255, 255, 255, 0.6)
-			.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
+			box_shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 
 		&:hover 
-			.reg-gradent(reg_color)
-			.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset)
+			reg_gradent(reg_color)
+			box_shadow(0 1px 0 rgba(255,255,255,0.6) inset)
 			color #313131
 
 		&:active 
 			border-color #7096ab
-			.advanced-gradent(#b9e0f5, #92bdd6)
+			advanced_gradent(#b9e0f5, #92bdd6)
 			color #1c4257
 
 // Buttons and Button Sets
@@ -262,8 +263,8 @@ button, .buttonset label
 	//TODO add transitions
 	outline none
 	border 1px solid #B6B6B6
-	.background()
-	.text()
+	background()
+	text()
 	display inline-block
 	position relative
 	margin-right .1em
@@ -283,7 +284,7 @@ button, .buttonset label
 		height 17px
 
 	&:hover 
-		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
+		box_shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 		color #313131
 
 		svg 
@@ -295,7 +296,7 @@ button, .buttonset label
 		padding 0
 
 button 
-	.border-radius(3px)
+	border_radius(3px)
 	height button_height + 2px //+2 accounts for 1px border on each side
 	padding 0 1em
 
@@ -317,7 +318,7 @@ button
 button:active, .buttonset input[type="radio"]:checked + label 
 	color #1c4257
 	border-color #7096ab
-	.backgroundHighlight() 
+	background_highlight() 
 
 .buttonset 
 	margin-right 4px
@@ -335,12 +336,12 @@ button:active, .buttonset input[type="radio"]:checked + label
 		line-height button_height //aligns text to center
 
 		&.first 
-			.border-radius-bl (3px)
-			.border-radius-tl (3px)
+			border_radius_bl(3px)
+			border_radius_tl(3px)
 
 		&.last 
-			.border-radius-br (3px)
-			.border-radius-tr (3px)
+			border_radius_br(3px)
+			border_radius_tr(3px)
 
 	a 
 		padding 0 1em
@@ -356,29 +357,29 @@ button:active, .buttonset input[type="radio"]:checked + label
 	height 12px
 	background #FFF
 	width 50%
-	.inv-gradent(white_color)
+	inv_gradent(white_color)
 	border 1px solid d_white_color
 	left 25%
 	position relative
-	.border-radius(4px)
+	border_radius(4px)
 
 	&:hover 
-		.opacity(0.4)
-		.transition(0.3s)
+		opacity(0.4)
+		transition(0.3s)
 
 #progressbar-value 
-	.img-gradent(progressbar, highlight_color)
+	img_gradent(progressbar, highlight_color)
 	border 1px solid d_highlight_color 
 
 #errorbar-value 
 	top 0
 	position absolute
-	.img-gradent(progressbar, error_color)
+	img_gradent(progressbar, error_color)
 	border 1px solid d_error_color 
 
 #errorbar-value, #progressbar-value 
-	.border-radius-tl (4px)
-	.border-radius-bl (4px)
+	border_radius_tl(4px)
+	border_radius_bl(4px)
 	margin -1px
 	height 100%
 	background-repeat repeat-x
@@ -405,11 +406,11 @@ button:active, .buttonset input[type="radio"]:checked + label
 	position relative
 	border none
 	border-bottom 1px solid #979797
-	.border-radius(0)
+	border_radius(0)
 	color lite_text
 	font-weight 700
 	background #ededed
-	.advanced-gradent(#ededed, #c4c4c4)
+	advanced_gradent(#ededed, #c4c4c4)
 
 	#modalTitle 
 		margin .1em 16px .2em 0
@@ -417,7 +418,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 		text-shadow 0 1px 0 rgba(255,255,255,0.5)
 
 	.close 
-		.border-radius (3px)
+		border_radius(3px)
 		position absolute
 		right .8em
 		top 55%
@@ -451,7 +452,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 	background form_bgcolor
 	border 1px solid #B6B6B6
 	color lite_text
-	.border-radius (3px)
+	border_radius(3px)
 	position relative//needed for z-index to work
 	z-index 1001
 	//width 700px
@@ -459,7 +460,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 	margin-top 70px
 	margin-bottom 20px
 	display inline-block
-	.box-shadow(0 2px 12px rgba(0,0,0,0.6))
+	box_shadow(0 2px 12px rgba(0,0,0,0.6))
 
 	ul 
 		margin 10px
@@ -475,7 +476,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 #overlay 
 	display none
 	background #262b33
-	.opacity(0.7)
+	opacity(0.7)
 	position fixed
 	top 0
 	left 0
@@ -517,7 +518,7 @@ div.navigation-c
 			a 
 				text-decoration none
 				padding 2px
-				.border-radius(3px)
+				border_radius(3px)
 				color lite_text
 
 			a:hover 
@@ -536,4 +537,3 @@ div.navigation-c
 		p 
 			position absolute
 			bottom 0
-
