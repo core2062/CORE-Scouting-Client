@@ -1,0 +1,207 @@
+/*
+Designer Sean Lang
+Language LESS
+
+Notes:
+	/\*([^\/\*\n]*)\*/
+	//$1
+/*
+*/
+
+// Colors
+	lite_text #4F4F4F //gray, used for buttons & modals
+
+	reg_color #d1d1d1 //gray
+	l_reg_color lighten(reg_color, 15%)
+	d_reg_color darken(reg_color, 15%)
+
+	highlight_color rgb(165, 206, 229) //orange = #FF5C00
+	l_highlight_color lighten(highlight_color, 15%)
+	d_highlight_color darken(highlight_color, 15%)
+
+	error_color #ff0000 //red
+	l_error_color lighten(error_color, 15%)
+	d_error_color darken(error_color, 15%)
+
+	page_bgcolor #adadad
+	form_bgcolor #fff //#f4f4f4
+
+	blue_color #1054AA //used for guider headers
+	d_blue_color darken(saturate(blue_color, 10%),15%)
+
+	d_black_color #000
+	black_color lighten(d_black_color, 15%)
+	l_black_color lighten(d_black_color, 30%)
+
+	l_white_color #fff
+	white_color darken(l_white_color, 15%)
+	d_white_color darken(l_white_color, 30%)
+
+// Vars
+	line_height 23px
+	button_height 32px
+
+// Images
+	// TODO: embed images in LESS
+	// TODO: add IE (aka: shit-browser) compatible images (non-embedded) to a ie stylesheet
+
+	select_icon url(data:image/gif;base64,R0lGODlhBQAJAIABAP///wAAACH5BAEKAAEALAAAAAAFAAkAAAIMTGAHuJ0PU1sKGVsAADs=)
+
+	progressbar url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAMCAYAAAA3bX6lAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDwMeMFYg/5EAAABBSURBVEjHY/z//78xwzAFjIyMDCxQxtnh5jlYxDExDG/wf9SDQxz8HfXgUC9IR/PgEAdMo0l0qMcgC3KtPxw9CADADg9+vDPV+wAAAABJRU5ErkJggg==)
+
+	background_dots url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKBAMAAAB76QKzAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sKDxc2H7uDZ84AAAAPUExURczMzP///////wAAAP///9EMEoIAAAAFdFJOUwAFCkBBCYBNVgAAAAFiS0dEAf8CLd4AAAAbSURBVAjXYzBgAAIHBmwALOUExExMDAyMMFEAHR8A6EDLCd8AAAAASUVORK5CYII=)
+
+	stripe url(img/ie/stripe.png)
+
+	close_icon url(img/icon_sprite.png)
+
+	arrow url(img/arrow.gif)
+
+	plus_icon url(img/icon/plus.svg)
+
+	help_icon url(img/icon/help.svg)
+
+	clear_input_icon url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDQ4IDQ4Ij48cGF0aCBzdHlsZT0iZmlsbDojMzMzMzMzOyIgZD0iTTE0LjMxOCwxMS44NzdMMi4xOTMsMjMuOTk4bDEyLjEyNSwxMi4xMjVoMzEuNDg2bDAuMDAyLTI0LjI0NkgxNC4zMTh6IE00My4wODIsMzMuNEgxNS40NDVsLTkuNC05LjQwMWw5LjQtOS40aDI3LjY0TDQzLDMzLjR6Ii8+PHBvbHlnb24gc3R5bGU9ImZpbGw6IzMzMzMzMzsiIHBvaW50cz0iMjguMjA3LDI5Ljc3NCAzMi4wNTUsMjUuOTI3IDM1LjkwMiwyOS43NzQgMzcuODI2LDI3Ljg1IDMzLjk3OSwyNCAzNy44MjYsMjAuMTU0IDM1LjkwMiwxOC4yMjggMzIuMDU1LDIyLjA3NiAyOC4yMDcsMTguMjI3IDI2LjI4MSwyMC4xNTIgMzAuMTI5LDI0IDI2LjI4MSwyNy44NSIvPg0KPC9zdmc+)
+
+	//TODO add a red background to clear_input_icon
+
+	/* source of clear_input_icon
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 48 48">
+			<path style="fill:#333333" d="M14.318,11.877L2.193,23.998l12.125,12.125h31.486l0.002-24.246H14.318z M43.082,33.4H15.445l-9.4-9.401l9.4-9.4h27.64L43,33.4z"/>
+			<polygon style="fill:#333333" points="28.207,29.774 32.055,25.927 35.902,29.774 37.826,27.85 33.979,24 37.826,20.154 35.902,18.228 32.055,22.076 28.207,18.227 26.281,20.152 30.129,24 26.281,27.85"/>
+		</svg>
+	*/
+
+	ts_bg url(img/ie/bg.gif)
+	ts_asc url(img/ie/asc.gif)
+	ts_desc url(img/ie/desc.gif)
+
+
+// Parametric Mixins
+	.border-radius (radius)
+		-webkit-border-radius radius
+		-moz-border-radius radius
+		border-radius radius
+	
+
+	.border-radius-tl (radius)
+		-webkit-border-top-left-radius radius
+		-moz-border-radius-topleft radius
+		border-top-left-radius radius
+	
+
+	.border-radius-bl (radius)
+		-webkit-border-bottom-left-radius radius
+		-moz-border-radius-bottomleft radius
+		border-bottom-left-radius radius
+	
+
+	.border-radius-tr (radius)
+		-webkit-border-top-right-radius radius
+		-moz-border-radius-topright radius
+		border-top-right-radius radius
+	
+
+	.border-radius-br (radius)
+		-webkit-border-bottom-right-radius radius
+		-moz-border-radius-bottomright radius
+		border-bottom-right-radius radius
+	
+
+	.box-shadow (shadow)
+		-moz-box-shadow shadow
+		-webkit-box-shadow shadow
+		box-shadow shadow
+	
+
+	.advanced-gradent (gradent_1, gradent_2)
+		background-image -webkit-linear-gradient(top, gradent_1, gradent_2)
+		background-image -moz-linear-gradient(top, gradent_1, gradent_2)
+		background-image -ms-linear-gradient(top, gradent_1 gradent_2)
+		background-image "-webkit-gradient(linear, 0% 0%, 0% 100%, from(gradent_1), to(gradent_2)"
+		background-image -o-linear-gradient(top, gradent_1, gradent_2)
+		background-image linear-gradient(top, gradent_1, gradent_2)
+	
+
+	.img-gradent (image, color)
+		l_color lighten(color, 15%)
+		d_color darken(color, 15%)
+		background-image image, -webkit-linear-gradient(top, l_color, d_color)
+		background-image image, -moz-linear-gradient(top, l_color, d_color)
+		background-image image, -ms-linear-gradient(top, l_color d_color)
+		background-image image, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(l_color), to(d_color)"
+		background-image image, -o-linear-gradient(top, l_color, d_color)
+		background-image image, linear-gradient(top, l_color, d_color)
+	
+
+	.inv-img-gradent (image, color)
+		l_color lighten(color, 15%)
+		d_color darken(color, 15%)
+		background-image image, -webkit-linear-gradient(top, d_color, l_color)
+		background-image image, -moz-linear-gradient(top, d_color, l_color)
+		background-image image, -ms-linear-gradient(top, d_color l_color)
+		background-image image, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(d_color), to(l_color)"
+		background-image image, -o-linear-gradient(top, d_color, l_color)
+		background-image image, linear-gradient(top, d_color, l_color)
+	
+
+	.reg-gradent (color)
+		l_color lighten(color, 15%)
+		d_color darken(color, 15%)
+		background-image -webkit-linear-gradient(top, l_color, d_color)
+		background-image -moz-linear-gradient(top, l_color, d_color)
+		background-image -ms-linear-gradient(top, l_color d_color)
+		background-image "-webkit-gradient(linear, 0% 0%, 0% 100%, from(l_color), to(d_color)"
+		background-image -o-linear-gradient(top, l_color, d_color)
+		background-image linear-gradient(top, l_color, d_color)
+	
+
+	.inv-gradent (color)
+		l_color lighten(color, 15%)
+		d_color darken(color, 15%)
+		background-image -webkit-linear-gradient(top, d_color, l_color)
+		background-image -moz-linear-gradient(top, d_color, l_color)
+		background-image -ms-linear-gradient(top, d_color l_color)
+		background-image "-webkit-gradient(linear, 0% 0%, 0% 100%, from(d_color), to(l_color)"
+		background-image -o-linear-gradient(top, d_color, l_color)
+		background-image linear-gradient(top, d_color, l_color)
+	
+
+	.opacity (opacity)
+		opacity_percent opacity * 100
+		-moz-opacity opacity
+		filter alpha(opacity=opacity_percent)
+		opacity opacity
+	
+
+	.transition (time)
+		-webkit-transition all time ease-out // Saf3.2+, Chrome 
+		-moz-transition all time ease-out // FF4+ 
+		-ms-transition all time ease-out // IE10? 
+		-o-transition all time ease-out // Opera 10.5+ 
+		transition all time ease-out // WC3
+	
+
+
+// Mixins
+	.background() //used on buttons & legends
+		background-color reg_color//fallback
+		.reg-gradent(reg_color)
+		.box-shadow(0 1px 0 rgba(255,255,255,0.6) inset)
+	
+
+	.backgroundHighlight() //used on buttons & legends
+		background-color highlight_color
+		.reg-gradent(highlight_color)
+		.box-shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
+	
+
+	.text()
+		text-shadow 0 1px 0 rgba(255, 255, 255, 0.6)
+		font-size 14px
+		font-weight 700
+		color lite_text
+	
+
+//Font
+	font_list "BankGothicMdBTMedium", "bankgothic lt bt"
