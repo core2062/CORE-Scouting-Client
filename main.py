@@ -1,8 +1,6 @@
 from flask import Flask, send_from_directory
-from config import STATIC_DIR, TEMPLATE_DIR
+from config import STATIC_DIR
 from helper import compile_jade
-from deps.evenless import evenless
-from os import listdir
 
 app = Flask(__name__)
 
@@ -32,20 +30,6 @@ def favicon():
 
 @app.route('/')
 def index():
-	# if app.debug:  # recompile less if in debug
-	# 	less_dir = TEMPLATE_DIR + 'less/'
-	# 	css_dir = TEMPLATE_DIR + 'css/'
-
-	# 	for less_file in listdir(less_dir):
-	# 		if less_file.endswith(".less"):  # also filters out directories
-
-	# 			open(css_dir + less_file[:-4] + 'css', 'w').write(
-	# 				evenless.compile_LESS(
-	# 					open(less_dir + less_file, 'r').read(),
-	# 					includepath=less_dir,
-	# 				)
-	# 			)
-
 	return compile_jade('main.jade', pretty=app.debug)  # pretty is true if in debug
 
 if __name__ == "__main__":
