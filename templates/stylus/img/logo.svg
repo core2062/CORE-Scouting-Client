@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>
+path {
+stroke: #000;
+fill:none;
+stroke-width: 20;
+}
+</style>
+
+
+<g transform="scale(0.2)">
+<path d="M120,10 a110,110 0 0,0 -110,110"/>
+<path d="M120,230 a110,110 0 0,0 110,-110"/>
+
+<path d="M60,60 a85,85 0 0,0 0,120"/>
+<path d="M180,60 a85,85 0 0,1 0,120"/>
+
+<path d="M60,120 a60,60 0 0,0 60,60"/>
+<path d="M120,60 a60,60 0 0,1 60,60"/>
+
+<path d="M95,145 a35,35 0 0,0 50,0"/>
+<path d="M95,95 a35,35 0 0,1 50,0"/>
+
+<path d="M120,110 a10,10 0 0,0 -10,10"/>
+<path d="M130,120 a10,10 0 0,1 -10,10"/>
+</g>
+
+</svg>
