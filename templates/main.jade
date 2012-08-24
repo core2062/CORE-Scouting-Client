@@ -8,10 +8,14 @@ html
 		meta(http-equiv='Content-Type', content='text/html', charset='utf-8')
 		title CSD
 		link#favicon(href='favicon.ico', rel='shortcut icon')
+
+		:stylus(compress=true, inline=true)
+			@import "stylus/base"
+
 		//- TODO: add IE style sheet (low priority)
 		//if lt IE 9
 			link(rel='stylesheet', type='text/css', href='css/style-ie.css')
-		style
+
 		//- TODO: add meta tags for bookmarks and/or for search engines
 	body
 		table#layout

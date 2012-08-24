@@ -246,7 +246,7 @@ p
 			text-decoration none
 			background #ededed
 			text-shadow 0 1px 0 rgba(255, 255, 255, 0.6)
-			box_shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
+			box_shadow('0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 
 		&:hover 
 			reg_gradent(reg_color)
@@ -284,7 +284,7 @@ button, .buttonset label
 		height 17px
 
 	&:hover 
-		box_shadow(~'0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
+		box_shadow('0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 		color #313131
 
 		svg 
@@ -327,7 +327,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 
 	input[type="radio"] 
 		display none
-		left ~'-1e+8px'
+		left unquote('-1e+8px')
 		position absolute
 
 	label 
