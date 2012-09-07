@@ -6,28 +6,26 @@
 // description: lorem
 // login_required: True
 
+append style
+	:stylus(compress=true, inline=true)
+		@import "stylus/analysis"
+
+
 append content:
-	<ul style="display:none" class="member-c">
-		<li>
-			<fieldset>
-				<legend>Data</legend>
-				<ul></ul>
-			</fieldset>
-		</li>
-	</ul>
+	ul.member(style='display: none')
+		li
+			fieldset
+				legend Data
+				ul
 
 append sidebar
-	<ul style="display:none" class="member-c">
-		<li>
-			<fieldset>
-				<legend>Query</legend>
-				<ul>
-					<label for="queryTeamNum" data-defaultText="Team Num:"></label>
-					<input id="queryTeamNum"/>
-				</ul>
-			</fieldset>
-		</li>
-	</ul>
+	ul.member(style='display: none;')
+		li
+			fieldset
+				legend Query
+				ul
+					label(for='queryTeamNum', data-defaulttext='Team Num:')
+					input#queryTeamNum
 
 // full_name: Public Analysis
 // description: lorem
