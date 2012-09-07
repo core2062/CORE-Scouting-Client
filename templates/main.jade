@@ -9,6 +9,7 @@ html
 		title CSD
 		link#favicon(href='favicon.ico', rel='shortcut icon')
 
+		//- jade is modded to support compression
 		:stylus(compress=true, inline=true)
 			@import "stylus/base"
 
@@ -35,7 +36,9 @@ html
 				td(colspan=2)
 					//- Google +1 Button
 					.g-plusone(data-size="medium", callback="plusone()", data-href="www.urlofmysite.com")
-					//TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag
+					
+					//- TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag
+					
 					#progressbar
 						#progressbar-value
 						#errorbar-value
@@ -56,5 +59,3 @@ html
 
 		#overlay(onclick='modalClose()')
 		script
-
-//- TODO: make function to base64 images
