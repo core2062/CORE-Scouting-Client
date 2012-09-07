@@ -30,7 +30,7 @@ def favicon():
 
 @app.route('/')
 def index():
-	return compile_jade('base.jade', pretty=app.debug)  # pretty is true if in debug
+	return compile_jade('main.jade', pretty=app.debug)  # pretty is true if in debug
 
 if __name__ == "__main__":
 	app.run(
