@@ -1,6 +1,7 @@
 version = 'alpha'
 current_year = new Date().getFullYear()
 
+
 !!! 5
 html
 	head
@@ -20,32 +21,34 @@ html
 
 		//- TODO: add meta tags for bookmarks and/or for search engines
 	body
-		table#layout
-			tr#head
+		#layout
+			#head
 				//- navbar goes here
-			tr
-				td#content
+			
+				#content
 					noscript
 						p Um, this is awkward&hellip; all navigation (and most functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.
-					//- other content goes here
-				td#sidebar(style='max-height:100%')
+					
+					block content
+
+				#sidebar(style='max-height:100%')
 					//- other sidebar stuff goes here
 					#jGrowl-container.jGrowl.bottom-right
 					//- TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?)
 					//- TODO: create classes of jGrowl notifications to close selectively
-			tr#foot
-				td(colspan=2)
-					//- Google +1 Button
-					//- TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag
-					.g-plusone(data-size="medium", callback="plusone()", data-href="www.urlofmysite.com")
-					
-					
-					#progressbar
-						#progressbar-value
-						#errorbar-value
+			#foot
 
-					div(style="left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center")
-						p CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;#{current_year} - version: #{version}
+				//- Google +1 Button
+				//- TODO: make a +Snippet https://developers.google.com/+/plugins/+1button/#plusonetag
+				.g-plusone(data-size="medium", callback="plusone()", data-href="www.urlofmysite.com")
+				
+				
+				#progressbar
+					#progressbar-value
+					#errorbar-value
+
+				div(style="left: 25%; position: relative; width: 50%; font-size: 12px; text-align: center")
+					p CORE Scouting Database - Created By <a href="#contact">Sean Lang</a> - &copy;#{current_year} - version: #{version}
 		#modalAligner
 			#modalWrapper
 				#modalContainer(style="display: none")
@@ -60,3 +63,5 @@ html
 
 		#overlay(onclick='modalClose()')
 		script
+
+include admin/mongo
