@@ -1,7 +1,6 @@
 version = 'alpha'
 current_year = new Date().getFullYear()
 
-
 !!! 5
 html
 	head
@@ -14,6 +13,18 @@ html
 		block style
 			:stylus(compress=true, inline=true)
 				@import "stylus/base"
+
+				//toggleJS
+				@import "stylus/toggle"
+
+				//Chosen jQuery Select Box
+				// @import "stylus/chosen"
+
+				//JGrowl
+				// @import "stylus/jgrowl"
+
+				//Tipsy
+				// @import "stylus/tipsy"
 
 		//- TODO: add IE style sheet (low priority)
 		//if lt IE 9
