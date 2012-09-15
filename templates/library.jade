@@ -1,0 +1,22 @@
+mixin nav_buttonset(name, buttons)
+	span(class=name, style="display: none")!= buttons
+
+mixin nav_button(subpage, full_name)
+	-String.prototype.title_case = function() {
+	-	return this.replace(/\w\S*/g, function(txt) {
+	-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	-	});
+	-};
+
+	if block && typeof full_name === 'undefined'
+		full_name = subpage.replace('_', " ").title_case()
+
+	input(id='#{subpage}_nav', type='radio', name='navbar')
+
+	label(for='#{subpage}_nav', onclick="window.location='##{subpage}'", title=full_name)
+		if block
+			block
+		else
+			= subpage.replace('_', " ").title_case()
+
+//mixin button_control
