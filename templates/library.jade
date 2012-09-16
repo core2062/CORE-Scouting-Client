@@ -1,6 +1,3 @@
-mixin nav_buttonset(name, buttons)
-	span(class=name, style="display: none")!= buttons
-
 mixin nav_button(subpage, full_name)
 	-String.prototype.title_case = function() {
 	-	return this.replace(/\w\S*/g, function(txt) {
@@ -18,5 +15,23 @@ mixin nav_button(subpage, full_name)
 			block
 		else
 			= subpage.replace('_', " ").title_case()
+
+mixin ctrl_button(name, full_name, subpage)
+	//subpage is for buttons that are only displayed on a certain subpage & can be a list
+
+	-String.prototype.title_case = function() {
+	-	return this.replace(/\w\S*/g, function(txt) {
+	-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	-	});
+	-};
+
+	if block && typeof full_name === 'undefined'
+		full_name = name.replace('_', " ").title_case()
+
+	button(id='#{name}_nav', class=subpage, type="button", title=full_name)
+		if block
+			block
+		else
+			= name.replace('_', " ").title_case()
 
 //mixin button_control
