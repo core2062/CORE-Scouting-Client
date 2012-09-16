@@ -28,7 +28,7 @@ mixin ctrl_button(name, full_name, subpage)
 	if block && typeof full_name === 'undefined'
 		full_name = name.replace('_', " ").title_case()
 
-	button(id='#{name}_nav', class=subpage, type="button", title=full_name)
+	button(id='#{name}_ctrl', class=subpage, type="button", title=full_name)
 		if block
 			block
 		else
