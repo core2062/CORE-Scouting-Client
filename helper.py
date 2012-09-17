@@ -1,4 +1,4 @@
-#from deps.templator import templator
+import json
 from config import TEMPLATE_DIR
 from subprocess import Popen, PIPE, CalledProcessError, check_output
 
@@ -32,8 +32,12 @@ def compile_coffee(code):
 	return stdoutdata
 
 
-def compile_jade(file_name, pretty=False):
-	"""compile a jade file in the template directory and return the resulting HTML"""
+def compile_jade(file_name, pretty=False, options=None, path=''):
+	"""
+		compile a jade file in the template directory and return the resulting HTML
+		user input should not be passed through the options object without being sterilized because it is sent through the shell
+	"""
+
 	file_path = TEMPLATE_DIR + file_name
 
 	cmd = ['jade']  # the base command
@@ -41,7 +45,16 @@ def compile_jade(file_name, pretty=False):
 	if pretty:
 		cmd += ['--pretty']  # add pretty option if requested
 
-	cmd += ['--path', file_path]
+	if options != None:
+		# add json options object if specified & escape any single quotes in it
+		cmd += ['--obj', "'" + json.dumps(options, separators=(',', ':')).replace("'", r"'\''") + "'"]
+
+	if path == '':
+		path = file_path
+	else:
+		path = TEMPLATE_DIR + path
+
+	cmd += ['--path', path]
 
 	cmd += ['<', file_path]  # add the file that is being compiled in the template directory (the "<" sends the file & output over stdio)
 
