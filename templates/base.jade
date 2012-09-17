@@ -26,8 +26,8 @@ html
 				//Tipsy
 				@import "stylus/tipsy"
 
-		//- TODO: add IE style sheet (low priority)
-		//if lt IE 9
+		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
+		//- if lt IE 9
 			link(rel='stylesheet', type='text/css', href='static/css/style-ie.css')
 
 		//- TODO: add meta tags for bookmarks and/or for search engines
@@ -128,4 +128,5 @@ html
 		block script
 			include coffee/jquery
 			include coffee/chosen
+			include coffee/toggle
 			include coffee/base
