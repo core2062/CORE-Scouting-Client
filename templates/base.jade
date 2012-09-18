@@ -126,7 +126,12 @@ html
 		#overlay(onclick='modalClose()')
 
 		block script
+			//- the scripts included here by default are those needed for multiple pages in the site
+			//- scripts which are only needed for one page may be appended to this block
 			include coffee/jquery
 			include coffee/chosen
+			include coffee/tipsy
 			include coffee/toggle
+			include coffee/jgrowl
+			include coffee/json2js
 			include coffee/base
