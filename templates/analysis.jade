@@ -1,14 +1,18 @@
 append scripts
 	include coffee/tablesorter
 	include coffee/jlinq
+	include coffee/tree_table
 
 
-// full_name: Data Liberation
-// description: lorem
+prepend local_nav
+	mixin nav_button('data_liberation')
+
 // login_required: True
 
-// full_name: Member Analysis
-// description: lorem
+
+prepend local_nav
+	mixin nav_button('analysis')
+
 // login_required: True
 
 append style
@@ -31,7 +35,3 @@ append sidebar
 				ul
 					label(for='queryTeamNum', data-defaulttext='Team Num:')
 					input#queryTeamNum
-
-// full_name: Public Analysis
-// description: lorem
-// login_required: False
