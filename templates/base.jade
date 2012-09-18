@@ -90,7 +90,7 @@ html
 					
 					block content
 
-				#sidebar(style='max-height:100%')
+				#sidebar
 					//- other sidebar stuff goes here
 					#jGrowl-container.jGrowl.bottom-right
 					//- TODO: fix jGrowl positioning - align with bottom of side bar (add pooling? ... or mechanism to remove messages when there are too many? ... or scroll bar on message container - not including "close all" in scroll?)
@@ -130,8 +130,8 @@ html
 			//- scripts which are only needed for one page may be appended to this block
 			include coffee/jquery
 			include coffee/chosen
-			include coffee/tipsy
 			include coffee/toggle
 			include coffee/jgrowl
 			include coffee/json2js
+			include coffee/tipsy
 			include coffee/base
