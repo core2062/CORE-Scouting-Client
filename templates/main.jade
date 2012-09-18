@@ -4,10 +4,12 @@ extends base
 include library
 
 //pages
-include admin
 include analysis
 include help
 include home
 include input
 include other
 include team_leader
+
+if debug
+	include admin
