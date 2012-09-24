@@ -23,10 +23,6 @@
 	#     `[░░░░░░░░]`  0  [░░░░░░░░░░░]` 0  [░░░░░░░░░░░░░]`  0
 	#       ````````        ```````````       `````````````
 	#               --- CORE Scouting Database ---
-	
-
-	# Designer: Sean Lang
-
 
 	#Chosen Select Box
 	$("select").chosen()
@@ -61,8 +57,8 @@
 			#assign a model during init like in a view
 			@model = options.model
 
-		change_page: (subpage="") ->
-			@model.set({'subpage': subpage})
+		change_page: (page="home") ->
+			@model.set({'page': page})
 						
 	class NavModel extends Backbone.Model
 		###
@@ -70,8 +66,7 @@
 		###
 
 		defaults:
-			page: ''
-			subpage: ''
+			page: 'home'  # don't hard code this in... use something else?
 
 	class NavView extends Backbone.View
 		###
@@ -84,23 +79,11 @@
 			@model.view = @
 
 		render: =>  # render is run by the model? so "=>" is needed
-			p "(nav) page: #{@model.get("page")} & subpage: #{@model.get("subpage")}"
+			document.title = "#{@model.get('page').replace("_", " ").titleCase()} | CSD"
+			p "(nav) page: #{@model.get("page")}"
 
-		###
-			'click button#inc-count': 'inc'
-			'click button#dec-count': 'dec'
+	class Account extends Backbone.Model
 
-			
-		inc: ->
-			ct = @counter.get("count")
-			@counter.set(count: ct+1)
-			@render()
-			
-		dec: ->
-			ct = @counter.get("count")
-			@counter.set(count: ct-1)
-			@render()
-		###
 
 	class AppView extends Backbone.View
 
@@ -169,6 +152,7 @@
 		this.value = this.dataset.defaultText
 	###
 	# global vars
+	###
 	current =
 		index: ""
 		type: ""
@@ -185,7 +169,7 @@
 		subpages: []
 		modals: []
 		nav: []
-
+	###
 	defaultUser = #default user object for user who isn't logged in (no cookie is stored for this user)
 		_id: "Guest"
 		permission: 1
@@ -197,8 +181,9 @@
 		prefs:
 			fade: true
 			verbose: true
-
+	###
 	user = {} #so coffeescript sees that this is defined (it isn't seeing the window.user)
+	###
 
 	fixFavicon = -> #fixes favicon bug in firefox -- remove in future
 		$("#favicon").remove()
@@ -313,7 +298,7 @@
 
 			prev.type = "subpages"
 
-		document.title = pages[current.index].fullName.replace(/\-/, " ").titleCase() + " - " + current["subpage"].replace(/\-/g, " ").titleCase()
+		#document.title = pages[current.index].fullName.replace(/\-/, " ").titleCase() + " - " + current["subpage"].replace(/\-/g, " ").titleCase()
 		document.getElementById("body").style.minWidth = pages[current.index].minWidth
 		document.getElementById("progressbar").style.display = pages[current.index].progressbar
 
