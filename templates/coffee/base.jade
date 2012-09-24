@@ -44,7 +44,74 @@
 		trigger: "hover"
 		gravity: "w"
 
-	console.log 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
+	p = (text) -> console.log text # friendly little alias
+
+	p 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
+
+
+	class Router extends Backbone.Router
+		###
+			forward changes in the route to the navigation view
+		###
+		routes:
+			"": "change_page"
+			":subpage": "change_page"
+
+		initialize: (options) ->
+			#assign a model during init like in a view
+			@model = options.model
+
+		change_page: (subpage="") ->
+			@model.set({'subpage': subpage})
+						
+	class NavModel extends Backbone.Model
+		###
+			keep track of the current page and subpage. also determine what should be rendered in the navbar on any given page
+		###
+
+		defaults:
+			page: ''
+			subpage: ''
+
+	class NavView extends Backbone.View
+		###
+			NavView modifies the navbar to show the correct subpages for the current page
+		###
+		$el: $('#navbar')  # element already exists in markup
+
+		initialize: ->
+			@model.bind('change', @render)
+			@model.view = @
+
+		render: =>  # render is run by the model? so "=>" is needed
+			p "(nav) page: #{@model.get("page")} & subpage: #{@model.get("subpage")}"
+
+		###
+			'click button#inc-count': 'inc'
+			'click button#dec-count': 'dec'
+
+			
+		inc: ->
+			ct = @counter.get("count")
+			@counter.set(count: ct+1)
+			@render()
+			
+		dec: ->
+			ct = @counter.get("count")
+			@counter.set(count: ct-1)
+			@render()
+		###
+
+	class AppView extends Backbone.View
+
+		initialize: ->
+			@NavModel = new NavModel()
+			@NavView = new NavView({model: @NavModel})
+			@Router = new Router({model: @NavModel})
+
+	$ ->
+		window.App = new AppView()
+		Backbone.history.start()
 
 	###
 	# Google +1 Button
@@ -95,10 +162,10 @@
 	#expiriment with default text
 	###
 	$('input[data-defaultText]').each (index, value) ->
-		console.log 'theheh'
-		console.log this
-		console.log index
-		console.log value
+		p 'theheh'
+		p this
+		p index
+		p value
 		this.value = this.dataset.defaultText
 	###
 	# global vars
@@ -147,7 +214,7 @@
 				i++
 			else
 				return missedPosts
-
+	### MOVE INTO NavView & AccountModel or something
 	buildCache = ->
 		len = pages.length
 		i = 0
@@ -162,7 +229,6 @@
 		cache.subpages = "." + cache.subpages.join("-c, .") + "-c"
 		cache.modals = "." + cache.modals.join("-c, .") + "-c"
 		cache.nav = "." + cache.nav.join("-n, .") + "-n"
-
 	$ ->
 		userCookie = eatCookie("user")
 		if userCookie isnt ""
@@ -173,13 +239,16 @@
 		window.missedPosts = getMissedPosts()
 		buildCache()
 		nav()
+	###
 
-		#add error message for old browsers
+		#TODO add error message for old browsers
 
+	###
 	window.onpopstate = (event) -> #rewrite this to use HTML5 pushState()
-		console.log event
+		p event
 		fixFavicon()
 		nav()
+	###
 
 	nav = ->
 		###
@@ -334,14 +403,15 @@
 			i++
 		cookieValue
 
+	### MOVE INTO AccountModel
 	getToken = (password) ->
-		###
+		#
 			this function handles:
 			getting token & user object from login
 			calling login.php
 			
 		must be separate from other functions so it can be called directly from login modal
-		###
+		#
 		scoutidInput = document.getElementById "scoutid"
 		pwordInput = document.getElementById "pword"
 		user._id = scoutidInput.value #put in user object (scoutid in user object != logged in)
@@ -380,7 +450,9 @@
 		bakeCookie "user", "" #remove user object cookie
 		updateUserBar()
 		window.location = "#login" if pages[current.index][current.type][current.subpage]["login-required"] is true
-
+	###
+	
+	### MOVE INTO AccountView.render()
 	updateUserBar = -> #also updates account modal
 		loginLabel = document.getElementById("login-r-label")
 		if eatCookie("user") isnt "" #logged in
@@ -398,7 +470,9 @@
 		#account modal
 		$("#fadeEffects").toggleSwitch "toggle", user.prefs.fade
 		$("#verboseMode").toggleSwitch "toggle", user.prefs.verbose
+	###
 
+	### MOVE INTO AccountModel (I think)
 	updateUser = (key, value) -> #newObject does not need to be a full user object
 		#user = jQuery.extend(true, user, userUpdates);#CONSIDER using this in login so only non-default stuff needs to be sent
 		user.prefs[key] = value
@@ -407,7 +481,7 @@
 		post "process.php", "{\"request\": \"updateUser\"}" if eatCookie("user") isnt "" #PHP gets user object from cookie -- only run if logged in
 		modalClose false
 		#TODO: add checking in postUserUpdates() to see if user object is different
-
+	###
 	#general functions
 	String::titleCase = ->
 		@replace /\w\S*/g, (txt) ->
@@ -484,7 +558,7 @@
 			json.error = "valid json was not returned"
 		eval json.script if json.script
 
-		#console.log(json);#TODO: remove before production
+		#p(json);#TODO: remove before production
 
 		if json.error
 			$("#jGrowl-container").jGrowl "error: " + json.error,
@@ -512,7 +586,7 @@
 
 		lastMissedPost = missedPosts.length - 1
 		bakeCookie "missedPost" + lastMissedPost, $.toJSON(missedPosts[lastMissedPost])
-		console.log "TODO: prompt file download" if lastMissedPost >= 149
+		p "TODO: prompt file download" if lastMissedPost >= 149
 		$("#jGrowl-container").jGrowl "although the request has failed, your data has been saved, and I will attempt to resubmit it when possible",
 			sticky: true
 			theme: "error"
