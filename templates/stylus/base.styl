@@ -9,22 +9,12 @@
 	font-family 'BankSans'
 	src url('/static/font/bank-sans.ttf')
 
-// Logo
-a#logo
-	position absolute
-	right 20px
-	top 10px
-
-	path
-		stroke #000
-		fill none
-		stroke-width 4.5
-
-#c, #s, #d
-	stroke none !important
-	fill #000 !important
-
 // Reset
+*
+	margin 0
+	padding 0
+
+
 label, button, legend, a#logo, .toggle-container
 	-webkit-user-select none
 	-khtml-user-select none
@@ -36,21 +26,23 @@ a
 	outline 0
 
 // Layout
-body, html, table
-	height 100%
-	margin 0
+body, html
+	display inline-block
+	min-width 100%
 
 body
 	background-color page_bgcolor
 	background-image background_dots
 	font-family font_list
-	margin 0 8px 0 8px
-	min-width 1150px //TODO change this value manually
-	position relative //used to fix issue with logo display... test this
+	//min-width 1150px //TODO change this value manually
+	position relative // make logo display relative to body
+
+page_margin = 8px
 
 #layout
-	width 100%
-	border 0
+	margin page_margin
+	//width 100%
+	//border 0
 
 td
 	vertical-align top
@@ -65,20 +57,33 @@ td
 #foot
 	height 15px
 
+// Logo
+logo_width = page_margin + 136px
+a#logo
+	position absolute
+	right page_margin
+	top page_margin
+
+	path
+		stroke #000
+		fill none
+		stroke-width 4.5
+
+#c, #s, #d
+	stroke none !important
+	fill #000 !important
+
 // General
 p
 	display inline
 	margin 2px
 
-ul 
-	padding-left 0
-	margin 0
-
-	&#navbar 
-		margin 10px
+ul
+	&#navbar
+		white-space nowrap
+		margin-right logo_width //move end of navbar away from logo
 		z-index 1001//shows navbar even when modal is open
 		position relative
-		margin-right 170px//move end of navbar away from logo
 
 	li 
 		margin 0
@@ -87,6 +92,10 @@ ul
 		.local //position local buttons to right (seperate local and global)
 			float right
 			display none
+
+hr
+	margin 10px
+	margin-right logo_width - 10px //put end of horizontal rule directly under circular CORE logo
 
 ul.stacked 
 	display inline-block
