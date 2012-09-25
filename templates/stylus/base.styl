@@ -97,7 +97,8 @@ ul
 		margin 0
 		display inline // for forms
 
-		.local // position local buttons to right (seperate local and global)
+		// position local buttons to right (seperate local and global)
+		.local
 			float right
 			display none
 
@@ -139,7 +140,7 @@ legend
 	text()
 
 	margin-left -10px
-	margin-bottom -legend_height
+	margin-bottom -(legend_height)
 	padding 0 10px
 	line-height legend_height
 	border-top 1px solid #B6B6B6
@@ -316,7 +317,8 @@ button
 		font-weight 200
 		line-height 20px
 
-		&.plus // because I don't want to screw around with the actual glyph for the plus character
+		// because I don't want to screw around with the actual glyph for the plus character
+		&.plus
 			font-weight bold
 			font-size 17px
 
