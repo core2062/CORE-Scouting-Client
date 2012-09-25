@@ -72,14 +72,17 @@
 		###
 			NavView modifies the navbar to show the correct subpages for the current page
 		###
-		$el: $('#navbar')  # element already exists in markup
 
 		initialize: ->
+			@setElement($('#navbar'))  # element already exists in markup
 			@model.bind('change', @render)
 			@model.view = @
 
 		render: =>  # render is run by the model? so "=>" is needed
-			document.title = "#{@model.get('page').replace("_", " ").titleCase()} | CSD"
+			page = @model.get('page')
+
+			document.title = "#{page.replace("_", " ").titleCase()} | CSD"
+			@$el.find('#' + page + '_nav').attr "checked", true # ensure that the correct navbar button is checked
 			p "(nav) page: #{@model.get("page")}"
 
 	class Account extends Backbone.Model
@@ -244,7 +247,7 @@
 		###
 
 		#TODO: make nav change the accordion that is open in the nav modal to the current page
-
+		###
 		if location.hash.substring(1) is ""
 			location.hash = "#front-page" #default page
 			return
@@ -280,6 +283,7 @@
 			window.location = "#front-page" #default page
 			return
 
+		###
 		#check if page has been downloaded yet (add functionality later)
 		#download if it hasn't been
 
@@ -299,7 +303,7 @@
 			prev.type = "subpages"
 
 		#document.title = pages[current.index].fullName.replace(/\-/, " ").titleCase() + " - " + current["subpage"].replace(/\-/g, " ").titleCase()
-		document.getElementById("body").style.minWidth = pages[current.index].minWidth
+
 		document.getElementById("progressbar").style.display = pages[current.index].progressbar
 
 		#start page changers
@@ -307,7 +311,7 @@
 			#change navbar (no fade)
 			$(cache.nav).css "display", "none"
 			$("." + pages[current.index].name + "-n").css "display", "inline"
-			$("#" + current.subpage + "-r").attr "checked", true
+			#$("#" + current.subpage + "-r").attr "checked", true
 			if prev.type is "subpages" #sub-pages
 				if user.prefs.fade is true
 					$(cache.subpages).fadeOut(fadetime).promise().done ->
