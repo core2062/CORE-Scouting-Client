@@ -54,13 +54,13 @@ td
 	height 65px
 
 #foot
-	left: 25%
-	position: relative
-	width: 50%
+	//left: 25%
+	//position: relative
+	width: 100%
 	font-size: 12px
 	text-align: center
 	margin-top 10px
-	height 15px
+	//height 15px
 
 	p
 		white-space nowrap
@@ -355,28 +355,36 @@ button:active, .buttonset input[type="radio"]:checked + label
 		height 100%
 		display block
 
+
+// page footer
+// this component is made up of both the progressbar, and a short footer text
+
 #page_footer
-	//left 25%
-	//width 50%
-	margin auto
 	display inline-block
 
-// Progressbar
+	p
+		margin 0 20px
+
+	&:hover #progressbar
+		opacity(0) // remove progressbar on hover so footer text can be seen
+
+#progressbar, #progressbar_value, #errorbar_value
+	transition(0.3s)
+
 #progressbar
-	//display none
+	progressbar_height = 18px // this is dependant on the image used for the progressbar (image height + 2px)
+
+	pointer-events none // allow clicking through progressbar to the link in the footer text
 	z-index 2
-	top 14px
-	margin-top 3px
-	height 12px
+	top progressbar_height
+	height progressbar_height
+	margin-top -(progressbar_height)
 	background #FFF
 	inv_gradent(white_color)
 	border 1px solid d_white_color
-	position relative
+	position relative // allow errorbar to position relative to this outer container
 	border_radius(4px)
-	transition(0.3s)
-
-	&:hover
-		opacity(0.4)
+	overflow hidden // apply corners to all sides of the progressbar-values inside
 
 #progressbar_value
 	img_gradent(progressbar, highlight_color)
@@ -389,9 +397,6 @@ button:active, .buttonset input[type="radio"]:checked + label
 	border 1px solid d_error_color
 
 #errorbar_value, #progressbar_value
-	border_radius_tl(4px)
-	border_radius_bl(4px)
-	margin -1px
 	height 100%
 	background-repeat repeat-x
 	width 50% // default value
