@@ -9,7 +9,7 @@ reg_color = #d1d1d1 //gray
 l_reg_color = lighten(reg_color, 15%)
 d_reg_color = darken(reg_color, 15%)
 
-highlight_color = rgb(165, 206, 229) //orange = #FF5C00
+highlight_color = rgb(165, 206, 229) //light blue
 l_highlight_color = lighten(highlight_color, 15%)
 d_highlight_color = darken(highlight_color, 15%)
 
@@ -36,8 +36,7 @@ line_height = 23px
 button_height = 32px
 
 // Images
-// TODO: embed images in LESS
-// TODO: add IE (aka: shit-browser) compatible images (non-embedded) to a ie stylesheet
+// TODO: add IE (aka: shit-browser) compatible images (non-embedded) to a ie stylesheet?
 
 select_icon = url('static/img/select_icon.gif')
 progressbar = url('static/img/progress_bar.png')
@@ -48,7 +47,7 @@ arrow = url('static/img/arrow.gif')
 plus_icon = url('static/img/icon/plus.svg')
 help_icon = url('static/img/icon/help.svg')
 clear_input_icon = url('static/img/icon/clear_input.svg')
-//TODO add a red background to clear_input_icon
+//TODO add a red background to clear_input_icon?
 
 /* source of clear_input_icon
 	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 48 48">
@@ -99,57 +98,34 @@ box_shadow(shadow)
 	box-shadow shadow
 
 
-advanced_gradent(gradent_1, gradent_2)
-	background-image -webkit-linear-gradient(top, gradent_1, gradent_2)
-	background-image -moz-linear-gradient(top, gradent_1, gradent_2)
-	background-image -ms-linear-gradient(top, gradent_1 gradent_2)
-	background-image "-webkit-gradient(linear, 0% 0%, 0% 100%, from(gradent_1), to(gradent_2)"
-	background-image -o-linear-gradient(top, gradent_1, gradent_2)
-	background-image linear-gradient(top, gradent_1, gradent_2)
-
-
-img_gradent(image, color)
-	l_color = lighten(color, 15%)
-	d_color = darken(color, 15%)
-	background-image image, -webkit-linear-gradient(top, l_color, d_color)
-	background-image image, -moz-linear-gradient(top, l_color, d_color)
-	background-image image, -ms-linear-gradient(top, l_color d_color)
-	background-image image, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(" + l_color + "), to(" + d_color + ")"
-	background-image image, -o-linear-gradient(top, l_color, d_color)
-	background-image image, linear-gradient(top, l_color, d_color)
-
-
-inv_img_gradent(image, color)
-	l_color = lighten(color, 15%)
-	d_color = darken(color, 15%)
-	background-image image, -webkit-linear-gradient(top, d_color, l_color)
-	background-image image, -moz-linear-gradient(top, d_color, l_color)
-	background-image image, -ms-linear-gradient(top, d_color l_color)
-	background-image image, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(d_color), to(l_color)"
-	background-image image, -o-linear-gradient(top, d_color, l_color)
-	background-image image, linear-gradient(top, d_color, l_color)
+advanced_gradent(color_a, color_b)
+	background-image -webkit-linear-gradient(top, color_a, color_b)
+	background-image -moz-linear-gradient(top, color_a, color_b)
+	background-image -o-linear-gradient(top, color_a, color_b)
+	background-image linear-gradient(top, color_a, color_b)
 
 
 reg_gradent(color)
-	l_color = lighten(color, 15%)
-	d_color = darken(color, 15%)
-	background-image -webkit-linear-gradient(top, l_color, d_color)
-	background-image -moz-linear-gradient(top, l_color, d_color)
-	background-image -ms-linear-gradient(top, l_color d_color)
-	background-image "-webkit-gradient(linear, 0% 0%, 0% 100%, from(l_color), to(d_color)"
-	background-image -o-linear-gradient(top, l_color, d_color)
-	background-image linear-gradient(top, l_color, d_color)
+	advanced_gradent(lighten(color, 15%), darken(color, 15%))
 
 
 inv_gradent(color)
-	l_color = lighten(color, 15%)
-	d_color = darken(color, 15%)
-	background-image -webkit-linear-gradient(top, d_color, l_color)
-	background-image -moz-linear-gradient(top, d_color, l_color)
-	background-image -ms-linear-gradient(top, d_color l_color)
-	background-image "-webkit-gradient(linear, 0% 0%, 0% 100%, from(d_color), to(l_color)"
-	background-image -o-linear-gradient(top, d_color, l_color)
-	background-image linear-gradient(top, d_color, l_color)
+	advanced_gradent(darken(color, 15%), lighten(color, 15%))
+
+
+advanced_img_gradent(image, color_a, color_b)
+	background-image image, -webkit-linear-gradient(top, color_a, color_b)
+	background-image image, -moz-linear-gradient(top, color_a, color_b)
+	background-image image, -o-linear-gradient(top, color_a, color_b)
+	background-image image, linear-gradient(top, color_a, color_b)
+
+
+img_gradent(image, color)
+	advanced_img_gradent(image, lighten(color, 15%), darken(color, 15%))
+
+
+inv_img_gradent(image, color)
+	advanced_img_gradent(image, darken(color, 15%), lighten(color, 15%))
 
 
 opacity(opacity_dec)
@@ -164,7 +140,6 @@ transition(time)
 	-ms-transition all time ease-out // IE10? 
 	-o-transition all time ease-out // Opera 10.5+ 
 	transition all time ease-out // WC3
-
 
 
 // Mixins
