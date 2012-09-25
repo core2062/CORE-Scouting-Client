@@ -11,7 +11,8 @@ html
 
 
 		block style
-			:stylus(compress=!debug, inline=true)
+			//ERROR: passing false to compress still compresses the stylesheet!!!
+			:stylus(compress=debug, inline=true)
 				@import "stylus/base"
 
 				//toggleJS
