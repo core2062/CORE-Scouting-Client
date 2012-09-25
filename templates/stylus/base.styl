@@ -1,4 +1,4 @@
-@import "libraries"
+@import "library"
 
 // Fonts
 @font-face
@@ -34,7 +34,6 @@ body
 	background-color page_bgcolor
 	background-image background_dots
 	font-family font_list
-	//min-width 1150px //TODO change this value manually
 	position relative // make logo display relative to body
 
 page_margin = 8px
@@ -49,13 +48,22 @@ td
 	padding 0
 
 	&#sidebar
-		width 0//pushes all sidebar boxes to the right
+		width 0 // pushes all sidebar boxes to the right
 
 #head
 	height 65px
 
 #foot
+	left: 25%
+	position: relative
+	width: 50%
+	font-size: 12px
+	text-align: center
+	margin-top 10px
 	height 15px
+
+	p
+		white-space nowrap
 
 // Logo
 logo_width = page_margin + 136px
@@ -81,50 +89,50 @@ p
 ul
 	&#navbar
 		white-space nowrap
-		margin-right logo_width //move end of navbar away from logo
-		z-index 1001//shows navbar even when modal is open
+		margin-right logo_width // move end of navbar away from logo
+		z-index 1001 // shows navbar even when modal is open
 		position relative
 
-	li 
+	li
 		margin 0
-		display inline//for forms
+		display inline // for forms
 
-		.local //position local buttons to right (seperate local and global)
+		.local // position local buttons to right (seperate local and global)
 			float right
 			display none
 
 hr
 	margin 10px
-	margin-right logo_width - 10px //put end of horizontal rule directly under circular CORE logo
+	margin-right logo_width - 10px // put end of horizontal rule directly under circular CORE logo
 
-ul.stacked 
+ul.stacked
 	display inline-block
 	vertical-align top
 
-	li 
+	li
 		display block
 		margin-top 10px
 
-		> label 
+		> label
 			float left
 			text-align right
 			margin-right 5px
-			margin-left 0 !important //reset from another part of the style
+			margin-left 0 !important // reset from another part of the style
 			margin-top 2px
-			width 125px //TODO standardize this (right now only applies to home > signup)
+			width 125px // TODO standardize this (right now only applies to home > signup)
 			line-height line_height + 4px
 
-	input 
-		margin-right 0 //reset from another part of the style
-		width 200px//needs this size for email & scoutID
+	input
+		margin-right 0 // reset from another part of the style
+		width 200px // needs this size for email & scoutID
 
-td#content > ul, td#sidebar > ul 
-	display inline // for forms 
+td#content > ul, td#sidebar > ul
+	display inline // for forms
 
 legend_height = 20px
 
-legend 
-	//TODO cleanup legend style & make better
+legend
+	// TODO cleanup legend style & make better
 	font-size 18px
 	text-shadow 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7)
 	background()
@@ -136,7 +144,7 @@ legend
 	line-height legend_height
 	border-top 1px solid #B6B6B6
 
-	//below is fix for chrome
+	// below is fix for chrome
 	position relative
 	top 10px
 
@@ -160,29 +168,29 @@ fieldset
 	ul
 		margin 10px
 
-		li first-child label 
+		li first-child label
 			margin-left 0
 
-	&.focus legend 
+	&.focus legend
 		color #1c4257
 		border-color #7096ab
 		background_highlight()
 
-fieldset, legend 
-	border_radius_br(8px) 
+fieldset, legend
+	border_radius_br(8px)
 
-label 
+label
 	font-weight 400
-	margin-left 20px 
+	margin-left 20px
 
-#inputSidebar label 
-	margin-left 0 
+#inputSidebar label
+	margin-left 0
 
-input, select, textarea, button 
+input, select, textarea, button
 	font-family font_list
-	font-size 1em 
+	font-size 1em
 
-input, textarea 
+input, textarea
 	border none
 	background-repeat repeat
 	background-image stripe
@@ -194,22 +202,22 @@ input, textarea
 	vertical-align middle
 	font-family font_list
 	font-size 15px
-	border_radius(5px) 
+	border_radius(5px)
 
-input[readonly='readonly']  //disabled input
+input[readonly='readonly']  // disabled input
 	background-color #D4D4D4
-	color #525252 
+	color #525252
 
-textarea 
+textarea
 	padding 5px
-	resize none 
+	resize none
 
 input:focus, textarea:focus  // TODO extend blue shadow to select box & any other inputs
-	box_shadow(inset 0 0 4px d_blue_color) 
+	box_shadow(inset 0 0 4px d_blue_color)
 
-//Clear Input Icon
-.clearIcon 
-	span 
+// Clear Input Icon
+.clearIcon
+	span
 		opacity(0.7)
 		background-image clear_input_icon
 		height 25px
@@ -221,43 +229,43 @@ input:focus, textarea:focus  // TODO extend blue shadow to select box & any othe
 		right 32px
 		top 0
 
-		&:hover 
+		&:hover
 			opacity(1)
 
-	input 
+	input
 		padding-right 34px
 
 // Links
-p 
-	a 
+p
+	a
 		border_radius(0.25em)
 		border 1px solid transparent
 		color #336699
 		margin 0 -0.2em
 		padding 0.1em
 		text-decoration none
-		border-bottom 1px dotted #336699 
+		border-bottom 1px dotted #336699
 
-		&:hover, &:active 
+		&:hover, &:active
 			border 1px solid #B6B6B6
 			text-decoration none
 			background #ededed
 			text-shadow 0 1px 0 rgba(255, 255, 255, 0.6)
 			box_shadow('0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 
-		&:hover 
+		&:hover
 			reg_gradent(reg_color)
 			box_shadow(0 1px 0 rgba(255,255,255,0.6) inset)
 			color #313131
 
-		&:active 
+		&:active
 			border-color #7096ab
 			advanced_gradent(#b9e0f5, #92bdd6)
 			color #1c4257
 
 // Buttons and Button Sets
-button, .buttonset label 
-	//TODO add transitions
+button, .buttonset label
+	// TODO add transitions
 	outline none
 	border 1px solid #B6B6B6
 	background()
@@ -274,30 +282,30 @@ button, .buttonset label
 	margin-right 4px
 	margin-left 4px
 
-	svg 
+	svg
 		fill lite_text
 		vertical-align middle
 		width 17px
 		height 17px
 
-	&:hover 
+	&:hover
 		box_shadow('0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 		color #313131
 
-		svg 
+		svg
 			fill #313131
 
 	// remove dotted lines in firefox
-	&::-moz-focus-inner 
+	&::-moz-focus-inner
 		border 0
 		padding 0
 
-button 
+button
 	border_radius(3px)
-	height button_height + 2px //+2 accounts for 1px border on each side
+	height button_height + 2px // +2 accounts for 1px border on each side
 	padding 0 1em
 
-	&.icon 
+	&.icon
 		height 26px
 		padding 4px
 		display inline
@@ -308,97 +316,101 @@ button
 		font-weight 200
 		line-height 20px
 
-		&.plus //because I don't want to screw around with the actual glyph for the plus character
+		&.plus // because I don't want to screw around with the actual glyph for the plus character
 			font-weight bold
 			font-size 17px
 
-button:active, .buttonset input[type="radio"]:checked + label 
+button:active, .buttonset input[type="radio"]:checked + label
 	color #1c4257
 	border-color #7096ab
-	background_highlight() 
+	background_highlight()
 
-.buttonset 
+.buttonset
 	margin-right 4px
 	margin-left 4px
 	display inline
 
-	input[type="radio"] 
+	input[type="radio"]
 		display none
 		left unquote('-1e+8px')
 		position absolute
 
-	label 
+	label
 		margin-left -3px
 		margin-right -3px
-		line-height button_height //aligns text to center
+		line-height button_height // aligns text to center
 
-		&.first 
+		&.first
 			border_radius_bl(3px)
 			border_radius_tl(3px)
 
-		&.last 
+		&.last
 			border_radius_br(3px)
 			border_radius_tr(3px)
 
-	a 
+	a
 		padding 0 1em
 		height 100%
 		display block
 
+#page_footer
+	//left 25%
+	//width 50%
+	margin auto
+	display inline-block
+
 // Progressbar
-#progressbar 
-	display none
+#progressbar
+	//display none
 	z-index 2
 	top 14px
 	margin-top 3px
 	height 12px
 	background #FFF
-	width 50%
 	inv_gradent(white_color)
 	border 1px solid d_white_color
-	left 25%
 	position relative
 	border_radius(4px)
+	transition(0.3s)
 
-	&:hover 
+	&:hover
 		opacity(0.4)
-		transition(0.3s)
 
-#progressbar-value 
+#progressbar_value
 	img_gradent(progressbar, highlight_color)
-	border 1px solid d_highlight_color 
+	border 1px solid d_highlight_color
 
-#errorbar-value 
+#errorbar_value
 	top 0
 	position absolute
 	img_gradent(progressbar, error_color)
-	border 1px solid d_error_color 
+	border 1px solid d_error_color
 
-#errorbar-value, #progressbar-value 
+#errorbar_value, #progressbar_value
 	border_radius_tl(4px)
 	border_radius_bl(4px)
 	margin -1px
 	height 100%
 	background-repeat repeat-x
-	width 50% // default value 
+	width 50% // default value
 
 // Modals
-#modal_aligner 
+#modal_aligner
 	position absolute
 	top 0
 	left 0
 	width 100%
 	height 100%
 	display table
-	visibility hidden 
+	visibility hidden
 
-#modal_wrapper 
+#modal_wrapper
 	vertical-align middle
 	text-align center
 	display table-cell
-	visibility hidden 
+	visibility hidden
 
-#modal_titlebar 
+#modal_titlebar
 	padding 0.7em 1em 0.6em 1em
 	position relative
 	border none
@@ -409,12 +421,12 @@ button:active, .buttonset input[type="radio"]:checked + label
 	background #ededed
 	advanced_gradent(#ededed, #c4c4c4)
 
-	#modal_title 
+	#modal_title
 		margin .1em 16px .2em 0
 		font-size 14px
 		text-shadow 0 1px 0 rgba(255,255,255,0.5)
 
-	.close 
+	.close
 		border_radius(3px)
 		position absolute
 		right .8em
@@ -425,52 +437,52 @@ button:active, .buttonset input[type="radio"]:checked + label
 		height 16px
 		border 0
 
-		span 
+		span
 			display block
 			margin 1px
 			background close_icon 0 -16px no-repeat
 
-			&.icon  //TODO fix all this css
+			&.icon  // TODO fix all this css
 				display inline-block
 				color inherit
 				line-height 36px
 				cursor pointer
 
-		&:hover span 
+		&:hover span
 			background-position -16px -16px
 
-.icon-closethick 
+.icon-closethick
 	width 15px
-	height 15px 
+	height 15px
 
-#modal_container 
-	text-align left//reset from modal wrapper
+#modal_container
+	text-align left // reset from modal wrapper
 	visibility visible
 	background form_bgcolor
 	border 1px solid #B6B6B6
 	color lite_text
 	border_radius(3px)
-	position relative//needed for z-index to work
+	position relative // needed for z-index to work
 	z-index 1001
 	//width 700px
-	margin auto //centers it horizontally - NO WORK
+	margin auto // centers it horizontally - NO WORK
 	margin-top 70px
 	margin-bottom 20px
 	display inline-block
 	box_shadow(0 2px 12px rgba(0,0,0,0.6))
 
-	ul 
+	ul
 		margin 10px
 
-	#modal_buttons 
+	#modal_buttons
 		border-top 1px solid #B6B6B6
 		overflow hidden //might be a insufficant solution! ... test more
 
-		button 
+		button
 			float right
 			margin .5em .4em .5em 0
 
-#overlay 
+#overlay
 	display none
 	background #262b33
 	opacity(0.7)
@@ -480,57 +492,57 @@ button:active, .buttonset input[type="radio"]:checked + label
 	width 100%
 	height 100%
 	z-index 900
-	cursor pointer 
+	cursor pointer
 
 // Nav Modal
-div.navigation-c 
-	@navPreviewWidth 300px
-	min-width 250px + @navPreviewWidth
+div.navigation-c
+	nav_preview_width = 300px
+	min-width 250px + nav_preview_width
 	position relative
 
-	p 
+	p
 		display block
 		width 100%
 
-	#nav_accordion 
+	#nav_accordion
 		padding .5em 1em
 		display inline-block
-		padding-right @navPreviewWidth
+		padding-right nav_preview_width
 
 		p //accordian labels
 			padding 3px 0
 			cursor pointer
 
-	ul 
+	ul
 		margin 5px 0 15px 0
 		padding-left 15px
 
-		li 
+		li
 			display list-item
 			margin 6px
 			list-style square
 			margin 0 0 0 10px
 			white-space nowrap
 
-			a 
+			a
 				text-decoration none
 				padding 2px
 				border_radius(3px)
 				color lite_text
 
-			a:hover 
+			a:hover
 				color white
 				background-color lite_text
 
-	#nav_preview 
+	#nav_preview
 		padding-right 5px
-		width @navPreviewWidth
+		width nav_preview_width
 		float right
 		position absolute
 		right 0
 		height 100%
 		display inline
 
-		p 
+		p
 			position absolute
 			bottom 0

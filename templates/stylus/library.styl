@@ -93,13 +93,13 @@ border_radius_br(radius)
 	border-bottom-right-radius radius
 
 
-box-shadow(shadow)
+box_shadow(shadow)
 	-moz-box-shadow shadow
 	-webkit-box-shadow shadow
 	box-shadow shadow
 
 
-advanced-gradent(gradent_1, gradent_2)
+advanced_gradent(gradent_1, gradent_2)
 	background-image -webkit-linear-gradient(top, gradent_1, gradent_2)
 	background-image -moz-linear-gradient(top, gradent_1, gradent_2)
 	background-image -ms-linear-gradient(top, gradent_1 gradent_2)
@@ -108,18 +108,18 @@ advanced-gradent(gradent_1, gradent_2)
 	background-image linear-gradient(top, gradent_1, gradent_2)
 
 
-img-gradent(image, color)
+img_gradent(image, color)
 	l_color = lighten(color, 15%)
 	d_color = darken(color, 15%)
 	background-image image, -webkit-linear-gradient(top, l_color, d_color)
 	background-image image, -moz-linear-gradient(top, l_color, d_color)
 	background-image image, -ms-linear-gradient(top, l_color d_color)
-	background-image image, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(l_color), to(d_color)"
+	background-image image, "-webkit-gradient(linear, 0% 0%, 0% 100%, from(" + l_color + "), to(" + d_color + ")"
 	background-image image, -o-linear-gradient(top, l_color, d_color)
 	background-image image, linear-gradient(top, l_color, d_color)
 
 
-inv-img-gradent(image, color)
+inv_img_gradent(image, color)
 	l_color = lighten(color, 15%)
 	d_color = darken(color, 15%)
 	background-image image, -webkit-linear-gradient(top, d_color, l_color)
@@ -130,7 +130,7 @@ inv-img-gradent(image, color)
 	background-image image, linear-gradient(top, d_color, l_color)
 
 
-reg-gradent(color)
+reg_gradent(color)
 	l_color = lighten(color, 15%)
 	d_color = darken(color, 15%)
 	background-image -webkit-linear-gradient(top, l_color, d_color)
@@ -141,7 +141,7 @@ reg-gradent(color)
 	background-image linear-gradient(top, l_color, d_color)
 
 
-inv-gradent(color)
+inv_gradent(color)
 	l_color = lighten(color, 15%)
 	d_color = darken(color, 15%)
 	background-image -webkit-linear-gradient(top, d_color, l_color)
@@ -170,13 +170,13 @@ transition(time)
 // Mixins
 background() //used on buttons & legends
 	background-color reg_color//fallback
-	reg-gradent(reg_color)
+	reg_gradent(reg_color)
 	box_shadow(0 1px 0 rgba(255,255,255,0.6) inset)
 
 
 background_highlight() //used on buttons & legends
 	background-color highlight_color
-	reg-gradent(highlight_color)
+	reg_gradent(highlight_color)
 	box_shadow('0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset')
 
 
