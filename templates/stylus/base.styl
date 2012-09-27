@@ -268,15 +268,12 @@ button, .buttonset label
 	text()
 	display inline-block
 	position relative
-	margin-right .1em
 	text-decoration none
 	cursor pointer
 	text-align center
 	overflow visible
 	height button_height
 	padding 0 10px
-	margin-right 4px
-	margin-left 4px
 
 	svg
 		fill lite_text
@@ -297,6 +294,8 @@ button, .buttonset label
 		padding 0
 
 button
+	margin-right 4px
+	margin-left 4px
 	border_radius(3px)
 	height button_height + 2px // +2 accounts for 1px border on each side
 	padding 0 1em
@@ -333,15 +332,15 @@ button:active, .buttonset input[type="radio"]:checked + label
 		position absolute
 
 	label
-		margin-left -3px
-		margin-right -3px
+		margin-left 0
+		margin-right 0
 		line-height button_height // aligns text to center
 
-		&.first
+		&:nth-child(2) // the first label tag in a buttonset is actually the second child of .buttonset (the first is an input)
 			border_radius_bl(3px)
 			border_radius_tl(3px)
 
-		&.last
+		&:last-child
 			border_radius_br(3px)
 			border_radius_tr(3px)
 
