@@ -28,6 +28,6 @@ def index():
 
 if __name__ == "__main__":
 	app.run(
-		debug=False,
+		debug=True,
 		host='0.0.0.0',  # make dev server public
 	)
