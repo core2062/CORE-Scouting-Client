@@ -29,6 +29,7 @@ a
 body, html
 	display inline-block
 	min-width 100%
+	height 100%
 
 body
 	background-color page_bgcolor
@@ -38,8 +39,26 @@ body
 
 page_margin = 8px
 
+foot_height = 40px // the progress bar is inline-block so this needs to be set here
+#foot
+	width: 100%
+	font-size: 12px
+	text-align: center
+	margin 10px 0
+	height foot_height - 20px // -20 for the 10px margins
+
+#main
+	border-top foot_height + page_margin solid transparent
+	position relative
+
+
 #layout
-	margin page_margin
+	overflow-x: auto;
+	padding 0 page_margin
+	margin-top -(foot_height)
+	min-height 100%
+	box_sizing(border-box)
+	position: relative;
 
 td
 	vertical-align top
@@ -51,21 +70,13 @@ td
 #head
 	height 65px
 
-#foot
-	width: 100%
-	font-size: 12px
-	text-align: center
-	margin-top 10px
-
-	p
-		white-space nowrap
 
 // Logo
 logo_width = page_margin + 136px
 a#logo
 	position absolute
-	right page_margin
-	top page_margin
+	right 0
+	top 0
 
 	path
 		stroke #000
@@ -293,9 +304,11 @@ button, .buttonset label
 		border 0
 		padding 0
 
-button
+button, .buttonset
 	margin-right 4px
 	margin-left 4px
+
+button
 	border_radius(3px)
 	height button_height + 2px // +2 accounts for 1px border on each side
 	padding 0 1em
@@ -322,8 +335,6 @@ button:active, .buttonset input[type="radio"]:checked + label
 	background_highlight()
 
 .buttonset
-	margin-right 4px
-	margin-left 4px
 	display inline
 
 	input[type="radio"]
@@ -358,6 +369,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 
 	p
 		margin 0 20px
+		white-space nowrap
 
 	&:hover #progressbar
 		opacity(0) // remove progressbar on hover so footer text can be seen
