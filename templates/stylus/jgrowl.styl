@@ -1,18 +1,18 @@
 @import "library"
 
 
-div.center div.jGrowl-notification, div.center div.jGrowl-closer
+.center .jGrowl-notification, .center .jGrowl-closer
 	margin-left auto
 	margin-right auto
 
-div#jGrowl-container
+#jGrowl-container
 	z-index 1000
 	position relative
 	vertical-align bottom
 	width 100%
 	max-width 250px
 
-div.jGrowl
+.jGrowl
 	color #fff
 	font-size 12px
 
@@ -21,7 +21,7 @@ div.jGrowl
 		margin 0
 		font-weight normal
 
-	div.jGrowl-notification, div.jGrowl-closer
+	.jGrowl-notification, .jGrowl-closer
 		background-color #000
 		padding 10px
 		margin-top 5px
@@ -32,23 +32,23 @@ div.jGrowl
 		opacity(.8)
 		border_radius(3px)
 
-	div.jGrowl-notification
+	.jGrowl-notification
 		min-height 10px
 		min-width 175px
 		margin-left 10px
 		margin-right 10px
 
-		div.jGrowl-header
+		.jGrowl-header
 			font-weight bold
 			font-size .85em
 
-		div.jGrowl-close
+		.jGrowl-close
 			float right
 			font-weight bold
 			font-size 1em
 			cursor pointer
 
-	div.jGrowl-closer
+	.jGrowl-closer
 		margin-left 10px
 		margin-right 10px
 		padding-top 4px
@@ -59,11 +59,11 @@ div.jGrowl
 		text-align center
 
 .error
-	background-color #B20000 !important
+	background-color error_color !important
 .message
-	background-color #000066 !important
+	background-color d_highlight_color !important
 
 // Hide jGrowl if page is printed
 @media print
-	div.jGrowl
+	.jGrowl
 		display none
