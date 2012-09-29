@@ -49,7 +49,7 @@ html
 								+nav_button('navigation')
 									include svg/nav
 
-						li.buttonset
+						li.buttonset#account_bar
 							+nav_button('account','Account Settings')
 								| Guest
 							
@@ -103,7 +103,6 @@ html
 						p We've got a gorilla for sale. Magilla Gorilla for sale. Won't you buy him, take him home and try him, gorilla for sale. Don't you want a little gorilla you can call your own, a gorilla who'll be with ya when you're all alone? How much is that gorilla in the window? Take our advice, at any price, a gorilla like Magilla is mighty nice. Gorilla, Magilla Gorilla for sale.
 
 
-
 				#sidebar
 					//- other sidebar stuff goes here
 					#jGrowl-container.jGrowl.bottom-right
@@ -133,7 +132,7 @@ html
 						span#modal_title Title
 						//- remove the extra a tag ?
 						a.close(onclick='modalClose()')
-							span.icon.icon-closethick
+							span.icon.icon_closethick
 
 					block modal_content
 

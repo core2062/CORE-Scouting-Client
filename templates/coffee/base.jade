@@ -73,7 +73,6 @@
 		initialize: ->
 			@setElement($('#navbar'))  # element already exists in markup
 			@model.bind('change', @render)
-			@model.view = @
 			@render()
 
 		render: =>  # render is run by the model? so "=>" is needed ?
@@ -86,11 +85,11 @@
 			# since it is a radio button, it unselects anything else
 			@$el.find('#' + page + '_nav').attr "checked", true 
 
-			p "(nav) page: #{@model.get("page")}"
+			$("#jGrowl-container").jGrowl "(nav) page: #{@model.get("page")}",
 
 	class Account extends Backbone.Model
 		defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
-			_id: "Guest"
+			_id: ""
 			token: "" # token must not be sent to server in a cookie due to possible CSRF attacks
 			info:
 				fName: "Guest"
@@ -110,7 +109,7 @@
 
 	$ ->
 		window.App = new AppView()
-		p Backbone.history.start()
+		Backbone.history.start()
 
 
 
