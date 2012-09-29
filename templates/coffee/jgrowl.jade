@@ -50,7 +50,6 @@
 				glue: "before"
 				theme: "default"
 				themeState: "highlight"
-				corners: "10px"
 				check: 250
 				life: 7000
 				closeDuration: "normal"
@@ -126,7 +125,7 @@
 						else
 							$("div.jGrowl-notification:first", self.element).before notification
 						$(this).animate o.animateOpen, o.openDuration, o.easing, ->
-							@style.removeAttribute "filter"  if $.browser.msie and (parseInt($(this).css("opacity"), 10) is 1 or parseInt($(this).css("opacity"), 10) is 0)
+							@style.removeAttribute "filter" if $.browser.msie and (parseInt($(this).css("opacity"), 10) is 1 or parseInt($(this).css("opacity"), 10) is 0)
 							$(this).data("jGrowl").created = new Date()  if $(this).data("jGrowl")?
 							$(this).trigger "jGrowl.afterOpen"
 
@@ -148,7 +147,7 @@
 				Add a Global Closer if more than one notification exists *
 				###
 				if $("div.jGrowl-notification:parent", self.element).size() > 1 and $("div.jGrowl-closer", self.element).size() is 0 and @defaults.closer isnt false
-					$(@defaults.closerTemplate).addClass("jGrowl-closer " + @defaults.themeState + " ui-corner-all").addClass(@defaults.theme).prependTo(self.element).animate(@defaults.animateOpen, @defaults.speed, @defaults.easing).bind "click.jGrowl", ->
+					$(@defaults.closerTemplate).addClass("jGrowl-closer " + @defaults.themeState).addClass(@defaults.theme).prependTo(self.element).animate(@defaults.animateOpen, @defaults.speed, @defaults.easing).bind "click.jGrowl", ->
 						$(this).siblings().trigger "jGrowl.beforeClose"
 						self.defaults.closer.apply $(this).parent()[0], [$(this).parent()[0]]  if $.isFunction(self.defaults.closer)
 
@@ -178,7 +177,6 @@
 				@interval = setInterval(->
 					$(e).data("jGrowl.instance").update()
 				, parseInt(@defaults.check))
-				$(@element).addClass "ie6"  if $.browser.msie and parseInt($.browser.version) < 7 and not window["XMLHttpRequest"]
 
 			
 			###
