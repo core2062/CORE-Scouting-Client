@@ -5,7 +5,6 @@
 		jGrowl Wrapper - Establish a base jGrowl Container for compatibility with older releases. *
 		###
 		$.jGrowl = (m, o) ->
-			
 			# Create a notification on the container.
 			$("#jGrowl").jGrowl m, o
 
@@ -60,7 +59,6 @@
 				closer: true
 				closeTemplate: "&times;"
 				closerTemplate: "<div>close all</div>"
-				log: (e, m, o) ->
 
 				beforeOpen: (e, m, o) ->
 
@@ -98,8 +96,6 @@
 				@notifications.push
 					message: message
 					options: o
-
-				o.log.apply @element, [@element, message, o]
 
 			render: (notification) ->
 				self = this
