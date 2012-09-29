@@ -100,9 +100,22 @@
 				self = this
 				message = notification.message
 				o = notification.options
-				notification = $("<div class=\"jGrowl-notification" + ((if (o.group isnt `undefined` and o.group isnt "") then " " + o.group else "")) + "\"><div class=\"jGrowl-close\">" + o.closeTemplate + "</div><div class=\"jGrowl-header\">" + o.header + "</div><div class=\"jGrowl-message\">" + message + "</div></div>").data("jGrowl", o).addClass(o.theme).children("div.jGrowl-close").bind("click.jGrowl", ->
+				notification = $(
+					"""
+					<div class="jGrowl-notification #{o.group}">
+						<div class="jGrowl-close">#{o.closeTemplate}</div>
+						<div class="jGrowl-header">#{o.header}</div>
+						<div class="jGrowl-message">#{message}</div>
+					</div>
+					"""
+				)
+				.data("jGrowl", o)
+				.addClass(o.theme)
+				.children("div.jGrowl-close")
+				.bind("click.jGrowl", ->
 					$(this).parent().trigger "jGrowl.close"
-				).parent()
+				)
+				.parent()
 				
 				###
 				Notification Actions *
@@ -173,7 +186,7 @@
 			Setup the jGrowl Notification Container *
 			###
 			startup: (e) ->
-				@element = $(e).addClass("jGrowl").append("<div class=\"jGrowl-notification\"></div>")
+				@element = $(e).addClass("jGrowl").append('<div class="jGrowl-notification"></div>')
 				@interval = setInterval(->
 					$(e).data("jGrowl.instance").update()
 				, parseInt(@defaults.check))
