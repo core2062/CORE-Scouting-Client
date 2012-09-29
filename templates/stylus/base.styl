@@ -25,55 +25,13 @@ label, button, legend, a#logo, .toggle-container
 a
 	outline 0
 
-// Layout
-body, html
-	display inline-block
-	min-width 100%
-	height 100%
-
-body
-	background-color page_bgcolor
-	background-image background_dots
-	font-family font_list
-	position relative // make logo display relative to body
-
-page_margin = 8px
-
-foot_height = 40px // the progress bar is inline-block so this needs to be set here
-#foot
-	width: 100%
-	font-size: 12px
-	text-align: center
-	margin 10px 0
-	height foot_height - 20px // -20 for the 10px margins
-
-#main
-	border-top foot_height + page_margin solid transparent
-	position relative
-
-
-#layout
-	overflow-x: auto;
-	padding 0 page_margin
-	margin-top -(foot_height)
-	min-height 100%
-	box_sizing(border-box)
-	position: relative;
-
-td
-	vertical-align top
-	padding 0
-
-	&#sidebar
-		width 0 // pushes all sidebar boxes to the right
-
-#head
-	height 65px
-
-
 // Logo
+page_margin = 8px
+foot_height = 40px // the progress bar is inline-block so this needs to be set here
 logo_width = page_margin + 136px
-a#logo
+sidebar_width = 215px
+
+#logo
 	position absolute
 	right 0
 	top 0
@@ -87,19 +45,61 @@ a#logo
 	stroke none !important
 	fill #000 !important
 
+
+// Layout
+body, html
+	display inline-block
+	min-width 100%
+	height 100%
+
+body
+	background-color page_bgcolor
+	background-image background_dots
+	font-family font_list
+	position relative // make logo display relative to body
+
+
+#navbar
+	white-space nowrap
+	margin-right logo_width // move end of navbar away from logo
+	z-index 1001 // shows navbar even when modal is open
+	position relative
+
+#foot
+	width: 100%
+	font-size: 12px
+	text-align: center
+	margin 10px 0
+	height foot_height - 20px // -20 for the 10px margins
+
+#layout
+	overflow-x: auto;
+	padding 0 page_margin
+	margin-top -(foot_height)
+	min-height 100%
+	box_sizing(border-box)
+	position: relative;
+
+#main
+	border-top foot_height + page_margin solid transparent
+	position relative
+
+#content
+	float left
+	margin-right sidebar_width
+
+#sidebar
+	width sidebar_width
+	margin-left -(sidebar_width)
+	float right
+
+
 // General
 p
 	display inline
 	margin 2px
 
-ul
-	&#navbar
-		white-space nowrap
-		margin-right logo_width // move end of navbar away from logo
-		z-index 1001 // shows navbar even when modal is open
-		position relative
-
-	li
+ul li
 		margin 0
 		display inline // for forms
 
@@ -133,7 +133,7 @@ ul.stacked
 		margin-right 0 // reset from another part of the style
 		width 200px // needs this size for email & scoutID
 
-td#content > ul, td#sidebar > ul
+#content > ul, #sidebar > ul
 	display inline // for forms
 
 legend_height = 20px
@@ -190,8 +190,8 @@ label
 	font-weight 400
 	margin-left 20px
 
-#inputSidebar label
-	margin-left 0
+//#inputSidebar label
+//	margin-left 0
 
 input, select, textarea, button
 	font-family font_list
@@ -464,7 +464,7 @@ button:active, .buttonset input[type="radio"]:checked + label
 		&:hover span
 			background-position -16px -16px
 
-.icon-closethick
+.icon_closethick
 	width 15px
 	height 15px
 
