@@ -18,18 +18,6 @@
 		this.value = this.dataset.defaultText
 	###
 
-	defaultUser = #default user object for user who isn't logged in (no cookie is stored for this user)
-		_id: "Guest"
-		permission: 1
-		token: ""
-		info:
-			fName: "Guest"
-			lName: ""
-			team: 0
-		prefs:
-			fade: true
-			verbose: true
-
 
 	fixFavicon = -> #fixes favicon bug in firefox -- remove in future
 		$("#favicon").remove()

@@ -24,10 +24,10 @@
 	#               --- CORE Scouting Database ---
 
 	#Chosen Select Box
-	$("select").chosen()
+	#$("select").chosen()
 
 	#ToggleJS
-	$(":checkbox").toggleSwitch()
+	#$(":checkbox").toggleSwitch()
 
 	#Tipsy
 	$("a[title], label[title], button[title], textarea[title]").tipsy()
@@ -56,14 +56,14 @@
 			@model = options.model
 
 		change_page: (page) ->
-			p page
-			if page is "" then page = 'home' # default page
-			@model.set({'page': page})
+			if page isnt "" then @model.set({'page': page})
 						
 	class NavModel extends Backbone.Model
 		###
 			keep track of the current page and subpage. also determine what should be rendered in the navbar on any given page
 		###
+		defaults:
+			page: 'synopsis'
 
 	class NavView extends Backbone.View
 		###
@@ -74,15 +74,31 @@
 			@setElement($('#navbar'))  # element already exists in markup
 			@model.bind('change', @render)
 			@model.view = @
+			@render()
 
-		render: =>  # render is run by the model? so "=>" is needed
+		render: =>  # render is run by the model? so "=>" is needed ?
 			page = @model.get('page')
 
+			# set the title of the page
 			document.title = "#{page.replace("_", " ").titleCase()} | CSD"
-			@$el.find('#' + page + '_nav').attr "checked", true # ensure that the correct navbar button is checked
+
+			# ensure that the correct navbar button is selected
+			# since it is a radio button, it unselects anything else
+			@$el.find('#' + page + '_nav').attr "checked", true 
+
 			p "(nav) page: #{@model.get("page")}"
 
 	class Account extends Backbone.Model
+		defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
+			_id: "Guest"
+			token: "" # token must not be sent to server in a cookie due to possible CSRF attacks
+			info:
+				fName: "Guest"
+				lName: ""
+				team: 0
+			prefs:
+				fade: true
+				verbose: true
 
 
 	class AppView extends Backbone.View
