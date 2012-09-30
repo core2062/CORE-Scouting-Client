@@ -58,7 +58,7 @@
 		change_page: (page) ->
 			if page isnt "" then @model.set({'page': page})
 						
-	class NavModel extends Backbone.Model
+	class Nav extends Backbone.Model
 		###
 			keep track of the current page and subpage. also determine what should be rendered in the navbar on any given page
 		###
@@ -69,13 +69,9 @@
 		###
 			NavView modifies the navbar to show the correct subpages for the current page
 		###
+		el: $ '#navbar'  # element already exists in markup
 
-		initialize: ->
-			@setElement($('#navbar'))  # element already exists in markup
-			@model.bind('change', @render)
-			@render()
-
-		render: =>  # render is run by the model? so "=>" is needed ?
+		render: ->
 			page = @model.get('page')
 
 			# set the title of the page
@@ -86,6 +82,11 @@
 			@$el.find('#' + page + '_nav').attr "checked", true 
 
 			$("#jGrowl-container").jGrowl "(nav) page: #{@model.get("page")}",
+
+		initialize: ->
+			_.bindAll @
+			@model.bind('change', @render)
+			@render()
 
 	class Account extends Backbone.Model
 		defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
@@ -99,13 +100,25 @@
 				fade: true
 				verbose: true
 
+	class AccountView extends Backbone.View
+		###
+			NavView modifies the navbar to show the correct subpages for the current page
+		###
+		el: $ '#account_bar'  # element already exists in markup
+
+		render: ->
+
+		initialize: ->
+			_.bindAll @
+			@model.bind('change', @render)
+			@render()
 
 	class AppView extends Backbone.View
 
 		initialize: ->
-			@NavModel = new NavModel()
-			@NavView = new NavView({model: @NavModel})
-			@Router = new Router({model: @NavModel})
+			@Nav = new Nav()
+			@NavView = new NavView({model: @Nav})
+			@Router = new Router({model: @Nav})
 
 	$ ->
 		window.App = new AppView()
