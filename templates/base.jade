@@ -7,7 +7,7 @@ html
 		//- TODO: add manifest="manifest.mf" + make file
 		meta(http-equiv='Content-Type', content='text/html', charset='utf-8')
 		title CSD
-		link#favicon(href='favicon.ico', rel='shortcut icon')
+		link#favicon(href='/static/favicon.ico', rel='shortcut icon')
 
 
 		block style
@@ -124,6 +124,21 @@ html
 						block modal_buttons
 
 		#overlay(onclick='modalClose()')
+
+		//- Piwik
+		script
+			var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.packwi.com/" : "http://piwik.packwi.com/");
+			document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+		script
+			try {
+				var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+				piwikTracker.trackPageView();
+				piwikTracker.enableLinkTracking();
+			} catch(err) {}
+			
+		noscript
+			p
+				img(src="http://piwik.packwi.com/piwik.php?idsite=2", style="border:0", alt="")
 
 		block script
 			//- the scripts included here by default are those needed for multiple pages in the site

@@ -1,19 +1,7 @@
-from flask import Flask, send_from_directory
-from config import STATIC_DIR
+from flask import Flask
 from helper import compile_jade
 
 app = Flask(__name__)
-
-
-@app.route('/favicon.ico')
-def favicon():
-	"""send the favicon from the typical location at /favicon.ico"""
-	return send_from_directory(
-		STATIC_DIR,
-		'favicon.ico',
-		mimetype='image/vnd.microsoft.icon',
-		cache_timeout=60 * 60 * 24 * 365 * 5,  # set cache timeout to 5 years
-	)
 
 
 @app.route('/')
