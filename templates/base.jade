@@ -29,7 +29,7 @@ html
 
 		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
 		//- if lt IE 9
-			link(rel='stylesheet', type='text/css', href='static/css/style-ie.css')
+			link(rel='stylesheet', type='text/css', href='/static/css/style-ie.css')
 
 		//- TODO: add meta tags for bookmarks and/or for search engines
 	body
@@ -46,9 +46,6 @@ html
 								//- this block holds buttons that are used for local navigation (not all of them are displayed at once)
 								//- prepend to this block to add buttons to the buttonset
 
-								+nav_button('navigation')
-									include svg/nav
-
 						li.buttonset#account_bar
 							+nav_button('account','Account Settings')
 								| Guest
@@ -60,13 +57,12 @@ html
 							+nav_button('training')
 								include svg/training
 
-							//- contact button is temporarly removed... will work on it later
-								button(type="button",title="Contact",onclick="window.location='#contact'")
-									include svg/contact
-
 					block global_controls
 						//- this block holds buttons which are used on all pages as controls
 
+						//- contact button is temporarly removed... will work on it later
+							button(type="button",title="Contact",onclick="window.location='#contact'")
+								include svg/contact
 
 					block local_controls
 						//- this block holds buttons which are used on specific pages for controls (ctrl_buttons)
@@ -90,18 +86,6 @@ html
 						p Um, this is awkward&hellip; all navigation (and most of the functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.
 					
 					block content
-
-						p Here's how it is: Earth got used up, so we terraformed a whole new galaxy of Earths, some rich and flush with the new technologies, some not so much. Central Planets, them was formed the Alliance, waged war to bring everyone under their rule; a few idiots tried to fight it, among them myself. I'm Malcolm Reynolds, captain of Serenity. Got a good crew: fighters, pilot, mechanic. We even picked up a preacher, and a bona fide companion. There's a doctor, too, took his genius sister out of some Alliance camp, so they're keeping a low profile. You got a job, we can do it, don't much care what it is.
-						br
-						br
-						p We've got a gorilla for sale. Magilla Gorilla for sale. Won't you buy him, take him home and try him, gorilla for sale. Don't you want a little gorilla you can call your own, a gorilla who'll be with ya when you're all alone? How much is that gorilla in the window? Take our advice, at any price, a gorilla like Magilla is mighty nice. Gorilla, Magilla Gorilla for sale.
-						br
-						br
-						p Look for the Union Label when you are buying a coat, dress, or blouse. Remember, somewhere our union's sewing, our wages going to feed the kids, and run the house. We work hard, but who's complaining. Thanks to the I.L.G. we're paying our way. So always look for the Union Label. It means we're able to make it in the U.S.A.!
-						br
-						br
-						p We've got a gorilla for sale. Magilla Gorilla for sale. Won't you buy him, take him home and try him, gorilla for sale. Don't you want a little gorilla you can call your own, a gorilla who'll be with ya when you're all alone? How much is that gorilla in the window? Take our advice, at any price, a gorilla like Magilla is mighty nice. Gorilla, Magilla Gorilla for sale.
-
 
 				#sidebar
 					//- other sidebar stuff goes here
