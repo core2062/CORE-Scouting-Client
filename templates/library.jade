@@ -1,4 +1,4 @@
-mixin nav_button(subpage, full_name)
+mixin nav_button(page, full_name)
 	-String.prototype.title_case = function() {
 	-	return this.replace(/\w\S*/g, function(txt) {
 	-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -6,18 +6,18 @@ mixin nav_button(subpage, full_name)
 	-};
 
 	if block && typeof full_name === 'undefined'
-		full_name = subpage.replace('_', " ").title_case()
+		full_name = page.replace('_', " ").title_case()
 
-	input(id='#{subpage}_nav', type='radio', name='navbar')
+	input(id='#{page}_nav', type='radio', name='navbar')
 
-	label(for='#{subpage}_nav', onclick="window.location='##{subpage}'", title=full_name)
+	label(for='#{page}_nav', onclick="window.location='##{page}'", title=full_name)
 		if block
 			block
 		else
-			= subpage.replace('_', " ").title_case()
+			= page.replace('_', " ").title_case()
 
-mixin ctrl_button(name, full_name, subpage)
-	//subpage is for buttons that are only displayed on a certain subpage & can be a list
+mixin ctrl_button(name, full_name, page)
+	//page is for buttons that are only displayed on a certain page & can be a list
 
 	-String.prototype.title_case = function() {
 	-	return this.replace(/\w\S*/g, function(txt) {
@@ -28,8 +28,12 @@ mixin ctrl_button(name, full_name, subpage)
 	if block && typeof full_name === 'undefined'
 		full_name = name.replace('_', " ").title_case()
 
-	button(id='#{name}_ctrl', class=subpage, type="button", title=full_name)
+	button(id='#{name}_ctrl', class=page, type="button", title=full_name)
 		if block
 			block
 		else
 			= name.replace('_', " ").title_case()
+
+mixin page_content(page)
+	div(id="#{page}_content")
+		block
