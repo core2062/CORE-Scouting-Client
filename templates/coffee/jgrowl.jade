@@ -1,26 +1,19 @@
 :coffeescript
 	(($) ->
 		
-		###
-		jGrowl Wrapper - Establish a base jGrowl Container for compatibility with older releases. *
-		###
+		# jGrowl Wrapper - Establish a base jGrowl Container for compatibility with older releases.
 		$.jGrowl = (m, o) ->
 			# Create a notification on the container.
 			$("#jGrowl").jGrowl m, o
 
-		
-		###
-		Raise jGrowl Notification on a jGrowl Container *
-		###
+		# Raise jGrowl Notification on a jGrowl Container
 		$.fn.jGrowl = (m, o) ->
 			if $.isFunction(@each)
 				args = arguments
 				return @each(->
 					self = this
 					
-					###
-					Create a jGrowl Instance on the Container if it does not exist *
-					###
+					# Create a jGrowl Instance on the Container if it does not exist
 					if $(this).data("jGrowl.instance") is `undefined`
 						$(this).data "jGrowl.instance", $.extend(new $.fn.jGrowl(),
 							notifications: []
@@ -29,9 +22,7 @@
 						)
 						$(this).data("jGrowl.instance").startup this
 					
-					###
-					Optionally call jGrowl instance methods, or just raise a normal notification *
-					###
+					# Optionally call jGrowl instance methods, or just raise a normal notification
 					if $.isFunction($(this).data("jGrowl.instance")[m])
 						$(this).data("jGrowl.instance")[m].apply $(this).data("jGrowl.instance"), $.makeArray(args).slice(1)
 					else
@@ -74,19 +65,13 @@
 
 			notifications: []
 			
-			###
-			jGrowl Container Node *
-			###
+			# jGrowl Container Node
 			element: null
 			
-			###
-			Interval Function *
-			###
+			# Interval Function
 			interval: null
 			
-			###
-			Create a Notification *
-			###
+			# Create a Notification
 			create: (message, o) ->
 				o = $.extend({}, @defaults, o)
 				@notifications.push
@@ -114,9 +99,7 @@
 				)
 				.parent()
 				
-				###
-				Notification Actions *
-				###
+				# Notification Actions
 				
 				# Fixes some anti-aliasing issues with IE filters.
 				# Happens when a notification is closing before it's open.
@@ -153,9 +136,7 @@
 
 				).trigger "jGrowl.beforeOpen"
 				
-				###
-				Add a Global Closer if more than one notification exists *
-				###
+				# Add a Global Closer if more than one notification exists
 				if $("div.jGrowl-notification:parent", self.element).size() > 1 and $("div.jGrowl-closer", self.element).size() is 0 and @defaults.closer isnt false
 					$(@defaults.closerTemplate).addClass("jGrowl-closer " + @defaults.themeState).addClass(@defaults.theme).prependTo(self.element).animate(@defaults.animateOpen, @defaults.speed, @defaults.easing).bind "click.jGrowl", ->
 						$(this).siblings().trigger "jGrowl.beforeClose"
@@ -163,9 +144,7 @@
 
 
 			
-			###
-			Update the jGrowl Container, removing old jGrowl notifications *
-			###
+			# Update the jGrowl Container, removing old jGrowl notifications
 			update: ->
 				$(@element).find("div.jGrowl-notification:parent").each ->
 					
@@ -179,9 +158,7 @@
 
 
 			
-			###
-			Setup the jGrowl Notification Container *
-			###
+			# Setup the jGrowl Notification Container
 			startup: (e) ->
 				@element = $(e).addClass("jGrowl").append('<div class="jGrowl-notification"></div>')
 				@interval = setInterval(->
@@ -189,9 +166,7 @@
 				, parseInt(@defaults.check))
 
 			
-			###
-			Shutdown jGrowl, removing it and clearing the interval *
-			###
+			# Shutdown jGrowl, removing it and clearing the interval
 			shutdown: ->
 				$(@element).removeClass("jGrowl").find("div.jGrowl-notification").remove()
 				clearInterval @interval
@@ -202,8 +177,6 @@
 
 
 		
-		###
-		Reference the Defaults Object for compatibility with older versions of jGrowl *
-		###
+		# Reference the Defaults Object for compatibility with older versions of jGrowl
 		$.jGrowl.defaults = $.fn.jGrowl::defaults
 	) jQuery
