@@ -149,7 +149,7 @@
 				$(@element).find("div.jGrowl-notification:parent").each ->
 					
 					# Pause the notification, lest during the course of animation another close event gets called.
-					$(this).trigger "jGrowl.beforeClose"  if $(this).data("jGrowl") isnt `undefined` and $(this).data("jGrowl").created isnt `undefined` and ($(this).data("jGrowl").created.getTime() + parseInt($(this).data("jGrowl").life)) < (new Date()).getTime() and $(this).data("jGrowl").sticky isnt true and ($(this).data("jGrowl.pause") is `undefined` or $(this).data("jGrowl.pause") isnt true)
+					$(this).trigger "jGrowl.beforeClose" if $(this).data("jGrowl")? and $(this).data("jGrowl").created? and ($(this).data("jGrowl").created.getTime() + parseInt($(this).data("jGrowl").life)) < (new Date()).getTime() and not $(this).data("jGrowl").sticky and (not $(this).data("jGrowl.pause")? or not $(this).data("jGrowl.pause"))
 
 				@render @notifications.shift()  if @notifications.length > 0 and (@defaults.pool is 0 or $(@element).find("div.jGrowl-notification:parent").size() < @defaults.pool)
 				if $(@element).find("div.jGrowl-notification:parent").size() < 2
