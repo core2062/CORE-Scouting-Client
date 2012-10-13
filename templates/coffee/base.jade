@@ -49,7 +49,7 @@
 			forward changes in the route to the navigation view
 		###
 		routes:
-			"*subpage": "change_page"
+			"*page": "change_page"
 
 		initialize: (options) ->
 			# assign a model during init like in a view
@@ -58,10 +58,12 @@
 		change_page: (page) ->
 			if page isnt "" then @model.set({'page': page})
 						
-	class Nav extends Backbone.Model
+	class Nav extends Backbone.Collection
 		###
 			keep track of the current page and subpage. also determine what should be rendered in the navbar on any given page
 		###
+		model: page
+
 		defaults:
 			page: 'synopsis'
 
@@ -74,7 +76,7 @@
 			page = @model.get('page')
 
 			# set the title of the page
-			document.title = "#{page.replace("_", " ").titleCase()} | CSD"
+			document.title = "#{page.replace("_", " ").title_case()} | CSD"
 
 			# ensure that the correct navbar button is selected
 			# since it is a radio button, it unselects anything else
@@ -127,10 +129,11 @@
 
 	#TODO: float google +1 button left w/out 4px overhang
 	#TODO: make startup script to warn bad browsers
-	#TODO: add stuff to prefetch subpages
+	#TODO: add stuff to prefetch subpages???
 	#TODO: add error message for old browsers
 
-	#error logger TODO: test error logger
+	#error logger
+	#TODO: test error logger
 	window.onerror = (msg, url, line) ->
 		$("#jGrowl-container").jGrowl 'errorMsg:' + msg + ' on line ' + line,
 			theme: "error"
@@ -153,6 +156,6 @@
 		input.focus()
 
 	#general functions
-	String::titleCase = ->
+	String::title_case = ->
 		@replace /\w\S*/g, (txt) ->
 			txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
