@@ -57,15 +57,28 @@
 
 		change_page: (page) ->
 			if page isnt "" then @model.set({'page': page})
-						
-	class Nav extends Backbone.Collection
-		###
-			keep track of the current page and subpage. also determine what should be rendered in the navbar on any given page
-		###
-		model: page
 
+
+	class Page extends Backbone.Model
+		###
+			represents a page in the application
+		###
+
+						
+	class Pages extends Backbone.Collection
+		###
+			to determine what should be rendered in the navbar on any given page
+		###
+		model: Page
+
+
+	class Nav extends Backbone.Model
+		###
+			keep track of the current page
+		###
 		defaults:
 			page: 'synopsis'
+
 
 	class NavView extends Backbone.View
 		# NavView modifies the navbar to show the correct subpages for the current page
@@ -90,16 +103,9 @@
 			@render()
 
 	class Account extends Backbone.Model
-		defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
-			_id: ""
-			token: "" # token must not be sent to server in a cookie due to possible CSRF attacks
-			info:
-				fName: "Guest"
-				lName: ""
-				team: 0
-			prefs:
-				fade: true
-				verbose: true
+		#defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
+
+
 
 	class AccountView extends Backbone.View
 		###
