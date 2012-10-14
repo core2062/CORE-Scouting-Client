@@ -31,6 +31,7 @@
 
 	#Tipsy
 	$("a[title], label[title], button[title], textarea[title]").tipsy()
+
 	$("input[title]").tipsy
 		trigger: "focus"
 		gravity: "w"
@@ -47,9 +48,7 @@
 
 
 	class Router extends Backbone.Router
-		###
-			forward changes in the route to the navigation view
-		###
+		# forward changes in the route to the navigation view
 		routes:
 			"*page": "change_page"
 
@@ -63,12 +62,13 @@
 
 	class Page extends Backbone.Model
 		# represents a page in the application
-
 		sync: ->
 			false # changes to Pages don't get stored anywhere
 
 		name: ''
-		selected: false
+		login_required: false
+		selected: false # value used by Pages for changing the active page
+		display_progressbar: false
 
 
 	class PageView extends Backbone.View
@@ -92,7 +92,6 @@
 
 		initialize: ->
 			_.bindAll @
-
 			@bind("add", @added_page)
 
 		added_page: (page_model) ->
@@ -150,7 +149,6 @@
 		initialize: ->
 			_.bindAll @
 			@model.bind('change:selected', @render)
-			#@render()
 
 	class Account extends Backbone.Model
 		# holds all the user data and interacts with the server for account functions
@@ -158,11 +156,8 @@
 		#defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
 
 
-
 	class AccountView extends Backbone.View
-		###
-			NavView modifies the navbar to show the correct subpages for the current page
-		###
+		# NavView modifies the navbar to show the correct subpages for the current page
 		el: $ '#account_bar'  # element already exists in markup
 
 		render: ->
@@ -171,13 +166,11 @@
 		initialize: ->
 			_.bindAll @
 			@model.bind('change:name', @render)
-			@model.view = @;
+			@model.view = @
 
 	class AppView extends Backbone.View
 
 		initialize: ->
-
-			#@Nav = new Nav()
 			@NavView = new NavView model: Pages
 			@Router = new Router model: Pages
 
@@ -196,8 +189,13 @@
 		Pages.create(
 			name: "signup"
 		)
+		Pages.create(
+			name: "account"
+		)
+		Pages.create(
+			name: "login"
+		)
 
-	$ ->
 		window.App = new AppView()
 		Backbone.history.start()
 
@@ -209,14 +207,12 @@
 			)
 
 
-
 	#TODO: float google +1 button left w/out 4px overhang
 	#TODO: make startup script to warn bad browsers
 	#TODO: add stuff to prefetch subpages???
 	#TODO: add error message for old browsers
 
 	#error logger
-	#TODO: test error logger
 	window.onerror = (msg, url, line) ->
 		notify "errorMsg: #{msg} on line #{line}",
 			theme: 'error'
