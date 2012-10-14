@@ -39,7 +39,9 @@
 		trigger: "hover"
 		gravity: "w"
 
-	p = (text) -> console.log text # friendly little alias
+	# friendly little aliases
+	p = (text) -> console.log text
+	notify = (args...) -> $("#jGrowl-container").jGrowl args...
 
 	p 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
 
@@ -56,53 +58,103 @@
 			@model = options.model
 
 		change_page: (page) ->
-			if page isnt "" then @model.set({'page': page})
+			if page isnt "" then @model.change_page(page)
 
 
 	class Page extends Backbone.Model
-		###
-			represents a page in the application
-		###
+		# represents a page in the application
+
+		sync: ->
+			false # changes to Pages don't get stored anywhere
+
+		name: ''
+		selected: false
+
+
+	class PageView extends Backbone.View
+		render: ->
+			# fade in page
+
+		unrender: ->
+			#unfade page
+
+		initialize: ->
+			_.bindAll @
+			@model.bind('change', @render)
+			@model.view = @;
+			@el = $ "\##{@model.get('name')}_content"  # element already exists in markup
 
 						
-	class Pages extends Backbone.Collection
-		###
-			to determine what should be rendered in the navbar on any given page
-		###
+	class PagesCollection extends Backbone.Collection
+		# to determine what should be rendered in the navbar on any given page
 		model: Page
+		default_page: 'home'
 
+		initialize: ->
+			_.bindAll @
 
-	class Nav extends Backbone.Model
-		###
-			keep track of the current page
-		###
-		defaults:
-			page: 'synopsis'
+			@bind("add", @added_page)
+
+		added_page: (page_model) ->
+			#used to create the view for a page after it has been added
+			new PageView({model: page_model})
+
+		change_page: (page_name) ->
+			# update the active page. this should only be called by the router
+			page = @find(
+				(page_obj) ->
+					return page_obj.get('name') is page_name
+			)
+
+			try
+				@current_page().set(selected: false) # deselect the current page (if it's set)
+
+			if page?
+				page.set(selected: true)
+			else
+				# make jgrowl error and don't change page if page doesn't exist
+				notify "page doesn't exist, redirecting to #{@default_page}...",
+					theme: 'error'
+					sticky: true
+
+				App.Router.navigate(@default_page,
+					trigger: true
+					replace: true
+				)
+
+		current_page: ->
+			#return the model of the active page
+			@find(
+				(page_obj) ->
+					return page_obj.get('selected')
+			)
 
 
 	class NavView extends Backbone.View
-		# NavView modifies the navbar to show the correct subpages for the current page
+		# modify the navbar to highlight the correct current page
 
 		el: $ '#navbar'  # element already exists in markup
 
 		render: ->
-			page = @model.get('page')
+			page = @model.current_page().get('name')
 
 			# set the title of the page
 			document.title = "#{page.replace("_", " ").title_case()} | CSD"
 
 			# ensure that the correct navbar button is selected
 			# since it is a radio button, it unselects anything else
-			@$el.find('#' + page + '_nav').attr "checked", true 
+			@$el.find("\##{page}_nav").attr "checked", true 
 
-			$("#jGrowl-container").jGrowl "(nav) page: #{@model.get("page")}",
+			notify "(nav) page: #{page}",
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change', @render)
-			@render()
+			@model.bind('change:selected', @render)
+			#@render()
 
 	class Account extends Backbone.Model
+		# holds all the user data and interacts with the server for account functions
+
 		#defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
 
 
@@ -114,22 +166,47 @@
 		el: $ '#account_bar'  # element already exists in markup
 
 		render: ->
+			@$el.find('[for="account_nav"]').html(@model.get('name')) # change name displayed in account bar
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change', @render)
-			@render()
+			@model.bind('change:name', @render)
+			@model.view = @;
 
 	class AppView extends Backbone.View
 
 		initialize: ->
-			@Nav = new Nav()
-			@NavView = new NavView({model: @Nav})
-			@Router = new Router({model: @Nav})
+
+			#@Nav = new Nav()
+			@NavView = new NavView model: Pages
+			@Router = new Router model: Pages
+
+			@Account = new Account
+			@AccountView = new AccountView model: @Account
+
+	$ ->
+		window.Pages = new PagesCollection()
+		
+		Pages.create(
+			name: "synopsis"
+		)
+		Pages.create(
+			name: "home"
+		)
+		Pages.create(
+			name: "signup"
+		)
 
 	$ ->
 		window.App = new AppView()
 		Backbone.history.start()
+
+		# change to default page at startup (if there is no hash fragment)
+		if Backbone.history.fragment is ''
+			App.Router.navigate(Pages.default_page,
+				trigger: true
+				replace: true
+			)
 
 
 
@@ -141,8 +218,8 @@
 	#error logger
 	#TODO: test error logger
 	window.onerror = (msg, url, line) ->
-		$("#jGrowl-container").jGrowl 'errorMsg:' + msg + ' on line ' + line,
-			theme: "error"
+		notify "errorMsg: #{msg} on line #{line}",
+			theme: 'error'
 			sticky: true
 
 		#TODO: post error to server to record
