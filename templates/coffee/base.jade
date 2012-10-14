@@ -47,6 +47,59 @@
 	p 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
 
 
+	# Views
+
+	class ProgressBar extends Backbone.View
+		el: $ '#progressbar'  # element already exists in markup
+
+		render: ->
+			if @model.current_page().get('progressbar')
+				@$el.css opacity:1
+			else
+				@$el.css opacity:0
+
+		initialize: ->
+			_.bindAll @
+			@model.bind('change:selected', @render)
+
+
+	class NavView extends Backbone.View
+		# modify the navbar to highlight the correct current page
+
+		el: $ '#navbar'  # element already exists in markup
+
+		render: ->
+			page = @model.current_page().get('name')
+
+			# set the title of the page
+			document.title = "#{page.replace("_", " ").title_case()} | CSD"
+
+			# ensure that the correct navbar button is selected
+			# since it is a radio button, it unselects anything else
+			@$el.find("\##{page}_nav").attr "checked", true 
+
+			notify "(nav) page: #{page}",
+
+		initialize: ->
+			_.bindAll @
+			@model.bind('change:selected', @render)
+
+
+	class AccountView extends Backbone.View
+		# NavView modifies the navbar to show the correct subpages for the current page
+		el: $ '#account_bar'  # element already exists in markup
+
+		render: ->
+			@$el.find('[for="account_nav"]').html(@model.get('name')) # change name displayed in account bar
+
+		initialize: ->
+			_.bindAll @
+			@model.bind('change:name', @render)
+			@model.view = @
+
+
+	# Models/Controllers
+
 	class Router extends Backbone.Router
 		# forward changes in the route to the navigation view
 		routes:
@@ -68,7 +121,7 @@
 		name: ''
 		login_required: false
 		selected: false # value used by Pages for changing the active page
-		display_progressbar: false
+		progressbar: false
 
 
 	class PageView extends Backbone.View
@@ -129,26 +182,6 @@
 			)
 
 
-	class NavView extends Backbone.View
-		# modify the navbar to highlight the correct current page
-
-		el: $ '#navbar'  # element already exists in markup
-
-		render: ->
-			page = @model.current_page().get('name')
-
-			# set the title of the page
-			document.title = "#{page.replace("_", " ").title_case()} | CSD"
-
-			# ensure that the correct navbar button is selected
-			# since it is a radio button, it unselects anything else
-			@$el.find("\##{page}_nav").attr "checked", true 
-
-			notify "(nav) page: #{page}",
-
-		initialize: ->
-			_.bindAll @
-			@model.bind('change:selected', @render)
 
 	class Account extends Backbone.Model
 		# holds all the user data and interacts with the server for account functions
@@ -156,17 +189,6 @@
 		#defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
 
 
-	class AccountView extends Backbone.View
-		# NavView modifies the navbar to show the correct subpages for the current page
-		el: $ '#account_bar'  # element already exists in markup
-
-		render: ->
-			@$el.find('[for="account_nav"]').html(@model.get('name')) # change name displayed in account bar
-
-		initialize: ->
-			_.bindAll @
-			@model.bind('change:name', @render)
-			@model.view = @
 
 	class AppView extends Backbone.View
 
@@ -176,6 +198,8 @@
 
 			@Account = new Account
 			@AccountView = new AccountView model: @Account
+
+			@ProgressBar = new ProgressBar model: Pages
 
 	$ ->
 		window.Pages = new PagesCollection()
@@ -188,6 +212,7 @@
 		)
 		Pages.create(
 			name: "signup"
+			progressbar: true
 		)
 		Pages.create(
 			name: "account"
