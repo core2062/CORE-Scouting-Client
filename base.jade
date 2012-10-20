@@ -10,22 +10,23 @@ html
 		link#favicon(href='/static/favicon.ico', rel='shortcut icon')
 
 
-		block style
-			//ERROR: passing false to compress still compresses the stylesheet!!!
-			:stylus(compress=debug, inline=true)
-				@import "stylus/base"
+		style.
+			block style
+				//ERROR: passing false to compress still compresses the stylesheet!!!
+				:stylus(compress=debug, inline=true)
+					@import "stylus/base"
 
-				//toggleJS
-				@import "stylus/toggle"
+					//toggleJS
+					@import "stylus/toggle"
 
-				//Chosen jQuery Select Box
-				@import "stylus/chosen"
+					//Chosen jQuery Select Box
+					@import "stylus/chosen"
 
-				//JGrowl
-				@import "stylus/jgrowl"
+					//JGrowl
+					@import "stylus/jgrowl"
 
-				//Tipsy
-				@import "stylus/tipsy"
+					//Tipsy
+					@import "stylus/tipsy"
 
 		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
 		//- if lt IE 9
@@ -126,10 +127,10 @@ html
 		#overlay(onclick='modalClose()')
 
 		//- Piwik
-		script
+		script.
 			var pkBaseURL = (("https:" == document.location.protocol) ? "https://piwik.packwi.com/" : "http://piwik.packwi.com/");
 			document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-		script
+		script.
 			try {
 				var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
 				piwikTracker.trackPageView();
@@ -140,15 +141,15 @@ html
 			p
 				img(src="http://piwik.packwi.com/piwik.php?idsite=2", style="border:0", alt="")
 
-		block script
+		script
 			//- the scripts included here by default are those needed for multiple pages in the site
 			//- scripts which are only needed for one page may be appended to this block
-			include coffee/jquery
-			include coffee/jgrowl
-			include coffee/json2js
-			include coffee/underscore
-			include coffee/backbone
-			include coffee/tipsy
-			include coffee/base
-			//include coffee/chosen
-			//include coffee/toggle
+			include coffee/jquery.js
+			include coffee/json2js.js
+			include coffee/underscore.js
+			include coffee/backbone.js
+			include coffee/jgrowl.js
+			include coffee/tipsy.js
+			include coffee/base.js
+			//include coffee/chosen.js
+			//include coffee/toggle.js
