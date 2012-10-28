@@ -1,3 +1,4 @@
+debug = false
 version = 'alpha'
 current_year = new Date().getFullYear()
 
@@ -10,9 +11,9 @@ html
 		link#favicon(href='/static/favicon.ico', rel='shortcut icon')
 
 
-		style.
+		style
 			block style
-				//ERROR: passing false to compress still compresses the stylesheet!!!
+				//- ERROR: passing false to compress still compresses the stylesheet!!!
 				:stylus(compress=debug, inline=true)
 					@import "stylus/base"
 
@@ -151,5 +152,5 @@ html
 			include coffee/jgrowl.js
 			include coffee/tipsy.js
 			include coffee/base.js
-			//include coffee/chosen.js
-			//include coffee/toggle.js
+			//- include coffee/chosen.js
+			//- include coffee/toggle.js
