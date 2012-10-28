@@ -11,3 +11,5 @@ $ cd web/CORE-Scouting-Client
 $ nodefront compile -o static
 ```
 *you don't need to reinstall npm or nodefront if you already have them and you should `cd` into whatever dir you have the repo in... this is just an example*
+
+This will produce a compiled client (one HTML file) at `static/index.html`
