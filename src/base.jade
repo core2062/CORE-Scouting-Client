@@ -11,27 +11,16 @@ html
 		link#favicon(href='/static/favicon.ico', rel='shortcut icon')
 
 
-		style
-			block style
-				//- ERROR: passing false to compress still compresses the stylesheet!!!
-				:stylus(compress=debug, inline=true)
-					@import "stylus/base"
-
-					//toggleJS
-					@import "stylus/toggle"
-
-					//Chosen jQuery Select Box
-					@import "stylus/chosen"
-
-					//JGrowl
-					@import "stylus/jgrowl"
-
-					//Tipsy
-					@import "stylus/tipsy"
+		block style
+			link(rel='stylesheet', type='text/css', href='/stylus/base.css')
+			link(rel='stylesheet', type='text/css', href='/stylus/toggle.css')
+			link(rel='stylesheet', type='text/css', href='/stylus/chosen.css')
+			link(rel='stylesheet', type='text/css', href='/stylus/jgrowl.css')
+			link(rel='stylesheet', type='text/css', href='/stylus/tipsy.css')
 
 		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
 		//- if lt IE 9
-			link(rel='stylesheet', type='text/css', href='/static/css/style-ie.css')
+			link(rel='stylesheet', type='text/css', href='/css/style-ie.css')
 
 		//- TODO: add meta tags for bookmarks and/or for search engines
 	body
@@ -142,15 +131,15 @@ html
 			p
 				img(src="http://piwik.packwi.com/piwik.php?idsite=2", style="border:0", alt="")
 
-		script
+		block script
 			//- the scripts included here by default are those needed for multiple pages in the site
 			//- scripts which are only needed for one page may be appended to this block
-			include coffee/jquery.js
-			include coffee/json2js.js
-			include coffee/underscore.js
-			include coffee/backbone.js
-			include coffee/jgrowl.js
-			include coffee/tipsy.js
-			include coffee/base.js
+			script(type="text/javascript", src="/coffee/jquery.js")
+			script(type="text/javascript", src="/coffee/json2js.js")
+			script(type="text/javascript", src="/coffee/underscore.js")
+			script(type="text/javascript", src="/coffee/backbone.js")
+			script(type="text/javascript", src="/coffee/tipsy.js")
+			script(type="text/coffeescript", src="/coffee/jgrowl.coffee")
+			script(type="text/coffeescript", src="/coffee/base.coffee")
 			//- include coffee/chosen.js
 			//- include coffee/toggle.js

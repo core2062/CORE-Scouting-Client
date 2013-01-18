@@ -1,0 +1,78 @@
+.toggle-container {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  height: 23px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 400px;
+  width: 89px;
+}
+.toggle-container input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  -moz-user-input: enabled !important;
+}
+.toggle-container label {
+  margin-left: auto;
+  cursor: inherit;
+  font-size: 1em !important;
+  line-height: 23px;
+}
+.toggle-focus label {
+  border: 1px dotted #666 !important;
+}
+.toggle-focus div.toggle-label-on span label {
+  border-color: #fff !important;
+}
+.toggle-handle {
+  display: block;
+  cursor: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0 advanced_gradent(#d8d8d8, #f6f6f6);
+  z-index: 2;
+  width: 33px;
+  height: 100%;
+}
+div.toggle-label-on,
+div.toggle-label-off {
+  white-space: nowrap;
+  font-size: 17px;
+  line-height: 17px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: inherit;
+  display: block;
+  height: 23px;
+  position: absolute;
+  width: auto;
+  top: 0;
+  overflow: hidden;
+}
+div.toggle-label-on {
+  color: #fff;
+  text-shadow: 0 -1px 2px rgba(0,0,0,0.4);
+  left: 0;
+  width: 100%;
+}
+div.toggle-label-on span {
+  padding-left: 5px;
+}
+div.toggle-label-off {
+  color: #7c7c7c;
+  text-shadow: 0 -1px 2px rgba(153,153,153,0.4);
+  text-align: right;
+  right: 0;
+  width: 100%;
+}
+div.toggle-label-off span {
+  padding-right: 5px;
+}
