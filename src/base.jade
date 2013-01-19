@@ -8,15 +8,14 @@ html
 		//- TODO: add manifest="manifest.mf" + make file
 		meta(http-equiv='Content-Type', content='text/html', charset='utf-8')
 		title CSD
-		link#favicon(href='/static/favicon.ico', rel='shortcut icon')
-
+		link(href='favicon.ico', rel='shortcut icon')
 
 		block style
-			link(rel='stylesheet', type='text/css', href='/stylus/base.css')
-			link(rel='stylesheet', type='text/css', href='/stylus/toggle.css')
-			link(rel='stylesheet', type='text/css', href='/stylus/chosen.css')
-			link(rel='stylesheet', type='text/css', href='/stylus/jgrowl.css')
-			link(rel='stylesheet', type='text/css', href='/stylus/tipsy.css')
+			link(rel='stylesheet', type='text/css', href='./css/base.css')
+			link(rel='stylesheet', type='text/css', href='./css/toggle.css')
+			link(rel='stylesheet', type='text/css', href='./css/chosen.css')
+			link(rel='stylesheet', type='text/css', href='./css/jgrowl.css')
+			link(rel='stylesheet', type='text/css', href='./css/tipsy.css')
 
 		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
 		//- if lt IE 9
@@ -134,12 +133,4 @@ html
 		block script
 			//- the scripts included here by default are those needed for multiple pages in the site
 			//- scripts which are only needed for one page may be appended to this block
-			script(type="text/javascript", src="/coffee/jquery.js")
-			script(type="text/javascript", src="/coffee/json2js.js")
-			script(type="text/javascript", src="/coffee/underscore.js")
-			script(type="text/javascript", src="/coffee/backbone.js")
-			script(type="text/javascript", src="/coffee/tipsy.js")
-			script(type="text/coffeescript", src="/coffee/jgrowl.coffee")
-			script(type="text/coffeescript", src="/coffee/base.coffee")
-			//- include coffee/chosen.js
-			//- include coffee/toggle.js
+			script(data-main="coffee/cs!main", type="text/javascript", src="./coffee/require-jquery.js")
