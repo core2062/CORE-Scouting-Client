@@ -1,37 +1,31 @@
 mixin nav_button(page, full_name)
-	-String.prototype.title_case = function() {
-	-	return this.replace(/\w\S*/g, function(txt) {
-	-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	-	});
-	-};
+	- String::title_case = ->
+	- 	@replace /\w\S*/g, (txt) ->
+	- 		txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 
-	if block && typeof full_name === 'undefined'
-		full_name = page.replace('_', " ").title_case()
+	- if block and not full_name?
+		- full_name = page.replace('_', " ").title_case()
 
-	input(id='#{page}_nav', type='radio', name='navbar')
-
-	label(for='#{page}_nav', onclick="window.location='##{page}'", title=full_name)
-		if block
+	input(id="#{page}_nav", type='radio', name='navbar')
+	label(for="#{page}_nav", onclick="window.location='##{page}'", title=full_name)
+		- if block
 			block
-		else
+		- else
 			= page.replace('_', " ").title_case()
 
 mixin ctrl_button(name, full_name, page)
 	//page is for buttons that are only displayed on a certain page & can be a list
+	- String::title_case = ->
+	- 	@replace /\w\S*/g, (txt) ->
+	- 		txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 
-	-String.prototype.title_case = function() {
-	-	return this.replace(/\w\S*/g, function(txt) {
-	-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	-	});
-	-};
+	- if block and not full_name?
+		- full_name = name.replace('_', " ").title_case()
 
-	if block && typeof full_name === 'undefined'
-		full_name = name.replace('_', " ").title_case()
-
-	button(id='#{name}_ctrl', class=page, type="button", title=full_name)
-		if block
+	button(id="#{name}_ctrl", class=page, type="button", title=full_name)
+		- if block
 			block
-		else
+		- else
 			= name.replace('_', " ").title_case()
 
 mixin page_content(page)

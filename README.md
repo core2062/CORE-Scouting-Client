@@ -27,5 +27,3 @@ $ nodefront compile -o static
 *you don't need to reinstall npm or nodefront if you already have them and you should `cd` into whatever dir you have the repo in... this is just an example*
 
 This will produce a compiled client (one HTML file) at `static/index.html`
-
-NOTE: the client is written with [semantic-jade](https://github.com/2062/semantic-jade) so until everything is renamed in semantic-jade and the `.sj` file extension is used, you will need to install semantic-jade manually (replacing your jade installation), if you want to compile the client on your own.
