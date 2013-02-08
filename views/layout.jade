@@ -1,20 +1,46 @@
-!!!
+- version = 'alpha'
+- current_year = new Date().getFullYear()
+
+!!! 5
 html
-  head
-    meta(charset='utf8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
-    meta(name='description', content='description of your site')
-    meta(name='author', content= "author of the site")
+	head
+		//- TODO: add manifest="manifest.mf" + make file
+		meta(http-equiv='Content-Type', content='text/html', charset='utf-8')
+		title CSD
+		link(href='favicon.ico', rel='shortcut icon')
 
-    title welcome to roots!
-    
-    link(rel='stylesheet', href='/css/example.css')
-  body
-    != yield
+		block style
+			link(rel='stylesheet', type='text/css', href='./css/base.css')
+			link(rel='stylesheet', type='text/css', href='./css/toggle.css')
+			link(rel='stylesheet', type='text/css', href='./css/chosen.css')
+			link(rel='stylesheet', type='text/css', href='./css/jgrowl.css')
+			link(rel='stylesheet', type='text/css', href='./css/tipsy.css')
 
-  //- add other scripts through require.js, not here
-  script(data-main="js/main", src="js/require.js")
+		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
+		//- if lt IE 9
+			link(rel='stylesheet', type='text/css', href='/css/style-ie.css')
 
-  //- this must be included for live reload to work in developement
-  //- it will be automatically ignored when deployed
-  != livereload
+		//- TODO: add meta tags for bookmarks and/or for search engines
+	body
+		#layout
+			!= yield
+
+		#foot
+
+		#page_footer
+			#progressbar
+				#progressbar_value
+				#errorbar_value
+
+			p
+				| CORE Scouting Database - Created By 
+				a(href="http://core2062.com") CORE 2062
+				|  - &copy;#{current_year} - version: #{version}
+				
+
+	// all other coffee script is required via this
+	script(data-main="coffee/cs!main", type="text/javascript", src="./coffee/require-jquery.js")
+
+	//- this must be included for live reload to work in developement
+	//- it will be automatically ignored when deployed
+	!= livereload
