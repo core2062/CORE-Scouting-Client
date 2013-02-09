@@ -1,3 +1,5 @@
+@import 'library'
+
 //resources
 chosen_sprite= url('/static/img/chosen_sprite.png')
 
@@ -21,12 +23,11 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 		z-index 999
 
 .chzn-container-single
-
 	.chzn-single
 		background()
 		text()
-		font-weight normal//reset
-		font-size 13px//reset
+		font-weight normal //reset
+		font-size 13px //reset
 		border_radius(5px)
 		-moz-background-clip padding
 		-webkit-background-clip padding-box
@@ -93,7 +94,7 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 			background chosen_sprite no-repeat 100% -22px, -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
 			background chosen_sprite no-repeat 100% -22px, -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
 			background chosen_sprite no-repeat 100% -22px, -ms-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
-			background chosen_sprite no-repeat 100% -22px, linear-gradient(top, #eeeeee 1%, #ffffff 15%)
+			background chosen_sprite no-repeat 100% -22px, unquote("linear-gradient(top, #eeeeee 1%, #ffffff 15%)")
 			margin 1px 0
 			padding 4px 20px 4px 5px
 			outline 0
@@ -121,7 +122,7 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 		background-image -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
 		background-image -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
 		background-image -ms-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
-		background-image linear-gradient(top, #eeeeee 1%, #ffffff 15%)
+		background-image unquote("linear-gradient(top, #eeeeee 1%, #ffffff 15%)")
 		border 1px solid #aaa
 		margin 0
 		padding 0
@@ -199,7 +200,6 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 
 // Results
 .chzn-container
-
 	.chzn-results
 		margin 0 4px 4px 0
 		max-height 240px
@@ -232,7 +232,7 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 			background-image -moz-linear-gradient(top, #3875d7 20%, #2a62bc 90%)
 			background-image -o-linear-gradient(top, #3875d7 20%, #2a62bc 90%)
 			background-image -ms-linear-gradient(top, #3875d7 20%, #2a62bc 90%)
-			background-image linear-gradient(top, #3875d7 20%, #2a62bc 90%)
+			background-image unquote("linear-gradient(top, #3875d7 20%, #2a62bc 90%)")
 			color #fff
 
 			em
@@ -277,7 +277,7 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 .chzn-container-active
 	
 	.chzn-single
-		box_shadow(0 0 5px rgba(0,0,0,.3))
+		box_shadow(0 0 5px rgba(0,0,0,0.3))
 		border 1px solid #5897fb
 
 	.chzn-single-with-drop
@@ -290,7 +290,7 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 		background-image -moz-linear-gradient(top, #eeeeee 20%, #ffffff 80%)
 		background-image -o-linear-gradient(top, #eeeeee 20%, #ffffff 80%)
 		background-image -ms-linear-gradient(top, #eeeeee 20%, #ffffff 80%)
-		background-image linear-gradient(top, #eeeeee 20%, #ffffff 80%)
+		background-image unquote("linear-gradient(top, #eeeeee 20%, #ffffff 80%)")
 		border_radius_bl(0)
 		border_radius_br(0)
 
@@ -371,6 +371,6 @@ chosen_sprite= url('/static/img/chosen_sprite.png')
 		background chosen_sprite no-repeat -38px -22px, -moz-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
 		background chosen_sprite no-repeat -38px -22px, -o-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
 		background chosen_sprite no-repeat -38px -22px, -ms-linear-gradient(top, #eeeeee 1%, #ffffff 15%)
-		background chosen_sprite no-repeat -38px -22px, linear-gradient(top, #eeeeee 1%, #ffffff 15%)
+		background chosen_sprite no-repeat -38px -22px, unquote("linear-gradient(top, #eeeeee 1%, #ffffff 15%)")
 		padding 4px 5px 4px 20px
 		direction rtl

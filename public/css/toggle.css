@@ -17,7 +17,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  -moz-opacity: 0;
+  filter: alpha(opacity=null);
   opacity: 0;
   -moz-user-input: enabled !important;
 }
@@ -26,6 +27,16 @@
   cursor: inherit;
   font-size: 1em !important;
   line-height: 23px;
+}
+.toggle-container,
+.toggle-handle {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
 }
 .toggle-focus label {
   border: 1px dotted #666 !important;
@@ -39,7 +50,19 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 0 advanced_gradent(#d8d8d8, #f6f6f6);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #d8d8d8), color-stop(1, #f6f6f6));
+  background-image: -webkit-linear-gradient(top, #d8d8d8 0%, #f6f6f6 100%);
+  background-image: -moz-linear-gradient(top, #d8d8d8 0%, #f6f6f6 100%);
+  background-image: -o-linear-gradient(top, #d8d8d8 0%, #f6f6f6 100%);
+  background-image: -ms-linear-gradient(top, #d8d8d8 0%, #f6f6f6 100%);
+  width: 0   background-image: linear-gradient(top, #d8d8d8 0%, #f6f6f6 100%);;
+  -moz-box-shadow: 0 0 2px #000 inset;
+  -webkit-box-shadow: 0 0 2px #000 inset;
+  -webkit-box-shadow: 0 0 2px #000 inset;
+  -moz-box-shadow: 0 0 2px #000 inset;
+  -o-box-shadow: 0 0 2px #000 inset;
+  -ms-box-shadow: 0 0 2px #000 inset;
+  box-shadow: 0 0 2px #000 inset;
   z-index: 2;
   width: 33px;
   height: 100%;
@@ -60,6 +83,15 @@ div.toggle-label-off {
   overflow: hidden;
 }
 div.toggle-label-on {
+  background-image: -webkit-linear-gradient(top, #3061a8, #83b3f2);
+  background-image: -moz-linear-gradient(top, #3061a8, #83b3f2);
+  background-image: -o-linear-gradient(top, #3061a8, #83b3f2);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #3061a8), color-stop(1, #83b3f2));
+  background-image: -webkit-linear-gradient(top, #3061a8 0%, #83b3f2 100%);
+  background-image: -moz-linear-gradient(top, #3061a8 0%, #83b3f2 100%);
+  background-image: -o-linear-gradient(top, #3061a8 0%, #83b3f2 100%);
+  background-image: -ms-linear-gradient(top, #3061a8 0%, #83b3f2 100%);
+  background-image: linear-gradient(top, #3061a8 0%, #83b3f2 100%);
   color: #fff;
   text-shadow: 0 -1px 2px rgba(0,0,0,0.4);
   left: 0;
@@ -70,6 +102,15 @@ div.toggle-label-on span {
 }
 div.toggle-label-off {
   color: #7c7c7c;
+  background-image: -webkit-linear-gradient(top, #adadad, #fff);
+  background-image: -moz-linear-gradient(top, #adadad, #fff);
+  background-image: -o-linear-gradient(top, #adadad, #fff);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #adadad), color-stop(1, #fff));
+  background-image: -webkit-linear-gradient(top, #adadad 0%, #fff 100%);
+  background-image: -moz-linear-gradient(top, #adadad 0%, #fff 100%);
+  background-image: -o-linear-gradient(top, #adadad 0%, #fff 100%);
+  background-image: -ms-linear-gradient(top, #adadad 0%, #fff 100%);
+  background-image: linear-gradient(top, #adadad 0%, #fff 100%);
   text-shadow: 0 -1px 2px rgba(153,153,153,0.4);
   text-align: right;
   right: 0;

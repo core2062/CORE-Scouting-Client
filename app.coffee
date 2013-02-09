@@ -25,6 +25,6 @@ exports.locals =
 # If true, shows the compile process and page/asset status in the
 # terminal when watching and compiling files.
 
-exports.debug = false
+exports.debug = true
 
 # run `roots help` to get help on using the command line tool

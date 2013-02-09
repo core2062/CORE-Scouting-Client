@@ -14,16 +14,16 @@ table.tablesorter tfoot tr th {
   padding: 4px;
 }
 table.tablesorter thead tr .header {
-  background-image: ts_bg;
+  background-image: url("img/ie/bg.gif");
   background-repeat: no-repeat;
   background-position: center right;
   cursor: pointer;
 }
 table.tablesorter thead tr .headerSortUp {
-  background-image: ts_asc;
+  background-image: url("img/ie/asc.gif");
 }
 table.tablesorter thead tr .headerSortDown {
-  background-image: ts_desc;
+  background-image: url("img/ie/desc.gif");
 }
 table.tablesorter thead tr .headerSortDown,
 table.tablesorter thead tr .headerSortUp {

@@ -12,6 +12,20 @@
   max-width: 200px;
   padding: 5px 8px 4px 8px;
   text-align: center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 0 5px #000;
+  -webkit-box-shadow: 0 0 5px #000;
+  -webkit-box-shadow: 0 0 5px #000;
+  -moz-box-shadow: 0 0 5px #000;
+  -o-box-shadow: 0 0 5px #000;
+  -ms-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
 }
 .tipsy-arrow {
   position: absolute;
