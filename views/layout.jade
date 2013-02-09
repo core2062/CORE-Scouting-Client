@@ -26,20 +26,19 @@ html
 			!= yield
 
 		#foot
+			#page_footer
+				#progressbar
+					#progressbar_value
+					#errorbar_value
 
-		#page_footer
-			#progressbar
-				#progressbar_value
-				#errorbar_value
-
-			p
-				| CORE Scouting Database - Created By 
-				a(href="http://core2062.com") CORE 2062
-				|  - &copy;#{current_year} - version: #{version}
+				p
+					| CORE Scouting Database - Created By 
+					a(href="http://core2062.com") CORE 2062
+					|  - &copy;#{current_year} - version: #{version}
 				
 
 	// all other coffee script is required via this
-	script(data-main="coffee/cs!main", type="text/javascript", src="./coffee/require-jquery.js")
+	script(data-main="js/main", type="text/javascript", src="js/require.js")
 
 	//- this must be included for live reload to work in developement
 	//- it will be automatically ignored when deployed

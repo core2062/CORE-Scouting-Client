@@ -13,7 +13,6 @@ exports.ignore_files = ['_*', 'readme*', '.git', '.gitignore', '.DS_Store']
 
 exports.layouts =
   default: 'layout.jade'
-  # 'special.jade': 'layout2.jade'
 
 # Locals will be made available on every page. They can be
 # variables or (coffeescript) functions.
