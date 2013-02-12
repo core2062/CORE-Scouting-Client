@@ -196,15 +196,21 @@
         return PageView.__super__.constructor.apply(this, arguments);
       }
 
-      PageView.prototype.render = function() {};
-
-      PageView.prototype.unrender = function() {};
+      PageView.prototype.render = function() {
+        p("render'n " + (this.model.get('name')));
+        p(this.el);
+        if (this.model.get('selected')) {
+          return this.el.style.display = 'block';
+        } else {
+          return this.el.style.display = 'none';
+        }
+      };
 
       PageView.prototype.initialize = function() {
         _.bindAll(this);
         this.model.bind('change', this.render);
         this.model.view = this;
-        return this.el = $("\#" + (this.model.get('name')) + "_content");
+        return this.el = $("\#" + (this.model.get('name')) + "_content")[0];
       };
 
       return PageView;
@@ -238,6 +244,7 @@
         page = this.find(function(page_obj) {
           return page_obj.get('name') === page_name;
         });
+        p(this.current_page().get('name'));
         try {
           this.current_page().set({
             selected: false

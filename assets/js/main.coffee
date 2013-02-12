@@ -144,17 +144,18 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 	class PageView extends Backbone.View
 		render: ->
-			# fade in page
-
-		unrender: ->
-			#unfade page
+			p "render'n #{@model.get('name')}"
+			p @el
+			if @model.get('selected')
+				@el.style.display = 'block' # show
+			else
+				@el.style.display = 'none' # hide
 
 		initialize: ->
 			_.bindAll @
 			@model.bind('change', @render)
-			@model.view = @;
-			@el = $ "\##{@model.get('name')}_content"  # element already exists in markup
-
+			@model.view = @
+			@el = $("\##{@model.get('name')}_content")[0]
 						
 	class PagesCollection extends Backbone.Collection
 		# to determine what should be rendered in the navbar on any given page
@@ -175,9 +176,10 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 				(page_obj) ->
 					return page_obj.get('name') is page_name
 			)
-
+			p @current_page().get('name')
 			try
-				@current_page().set(selected: false) # deselect the current page (if it's set)
+				# deselect the current page (if it's set)
+				@current_page().set(selected: false)
 
 			if page?
 				page.set(selected: true)
@@ -194,7 +196,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		current_page: ->
 			#return the model of the active page
-			@find(
+			@.find(
 				(page_obj) ->
 					return page_obj.get('selected')
 			)
