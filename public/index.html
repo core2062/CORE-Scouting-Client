@@ -17,6 +17,15 @@
     <ul id="navbar">
       <!--add background to navbar parts, like github?-->
       <li class="buttonset">
+        <input id="home_nav" type="radio" name="navbar"/>
+        <label for="home_nav" onclick="window.location='#home'" title="Home">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <path d="m16,0l-16,16l4,0l0,16l24,0l0,-16l4,0l-16,-16m8,28l-6,0l0,-6l-4,0l0,6l-6,0l0,-14l8,-8l8,8"></path>
+          </svg>
+        </label>
+        <input id="signup_nav" type="radio" name="navbar"/>
+        <label for="signup_nav" onclick="window.location='#signup'" title="Signup">Signup
+        </label>
       </li>
       <li id="account_bar" class="buttonset">
         <input id="account_nav" type="radio" name="navbar"/>
@@ -70,6 +79,11 @@
       <noscript>
         <p>Um, this is awkward&hellip; all navigation (and most of the functionality) on this site relies on JavaScript, a programming language that helps add interactivity to web sites. So I can't really do anything until you enable it. If you don't know how to enable JavaScript, look <a href="http://www.activatejavascript.org">here</a>.</p>
       </noscript>
+      <div id="home_content">
+        <p>Here's how it is: Earth got used up, so we terraformed a whole new galaxy of Earths, some rich and flush with the new technologies, some not so much. Central Planets, them was formed the Alliance, waged war to bring everyone under their rule; a few idiots tried to fight it, among them myself. I'm Malcolm Reynolds, captain of Serenity. Got a good crew: fighters, pilot, mechanic. We even picked up a preacher, and a bona fide companion. There's a doctor, too, took his genius sister out of some Alliance camp, so they're keeping a low profile. You got a job, we can do it, don't much care what it is.</p><br/><br/>
+        <p>We've got a gorilla for sale. Magilla Gorilla for sale. Won't you buy him, take him home and try him, gorilla for sale. Don't you want a little gorilla you can call your own, a gorilla who'll be with ya when you're all alone? How much is that gorilla in the window? Take our advice, at any price, a gorilla like Magilla is mighty nice. Gorilla, Magilla Gorilla for sale.</p><br/><br/>
+        <p>Look for the Union Label when you are buying a coat, dress, or blouse. Remember, somewhere our union's sewing, our wages going to feed the kids, and run the house. We work hard, but who's complaining. Thanks to the I.L.G. we're paying our way. So always look for the Union Label. It means we're able to make it in the U.S.A.!</p>
+      </div>
     </div>
     <div id="sidebar">
       <div id="jGrowl-container" class="jGrowl bottom-right"></div>
@@ -83,7 +97,8 @@
           <div id="progressbar_value"></div>
           <div id="errorbar_value"></div>
         </div>
-        <p>CORE Scouting Database - Created By <a href="http://core2062.com">CORE 2062</a> - &copy;2013 - version: alpha</p>
+        <p>CORE Scouting Database - Created By <a href="http://core2062.com">C.O.R.E. 2062</a> - <!-- [if lte IE 8]><span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;">--><span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;">&copy;</span><!-- [if lte IE 8]></span>-->2013 - version: alpha
+        </p>
       </div>
     </div>
   </body>
