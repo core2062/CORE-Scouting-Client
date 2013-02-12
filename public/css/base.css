@@ -86,6 +86,9 @@ body {
   float: left;
   margin-right: 215px;
 }
+#content > div {
+  display: none;
+}
 #sidebar {
   width: 215px;
   margin-left: -215px;
