@@ -56,6 +56,7 @@ body {
   position: relative;
 }
 #navbar {
+  font-size: 0;
   white-space: nowrap;
   margin-right: 144px;
   z-index: 1001;
