@@ -17,7 +17,7 @@
     }
   });
 
-  require(['jquery', 'backbone', 'tipsy', 'cs!jgrowl'], function($, Backbone) {
+  require(['jquery', 'backbone', 'tipsy', 'jgrowl'], function($, Backbone) {
     var Account, AccountView, AppView, NavView, Page, PageView, PagesCollection, ProgressBar, Router, notify, p;
     window.onerror = function(msg, url, line) {
       notify("errorMsg: " + msg + " on line " + line, {

@@ -4,7 +4,6 @@
 !!! 5
 html
 	head
-		//- TODO: add manifest="manifest.mf" + make file
 		meta(http-equiv='Content-Type', content='text/html', charset='utf-8')
 		title CSD
 		link(href='favicon.ico', rel='shortcut icon')
@@ -15,12 +14,6 @@ html
 			link(rel='stylesheet', type='text/css', href='./css/chosen.css')
 			link(rel='stylesheet', type='text/css', href='./css/jgrowl.css')
 			link(rel='stylesheet', type='text/css', href='./css/tipsy.css')
-
-		//- TODO: add IE style sheet to fix everything in that awful browser (low priority) & change below to regular comment
-		//- if lt IE 9
-			link(rel='stylesheet', type='text/css', href='/css/style-ie.css')
-
-		//- TODO: add meta tags for bookmarks and/or for search engines
 	body
 		#layout
 			!= yield
@@ -35,10 +28,8 @@ html
 					| CORE Scouting Database - Created By 
 					a(href="http://core2062.com") CORE 2062
 					|  - &copy;#{current_year} - version: #{version}
-				
 
-	// all other coffee script is required via this
-	script(data-main="js/main", type="text/javascript", src="js/require.js")
+	script(data-main="js/main", type="text/javascript", src="js/require-jquery.js")
 
 	//- this must be included for live reload to work in developement
 	//- it will be automatically ignored when deployed

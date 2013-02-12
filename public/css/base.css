@@ -1,3 +1,6 @@
+/*
+Designer Sean Lang
+*/
 @font-face {
   font-family: 'BankGothicMdBTMedium';
   src: url("../font/bank-gothic-medium-bt.ttf");
@@ -66,7 +69,6 @@ body {
   height: 20px;
 }
 #layout {
-  overflow-x: auto;
   padding: 0 8px;
   margin-top: -40px;
   min-height: 100%;

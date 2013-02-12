@@ -8,7 +8,7 @@ require.config(
 		tipsy: ['jquery']
 		jgrowl: ['jquery']
 )
-require ['jquery', 'backbone', 'tipsy', 'cs!jgrowl'], ($, Backbone) ->
+require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 	#Chosen Select Box
 	#$("select").chosen()
 
