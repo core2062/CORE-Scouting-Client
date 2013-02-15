@@ -25,9 +25,9 @@ mixin ctrl_button(name, full_name, page)
 	- };
 
 	- if(block && !typeof full_name == 'undefined')
-		- full_name = name.replace('_', " ").title_case()
+	-	full_name = name.replace('_', " ").title_case()
 
-	button(id="#{name}_ctrl", class=page, type="button", title=full_name)
+	button(id="#{name}_ctrl", class=page, title=full_name)
 		- if(block) {
 			block
 		- } else {

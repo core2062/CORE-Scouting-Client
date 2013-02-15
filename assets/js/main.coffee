@@ -28,6 +28,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 		false #let default error handler continue
 
 	#UI Event Handlers
+
 	$("input, textarea").focus ->
 		$(this).parentsUntil($("form"), 'fieldset').addClass 'focus' #set fieldset class on focus
 
@@ -48,7 +49,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 	#$(":checkbox").toggleSwitch()
 
 	#Tipsy
-	$("a[title], label[title], button[title], textarea[title]").tipsy()
+	$("label[title], button[title]").tipsy()
 
 	$("input[title]").tipsy
 		trigger: "focus"
@@ -144,8 +145,6 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 	class PageView extends Backbone.View
 		render: ->
-			p "render'n #{@model.get('name')}"
-			p @el
 			if @model.get('selected')
 				@el.style.display = 'block' # show
 			else
@@ -153,14 +152,14 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change', @render)
+			@model.bind('change:selected', @render)
 			@model.view = @
 			@el = $("\##{@model.get('name')}_content")[0]
-						
+
 	class PagesCollection extends Backbone.Collection
 		# to determine what should be rendered in the navbar on any given page
 		model: Page
-		default_page: 'home'
+		default_page: 'input'
 
 		initialize: ->
 			_.bindAll @
@@ -176,7 +175,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 				(page_obj) ->
 					return page_obj.get('name') is page_name
 			)
-			p @current_page().get('name')
+
 			try
 				# deselect the current page (if it's set)
 				@current_page().set(selected: false)
@@ -196,7 +195,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		current_page: ->
 			#return the model of the active page
-			@.find(
+			return @.find(
 				(page_obj) ->
 					return page_obj.get('selected')
 			)
@@ -223,22 +222,17 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 	$ ->
 		window.Pages = new PagesCollection()
-		
+
 		Pages.create(
-			name: "synopsis"
+			name: "input"
+			selected: true
 		)
 		Pages.create(
-			name: "home"
+			name: "output"
 		)
 		Pages.create(
 			name: "signup"
 			progressbar: true
-		)
-		Pages.create(
-			name: "account"
-		)
-		Pages.create(
-			name: "login"
 		)
 
 		window.App = new AppView()

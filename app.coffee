@@ -1,7 +1,4 @@
-# Project Configuration
-
 # Files in this list will not be compiled - minimatch supported
-
 exports.ignore_files = ['_*', 'readme*', '.git', '.gitignore', '.DS_Store']
 
 # Layout file config
@@ -16,9 +13,7 @@ exports.layouts =
 # variables or (coffeescript) functions.
 
 exports.locals =
-	title: 'Welcome to Roots!'
-	title_with_markup: ->
-		"<h1 class='title'>#{this.title}</h1>"
+	version: 0.1
 
 # If true, shows the compile process and page/asset status in the
 # terminal when watching and compiling files.

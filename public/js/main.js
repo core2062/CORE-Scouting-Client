@@ -43,7 +43,7 @@
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
     };
-    $("a[title], label[title], button[title], textarea[title]").tipsy();
+    $("label[title], button[title]").tipsy();
     $("input[title]").tipsy({
       trigger: "focus",
       gravity: "w"
@@ -197,8 +197,6 @@
       }
 
       PageView.prototype.render = function() {
-        p("render'n " + (this.model.get('name')));
-        p(this.el);
         if (this.model.get('selected')) {
           return this.el.style.display = 'block';
         } else {
@@ -208,7 +206,7 @@
 
       PageView.prototype.initialize = function() {
         _.bindAll(this);
-        this.model.bind('change', this.render);
+        this.model.bind('change:selected', this.render);
         this.model.view = this;
         return this.el = $("\#" + (this.model.get('name')) + "_content")[0];
       };
@@ -226,7 +224,7 @@
 
       PagesCollection.prototype.model = Page;
 
-      PagesCollection.prototype.default_page = 'home';
+      PagesCollection.prototype.default_page = 'input';
 
       PagesCollection.prototype.initialize = function() {
         _.bindAll(this);
@@ -244,7 +242,6 @@
         page = this.find(function(page_obj) {
           return page_obj.get('name') === page_name;
         });
-        p(this.current_page().get('name'));
         try {
           this.current_page().set({
             selected: false
@@ -316,20 +313,15 @@
     return $(function() {
       window.Pages = new PagesCollection();
       Pages.create({
-        name: "synopsis"
+        name: "input",
+        selected: true
       });
       Pages.create({
-        name: "home"
+        name: "output"
       });
       Pages.create({
         name: "signup",
         progressbar: true
-      });
-      Pages.create({
-        name: "account"
-      });
-      Pages.create({
-        name: "login"
       });
       window.App = new AppView();
       Backbone.history.start();
