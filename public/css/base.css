@@ -75,6 +75,10 @@ body {
   min-height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
 }
@@ -297,6 +301,10 @@ textarea:focus {
 }
 .clearIcon span {
   -moz-opacity: 0.7;
+  -webkit-filter: alpha(opacity=null);
+  -moz-filter: alpha(opacity=null);
+  -o-filter: alpha(opacity=null);
+  -ms-filter: alpha(opacity=null);
   filter: alpha(opacity=null);
   opacity: 0.7;
   background-image: url("../img/icon/clear_input.svg");
@@ -311,6 +319,10 @@ textarea:focus {
 }
 .clearIcon span:hover {
   -moz-opacity: 1;
+  -webkit-filter: alpha(opacity=null);
+  -moz-filter: alpha(opacity=null);
+  -o-filter: alpha(opacity=null);
+  -ms-filter: alpha(opacity=null);
   filter: alpha(opacity=null);
   opacity: 1;
 }
@@ -551,6 +563,10 @@ button:active,
 }
 #page_footer:hover #progressbar {
   -moz-opacity: 0;
+  -webkit-filter: alpha(opacity=null);
+  -moz-filter: alpha(opacity=null);
+  -o-filter: alpha(opacity=null);
+  -ms-filter: alpha(opacity=null);
   filter: alpha(opacity=null);
   opacity: 0;
 }
@@ -823,6 +839,10 @@ button:active,
   -ms-box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
   box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
   -moz-opacity: 0.7;
+  -webkit-filter: alpha(opacity=null);
+  -moz-filter: alpha(opacity=null);
+  -o-filter: alpha(opacity=null);
+  -ms-filter: alpha(opacity=null);
   filter: alpha(opacity=null);
   opacity: 0.7;
   position: fixed;

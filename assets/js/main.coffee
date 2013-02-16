@@ -74,13 +74,14 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		render: ->
 			if @model.current_page().get('progressbar')
-				@$el.css opacity: 'auto'
+				@$el.css opacity: ''
 			else
 				@$el.css opacity: 0
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change', @render)
+			p @model
+			@model.bind('change:selected', @render)
 
 
 	###*
@@ -137,14 +138,30 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 
 	class Page extends Backbone.Model
+		defaults:
+			name: ''
+			login_required: false
+			selected: false # value used by Pages for changing the active page
+			progressbar: false
+
+			# bind-able functions... empty by default
+			onload: (-> p "generic load")
+			onunload: (-> p "generic unload")
+
 		# represents a page in the application
 		sync: ->
 			false # changes to Pages don't get stored anywhere
 
-		name: ''
-		login_required: false
-		selected: false # value used by Pages for changing the active page
-		progressbar: false
+		onchange: ->
+			if @get('selected')
+				@get('onload').call()
+			else
+				@get('onunload').call()
+
+		initialize: ->
+			_.bindAll @
+			@bind('change:selected', @onchange)
+
 
 
 	class PageView extends Backbone.View
@@ -234,6 +251,10 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 		Pages.create(
 			name: "input"
 			selected: true
+			onload: ->
+				p 'load input'
+			onunload: ->
+				p "unload input"
 		)
 		Pages.create(
 			name: "output"

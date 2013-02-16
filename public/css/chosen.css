@@ -721,6 +721,10 @@ Designer Sean Lang
 .chzn-disabled {
   cursor: default;
   -moz-opacity: 0.5;
+  -webkit-filter: alpha(opacity=null);
+  -moz-filter: alpha(opacity=null);
+  -o-filter: alpha(opacity=null);
+  -ms-filter: alpha(opacity=null);
   filter: alpha(opacity=null);
   opacity: 0.5;
 }

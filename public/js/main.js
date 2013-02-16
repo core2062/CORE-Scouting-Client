@@ -79,7 +79,7 @@
       ProgressBar.prototype.render = function() {
         if (this.model.current_page().get('progressbar')) {
           return this.$el.css({
-            opacity: 'auto'
+            opacity: ''
           });
         } else {
           return this.$el.css({
@@ -90,7 +90,8 @@
 
       ProgressBar.prototype.initialize = function() {
         _.bindAll(this);
-        return this.model.bind('change', this.render);
+        p(this.model);
+        return this.model.bind('change:selected', this.render);
       };
 
       return ProgressBar;
@@ -186,17 +187,35 @@
         return Page.__super__.constructor.apply(this, arguments);
       }
 
+      Page.prototype.defaults = {
+        name: '',
+        login_required: false,
+        selected: false,
+        progressbar: false,
+        onload: (function() {
+          return p("generic load");
+        }),
+        onunload: (function() {
+          return p("generic unload");
+        })
+      };
+
       Page.prototype.sync = function() {
         return false;
       };
 
-      Page.prototype.name = '';
+      Page.prototype.onchange = function() {
+        if (this.get('selected')) {
+          return this.get('onload').call();
+        } else {
+          return this.get('onunload').call();
+        }
+      };
 
-      Page.prototype.login_required = false;
-
-      Page.prototype.selected = false;
-
-      Page.prototype.progressbar = false;
+      Page.prototype.initialize = function() {
+        _.bindAll(this);
+        return this.bind('change:selected', this.onchange);
+      };
 
       return Page;
 
@@ -337,7 +356,13 @@
       window.Pages = new PagesCollection();
       Pages.create({
         name: "input",
-        selected: true
+        selected: true,
+        onload: function() {
+          return p('load input');
+        },
+        onunload: function() {
+          return p("unload input");
+        }
       });
       Pages.create({
         name: "output"
