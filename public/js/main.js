@@ -192,12 +192,8 @@
         login_required: false,
         selected: false,
         progressbar: false,
-        onload: (function() {
-          return p("generic load");
-        }),
-        onunload: (function() {
-          return p("generic unload");
-        })
+        onload: (function() {}),
+        onunload: (function() {})
       };
 
       Page.prototype.sync = function() {

@@ -145,8 +145,8 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 			progressbar: false
 
 			# bind-able functions... empty by default
-			onload: (-> p "generic load")
-			onunload: (-> p "generic unload")
+			onload: (->)
+			onunload: (->)
 
 		# represents a page in the application
 		sync: ->
