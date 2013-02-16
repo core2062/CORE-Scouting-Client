@@ -5,6 +5,9 @@ require.config(
 		backbone:
 			deps: ['underscore', 'jquery']
 			exports: 'Backbone'
+		jsonform:
+			deps: ['underscore', 'jquery']
+			exports: 'jsonform'
 		tipsy: ['jquery']
 		jgrowl: ['jquery']
 )
@@ -29,13 +32,15 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 	#UI Event Handlers
 
+	#set fieldset class on focus
 	$("input, textarea").focus ->
-		$(this).parentsUntil($("form"), 'fieldset').addClass 'focus' #set fieldset class on focus
+		$(this).parentsUntil($("form"), 'fieldset').addClass 'focus'
 
 	$("input, textarea").focusout ->
 		$(this).parentsUntil($("form"), 'fieldset').removeClass 'focus'
 
-	$(".clearIcon span").click -> #clear input icon
+	#clear input icon
+	$(".clearIcon span").click ->
 		input = @previousSibling
 		input.value = ""
 		input.focus()
@@ -44,9 +49,6 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 	String::title_case = ->
 		@replace /\w\S*/g, (txt) ->
 			txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-
-	#ToggleJS
-	#$(":checkbox").toggleSwitch()
 
 	#Tipsy
 	$("label[title], button[title]").tipsy()
@@ -63,28 +65,28 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 	p = (text) -> console.log text
 	notify = (args...) -> $("#jGrowl-container").jGrowl args...
 
-	p 'Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.'
+	p 'Hello and welcome to the CSD, a intuitive scouting database and
+	analysis program created by Sean Lang of CORE 2062.'
 
-
-	# Views
 
 	class ProgressBar extends Backbone.View
 		el: $ '#progressbar'  # element already exists in markup
 
 		render: ->
 			if @model.current_page().get('progressbar')
-				@$el.css opacity:1
+				@$el.css opacity: 'auto'
 			else
-				@$el.css opacity:0
+				@$el.css opacity: 0
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change:selected', @render)
+			@model.bind('change', @render)
 
 
+	###*
+	 * modify the navbar to highlight the correct current page
+	###
 	class NavView extends Backbone.View
-		# modify the navbar to highlight the correct current page
-
 		el: $ '#navbar'  # element already exists in markup
 
 		render: ->
@@ -95,21 +97,23 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 			# ensure that the correct navbar button is selected
 			# since it is a radio button, it unselects anything else
-			@$el.find("\##{page}_nav").attr "checked", true 
+			@$el.find("\##{page}_nav").attr "checked", true
 
-			notify "(nav) page: #{page}",
+			notify "(nav) page: #{page}"
 
 		initialize: ->
 			_.bindAll @
 			@model.bind('change:selected', @render)
 
-
+	###*
+	 * modifies the navbar to show the correct user & login/logout controls
+	###
 	class AccountView extends Backbone.View
-		# NavView modifies the navbar to show the correct subpages for the current page
 		el: $ '#account_bar'  # element already exists in markup
 
 		render: ->
-			@$el.find('[for="account_nav"]').html(@model.get('name')) # change name displayed in account bar
+			# change name displayed in account bar
+			@$el.find('[for="account_nav"]').html(@model.get('name'))
 
 		initialize: ->
 			_.bindAll @
@@ -193,19 +197,23 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 					replace: true
 				)
 
+		###*
+		 * @return Page the model of the active page
+		###
 		current_page: ->
-			#return the model of the active page
-			return @.find(
+			return @find(
 				(page_obj) ->
 					return page_obj.get('selected')
 			)
 
 
-
+	###*
+	 * represents the current user. holds all the user data and interacts with
+       the server for account functions
+	###
 	class Account extends Backbone.Model
-		# holds all the user data and interacts with the server for account functions
-
-		#defaults: #default user object for user who isn't logged in (no cookie is stored for this user)
+		#defaults: #default user object for user who isn't logged in (no
+		#cookie is stored for this user)
 
 
 

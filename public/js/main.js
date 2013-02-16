@@ -12,6 +12,10 @@
         deps: ['underscore', 'jquery'],
         exports: 'Backbone'
       },
+      jsonform: {
+        deps: ['underscore', 'jquery'],
+        exports: 'jsonform'
+      },
       tipsy: ['jquery'],
       jgrowl: ['jquery']
     }
@@ -60,7 +64,8 @@
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       return (_ref = $("#jGrowl-container")).jGrowl.apply(_ref, args);
     };
-    p('Hello and welcome to the CSD, a intuitive scouting database and analysis program created by Sean Lang of CORE 2062.');
+    p('Hello and welcome to the CSD, a intuitive scouting database and\
+	analysis program created by Sean Lang of CORE 2062.');
     ProgressBar = (function(_super) {
 
       __extends(ProgressBar, _super);
@@ -74,7 +79,7 @@
       ProgressBar.prototype.render = function() {
         if (this.model.current_page().get('progressbar')) {
           return this.$el.css({
-            opacity: 1
+            opacity: 'auto'
           });
         } else {
           return this.$el.css({
@@ -85,12 +90,16 @@
 
       ProgressBar.prototype.initialize = function() {
         _.bindAll(this);
-        return this.model.bind('change:selected', this.render);
+        return this.model.bind('change', this.render);
       };
 
       return ProgressBar;
 
     })(Backbone.View);
+    /**
+    	 * modify the navbar to highlight the correct current page
+    */
+
     NavView = (function(_super) {
 
       __extends(NavView, _super);
@@ -117,6 +126,10 @@
       return NavView;
 
     })(Backbone.View);
+    /**
+    	 * modifies the navbar to show the correct user & login/logout controls
+    */
+
     AccountView = (function(_super) {
 
       __extends(AccountView, _super);
@@ -263,6 +276,11 @@
         }
       };
 
+      /**
+      		 * @return Page the model of the active page
+      */
+
+
       PagesCollection.prototype.current_page = function() {
         return this.find(function(page_obj) {
           return page_obj.get('selected');
@@ -272,6 +290,11 @@
       return PagesCollection;
 
     })(Backbone.Collection);
+    /**
+    	 * represents the current user. holds all the user data and interacts with
+          the server for account functions
+    */
+
     Account = (function(_super) {
 
       __extends(Account, _super);

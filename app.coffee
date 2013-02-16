@@ -13,7 +13,7 @@ exports.layouts =
 # variables or (coffeescript) functions.
 
 exports.locals =
-	version: 0.1
+	version: "alpha"
 
 # If true, shows the compile process and page/asset status in the
 # terminal when watching and compiling files.
