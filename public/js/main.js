@@ -65,7 +65,7 @@
       return (_ref = $("#jGrowl-container")).jGrowl.apply(_ref, args);
     };
     p('Hello and welcome to the CSD, a intuitive scouting database and\
-	analysis program created by Sean Lang of CORE 2062.');
+	analysis program created by C.O.R.E. 2062.');
     ProgressBar = (function(_super) {
 
       __extends(ProgressBar, _super);
@@ -90,7 +90,6 @@
 
       ProgressBar.prototype.initialize = function() {
         _.bindAll(this);
-        p(this.model);
         return this.model.bind('change:selected', this.render);
       };
 
@@ -192,8 +191,9 @@
         login_required: false,
         selected: false,
         progressbar: false,
-        onload: (function() {}),
-        onunload: (function() {})
+        first_load: (function() {}),
+        on_load: (function() {}),
+        on_unload: (function() {})
       };
 
       Page.prototype.sync = function() {
@@ -202,15 +202,16 @@
 
       Page.prototype.onchange = function() {
         if (this.get('selected')) {
-          return this.get('onload').call();
+          return this.get('on_load').call();
         } else {
-          return this.get('onunload').call();
+          return this.get('on_unload').call();
         }
       };
 
       Page.prototype.initialize = function() {
         _.bindAll(this);
-        return this.bind('change:selected', this.onchange);
+        this.bind('change:selected', this.onchange);
+        return this.get('first_load').call();
       };
 
       return Page;
@@ -352,13 +353,7 @@
       window.Pages = new PagesCollection();
       Pages.create({
         name: "input",
-        selected: true,
-        onload: function() {
-          return p('load input');
-        },
-        onunload: function() {
-          return p("unload input");
-        }
+        selected: true
       });
       Pages.create({
         name: "output"

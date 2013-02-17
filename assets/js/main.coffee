@@ -66,7 +66,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 	notify = (args...) -> $("#jGrowl-container").jGrowl args...
 
 	p 'Hello and welcome to the CSD, a intuitive scouting database and
-	analysis program created by Sean Lang of CORE 2062.'
+	analysis program created by C.O.R.E. 2062.'
 
 
 	class ProgressBar extends Backbone.View
@@ -80,7 +80,6 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			p @model
 			@model.bind('change:selected', @render)
 
 
@@ -145,8 +144,9 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 			progressbar: false
 
 			# bind-able functions... empty by default
-			onload: (->)
-			onunload: (->)
+			first_load: (->)
+			on_load: (->)
+			on_unload: (->)
 
 		# represents a page in the application
 		sync: ->
@@ -154,14 +154,16 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		onchange: ->
 			if @get('selected')
-				@get('onload').call()
+				@get('on_load').call()
 			else
-				@get('onunload').call()
+				@get('on_unload').call()
 
 		initialize: ->
 			_.bindAll @
 			@bind('change:selected', @onchange)
 
+			# for page specific init functions
+			@get('first_load').call()
 
 
 	class PageView extends Backbone.View
@@ -251,10 +253,6 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 		Pages.create(
 			name: "input"
 			selected: true
-			onload: ->
-				p 'load input'
-			onunload: ->
-				p "unload input"
 		)
 		Pages.create(
 			name: "output"
