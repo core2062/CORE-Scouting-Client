@@ -1,4 +1,7 @@
 require.config(
+	paths:
+		underscore: 'components/underscore/underscore-min'
+		jquery: 'components/jquery/jquery.min'
 	shim:
 		underscore:
 			exports: '_'
@@ -18,7 +21,6 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 	#TODO: float google +1 button left w/out 4px overhang
 	#TODO: make startup script to warn bad browsers
 	#TODO: add stuff to prefetch subpages???
-	#TODO: add error message for old browsers
 
 	#error logger
 	window.onerror = (msg, url, line) ->

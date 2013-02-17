@@ -1,0 +1,8 @@
+{
+  "name": "tipsy",
+  "version": "1.0.0a",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jaz303/tipsy"
+  }
+}
