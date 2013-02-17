@@ -6,6 +6,7 @@
   require.config({
     paths: {
       underscore: 'components/underscore/underscore-min',
+      backbone: 'components/backbone/backbone-min',
       jquery: 'components/jquery/jquery.min'
     },
     shim: {
