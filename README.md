@@ -7,7 +7,7 @@ The client for the CORE Scouting Database and interacts with the CORE Scouting D
 ##Using the Client
 A precompiled client is already made for you at `public/index.html`. If you don't want to work on developing the client, you can just delete the entire `src` directory and put the contents of the static directory in you server.
 
-## Compiling The Client On Your Own
+##Compiling The Client On Your Own
 If you want to edit the source files for the client, you will need to recompile it into an HTML file.
 
 To compile the client, `cd` into the directory that the client is in and then use [roots](http://roots.cx) to compile it:
