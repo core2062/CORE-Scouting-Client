@@ -22,11 +22,12 @@
         exports: 'jsonform'
       },
       tipsy: ['jquery'],
-      jgrowl: ['jquery']
+      jgrowl: ['jquery'],
+      rainbow: ['jquery']
     }
   });
 
-  require(['jquery', 'backbone', 'tipsy', 'jgrowl'], function($, Backbone) {
+  require(['jquery', 'backbone', 'tipsy', 'jgrowl', 'rainbow'], function($, Backbone) {
     var Account, AccountView, AppView, NavView, Page, PageView, PagesCollection, ProgressBar, Router, notify, p;
     window.onerror = function(msg, url, line) {
       notify("errorMsg: " + msg + " on line " + line, {

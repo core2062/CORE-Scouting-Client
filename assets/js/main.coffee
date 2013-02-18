@@ -14,8 +14,9 @@ require.config(
 			exports: 'jsonform'
 		tipsy: ['jquery']
 		jgrowl: ['jquery']
+		rainbow: ['jquery']
 )
-require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
+require ['jquery', 'backbone', 'tipsy', 'jgrowl', 'rainbow'], ($, Backbone) ->
 	#Chosen Select Box
 	#$("select").chosen()
 
@@ -275,4 +276,5 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 				trigger: true
 				replace: true
 			)
+
 
