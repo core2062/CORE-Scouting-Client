@@ -83,7 +83,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change:selected', @render)
+			@model.on('change:selected', @render)
 
 
 	###*
@@ -106,7 +106,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change:selected', @render)
+			@model.on('change:selected', @render)
 
 	###*
 	 * modifies the navbar to show the correct user & login/logout controls
@@ -120,7 +120,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@model.bind('change:name', @render)
+			@model.on('change:name', @render)
 			@model.view = @
 
 
@@ -163,7 +163,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@bind('change:selected', @onchange)
+			@on('change:selected', @onchange)
 
 			# for page specific init functions
 			@get('first_load').call()
@@ -179,7 +179,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 		initialize: ->
 			_.bindAll @
 
-			@model.bind('change:selected', @render)
+			@model.on('change:selected', @render)
 			@model.view = @
 			@el = $("\##{@model.get('name')}_content")[0]
 
@@ -227,7 +227,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@bind("add", @added_page)
+			@on("add", @added_page)
 
 
 	###*

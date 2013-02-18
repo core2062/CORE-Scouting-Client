@@ -95,7 +95,7 @@
 
       ProgressBar.prototype.initialize = function() {
         _.bindAll(this);
-        return this.model.bind('change:selected', this.render);
+        return this.model.on('change:selected', this.render);
       };
 
       return ProgressBar;
@@ -125,7 +125,7 @@
 
       NavView.prototype.initialize = function() {
         _.bindAll(this);
-        return this.model.bind('change:selected', this.render);
+        return this.model.on('change:selected', this.render);
       };
 
       return NavView;
@@ -151,7 +151,7 @@
 
       AccountView.prototype.initialize = function() {
         _.bindAll(this);
-        this.model.bind('change:name', this.render);
+        this.model.on('change:name', this.render);
         return this.model.view = this;
       };
 
@@ -215,7 +215,7 @@
 
       Page.prototype.initialize = function() {
         _.bindAll(this);
-        this.bind('change:selected', this.onchange);
+        this.on('change:selected', this.onchange);
         return this.get('first_load').call();
       };
 
@@ -240,7 +240,7 @@
 
       PageView.prototype.initialize = function() {
         _.bindAll(this);
-        this.model.bind('change:selected', this.render);
+        this.model.on('change:selected', this.render);
         this.model.view = this;
         return this.el = $("\#" + (this.model.get('name')) + "_content")[0];
       };
@@ -305,7 +305,7 @@
 
       PagesCollection.prototype.initialize = function() {
         _.bindAll(this);
-        return this.bind("add", this.added_page);
+        return this.on("add", this.added_page);
       };
 
       return PagesCollection;
