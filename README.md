@@ -1,5 +1,7 @@
 #CORE Scouting Database Client
 
+---------
+
 The client for the CORE Scouting Database and interacts with the CORE Scouting Database Server to provide a useful UI for submitting and viewing scouting data. It is purely browser-based (written in languages that compile into JS, HTML, and CSS) and because of it's separation from the server, it can be easily modified by teams to provide new functionality that their scouting systems may require.
 
 ##Using the Client
