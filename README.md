@@ -20,4 +20,4 @@ $ roots watch
 ```
 *you don't need to install npm or roots if you already have them and you should `cd` into whatever dir you have the repo in... this is just an example*
 
-This will open the client on http://localhost:1111 
+This will open the client on [http://localhost:1111](http://localhost:1111)
