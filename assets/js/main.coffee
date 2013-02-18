@@ -1,7 +1,7 @@
 require.config(
 	paths:
-		underscore: 'components/underscore/underscore-min'
-		backbone: 'components/backbone/backbone-min'
+		underscore: 'components/underscore/underscore'
+		backbone: 'components/backbone/backbone'
 		jquery: 'components/jquery/jquery.min'
 	shim:
 		underscore:
@@ -178,6 +178,7 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
+
 			@model.bind('change:selected', @render)
 			@model.view = @
 			@el = $("\##{@model.get('name')}_content")[0]
@@ -186,10 +187,6 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 		# to determine what should be rendered in the navbar on any given page
 		model: Page
 		default_page: 'input'
-
-		initialize: ->
-			_.bindAll @
-			@bind("add", @added_page)
 
 		added_page: (page_model) ->
 			#used to create the view for a page after it has been added
@@ -227,6 +224,10 @@ require ['jquery', 'backbone', 'tipsy', 'jgrowl'], ($, Backbone) ->
 				(page_obj) ->
 					return page_obj.get('selected')
 			)
+
+		initialize: ->
+			_.bindAll @
+			@bind("add", @added_page)
 
 
 	###*

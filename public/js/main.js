@@ -5,8 +5,8 @@
 
   require.config({
     paths: {
-      underscore: 'components/underscore/underscore-min',
-      backbone: 'components/backbone/backbone-min',
+      underscore: 'components/underscore/underscore',
+      backbone: 'components/backbone/backbone',
       jquery: 'components/jquery/jquery.min'
     },
     shim: {
@@ -260,11 +260,6 @@
 
       PagesCollection.prototype.default_page = 'input';
 
-      PagesCollection.prototype.initialize = function() {
-        _.bindAll(this);
-        return this.bind("add", this.added_page);
-      };
-
       PagesCollection.prototype.added_page = function(page_model) {
         return new PageView({
           model: page_model
@@ -306,6 +301,11 @@
         return this.find(function(page_obj) {
           return page_obj.get('selected');
         });
+      };
+
+      PagesCollection.prototype.initialize = function() {
+        _.bindAll(this);
+        return this.bind("add", this.added_page);
       };
 
       return PagesCollection;
