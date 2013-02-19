@@ -5,9 +5,9 @@ window.rainbow = (seizureMode) ->
 	window.rainbow_vars =
 		i: 0
 		body: document.getElementsByTagName("body")[0]
-		c: document.getElementById("c")
-		s: document.getElementById("s")
-		d: document.getElementById("d")
+		#c: document.getElementById("c")
+		#s: document.getElementById("s")
+		#d: document.getElementById("d")
 	setInterval(
 		(->
 			window.rainbow_vars.i++
