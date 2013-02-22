@@ -237,9 +237,9 @@
 
 
       PagesCollection.prototype.current_page = function() {
-        return this.find(function(page_obj) {
-          return page_obj.get('selected');
-        });
+        return this.where({
+          selected: true
+        })[0];
       };
 
       PagesCollection.prototype.initialize = function() {
