@@ -1,0 +1,8 @@
+{
+  "name": "JSV",
+  "version": "4.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/garycourt/JSV.git"
+  }
+}
