@@ -3,21 +3,21 @@ require.config(
 		underscore: 'components/underscore/underscore'
 		backbone: 'components/backbone/backbone'
 		jquery: 'components/jquery/jquery.min'
+		jsonform: 'jsonform/jsonform'
+		jsv: 'jsonform/deps/opt/jsv'
 	shim:
 		underscore:
 			exports: '_'
 		backbone:
 			deps: ['underscore', 'jquery']
 			exports: 'Backbone'
-		jsonform:
-			deps: ['underscore', 'jquery']
-			exports: 'jsonform'
+		jsonform: ['jquery', 'underscore', 'jsv']
 		tipsy: ['jquery']
 		jgrowl: ['jquery']
 )
 
-# general
-require ['jquery', 'structure', 'tipsy', 'jgrowl', 'rainbow'], ($, App) ->
+
+require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, App) ->
 	#Chosen Select Box
 	#$("select").chosen()
 
@@ -93,6 +93,107 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'rainbow'], ($, App) ->
 			replace: true
 		)
 
-
-
-
+	$('#input_content').jsonForm(
+		schema:
+			scout_name:
+				title: 'Scout Name'
+				type: 'string'
+				required: true
+			match:
+				title: 'Match Number'
+				type: 'integer'
+				maximum: 999
+				required: true
+			team:
+				title: 'Team Number'
+				type: 'integer'
+				maximum: 9999
+				required: true
+			alliance:
+				title: 'Alliance'
+				default: ''
+				enum: [
+					'Red'
+					'Blue'
+				]
+				required: true
+			floor_pickup:
+				title: 'Floor Pickup'
+				type: 'boolean'
+			climb_attempt:
+				title: 'climb_attempt'
+				type: 'integer'
+				enum: [
+					0
+					1
+					2
+					3
+				]
+			penalties_red:
+				title: 'Penalties Red'
+				type: 'integer'
+				required: true
+			penalties_yellow:
+				title: 'Penalties Yellow'
+				type: 'integer'
+				required: true
+			fouls:
+				title: 'fouls'
+				type: 'integer'
+				required: true
+			tech_fouls:
+				title: 'tech_fouls'
+				type: 'integer'
+				required: true
+			strategy:
+				title: 'Strategy'
+				type: 'array'
+				uniqueItems: true
+				items: {
+					enum: [
+						'defense'
+						'climb'
+						'shoot'
+						'disabled / broken'
+					]
+				}
+			pyramid:
+				title: 'pyramid'
+				type: 'integer'
+				required: true
+			high:
+				title: 'high'
+				type: 'integer'
+				required: true
+			middle:
+				title: 'middle'
+				type: 'integer'
+				required: true
+			low:
+				title: 'low'
+				type: 'integer'
+				required: true
+			miss:
+				title: 'miss'
+				type: 'integer'
+				required: true
+			comments:
+				title: 'comments'
+				type: 'string'
+				required: true
+		form: [
+			{
+				key: "strategy"
+				type: "checkboxes"
+			},
+			{
+				"key": "comment",
+				"type": "textarea"
+			}
+		]
+		onSubmit: (errors, values) ->
+			if errors
+				$('#res').html('<p>I beg your pardon?</p>')
+			else
+				$('#res').html("<p>Hello #{values.name}.#{if values.age then "<br/>You are #{values.age}." else ''}</p>")
+	)
