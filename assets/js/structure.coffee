@@ -149,10 +149,7 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 		 * @return Page the model of the active page
 		###
 		current_page: ->
-			return @find(
-				(page_obj) ->
-					return page_obj.get('selected')
-			)
+			return @where(selected: true)[0]
 
 		initialize: ->
 			_.bindAll @
