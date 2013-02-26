@@ -5,13 +5,33 @@ require.config(
 		jquery: 'components/jquery/jquery.min'
 		jsonform: 'jsonform/jsonform'
 		jsv: 'jsonform/deps/opt/jsv'
+		jquery_ui_core: 'jsonform/deps/opt/jquery.ui.core'
+		jquery_ui_widget: 'jsonform/deps/opt/jquery.ui.widget'
+		jquery_ui_mouse: 'jsonform/deps/opt/jquery.ui.mouse'
+		jquery_ui_sortable: 'jsonform/deps/opt/jquery.ui.sortable'
+		bootstrap_dropdown: 'jsonform/deps/opt/bootstrap-dropdown'
+		spectrum: 'jsonform/deps/opt/spectrum'
+		#ace: 'jsonform/deps/opt/ace/ace'
+		#ace_json: 'jsonform/deps/opt/ace/mode-json'
 	shim:
 		underscore:
 			exports: '_'
 		backbone:
 			deps: ['underscore', 'jquery']
 			exports: 'Backbone'
-		jsonform: ['jquery', 'underscore', 'jsv']
+		jsonform: [
+			'jquery'
+			'underscore'
+			'jsv'
+			#'jquery_ui_core'
+			#'jquery_ui_widget'
+			#'jquery_ui_mouse'
+			#'jquery_ui_sortable'
+			'bootstrap_dropdown'
+			'spectrum'
+			#'ace'
+			#'ace_json'
+		]
 		tipsy: ['jquery']
 		jgrowl: ['jquery']
 )
@@ -177,23 +197,62 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 				title: 'miss'
 				type: 'integer'
 				required: true
-			comments:
+			comment:
 				title: 'comments'
 				type: 'string'
 				required: true
 		form: [
-			{
+				key: "scout_name"
+			,
 				key: "strategy"
 				type: "checkboxes"
-			},
-			{
-				"key": "comment",
-				"type": "textarea"
-			}
+			,
+				key: "match"
+			,
+				key: "team"
+			,
+				key: "alliance"
+			,
+				key: "floor_pickup"
+			,
+				key: "climb_attempt"
+			,
+				key: "penalties_red"
+			,
+				key: "penalties_yellow"
+			,
+				key: "fouls"
+			,
+				key: "tech_fouls"
+			,
+				key: "pyramid"
+			,
+				key: "high"
+			,
+				key: "middle"
+			,
+				key: "low"
+			,
+				key: "miss"
+			,
+				key: "comment"
+				type: "textarea"
+			,
+				type: "submit",
+				title: "submit"
 		]
 		onSubmit: (errors, values) ->
+			p 'blah'
 			if errors
-				$('#res').html('<p>I beg your pardon?</p>')
-			else
-				$('#res').html("<p>Hello #{values.name}.#{if values.age then "<br/>You are #{values.age}." else ''}</p>")
+				notify errors
+
+			$.ajax(
+				url: "http://fiddle.jshell.net/favicon.png",
+				data:
+					data: values
+			).done(
+				(data) ->
+					notify data
+			)
+
 	)

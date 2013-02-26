@@ -7,7 +7,13 @@
       backbone: 'components/backbone/backbone',
       jquery: 'components/jquery/jquery.min',
       jsonform: 'jsonform/jsonform',
-      jsv: 'jsonform/deps/opt/jsv'
+      jsv: 'jsonform/deps/opt/jsv',
+      jquery_ui_core: 'jsonform/deps/opt/jquery.ui.core',
+      jquery_ui_widget: 'jsonform/deps/opt/jquery.ui.widget',
+      jquery_ui_mouse: 'jsonform/deps/opt/jquery.ui.mouse',
+      jquery_ui_sortable: 'jsonform/deps/opt/jquery.ui.sortable',
+      bootstrap_dropdown: 'jsonform/deps/opt/bootstrap-dropdown',
+      spectrum: 'jsonform/deps/opt/spectrum'
     },
     shim: {
       underscore: {
@@ -17,7 +23,7 @@
         deps: ['underscore', 'jquery'],
         exports: 'Backbone'
       },
-      jsonform: ['jquery', 'underscore', 'jsv'],
+      jsonform: ['jquery', 'underscore', 'jsv', 'bootstrap_dropdown', 'spectrum'],
       tipsy: ['jquery'],
       jgrowl: ['jquery']
     }
@@ -173,7 +179,7 @@
           type: 'integer',
           required: true
         },
-        comments: {
+        comment: {
           title: 'comments',
           type: 'string',
           required: true
@@ -181,19 +187,59 @@
       },
       form: [
         {
+          key: "scout_name"
+        }, {
           key: "strategy",
           type: "checkboxes"
         }, {
-          "key": "comment",
-          "type": "textarea"
+          key: "match"
+        }, {
+          key: "team"
+        }, {
+          key: "alliance"
+        }, {
+          key: "floor_pickup"
+        }, {
+          key: "climb_attempt"
+        }, {
+          key: "penalties_red"
+        }, {
+          key: "penalties_yellow"
+        }, {
+          key: "fouls"
+        }, {
+          key: "tech_fouls"
+        }, {
+          key: "pyramid"
+        }, {
+          key: "high"
+        }, {
+          key: "middle"
+        }, {
+          key: "low"
+        }, {
+          key: "miss"
+        }, {
+          key: "comment",
+          type: "textarea"
+        }, {
+          type: "submit",
+          title: "submit"
         }
       ],
       onSubmit: function(errors, values) {
+        p('blah');
         if (errors) {
-          return $('#res').html('<p>I beg your pardon?</p>');
-        } else {
-          return $('#res').html("<p>Hello " + values.name + "." + (values.age ? "<br/>You are " + values.age + "." : '') + "</p>");
+          notify(errors);
         }
+        return $.ajax({
+          url: "http://fiddle.jshell.net/favicon.png",
+          data: {
+            data: values
+          }
+        }).done(function(data) {
+          return notify(data);
+        });
       }
     });
   });
