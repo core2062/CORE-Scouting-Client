@@ -92,7 +92,7 @@
         replace: true
       });
     }
-    return $('#input_content').jsonForm({
+    return $('#scouting_form').jsonForm({
       schema: {
         scout_name: {
           title: 'Scout Name',
@@ -228,7 +228,8 @@
         }
       ],
       onSubmit: function(errors, values) {
-        p('blah');
+        console.log(errors);
+        console.log(values);
         if (errors) {
           notify(errors);
         }

@@ -113,7 +113,7 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 			replace: true
 		)
 
-	$('#input_content').jsonForm(
+	$('#scouting_form').jsonForm(
 		schema:
 			scout_name:
 				title: 'Scout Name'
@@ -242,7 +242,8 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 				title: "submit"
 		]
 		onSubmit: (errors, values) ->
-			p 'blah'
+			console.log errors
+			console.log values
 			if errors
 				notify errors
 

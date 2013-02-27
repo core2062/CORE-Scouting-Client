@@ -254,7 +254,7 @@ button {
   font-family: "BankGothicMdBTMedium", "bankgothic lt bt";
   font-size: 1em;
 }
-input,
+input[type=text],
 textarea {
   border: none;
   background-repeat: repeat;
