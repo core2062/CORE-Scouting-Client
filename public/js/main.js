@@ -1,5 +1,8 @@
 (function() {
-  var __slice = [].slice;
+  var SERVER,
+    __slice = [].slice;
+
+  SERVER = 'http://localhost:5000';
 
   require.config({
     paths: {
@@ -92,156 +95,71 @@
         replace: true
       });
     }
-    return $('#scouting_form').jsonForm({
-      schema: {
-        scout_name: {
-          title: 'Scout Name',
-          type: 'string',
-          required: true
-        },
-        match: {
-          title: 'Match Number',
-          type: 'integer',
-          maximum: 999,
-          required: true
-        },
-        team: {
-          title: 'Team Number',
-          type: 'integer',
-          maximum: 9999,
-          required: true
-        },
-        alliance: {
-          title: 'Alliance',
-          "default": '',
-          "enum": ['Red', 'Blue'],
-          required: true
-        },
-        floor_pickup: {
-          title: 'Floor Pickup',
-          type: 'boolean'
-        },
-        climb_attempt: {
-          title: 'climb_attempt',
-          type: 'integer',
-          "enum": [0, 1, 2, 3]
-        },
-        penalties_red: {
-          title: 'Penalties Red',
-          type: 'integer',
-          required: true
-        },
-        penalties_yellow: {
-          title: 'Penalties Yellow',
-          type: 'integer',
-          required: true
-        },
-        fouls: {
-          title: 'fouls',
-          type: 'integer',
-          required: true
-        },
-        tech_fouls: {
-          title: 'tech_fouls',
-          type: 'integer',
-          required: true
-        },
-        strategy: {
-          title: 'Strategy',
-          type: 'array',
-          uniqueItems: true,
-          items: {
-            "enum": ['defense', 'climb', 'shoot', 'disabled / broken']
+    return $.ajax({
+      url: SERVER + "/schema/match"
+    }).done(function(data) {
+      return $('#scouting_form').jsonForm({
+        schema: data,
+        form: [
+          {
+            key: "scout_name"
+          }, {
+            key: "strategy",
+            type: "checkboxes"
+          }, {
+            key: "match_num"
+          }, {
+            key: "match_type"
+          }, {
+            key: "team"
+          }, {
+            key: "alliance"
+          }, {
+            key: "floor_pickup"
+          }, {
+            key: "climb_attempt"
+          }, {
+            key: "penalties_red"
+          }, {
+            key: "penalties_yellow"
+          }, {
+            key: "fouls"
+          }, {
+            key: "tech_fouls"
+          }, {
+            key: "pyramid"
+          }, {
+            key: "high"
+          }, {
+            key: "middle"
+          }, {
+            key: "low"
+          }, {
+            key: "miss"
+          }, {
+            key: "comment",
+            type: "textarea"
+          }, {
+            type: "submit",
+            title: "submit"
           }
-        },
-        pyramid: {
-          title: 'pyramid',
-          type: 'integer',
-          required: true
-        },
-        high: {
-          title: 'high',
-          type: 'integer',
-          required: true
-        },
-        middle: {
-          title: 'middle',
-          type: 'integer',
-          required: true
-        },
-        low: {
-          title: 'low',
-          type: 'integer',
-          required: true
-        },
-        miss: {
-          title: 'miss',
-          type: 'integer',
-          required: true
-        },
-        comment: {
-          title: 'comments',
-          type: 'string',
-          required: true
-        }
-      },
-      form: [
-        {
-          key: "scout_name"
-        }, {
-          key: "strategy",
-          type: "checkboxes"
-        }, {
-          key: "match"
-        }, {
-          key: "team"
-        }, {
-          key: "alliance"
-        }, {
-          key: "floor_pickup"
-        }, {
-          key: "climb_attempt"
-        }, {
-          key: "penalties_red"
-        }, {
-          key: "penalties_yellow"
-        }, {
-          key: "fouls"
-        }, {
-          key: "tech_fouls"
-        }, {
-          key: "pyramid"
-        }, {
-          key: "high"
-        }, {
-          key: "middle"
-        }, {
-          key: "low"
-        }, {
-          key: "miss"
-        }, {
-          key: "comment",
-          type: "textarea"
-        }, {
-          type: "submit",
-          title: "submit"
-        }
-      ],
-      onSubmit: function(errors, values) {
-        console.log(errors);
-        console.log(values);
-        if (errors) {
-          notify(errors);
-        }
-        return $.ajax({
-          url: "http://fiddle.jshell.net/favicon.png",
-          data: {
-            data: values
+        ],
+        onSubmit: function(errors, values) {
+          console.log(errors);
+          console.log(values);
+          if (errors) {
+            notify(errors);
           }
-        }).done(function(data) {
-          return notify(data);
-        });
-      }
+          return $.ajax({
+            url: "http://fiddle.jshell.net/favicon.png",
+            data: {
+              data: values
+            }
+          }).done(function(data) {
+            return notify(data);
+          });
+        }
+      });
     });
   });
 
