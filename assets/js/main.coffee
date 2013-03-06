@@ -97,6 +97,8 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 
 	App.Pages.create(
 		name: "input"
+		controls:
+			submit: (-> console.log 'blah')
 		selected: true
 	)
 	App.Pages.create(
@@ -105,6 +107,10 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 	App.Pages.create(
 		name: "signup"
 		progressbar: true
+	)
+	App.Pages.create(
+		name: "login"
+		progressbar: false
 	)
 
 	Backbone.history.start()
@@ -169,7 +175,7 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 					notify errors
 
 				$.ajax(
-					url: "http://fiddle.jshell.net/favicon.png",
+					url: "#{SERVER}/commit/submit",
 					data:
 						data: values
 				).done(

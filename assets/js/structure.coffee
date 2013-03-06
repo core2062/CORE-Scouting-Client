@@ -78,6 +78,12 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 			first_load: (->)
 			on_load: (->)
 			on_unload: (->)
+			controls: {
+				#submit: (->)
+			}
+
+		trigger_control: (name) ->
+			@controls[name]()
 
 		# represents a page in the application
 		sync: ->
@@ -101,6 +107,17 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 		render: ->
 			if @model.get('selected')
 				@el.style.display = 'block' # show
+
+				# hide all controls
+				for control in $('#local_controls button')
+					control.style.display = 'none'
+					$(control).unbind("click")
+
+				# display all that are defined
+				for control_name in _.keys(@model.get('controls'))
+					control = $("##{control_name}_ctrl")[0]
+					control.style.display = 'inline-block'
+					$(control).bind("click", @model.get('controls')[control_name])
 			else
 				@el.style.display = 'none' # hide
 
@@ -120,6 +137,8 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 		added_page: (page_model) ->
 			#used to create the view for a page after it has been added
 			new PageView({model: page_model})
+
+		control: (name) ->
 
 		change_page: (page_name) ->
 			# update the active page. this should only be called by the router
@@ -176,8 +195,6 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 
 			@Account = new Account()
 			@AccountView = new AccountView model: @Account
-
-
 
 	App = new AppView()
 	return App

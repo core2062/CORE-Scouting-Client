@@ -25,7 +25,7 @@ include _library
 					include svg/_login
 					include svg/_logout
 
-			li
+			li#local_controls
 				block local_controls
 					//- this block holds buttons which are used on specific pages for controls (ctrl_buttons)
 					//- TODO: disable submit button when pressed, until form change (check with error check function)
@@ -53,6 +53,14 @@ include _library
 
 				+page_content('signup')
 					p signup!!
+
+
+				+page_content('login')
+					label(for"username") Username
+					input#username
+					br
+					label(for="password") Password
+					input(type="password")#password
 
 		#sidebar
 			//- other sidebar stuff goes here

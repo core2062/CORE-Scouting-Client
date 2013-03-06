@@ -79,6 +79,11 @@
 	analysis program created by C.O.R.E. 2062.');
     App.Pages.create({
       name: "input",
+      controls: {
+        submit: (function() {
+          return console.log('blah');
+        })
+      },
       selected: true
     });
     App.Pages.create({
@@ -87,6 +92,10 @@
     App.Pages.create({
       name: "signup",
       progressbar: true
+    });
+    App.Pages.create({
+      name: "login",
+      progressbar: false
     });
     Backbone.history.start();
     if (Backbone.history.fragment === '') {
@@ -151,7 +160,7 @@
             notify(errors);
           }
           return $.ajax({
-            url: "http://fiddle.jshell.net/favicon.png",
+            url: "" + SERVER + "/commit/submit",
             data: {
               data: values
             }

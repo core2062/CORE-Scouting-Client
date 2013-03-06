@@ -137,7 +137,12 @@
         progressbar: false,
         first_load: (function() {}),
         on_load: (function() {}),
-        on_unload: (function() {})
+        on_unload: (function() {}),
+        controls: {}
+      };
+
+      Page.prototype.trigger_control = function(name) {
+        return this.controls[name]();
       };
 
       Page.prototype.sync = function() {
@@ -170,8 +175,24 @@
       }
 
       PageView.prototype.render = function() {
+        var control, control_name, _i, _j, _len, _len1, _ref, _ref1, _results;
         if (this.model.get('selected')) {
-          return this.el.style.display = 'block';
+          this.el.style.display = 'block';
+          _ref = $('#local_controls button');
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            control = _ref[_i];
+            control.style.display = 'none';
+            $(control).unbind("click");
+          }
+          _ref1 = _.keys(this.model.get('controls'));
+          _results = [];
+          for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+            control_name = _ref1[_j];
+            control = $("#" + control_name + "_ctrl")[0];
+            control.style.display = 'inline-block';
+            _results.push($(control).bind("click", this.model.get('controls')[control_name]));
+          }
+          return _results;
         } else {
           return this.el.style.display = 'none';
         }
@@ -204,6 +225,8 @@
           model: page_model
         });
       };
+
+      PagesCollection.prototype.control = function(name) {};
 
       PagesCollection.prototype.change_page = function(page_name) {
         var page;
