@@ -1,4 +1,4 @@
-SERVER = 'http://localhost:5000'
+window.SERVER = 'http://localhost:5000'
 
 require.config(
 	paths:
@@ -15,6 +15,7 @@ require.config(
 		spectrum: 'jsonform/deps/opt/spectrum'
 		#ace: 'jsonform/deps/opt/ace/ace'
 		#ace_json: 'jsonform/deps/opt/ace/mode-json'
+		localstorage: "components/backbone.localStorage/backbone.localStorage"
 	shim:
 		underscore:
 			exports: '_'
@@ -110,6 +111,14 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 	)
 	App.Pages.create(
 		name: "login"
+		controls:
+			submit: (->
+				App.Account.login $('#username').val(), $('#password').val()
+			)
+		on_load: (->
+			if App.Account.get('token') isnt ''
+				App.Account.logout()
+		)
 		progressbar: false
 	)
 
@@ -168,11 +177,8 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 					type: "submit",
 					title: "submit"
 			]
-			onSubmit: (errors, values) ->
-				console.log errors
+			onSubmitValid: (values) ->
 				console.log values
-				if errors
-					notify errors
 
 				$.ajax(
 					url: "#{SERVER}/commit/submit",

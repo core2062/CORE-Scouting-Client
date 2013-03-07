@@ -1,4 +1,4 @@
-define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
+define(['jquery', 'backbone', 'jgrowl', 'localstorage'], ($, Backbone) ->
 	notify = (args...) -> $("#jGrowl-container").jGrowl args...
 
 	class ProgressBar extends Backbone.View
@@ -39,6 +39,45 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 
 
 	###*
+	 * represents the current user. holds all the user data and interacts with
+	   the server for account functions
+	###
+	class Account extends Backbone.Model
+		localStorage: new Backbone.LocalStorage("Account")
+		#defaults:
+		#	token: ''
+		#	name: 'User'
+
+		login: (username, password) ->
+			$.ajax(
+				url: "#{SERVER}/user/login"
+				type: "POST"
+				data:
+					username: username
+					password: password
+			).done(
+				(data) ->
+					App.Account.save(token: data['token'])
+			).fail(
+				(jqXHR, textStatus, errorThrown) ->
+					notify "#{errorThrown}: #{textStatus}",
+						theme: 'error'
+			)
+
+		logout: () ->
+			console.log 'logg\'n out'
+			@save token: ''
+
+		initialize: ->
+			_.bindAll @
+			@fetch()
+
+			#gay hack cuz localstorage is really just made for collections
+			for k,v of @get(0)
+				@set(k, v)
+
+
+	###*
 	 * modifies the navbar to show the correct user & login/logout controls
 	###
 	class AccountView extends Backbone.View
@@ -46,11 +85,19 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 
 		render: ->
 			# change name displayed in account bar
-			@$el.find('[for="account_nav"]').html(@model.get('name'))
+			@$el.find('[for="account_nav"]')[0].innerHTML = @model.get('name')
+			if @model.get('token') is ''
+				@$el.find('[for="login_nav"]').attr('original-title': 'Login')
+				$('#login_icon')[0].style.display = 'inline'
+				$('#logout_icon')[0].style.display = 'none'
+			else
+				@$el.find('[for="login_nav"]').attr('original-title': 'Logout')
+				$('#login_icon')[0].style.display = 'none'
+				$('#logout_icon')[0].style.display = 'inline'
 
 		initialize: ->
 			_.bindAll @
-			@model.on('change:name', @render)
+			@model.on('change:token', @render)
 			@model.view = @
 
 
@@ -175,15 +222,6 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 			@on("add", @added_page)
 
 
-	###*
-	 * represents the current user. holds all the user data and interacts with
-	   the server for account functions
-	###
-	class Account extends Backbone.Model
-		#defaults: #default user object for user who isn't logged in (no
-		#cookie is stored for this user)
-
-
 	class AppView extends Backbone.View
 		initialize: ->
 			_.bindAll @
@@ -196,6 +234,6 @@ define(['jquery', 'backbone', 'jgrowl'], ($, Backbone) ->
 			@Account = new Account()
 			@AccountView = new AccountView model: @Account
 
-	App = new AppView()
+	window.App = new AppView()
 	return App
 )

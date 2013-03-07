@@ -1,8 +1,7 @@
 (function() {
-  var SERVER,
-    __slice = [].slice;
+  var __slice = [].slice;
 
-  SERVER = 'http://localhost:5000';
+  window.SERVER = 'http://localhost:5000';
 
   require.config({
     paths: {
@@ -16,7 +15,8 @@
       jquery_ui_mouse: 'jsonform/deps/opt/jquery.ui.mouse',
       jquery_ui_sortable: 'jsonform/deps/opt/jquery.ui.sortable',
       bootstrap_dropdown: 'jsonform/deps/opt/bootstrap-dropdown',
-      spectrum: 'jsonform/deps/opt/spectrum'
+      spectrum: 'jsonform/deps/opt/spectrum',
+      localstorage: "components/backbone.localStorage/backbone.localStorage"
     },
     shim: {
       underscore: {
@@ -95,6 +95,16 @@
     });
     App.Pages.create({
       name: "login",
+      controls: {
+        submit: (function() {
+          return App.Account.login($('#username').val(), $('#password').val());
+        })
+      },
+      on_load: (function() {
+        if (App.Account.get('token') !== '') {
+          return App.Account.logout();
+        }
+      }),
       progressbar: false
     });
     Backbone.history.start();
@@ -153,12 +163,8 @@
             title: "submit"
           }
         ],
-        onSubmit: function(errors, values) {
-          console.log(errors);
+        onSubmitValid: function(values) {
           console.log(values);
-          if (errors) {
-            notify(errors);
-          }
           return $.ajax({
             url: "" + SERVER + "/commit/submit",
             data: {

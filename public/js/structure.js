@@ -3,8 +3,8 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'backbone', 'jgrowl'], function($, Backbone) {
-    var Account, AccountView, App, AppView, NavView, Page, PageView, PagesCollection, ProgressBar, Router, notify;
+  define(['jquery', 'backbone', 'jgrowl', 'localstorage'], function($, Backbone) {
+    var Account, AccountView, AppView, NavView, Page, PageView, PagesCollection, ProgressBar, Router, notify;
     notify = function() {
       var args, _ref;
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
@@ -71,6 +71,63 @@
 
     })(Backbone.View);
     /**
+    	 * represents the current user. holds all the user data and interacts with
+    	   the server for account functions
+    */
+
+    Account = (function(_super) {
+
+      __extends(Account, _super);
+
+      function Account() {
+        return Account.__super__.constructor.apply(this, arguments);
+      }
+
+      Account.prototype.localStorage = new Backbone.LocalStorage("Account");
+
+      Account.prototype.login = function(username, password) {
+        return $.ajax({
+          url: "" + SERVER + "/user/login",
+          type: "POST",
+          data: {
+            username: username,
+            password: password
+          }
+        }).done(function(data) {
+          return App.Account.save({
+            token: data['token']
+          });
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+          return notify("" + errorThrown + ": " + textStatus, {
+            theme: 'error'
+          });
+        });
+      };
+
+      Account.prototype.logout = function() {
+        console.log('logg\'n out');
+        return this.save({
+          token: ''
+        });
+      };
+
+      Account.prototype.initialize = function() {
+        var k, v, _ref, _results;
+        _.bindAll(this);
+        this.fetch();
+        _ref = this.get(0);
+        _results = [];
+        for (k in _ref) {
+          v = _ref[k];
+          _results.push(this.set(k, v));
+        }
+        return _results;
+      };
+
+      return Account;
+
+    })(Backbone.Model);
+    /**
     	 * modifies the navbar to show the correct user & login/logout controls
     */
 
@@ -85,12 +142,25 @@
       AccountView.prototype.el = $('#account_bar');
 
       AccountView.prototype.render = function() {
-        return this.$el.find('[for="account_nav"]').html(this.model.get('name'));
+        this.$el.find('[for="account_nav"]')[0].innerHTML = this.model.get('name');
+        if (this.model.get('token') === '') {
+          this.$el.find('[for="login_nav"]').attr({
+            'original-title': 'Login'
+          });
+          $('#login_icon')[0].style.display = 'inline';
+          return $('#logout_icon')[0].style.display = 'none';
+        } else {
+          this.$el.find('[for="login_nav"]').attr({
+            'original-title': 'Logout'
+          });
+          $('#login_icon')[0].style.display = 'none';
+          return $('#logout_icon')[0].style.display = 'inline';
+        }
       };
 
       AccountView.prototype.initialize = function() {
         _.bindAll(this);
-        this.model.on('change:name', this.render);
+        this.model.on('change:token', this.render);
         return this.model.view = this;
       };
 
@@ -273,22 +343,6 @@
       return PagesCollection;
 
     })(Backbone.Collection);
-    /**
-    	 * represents the current user. holds all the user data and interacts with
-    	   the server for account functions
-    */
-
-    Account = (function(_super) {
-
-      __extends(Account, _super);
-
-      function Account() {
-        return Account.__super__.constructor.apply(this, arguments);
-      }
-
-      return Account;
-
-    })(Backbone.Model);
     AppView = (function(_super) {
 
       __extends(AppView, _super);
@@ -318,7 +372,7 @@
       return AppView;
 
     })(Backbone.View);
-    App = new AppView();
+    window.App = new AppView();
     return App;
   });
 
