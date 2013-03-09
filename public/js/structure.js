@@ -112,16 +112,7 @@
       };
 
       Account.prototype.initialize = function() {
-        var k, v, _ref, _results;
-        _.bindAll(this);
-        this.fetch();
-        _ref = this.get(0);
-        _results = [];
-        for (k in _ref) {
-          v = _ref[k];
-          _results.push(this.set(k, v));
-        }
-        return _results;
+        return _.bindAll(this);
       };
 
       return Account;
@@ -159,9 +150,19 @@
       };
 
       AccountView.prototype.initialize = function() {
+        var k, v, _ref;
         _.bindAll(this);
         this.model.on('change:token', this.render);
-        return this.model.view = this;
+        this.model.view = this;
+        this.model.fetch();
+        _ref = this.model.get(0);
+        for (k in _ref) {
+          v = _ref[k];
+          this.model.set(k, v);
+        }
+        return this.model.set({
+          0: void 0
+        });
       };
 
       return AccountView;

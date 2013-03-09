@@ -1,4 +1,4 @@
-window.SERVER = 'http://localhost:5000'
+window.SERVER = 'http://10.120.162.5:5000'
 
 require.config(
 	paths:
@@ -98,9 +98,85 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 
 	App.Pages.create(
 		name: "input"
-		controls:
-			submit: (-> console.log 'blah')
+		#controls:  # jsonform wants to use its own submit button... bastard
+		#	submit: (-> console.log 'blah')
 		selected: true
+		first_load: ->
+			$.ajax(
+				url: SERVER + "/schema/match"
+			).done((data) ->
+				$('#scouting_form').jsonForm(
+					schema: data
+					form: [
+							key: 'match_num'
+						,
+							key: 'match_type'
+						,
+							key: 'team'
+						,
+							key: 'alliance'
+						,
+							key: "defends"
+						,
+							key: "climbs"
+						,
+							key: "shoots"
+						,
+							key: "disabled"
+						,
+							key: "no_show"
+						,
+							key: 'floor_pickup'
+						,
+							key: 'climb_attempt'
+						,
+							key: 'penalties_red'
+						,
+							key: 'penalties_yellow'
+						,
+							key: 'fouls'
+						,
+							key: 'tech_fouls'
+						,
+							key: 'auto_high'
+						,
+							key: 'auto_middle'
+						,
+							key: 'auto_low'
+						,
+							key: 'auto_miss'
+						,
+							key: 'pyramid'
+						,
+							key: 'high'
+						,
+							key: 'middle'
+						,
+							key: 'low'
+						,
+							key: 'miss'
+						,
+							key: "comment"
+							type: "textarea"
+						,
+							type: "submit"
+							title: "submit"
+					]
+					onSubmitValid: (values) ->
+						console.log values
+
+						#values['token'] = App.Account.get('token')
+						$.ajax(
+							url: "#{SERVER}/submit",
+							type: "POST"
+							data:
+								data: JSON.stringify values
+						).done(
+							(data) ->
+								notify data['message']
+						)
+				)
+			)
 	)
 	App.Pages.create(
 		name: "output"
@@ -112,13 +188,11 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 	App.Pages.create(
 		name: "login"
 		controls:
-			submit: (->
+			submit: ->
 				App.Account.login $('#username').val(), $('#password').val()
-			)
-		on_load: (->
+		on_load: ->
 			if App.Account.get('token') isnt ''
 				App.Account.logout()
-		)
 		progressbar: false
 	)
 
@@ -130,63 +204,4 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 			replace: true
 		)
 
-	$.ajax(
-		url: SERVER + "/schema/match"
-	).done((data) ->
-		$('#scouting_form').jsonForm(
-			schema: data
-			form: [
-					key: "scout_name"
-				,
-					key: "strategy"
-					type: "checkboxes"
-				,
-					key: "match_num"
-				,
-					key: "match_type"
-				,
-					key: "team"
-				,
-					key: "alliance"
-				,
-					key: "floor_pickup"
-				,
-					key: "climb_attempt"
-				,
-					key: "penalties_red"
-				,
-					key: "penalties_yellow"
-				,
-					key: "fouls"
-				,
-					key: "tech_fouls"
-				,
-					key: "pyramid"
-				,
-					key: "high"
-				,
-					key: "middle"
-				,
-					key: "low"
-				,
-					key: "miss"
-				,
-					key: "comment"
-					type: "textarea"
-				,
-					type: "submit",
-					title: "submit"
-			]
-			onSubmitValid: (values) ->
-				console.log values
 
-				$.ajax(
-					url: "#{SERVER}/commit/submit",
-					data:
-						data: values
-				).done(
-					(data) ->
-						notify data
-				)
-		)
-	)

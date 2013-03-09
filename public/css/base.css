@@ -653,3 +653,11 @@ button:active,
   background-repeat: repeat-x;
   width: 50%;
 }
+.control-group {
+  display: inline-block;
+  margin: 10px 10px;
+  min-width: 350px;
+}
+.control-group label.checkbox {
+  display: block;
+}

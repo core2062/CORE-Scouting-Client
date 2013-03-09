@@ -1,7 +1,7 @@
 (function() {
   var __slice = [].slice;
 
-  window.SERVER = 'http://localhost:5000';
+  window.SERVER = 'http://10.120.162.5:5000';
 
   require.config({
     paths: {
@@ -79,12 +79,85 @@
 	analysis program created by C.O.R.E. 2062.');
     App.Pages.create({
       name: "input",
-      controls: {
-        submit: (function() {
-          return console.log('blah');
-        })
-      },
-      selected: true
+      selected: true,
+      first_load: function() {
+        return $.ajax({
+          url: SERVER + "/schema/match"
+        }).done(function(data) {
+          return $('#scouting_form').jsonForm({
+            schema: data,
+            form: [
+              {
+                key: 'match_num'
+              }, {
+                key: 'match_type'
+              }, {
+                key: 'team'
+              }, {
+                key: 'alliance'
+              }, {
+                key: "defends"
+              }, {
+                key: "climbs"
+              }, {
+                key: "shoots"
+              }, {
+                key: "disabled"
+              }, {
+                key: "no_show"
+              }, {
+                key: 'floor_pickup'
+              }, {
+                key: 'climb_attempt'
+              }, {
+                key: 'penalties_red'
+              }, {
+                key: 'penalties_yellow'
+              }, {
+                key: 'fouls'
+              }, {
+                key: 'tech_fouls'
+              }, {
+                key: 'auto_high'
+              }, {
+                key: 'auto_middle'
+              }, {
+                key: 'auto_low'
+              }, {
+                key: 'auto_miss'
+              }, {
+                key: 'pyramid'
+              }, {
+                key: 'high'
+              }, {
+                key: 'middle'
+              }, {
+                key: 'low'
+              }, {
+                key: 'miss'
+              }, {
+                key: "comment",
+                type: "textarea"
+              }, {
+                type: "submit",
+                title: "submit"
+              }
+            ],
+            onSubmitValid: function(values) {
+              console.log(values);
+              return $.ajax({
+                url: "" + SERVER + "/submit",
+                type: "POST",
+                data: {
+                  data: JSON.stringify(values)
+                }
+              }).done(function(data) {
+                return notify(data['message']);
+              });
+            }
+          });
+        });
+      }
     });
     App.Pages.create({
       name: "output"
@@ -96,86 +169,24 @@
     App.Pages.create({
       name: "login",
       controls: {
-        submit: (function() {
+        submit: function() {
           return App.Account.login($('#username').val(), $('#password').val());
-        })
+        }
       },
-      on_load: (function() {
+      on_load: function() {
         if (App.Account.get('token') !== '') {
           return App.Account.logout();
         }
-      }),
+      },
       progressbar: false
     });
     Backbone.history.start();
     if (Backbone.history.fragment === '') {
-      App.Router.navigate(App.Pages.default_page, {
+      return App.Router.navigate(App.Pages.default_page, {
         trigger: true,
         replace: true
       });
     }
-    return $.ajax({
-      url: SERVER + "/schema/match"
-    }).done(function(data) {
-      return $('#scouting_form').jsonForm({
-        schema: data,
-        form: [
-          {
-            key: "scout_name"
-          }, {
-            key: "strategy",
-            type: "checkboxes"
-          }, {
-            key: "match_num"
-          }, {
-            key: "match_type"
-          }, {
-            key: "team"
-          }, {
-            key: "alliance"
-          }, {
-            key: "floor_pickup"
-          }, {
-            key: "climb_attempt"
-          }, {
-            key: "penalties_red"
-          }, {
-            key: "penalties_yellow"
-          }, {
-            key: "fouls"
-          }, {
-            key: "tech_fouls"
-          }, {
-            key: "pyramid"
-          }, {
-            key: "high"
-          }, {
-            key: "middle"
-          }, {
-            key: "low"
-          }, {
-            key: "miss"
-          }, {
-            key: "comment",
-            type: "textarea"
-          }, {
-            type: "submit",
-            title: "submit"
-          }
-        ],
-        onSubmitValid: function(values) {
-          console.log(values);
-          return $.ajax({
-            url: "" + SERVER + "/commit/submit",
-            data: {
-              data: values
-            }
-          }).done(function(data) {
-            return notify(data);
-          });
-        }
-      });
-    });
   });
 
 }).call(this);

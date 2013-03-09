@@ -70,11 +70,7 @@ define(['jquery', 'backbone', 'jgrowl', 'localstorage'], ($, Backbone) ->
 
 		initialize: ->
 			_.bindAll @
-			@fetch()
 
-			#gay hack cuz localstorage is really just made for collections
-			for k,v of @get(0)
-				@set(k, v)
 
 
 	###*
@@ -99,6 +95,11 @@ define(['jquery', 'backbone', 'jgrowl', 'localstorage'], ($, Backbone) ->
 			_.bindAll @
 			@model.on('change:token', @render)
 			@model.view = @
+			@model.fetch()
+			#gay hack cuz localstorage is really just made for collections
+			for k,v of @model.get(0)
+				@model.set(k, v)
+			@model.set(0: undefined)
 
 
 	class Router extends Backbone.Router
