@@ -1,4 +1,4 @@
-window.SERVER = 'http://10.120.162.5:5000'
+window.SERVER = 'http://localhost:5000'
 
 require.config(
 	paths:
@@ -103,64 +103,13 @@ require ['jquery', 'structure', 'tipsy', 'jgrowl', 'jsonform', 'rainbow'], ($, A
 		selected: true
 		first_load: ->
 			$.ajax(
-				url: SERVER + "/schema/match"
+				url: SERVER + "/commit/type/match"
 			).done((data) ->
 				$('#scouting_form').jsonForm(
 					schema: data
-					form: [
-							key: 'match_num'
-						,
-							key: 'match_type'
-						,
-							key: 'team'
-						,
-							key: 'alliance'
-						,
-							key: "defends"
-						,
-							key: "climbs"
-						,
-							key: "shoots"
-						,
-							key: "disabled"
-						,
-							key: "no_show"
-						,
-							key: 'floor_pickup'
-						,
-							key: 'climb_attempt'
-						,
-							key: 'penalties_red'
-						,
-							key: 'penalties_yellow'
-						,
-							key: 'fouls'
-						,
-							key: 'tech_fouls'
-						,
-							key: 'auto_high'
-						,
-							key: 'auto_middle'
-						,
-							key: 'auto_low'
-						,
-							key: 'auto_miss'
-						,
-							key: 'pyramid'
-						,
-							key: 'high'
-						,
-							key: 'middle'
-						,
-							key: 'low'
-						,
-							key: 'miss'
-						,
-							key: "comment"
-							type: "textarea"
-						,
-							type: "submit"
-							title: "submit"
+					form: ["*",
+					{key: "comment", type: "textarea"},
+					{type: "submit", title: "submit"}
 					]
 					onSubmitValid: (values) ->
 						console.log values
